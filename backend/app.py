@@ -1,4 +1,5 @@
 import PyPDF2
+import docx2txt
 
 # Open the PDF file in binary mode
 with open('/Users/luisbarajas/Downloads/resumeivan.pdf', 'rb') as file:
@@ -14,3 +15,8 @@ with open('/Users/luisbarajas/Downloads/resumeivan.pdf', 'rb') as file:
     # Extracting text from the page
     text = page.extract_text()
     print(text)
+
+
+path = '/Users/luisbarajas/Downloads/situationroom.docx'
+text =  docx2txt.process(path)
+print(text) 
