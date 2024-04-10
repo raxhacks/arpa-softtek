@@ -23,9 +23,8 @@ def get_widget(id=None):
 
 @app.post("/widgets")
 def add_widget():
-    new_widget = flask.request.get_data(as_text=True)
-    db.reference("/widgets").push(new_widget)
-    return flask.Response(status=201, response="Added widget")
+    new_widget = flask.request.json
+    return flask.jsonify(new_widget), 201
 
 
 # Expose Flask app as a single Cloud Function:

@@ -1,4 +1,5 @@
 functions/venv
+functions/firestore-debug.log
 functions/firebase-debug.log
 functions/ui-debug.log
 functions/__pycache__/
