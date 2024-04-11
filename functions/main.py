@@ -27,7 +27,7 @@ def validate_jwt(f):
     async def decorated_function(*args, **kwargs):
         req_token = flask.request.headers.get('Authorization')
         if not req_token:
-            flask.abort(401, 'Authorization token is missing')
+            return flask.jsonify({"error": "Invalid token"}), 401
         try:
             token = auth.verify_id_token(req_token[7:])
             # Get the user ID from the token
@@ -40,7 +40,7 @@ def validate_jwt(f):
             # Continue to the view function
             return f(user_id, *args, **kwargs)
         except:
-            flask.abort(401, 'Invalid token')        
+            return flask.jsonify({"error": "Invalid token"}), 401     
         # Here you can add your token validation logic
         # For example, you can use Firebase Admin SDK to verify the token
         # If the token is valid, continue to the view function
@@ -50,8 +50,6 @@ def validate_jwt(f):
         #     abort(401, 'Invalid token')
         return f(*args, **kwargs)
     return decorated_function
-
-
 
 @app.get("/auth_test")
 @validate_jwt
@@ -96,10 +94,7 @@ async def create_user():
         print("Error:",e)
         return flask.jsonify({"message":"Failed to create new user"}), 500
 
-
 # Expose Flask app as a single Cloud Function:
-
-
 @https_fn.on_request()
 def arpa(req: https_fn.Request) -> https_fn.Response:
     with app.request_context(req.environ):
