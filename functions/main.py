@@ -2,14 +2,11 @@
 # To get started, simply uncomment the below code or create your own.
 # Deploy with `firebase deploy`
 
-from firebase_admin import credentials, initialize_app, firestore, auth
+from firebase_admin import credentials, initialize_app
 from firebase_functions import https_fn
 from functools import wraps
 import flask
-import json
-import requests
 from dotenv import load_dotenv
-import os
 
 # Import routes
 from routes.users.usersRoute import usersBlueprint
