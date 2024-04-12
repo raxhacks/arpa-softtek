@@ -3,3 +3,4 @@ firebase_admin
 flask
 flask[async]
 python-dotenv
+flask-cors

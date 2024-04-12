@@ -7,6 +7,7 @@ from firebase_functions import https_fn
 from functools import wraps
 import flask
 from dotenv import load_dotenv
+from flask_cors import CORS
 
 # Import routes
 from routes.users.usersRoute import usersBlueprint
@@ -20,9 +21,12 @@ load_dotenv()
 
 # Access the variables
 
-cred = credentials.Certificate("../firebase-cred.json")
+cred = credentials.Certificate("./firebase-cred.json")
 initialize_app(cred)
 app = flask.Flask(__name__)
+
+# Allow CORS for all origins on all routes
+CORS(app)
 
 @app.before_request
 def before_request():

@@ -3,7 +3,7 @@
     {
       "source": "functions",
       "codebase": "default",
-      "runtime": "python310",
+      "runtime": "python312",
       "ignore": [
         "venv",
         ".git",
@@ -12,14 +12,14 @@
       ]
     }
   ],
-  "hosting": {
-    "public": "public",
-    "ignore": [
-      "firebase.json",
-      "**/.*",
-      "**/node_modules/**"
-    ]
-  },
+  // "hosting": {
+  //   "public": "public",
+  //   "ignore": [
+  //     "firebase.json",
+  //     "**/.*",
+  //     "**/node_modules/**"
+  //   ]
+  // },
   "emulators": {
     // "auth": {
     //   "port": 9099

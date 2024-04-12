@@ -1,14 +1,18 @@
 import flask
 import json
 import requests
-from dotenv import load_dotenv
 import os
 
-# Load variables from the .env file
-load_dotenv()
+# Get the current directory of the script
+current_directory = os.path.dirname(os.path.realpath(__file__))
 
-# Access the variables
-FIREBASE_API_KEY = os.getenv("FIREBASE_API_KEY")
+# Construct the path to keys.json
+keys_path = os.path.join(current_directory, "..", "..", "keys.json")
+
+with open(keys_path) as f:
+    keys = json.load(f)
+
+FIREBASE_API_KEY = keys['FIREBASE_API_KEY']
 
 authBlueprint = flask.Blueprint('auth', __name__)
 
