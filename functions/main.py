@@ -10,8 +10,11 @@ from dotenv import load_dotenv
 from flask_cors import CORS
 
 # Import routes
-from routes.users.usersRoute import usersBlueprint
-from routes.auth.authRoute import authBlueprint
+from functions.routes.auth.authRouter import authBlueprint
+from functions.routes.user.userRouter import userBlueprint
+from functions.routes.document.documentRouter import documentBlueprint
+from functions.routes.chat.chatRouter import chatBlueprint
+from functions.routes.analysis.analysisRouter import analysisBlueprint
 
 # Import middlewares
 from middlewares.validateJWT import validateJWT
@@ -31,12 +34,15 @@ CORS(app)
 @app.before_request
 def before_request():
     blueprint_name = flask.request.blueprint
-    # if blueprint_name == 'analysis':
-    #     validateJWT()
+    if blueprint_name == 'document' or blueprint_name == 'chat' or blueprint_name == 'analysis':
+        validateJWT()
 
 # Register the routes
-app.register_blueprint(usersBlueprint)
 app.register_blueprint(authBlueprint)
+app.register_blueprint(userBlueprint)
+app.register_blueprint(documentBlueprint)
+app.register_blueprint(chatBlueprint)
+app.register_blueprint(analysisBlueprint)
 
 # Expose Flask app as a single Cloud Function:
 @https_fn.on_request()
