@@ -13,6 +13,10 @@ def create_document():
         user_doc_ref = db.collection('users').document(user_id)
         document_doc_ref = user_doc_ref.collection('documents').document()
         
+        # insert chat and analysis object (empty objects)
+        new_document['chat'] = {}
+        new_document['analysis'] = {}
+        
         #create the document
         document_doc_ref.set(new_document)
         

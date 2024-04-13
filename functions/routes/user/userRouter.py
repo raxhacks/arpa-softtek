@@ -16,6 +16,7 @@ def create_user():
         user_object  = {
             "user_id":user_id,
             "email":email,
+            "documents":[]
         }
         firestore.client().collection('users').document(user_id).set(user_object)
         return flask.jsonify({"message":"New user created successfully","user_id":user_id}), 201
