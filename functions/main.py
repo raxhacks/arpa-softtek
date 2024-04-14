@@ -10,11 +10,11 @@ from dotenv import load_dotenv
 from flask_cors import CORS
 
 # Import routes
-from functions.routes.auth.authRouter import authBlueprint
-from functions.routes.user.userRouter import userBlueprint
-from functions.routes.document.documentRouter import documentBlueprint
-from functions.routes.chat.chatRouter import chatBlueprint
-from functions.routes.analysis.analysisRouter import analysisBlueprint
+from routes.auth.authRouter import authBlueprint
+from routes.user.userRouter import userBlueprint
+from routes.document.documentRouter import documentBlueprint
+from routes.chat.chatRouter import chatBlueprint
+from routes.analysis.analysisRouter import analysisBlueprint
 
 # Import middlewares
 from middlewares.validateJWT import validateJWT
