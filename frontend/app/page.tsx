@@ -1,4 +1,4 @@
-import MyTabs from '../components/MyTabs'
+import MyTabs from './components/MyTabs'
 
 export default function Home() {
   return (
