@@ -1,7 +1,7 @@
 import flask
 from firebase_admin import firestore
 
-documentBlueprint = flask.Blueprint('documents', __name__, url_prefix="/document")
+documentBlueprint = flask.Blueprint('document', __name__, url_prefix="/document")
 
 @documentBlueprint.route("/", methods=["POST"])
 def create_document():
@@ -16,6 +16,7 @@ def create_document():
         # insert chat and analysis object (empty objects)
         new_document['chat'] = {}
         new_document['analysis'] = {}
+        new_document['created_at'] = firestore.SERVER_TIMESTAMP
         
         #create the document
         document_doc_ref.set(new_document)

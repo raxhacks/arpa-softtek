@@ -16,6 +16,13 @@ def create_analysis():
         document_doc_ref = user_doc_ref.collection('documents').document(document_id)
         analysis_doc_ref = document_doc_ref.collection('analysis').document()
         
+        # add sections, cuant data, and apa reference to analysis object
+        new_analysis["sections"] = []
+        new_analysis["cuantitative_data"] = {}
+        new_analysis["apa"] = ""
+        if not new_analysis["keywords"]:
+            new_analysis["keywords"] = []
+
         #create the analysis
         analysis_doc_ref.set(new_analysis)
         
@@ -23,7 +30,7 @@ def create_analysis():
         analysis_doc_ref.update({"analysis_id":analysis_doc_ref.id})
         
         # Add the doc refence to the user's analysis collection
-        user_doc_ref.update({f"documents.{document_id}.analysis": analysis_doc_ref})
+        document_doc_ref.update({"analysis":firestore.ArrayUnion([analysis_doc_ref.id])})
         
         return flask.jsonify({"message":"New analysis created successfully","analysis_id":analysis_doc_ref.id}), 201
     except Exception as e:

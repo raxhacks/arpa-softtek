@@ -25,7 +25,7 @@ def create_chat():
         chat_doc_ref.update({"chat_id":chat_doc_ref.id})
         
         # Add the doc refence to the user's chat collection
-        user_doc_ref.update({f"documents.{document_id}.chat": chat_doc_ref})
+        document_doc_ref.update({"chat":firestore.ArrayUnion([chat_doc_ref.id])})
         
         return flask.jsonify({"message":"New chat created successfully","chat_id":chat_doc_ref.id}), 201
     except Exception as e:
