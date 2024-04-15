@@ -1,3 +1,9 @@
+'use client';
+
+import './CargarArchivos.css';
+import { useState } from 'react';
+import Head from 'next/head';
+
 function ActiveSectionButton(name: any) {
   return (
     <button className="sections">
@@ -90,7 +96,7 @@ function Main(currentState: any) {
         <button className="url">
           <i className="material-icons" style={{fontSize: "50px"}}>search</i>
         </button>
-        <label for="siguiente" className="siguiente">Siguiente</label>
+        <label htmlFor="siguiente" className="siguiente">Siguiente</label>
         <input type="submit" id="siguiente" style={{opacity: "0", position: "absolute", zIndex: "-1"}} />
       </form>
     );
@@ -99,11 +105,11 @@ function Main(currentState: any) {
     console.log(currentState.file)
     return(
       <form>
-        <label for="PDFUpload" className="upload">
+        <label htmlFor="PDFUpload" className="upload">
           {currentState.file === undefined ? <i className="material-icons" style={{fontSize: "900%", textAlign: "center"}}>picture_as_pdf</i> : <p>{currentState.file.name}</p>}
         </label>
         <input type="file" id="PDFUpload" name="filename" accept=".pdf" style={{opacity: "0", position: "absolute", zIndex: "-1"}} onChange={currentState.handleChage} />
-        <label for="siguiente" className="siguiente">Siguiente</label>
+        <label htmlFor="siguiente" className="siguiente">Siguiente</label>
         <input type="submit" id="siguiente" style={{opacity: "0", position: "absolute", zIndex: "-1"}} />
       </form>
     );
@@ -111,11 +117,11 @@ function Main(currentState: any) {
   else if(currentState.type === "DOCX"){
     return(
       <form>
-        <label for="DOCXUpload" className="upload">
+        <label htmlFor="DOCXUpload" className="upload">
           {currentState.file === undefined ? <i className="material-icons" style={{fontSize: "900%", textAlign: "center"}}>article</i> : <p>{currentState.file.name}</p>}
         </label>
         <input type="file" id="DOCXUpload" name="filename" accept=".docx" style={{opacity: "0", position: "absolute", zIndex: "-1"}} onChange={currentState.handleChage} />
-        <label for="siguiente" className="siguiente">Siguiente</label>
+        <label htmlFor="siguiente" className="siguiente">Siguiente</label>
         <input type="submit" id="siguiente" style={{opacity: "0", position: "absolute", zIndex: "-1"}} />
       </form>
     );
@@ -161,10 +167,10 @@ function CargaArchivos() {
 
   return (
     <>
-      <Helmet bodyAttributes={{style: "background-color : rgb(48, 50, 61)"}}>
+      <Head>
         <meta name="viewport" content="width=device-width, initial-scale=1.0"></meta>
         <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons"></link>
-      </Helmet>
+      </Head>
       <body className="main">
         <ARPAHeader />
         <SectionsHeader />
@@ -175,7 +181,7 @@ function CargaArchivos() {
     </>
   );
 }
-  
+//bodyAttributes={{style: "background-color : rgb(48, 50, 61)"}}
 /*export default function CargaArchivos() {
     return (
       <body className="main">
