@@ -3,7 +3,7 @@ from firebase_admin import firestore, auth
 
 userBlueprint = flask.Blueprint('user', __name__, url_prefix="/user")
 
-@userBlueprint.route("/", methods=["POST"])
+@userBlueprint.route("", methods=["POST"])
 def create_user():
     try:
         new_user = flask.request.json
@@ -24,7 +24,7 @@ def create_user():
         print("Error:",e)
         return flask.jsonify({"message":"Failed to create new user"}), 500
     
-@userBlueprint.route("/", methods=["GET"])
+@userBlueprint.route("", methods=["GET"])
 def get_user():
     try:
         user_id = flask.request.args.get('user_id')
@@ -35,7 +35,7 @@ def get_user():
         print("Error:",e)
         return flask.jsonify({"message":"Failed to get user"}), 500
     
-@userBlueprint.route("/", methods=["PUT"])
+@userBlueprint.route("", methods=["PUT"])
 def update_user():
     try:
         user_id = flask.request.args.get('user_id')
@@ -46,7 +46,7 @@ def update_user():
         print("Error:",e)
         return flask.jsonify({"message":"Failed to update user"}), 500
 
-@userBlueprint.route("/", methods=["DELETE"])
+@userBlueprint.route("", methods=["DELETE"])
 def delete_user():
     try:
         user_id = flask.request.args.get('user_id')
