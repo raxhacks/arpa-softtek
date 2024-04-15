@@ -1,0 +1,13 @@
+functions/venv
+functions/firestore-debug.log
+functions/firebase-debug.log
+functions/ui-debug.log
+functions/keys.json
+
+.env
+firebase-cred.json
+
+backend/embbebed/.env
+backend/node_modules
+
+**/__pycache__/
