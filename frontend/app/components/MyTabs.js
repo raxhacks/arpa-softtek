@@ -19,8 +19,8 @@ function MyTabs() {
       if (response.ok) {
         const responseData = await response.json();
         const token = responseData.token; 
-        Cookies.set('token', token);
-        
+
+
       } else {
         console.error('Error al enviar los datos');
       }
@@ -56,7 +56,7 @@ function MyTabs() {
         </Tab.Panel>
 
         {/* Inicio de Sesion tab */}
-        <Tab.Panel className={`w-full lg:static rounded-lg flex-grow grid grid-cols-1 fixed pb-36 lg:pb-5 bg-slate-600 bg-opacity-95`}>
+        <Tab.Panel className={`w-full lg:static rounded-lg flex-grow-10 grid grid-cols-1 fixed pb-36 lg:pb-5 bg-slate-600 bg-opacity-95`}>
           <Tab className={`rounded-lg ml-2 mt-2 border w-16 border-transparent px-5 py-2 text-black`}>
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -85,7 +85,7 @@ function MyTabs() {
         </Tab.Panel>
         
         {/* Registro tab */}
-        <Tab.Panel className={`w-full lg:static rounded-lg flex-grow grid grid-cols-1 fixed pb-36 lg:pb-5  bg-slate-600 bg-opacity-95`}>
+        <Tab.Panel className={`w-full lg:static rounded-lg flex-grow-10 grid grid-cols-1 fixed pb-36 lg:pb-5  bg-slate-600 bg-opacity-95`}>
           <Tab className={`rounded-lg ml-2 mt-2 border w-16 border-transparent px-5 py-2 text-black`}>
             <svg
               xmlns="http://www.w3.org/2000/svg"
