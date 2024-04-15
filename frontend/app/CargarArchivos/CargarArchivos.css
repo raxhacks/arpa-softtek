@@ -1,0 +1,304 @@
+div.ARPA_header{
+    background-color: rgb(77, 80, 97);
+    font-size: 200%;
+    color: rgb(252, 250, 245);
+    position: fixed;
+    top: 0;
+    height: 15vw;
+    max-height: 75px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2;
+  }
+  @media screen and (min-width: 768px){
+    div.ARPA_header{
+      background-color: rgb(77, 80, 97);
+      font-size: 200%;
+      color: rgb(252, 250, 245);
+      position: fixed;
+      top: 0;
+      height: 25vw;
+      max-height: 100px;
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+  }
+  
+  div.sections_header{
+    background-color: rgb(77, 80, 97);
+    font-size: 200%;
+    color: rgb(252, 250, 245);
+    position: fixed;
+    bottom: 0;
+    height: 25vw;
+    max-height: 100px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2;
+  }
+  @media only screen and (min-width: 768px){
+    div.sections_header{
+      background-color: transparent;
+      font-size: 200%;
+      color: rgb(252, 250, 245);
+      position: fixed;
+      top: 0;
+      height: 25vw;
+      max-height: 100px;
+      width: 50%;
+      margin-left: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+    }
+  }
+  
+  .headerText{
+    display: inline;
+    vertical-align: middle;
+    font-size: 175%;
+  }
+  @media screen and (min-width: 768px){
+    .headerText{
+      padding-left: 5%;
+      display: inline;
+      vertical-align: middle;
+      font-size: 175%;
+    }
+  }
+  
+  div.sectionGroup{
+    float: inline-end;
+    background-color: transparent;
+    vertical-align: middle;
+  }
+  @media screen and (min-width: 768px){
+    div.sectionGroup{
+      float: inline-end;
+      background-color: transparent;
+      vertical-align: middle;
+      padding-right: 5%;
+    }
+  }
+  
+  button.sections{
+    border-width: 0px;
+    background-color: transparent;
+    color: rgb(252, 250, 245);
+    vertical-align: middle;
+    padding: 0% 0% 0% 0%;
+  }
+  button.sections:hover{
+    color: rgb(232, 221, 197);
+  }
+  button.sections:active{
+    color: rgb(217, 189, 122)
+  }
+  
+  button.arrow{
+    border-width: 0px;
+    background-color: transparent;
+    vertical-align: middle;
+    padding: 0% 0% 0% 0%;
+    margin-top: 1%;
+    margin-left: 3%;
+    color: rgb(252, 250, 245);
+  }
+  button.arrow:hover{
+    color: rgb(188, 186, 181);
+  }
+  button.arrow:active{
+    color: rgb(86, 85, 83);
+  }
+  
+  
+  body.main{
+    background-color: rgb(48, 50, 61);
+    font-family: Arial, sans-serif;
+    padding-top: 15vw;
+    padding-bottom: 20vw;
+  }
+  @media only screen and (min-width: 768px){
+    body.main{
+      background-color: rgb(48, 50, 61);
+      font-family: Arial, sans-serif;
+      padding-top: 100px;
+      padding-bottom: 0;
+    }
+  }
+  
+  h1.centerHeader{
+    color: rgb(252, 250, 245);
+    text-align: center;
+    margin-top: 0%;
+    margin-bottom: 0%;
+    margin-left: 2%;
+    margin-right: 2%;
+    font-size: 5ch;
+  }
+  @media only screen and (min-width: 768px){
+    h1.centerHeader{
+      color: rgb(252, 250, 245);
+      text-align: center;
+      margin-top: 0%;
+      margin-bottom: 0%;
+      font-size: 5ch;
+    }
+  }
+  
+  button.format{
+    background-color: transparent;
+    color: rgb(84, 86, 245);
+    border-width: 0px;
+    border-radius: 10px;
+    margin: auto;
+    margin-top: 5vw;
+    display: block;
+    position: relative;
+  }
+  @media only screen and (min-width: 768px){
+    button.format{
+      background-color: transparent;
+      color: rgb(84, 86, 245);
+      border-width: 0px;
+      border-radius: 10px;
+      margin-top: 5vw;
+      margin-left: 5vw;
+      margin-right: 5vw;
+      display: inline;
+      position: relative;
+    }
+  }
+  button.format:hover{
+    color: rgb(67, 69, 175);
+  }
+  button.format:active{
+    background-color: rgb(84, 86, 245);
+    color: rgb(48, 50, 61);
+  }
+  
+  input.urlField{
+    height: 45px;
+    width: 550px;
+    font-size: 2vw;
+    margin-left: 5vw;
+    margin-top: 8vw;
+  }
+  
+  button.url{
+    background-color: rgb(84, 86, 245);
+    color: rgb(48, 50, 61);
+    border-width: 0px;
+    border-radius: 15px;
+    margin-bottom: 8vw;
+    margin-left: 1vw;
+    margin-right: 5vw;
+    display: inline;
+    position: relative;
+    transform: translateY(20%);
+  }
+  button.url:hover{
+    background-color: rgb(67, 69, 175);
+  }
+  button.url:active{
+    background-color: rgb(252, 250, 245);
+    color: rgb(48, 50, 61);
+  }
+  
+  label.upload{
+    background-color: rgb(48, 50, 61);
+    color: rgb(84, 86, 245);
+    border-style: dotted;
+    border-color: rgb(84, 86, 245);
+    border-width: 4px;
+    border-radius: 15px;
+    margin-inline: auto;
+    margin-top: 7%;
+    width: 70vw;
+    max-width: 325px;
+    height: 70vw;
+    max-height: 300px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  @media only screen and (min-width: 768px){
+    label.upload{
+      background-color: rgb(48, 50, 61);
+      color: rgb(84, 86, 245);
+      border-style: dotted;
+      border-color: rgb(84, 86, 245);
+      border-width: 4px;
+      border-radius: 15px;
+      margin-inline: auto;
+      margin-top: 2%;
+      width: 70vw;
+      max-width: 325px;
+      height: 70vw;
+      max-height: 300px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+  }
+  label.upload:hover{
+    border-color: rgb(67, 69, 175);
+    color: rgb(67, 69, 175);
+  }
+  label.upload:active{
+    background-color: rgb(84, 86, 245);
+    border-color: rgb(84, 86, 245);
+    color: rgb(48, 50, 61);
+  }
+  
+  label.siguiente{
+    background-color: rgb(48, 50, 61);
+    color: rgb(252, 250, 245);
+    border: solid;
+    border-color: rgb(252, 250, 245);
+    border-radius: 10px;
+    margin: auto;
+    margin-top: 7%;
+    margin-bottom: 5vw;
+    width: 70vw;
+    max-width: 325px;
+    height: 20vw;
+    max-height: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 200%;
+  }
+  @media only screen and (min-width: 768px){
+    label.siguiente{
+      background-color: rgb(48, 50, 61);
+      color: rgb(252, 250, 245);
+      border: solid;
+      border-color: rgb(252, 250, 245);
+      border-radius: 10px;
+      margin: auto;
+      margin-top: 2%;
+      width: 70vw;
+      max-width: 325px;
+      height: 20vw;
+      max-height: 80px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 200%;
+    }
+  }
+  label.siguiente:hover{
+    background-color: rgb(40, 41, 51);
+  }
+  label.siguiente:active{
+    background-color: rgb(252, 250, 245);
+    border-color: rgb(48, 50, 61);
+    color: rgb(48, 50, 61);
+  }
