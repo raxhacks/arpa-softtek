@@ -7,16 +7,15 @@ import { setCookie } from 'cookies-next';
 
 const baseUrl = process.env.NEXT_PUBLIC_API_URL + '/user' || 'http://localhost:3001/user';
 
-const createUser = async (file_id: string, user_id: string) => {
+const createUser = async (email: string, password: string, ) => {
     try{
-        const config = {
-            headers: { Authorization: getToken() }
-        }
         const response = await axios.post(baseUrl);
         const {message, token} = response?.data;
-
         if(token){
             setCookie('token', token);
+            return true
+        } else {
+
         }
 
     } catch (error){
@@ -148,11 +147,11 @@ const createUser = async (file_id: string, user_id: string) => {
 //   }
 // };
 
-// export default {
-//   create,
+export default {
+  createUser,
 //   getChatID,
 //   getChatMessages,
 //   getContextMessages,
 //   getChatResponse,
 //   saveMessage,
-// };
+};

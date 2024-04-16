@@ -8,10 +8,10 @@ export default function Home() {
           ARPA
         </div>
       </div>    
-      <div className="grid text-left pb-4 mt-10 w-full items-center lg:mt-2 lg:w-full lg:mb-12 lg:grid-cols-2">
-        <div className="flex flex-col items-center justify-center">
+      <div className="grid text-left pb-4 mt-10 w-full items-center flex-grow lg:mt-0 lg:w-full lg:grid-cols-2 lg:pr-20">
+        <div className="flex flex-col pb-32 items-center justify-center">
           <div className='pl-16 max-w-[45ch]'>
-            <div className="flex felx-col text-5xl font-semibold pb-5 pt-16 lg:text-6xl ">
+            <div className="felx-col text-5xl font-semibold pb-5 pt-16 lg:text-6xl ">
               Analiza este articulo
             </div>
             <div className="flex felx-col text-3xl max-w-[15ch] font-semibold pb-5 pt-5 lg:text-3xl">
@@ -20,7 +20,7 @@ export default function Home() {
           </div>
         </div>
 
-        <div className='lg:mr-10  flex-grow items-center justify-center justify-items-center '>
+        <div className='flex-grow items-center justify-center justify-items-center'>
           <MyTabs />
         </div>
       </div>
