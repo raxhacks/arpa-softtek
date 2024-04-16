@@ -6,6 +6,7 @@ import { useState } from 'react';
 import axios from 'axios';
 import { Fade } from "react-awesome-reveal";
 import { createDocument } from '@/services/document.service';
+import { useRouter } from 'next/navigation';
 
 function ActiveSectionButton(name: any) {
   return (
@@ -139,13 +140,21 @@ function Main(currentState: any) {
 }
 
 function FileStateMessage(fileState: any) {
+  const router = useRouter();
   const handleSubmitDocument = async (e:any) => {
-    e.preventDefault();
-    console.log(fileState)
-    const formData = new FormData();
-    formData.append("file", fileState.file);
-    formData.append("extension", fileState.type); 
-    await createDocument(formData);
+    try {
+      e.preventDefault();
+      console.log(fileState)
+      const formData = new FormData();
+      formData.append("file", fileState.file);
+      formData.append("extension", fileState.type); 
+      const res = await createDocument(formData);
+      const text = res.text;
+      localStorage.setItem("text", text);
+      router.push('/Analisis');
+    } catch (error) {
+      console.error(error);
+    }
   }
   if(fileState.state === "None"){
     return(<></>);

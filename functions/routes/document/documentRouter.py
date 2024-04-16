@@ -26,12 +26,12 @@ def create_document():
             return flask.jsonify({"message": "Invalid file extension"}), 400
         
         # Parse PDF if the file is a PDF
-        if extension == 'pdf':
+        if extension == 'PDF':
             pdf_content = file.read()  # Read the PDF content into memory
-            reader = PyPDF2.PdfFileReader(io.BytesIO(pdf_content))
+            reader = PyPDF2.PdfReader(file)
             text = ''
-            for page in range(reader.numPages):
-                text += reader.getPage(page).extractText()
+            for page in range(len(reader.pages)):
+                text += reader.pages[page].extract_text()
                 
             # Now 'text' contains the extracted text from the PDF
         else:
@@ -48,7 +48,7 @@ def create_document():
 
         new_document = {
             'title': title,
-            'content': text if extension == 'pdf' else content,
+            'content': text if extension == 'PDF' else content,
             'url': url,
             'extension': extension,
             'created_at': firestore.SERVER_TIMESTAMP,
