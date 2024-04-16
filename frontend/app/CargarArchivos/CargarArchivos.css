@@ -152,6 +152,19 @@ div.ARPA_header{
       font-size: 5ch;
     }
   }
+
+  .formatsContainer{
+    text-align: "center";
+    display: "flex";
+    justify-content: "center";
+  }
+  @media only screen and (min-width: 768px){
+    .formatsContainer{
+      text-align: "center";
+      display: "flex";
+      justify-content: "center";
+    }
+  }
   
   .format{
     background-color: transparent;
