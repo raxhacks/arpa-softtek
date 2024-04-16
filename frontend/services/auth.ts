@@ -1,37 +1,27 @@
 import axios from 'axios';
+import { headers } from 'next/headers';
+import React from 'react';
+import { getToken } from '../helpers/getToken'
+import { setCookie } from 'cookies-next';
 
-const baseUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001';
 
-// const create = async (file_id: string, user_id: string) => {
-//   try {
-//     const config = {
-//       headers: { Authorization: `Bearer ${token}` },
-//     };
+const baseUrl = process.env.NEXT_PUBLIC_API_URL + '/user' || 'http://localhost:3001/user';
 
-//     const chatInfo = {
-//       file_id,
-//       user_id,
-//       name: 'Owner chat',
-//     };
+const createUser = async (email: string, password: string, ) => {
+    try{
+        const response = await axios.post(baseUrl);
+        const {message, token} = response?.data;
+        if(token){
+            setCookie('token', token);
+            return true
+        } else {
 
-//     // We create the chat id from the database
-//     const response = await axios.post(`${baseUrl}/chat/create`, chatInfo, config);
+        }
 
-//     const { message, data } = response?.data;
-//     const { returning_chat_id } = data; // chat id - data[0] is the first chat with the file_id
-//     // current implementation only allows one chat per file_id
-
-//     // If we fetched the chat id successfully, we return it.
-//     if (returning_chat_id) {
-//       return true;
-//     } else {
-//       throw new Error('Could not create chat: ', message);
-//     }
-//   } catch (error) {
-//     console.log(error);
-//     return false;
-//   }
-// };
+    } catch (error){
+        
+    }
+};
 
 // const getChatID = async (file_id: string, user_id: string) => {
 //   try {
@@ -157,11 +147,11 @@ const baseUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001';
 //   }
 // };
 
-// export default {
-//   create,
+export default {
+  createUser,
 //   getChatID,
 //   getChatMessages,
 //   getContextMessages,
 //   getChatResponse,
 //   saveMessage,
-// };
+};

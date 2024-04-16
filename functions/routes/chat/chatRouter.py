@@ -3,7 +3,7 @@ from firebase_admin import firestore
 
 chatBlueprint = flask.Blueprint('chat', __name__, url_prefix="/chat")
 
-@chatBlueprint.route("/", methods=["POST"])
+@chatBlueprint.route("", methods=["POST"])
 def create_chat():
     try:
         user_id = flask.g.get('user_id')
@@ -32,7 +32,7 @@ def create_chat():
         print("Error:",e)
         return flask.jsonify({"message":"Failed to create new chat"}), 500
       
-@chatBlueprint.route("/", methods=["GET"])
+@chatBlueprint.route("", methods=["GET"])
 def get_chat():
     try:
         user_id = flask.g.get('user_id')
@@ -48,7 +48,7 @@ def get_chat():
         print("Error:",e)
         return flask.jsonify({"message":"Failed to get chat"}), 500
 
-@chatBlueprint.route("/", methods=["PUT"])
+@chatBlueprint.route("", methods=["PUT"])
 def update_chat():
     try:
         user_id = flask.g.get('user_id')
@@ -66,7 +66,7 @@ def update_chat():
         print("Error:",e)
         return flask.jsonify({"message":"Failed to update chat"}), 500
       
-@chatBlueprint.route("/", methods=["DELETE"])
+@chatBlueprint.route("", methods=["DELETE"])
 def delete_chat():
     try:
         user_id = flask.g.get('user_id')

@@ -3,7 +3,7 @@ from firebase_admin import firestore
 
 analysisBlueprint = flask.Blueprint('analysis', __name__, url_prefix="/analysis")
 
-@analysisBlueprint.route("/", methods=["POST"])
+@analysisBlueprint.route("", methods=["POST"])
 def create_analysis():
     try:
         # Logica de OpenAI para analizar el texto
@@ -37,7 +37,7 @@ def create_analysis():
         print("Error:",e)
         return flask.jsonify({"message":"Failed to create new analysis"}), 500
       
-@analysisBlueprint.route("/", methods=["GET"])
+@analysisBlueprint.route("", methods=["GET"])
 def get_analysis():
     try:
         user_id = flask.g.get('user_id')
@@ -53,7 +53,7 @@ def get_analysis():
         print("Error:",e)
         return flask.jsonify({"message":"Failed to get analysis"}), 500
 
-@analysisBlueprint.route("/", methods=["PUT"])
+@analysisBlueprint.route("", methods=["PUT"])
 def update_analysis():
     try:
         user_id = flask.g.get('user_id')
@@ -71,7 +71,7 @@ def update_analysis():
         print("Error:",e)
         return flask.jsonify({"message":"Failed to update analysis"}), 500
       
-@analysisBlueprint.route("/", methods=["DELETE"])
+@analysisBlueprint.route("", methods=["DELETE"])
 def delete_analysis():
     try:
         user_id = flask.g.get('user_id')

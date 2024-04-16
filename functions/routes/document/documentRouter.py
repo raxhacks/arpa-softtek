@@ -3,7 +3,7 @@ from firebase_admin import firestore
 
 documentBlueprint = flask.Blueprint('document', __name__, url_prefix="/document")
 
-@documentBlueprint.route("/", methods=["POST"])
+@documentBlueprint.route("", methods=["POST"])
 def create_document():
     try:
         user_id = flask.g.get('user_id')
@@ -32,7 +32,7 @@ def create_document():
         print("Error:",e)
         return flask.jsonify({"message":"Failed to create new document"}), 500
 
-@documentBlueprint.route("/", methods=["GET"])
+@documentBlueprint.route("", methods=["GET"])
 def get_document():
     try:
         user_id = flask.g.get('user_id')
@@ -47,7 +47,7 @@ def get_document():
         print("Error:",e)
         return flask.jsonify({"message":"Failed to get document"}), 500
     
-@documentBlueprint.route("/", methods=["PUT"])
+@documentBlueprint.route("", methods=["PUT"])
 def update_document():
     try:
         user_id = flask.g.get('user_id')
@@ -64,7 +64,7 @@ def update_document():
         print("Error:",e)
         return flask.jsonify({"message":"Failed to update document"}), 500
 
-@documentBlueprint.route("/", methods=["DELETE"])
+@documentBlueprint.route("", methods=["DELETE"])
 def delete_document():
     try:
         user_id = flask.g.get('user_id')

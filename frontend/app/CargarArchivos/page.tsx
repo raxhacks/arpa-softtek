@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import './CargarArchivos.css';
 import { useState } from 'react';
+import axios from 'axios';
 import { Fade } from "react-awesome-reveal";
 
 function ActiveSectionButton(name: any) {
@@ -70,6 +71,20 @@ function FormatButton(main: any) {
         <FormatButton icon="article" type="DOCX" title="Sube el artículo en formato DOCX" setType={currentState.setType}/>
 */
 function Main(currentState: any) {
+  const [url, setURL] = useState("");
+  const handleUrlChange = (event: any) => {
+    setURL(event.target.value)
+  }
+  const getPdfBlob = async (e:any, url: any) => {
+    try {
+      e.preventDefault();
+      const body = {url: url};
+      const response = await axios.post('http://localhost:3000/api/pdf_retrieve', body);
+      console.log(response);
+    } catch (error) {
+      console.error(error);
+    }
+  }
   if(currentState.type === "None"){
     return(
       <div className="formatsContainer">
@@ -84,8 +99,12 @@ function Main(currentState: any) {
   else if(currentState.type === "URL"){
     return(
       <form style={{textAlign: "center"}}>
-        <input type="text" className="urlField" />
-        <button className="url">
+        <input type="text" className="urlField text-black" 
+        value={url}
+        onChange={handleUrlChange}
+        />
+        <button className="url"
+        onClick={(e)=>getPdfBlob(e,url)}>
           <i className="material-icons" style={{fontSize: "50px"}}>search</i>
         </button>
         <label htmlFor="siguiente" className="siguiente">Siguiente</label>
