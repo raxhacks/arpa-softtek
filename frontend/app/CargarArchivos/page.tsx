@@ -72,9 +72,11 @@ function FormatButton(main: any) {
 */
 function Main(currentState: any) {
   const [url, setURL] = useState("");
+  
   const handleUrlChange = (event: any) => {
     setURL(event.target.value)
   }
+
   const getPdfBlob = async (e:any, url: any) => {
     try {
       e.preventDefault();
@@ -85,6 +87,7 @@ function Main(currentState: any) {
       console.error(error);
     }
   }
+
   if(currentState.type === "None"){
     return(
       <div className="formatsContainer">
