@@ -29,7 +29,7 @@ initialize_app(cred)
 app = flask.Flask(__name__)
 
 # Allow CORS for all origins on all routes
-CORS(app)
+CORS(app, resources={r"*": {"origins": "http://localhost:3000"}})
 
 @app.before_request
 def before_request():
