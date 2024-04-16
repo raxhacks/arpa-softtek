@@ -64,12 +64,16 @@ function FormatButton(main: any) {
     </button>
   );
 }
-
+/*
+<FormatButton icon="picture_as_pdf" type="PDF" title="Sube el artículo en formato PDF" setType={currentState.setType} />
+        <FormatButton icon="http" type="URL" title="Ingresa la URL del artículo" setType={currentState.setType}/>
+        <FormatButton icon="article" type="DOCX" title="Sube el artículo en formato DOCX" setType={currentState.setType}/>
+*/
 function Main(currentState: any) {
   if(currentState.type === "None"){
     return(
       <div className="formatsContainer">
-        <Fade cascade direction="up" damping={0.1}>
+        <Fade cascade direction="up" damping={0.1} triggerOnce fraction={1}>
           <FormatButton icon="picture_as_pdf" type="PDF" title="Sube el artículo en formato PDF" setType={currentState.setType} />
           <FormatButton icon="http" type="URL" title="Ingresa la URL del artículo" setType={currentState.setType}/>
           <FormatButton icon="article" type="DOCX" title="Sube el artículo en formato DOCX" setType={currentState.setType}/>
@@ -96,11 +100,8 @@ function Main(currentState: any) {
         <label htmlFor="PDFUpload" className="upload">
           {currentState.file === undefined ? <i className="material-icons" style={{fontSize: "900%", textAlign: "center"}}>picture_as_pdf</i> : <p>{currentState.file.name}</p>}
         </label>
-        <input type="file" id="PDFUpload" name="filename" accept=".pdf" style={{opacity: "0", position: "absolute", zIndex: "-1"}} onChange={currentState.handleChage} />
-        <Link href="/Analisis">
-          <label htmlFor="siguiente" className="siguiente">Siguiente</label>
-          <input type="submit" id="siguiente" style={{opacity: "0", position: "absolute", zIndex: "-1"}} />
-        </Link>
+        <input type="file" id="PDFUpload" name="filename" accept=".pdf" style={{opacity: "0", position: "absolute", zIndex: "-1"}} onChange={currentState.handleChangePDF} />
+        <FileStateMessage state={currentState.fileState} />
       </form>
     );
   }
@@ -110,10 +111,29 @@ function Main(currentState: any) {
         <label htmlFor="DOCXUpload" className="upload">
           {currentState.file === undefined ? <i className="material-icons" style={{fontSize: "900%", textAlign: "center"}}>article</i> : <p>{currentState.file.name}</p>}
         </label>
-        <input type="file" id="DOCXUpload" name="filename" accept=".docx" style={{opacity: "0", position: "absolute", zIndex: "-1"}} onChange={currentState.handleChage} />
+        <input type="file" id="DOCXUpload" name="filename" accept=".docx" style={{opacity: "0", position: "absolute", zIndex: "-1"}} onChange={currentState.handleChangeDOCX} />
+        <FileStateMessage state={currentState.fileState} />
+      </form>
+    );
+  }
+}
+
+function FileStateMessage(fileState: any) {
+  if(fileState.state === "None"){
+    return(<></>);
+  }
+  else if(fileState.state === "WrongFormat"){
+    return(<p className="errorMessage">Error: El formato del archivo es incorrecto</p>);
+  }
+  else if(fileState.state === "ErrorUploading"){
+    return(<p className="errorMessage">Error: No se ha podido cargar el archivo</p>);
+  }
+  else if(fileState.state === "Correct"){
+    return(
+      <Link href="/Analisis">
         <label htmlFor="siguiente" className="siguiente">Siguiente</label>
         <input type="submit" id="siguiente" style={{opacity: "0", position: "absolute", zIndex: "-1"}} />
-      </form>
+      </Link>
     );
   }
 }
@@ -123,6 +143,7 @@ function CargaArchivos() {
   const [currentFormat, setFormat] = useState("None");
   const [formatSelected, setSelected] = useState(false);
   const [file, setFile] = useState();
+  const [fileState, setFState] = useState("None");
 
   const setType = (text: any, type: any) => {
     setTitle(text)
@@ -130,8 +151,29 @@ function CargaArchivos() {
     setSelected(true)
   }
 
-  function handleChange(event: any) {
-    setFile(event.target.files[0])
+  function handleChangePDF(event: any) {
+    const file = event.target.files[0]
+    if(file.type == "application/pdf"){
+      setFile(file)
+      setFState("Correct")
+    }
+    else{
+      setFile(undefined)
+      setFState("WrongFormat")
+    }
+  }
+
+  function handleChangeDOCX(event: any) {
+    const file = event.target.files[0]
+    if(file.type == "application/vnd.openxmlformats-officedocument.wordprocessingml.document"){
+      setFile(file)
+      setFState("Correct")
+    }
+    else{
+      setFile(undefined)
+      setFState("WrongFormat")
+      console.log(file.type)
+    }
   }
 
   const goBack = () => {
@@ -139,6 +181,7 @@ function CargaArchivos() {
     setFormat("None")
     setSelected(false)
     setFile(undefined)
+    setFState("None")
   }
 
   return (
@@ -150,7 +193,7 @@ function CargaArchivos() {
         <SectionsHeader />
         <Arrow selected={formatSelected} goBack={goBack} />
         <CenterHeader text={centerText} />
-        <Main type={currentFormat} setType={setType} file={file} handleChage={handleChange} />
+        <Main type={currentFormat} setType={setType} file={file} fileState={fileState} handleChangePDF={handleChangePDF} handleChangeDOCX={handleChangeDOCX} />
       </div>
     </>
   );

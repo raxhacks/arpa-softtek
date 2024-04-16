@@ -65,11 +65,11 @@ function MostrarAnalisis() {
           <SectionsHeader />
           <Arrow />
           <div className="text">
-            <Typewriter onInit={(typewriter) => {typewriter.changeDelay(5).typeString(sampleText).start()}} />
+            <Typewriter onInit={(typewriter) => {typewriter.changeDelay(1).typeString(sampleText).start()}} />
           </div>
         </div>
       </>
     );
 }
-
+//.pauseFor(3000).deleteAll()
 export default MostrarAnalisis;
