@@ -131,13 +131,16 @@ function Main(currentState: any) {
           {currentState.file === undefined ? <i className="material-icons" style={{fontSize: "900%", textAlign: "center"}}>article</i> : <p>{currentState.file.name}</p>}
         </label>
         <input type="file" id="DOCXUpload" name="filename" accept=".docx" style={{opacity: "0", position: "absolute", zIndex: "-1"}} onChange={currentState.handleChangeDOCX} />
-        <FileStateMessage state={currentState.fileState} />
+        <FileStateMessage state={currentState.fileState} file={currentState.file}/>
       </form>
     );
   }
 }
 
 function FileStateMessage(fileState: any) {
+  const handleSubmitDocument = async () => {
+
+  }
   if(fileState.state === "None"){
     return(<></>);
   }

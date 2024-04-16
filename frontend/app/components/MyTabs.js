@@ -1,7 +1,6 @@
 "use client"
 import React, { useState } from 'react';
 import { Tab } from '@headlessui/react';
-import { confirmPasswordReset } from 'firebase/auth';
 import { createUser } from '@/services/user.service';
 import { login } from '@/services/login.service';
 import { eventNames } from 'process';
