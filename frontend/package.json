@@ -13,8 +13,9 @@
     "axios": "^1.6.8",
     "next": "14.1.4",
     "react": "^18",
+    "react-awesome-reveal": "^4.2.8",
     "react-dom": "^18",
-    "react-router-dom": "^6.22.3"
+    "typewriter-effect": "^2.21.0"
   },
   "devDependencies": {
     "@types/node": "^20",
