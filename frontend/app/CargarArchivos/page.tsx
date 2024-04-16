@@ -1,7 +1,9 @@
 'use client';
 
+import Link from 'next/link';
 import './CargarArchivos.css';
 import { useState } from 'react';
+import { Fade } from "react-awesome-reveal";
 
 function ActiveSectionButton(name: any) {
   return (
@@ -32,29 +34,14 @@ function SectionsHeader() {
     <div className="sections_header">
       <div className="sectionGroup">
         <ActiveSectionButton text="feed"/>
-        &nbsp; &nbsp; &nbsp;
+        &nbsp; &nbsp; &nbsp; &nbsp;
         <InactiveSectionButton text="book"/>
-        &nbsp; &nbsp; &nbsp;
+        &nbsp; &nbsp; &nbsp; &nbsp;
         <InactiveSectionButton text="history"/>
       </div>
     </div>
   );
 }
-  
-/*function Header() {
-    return (
-      <div className="header">
-        <h2 className="headerText">ARPA</h2>
-        <div className="sectionGroup">
-            <ActiveSectionButton text="feed"/>
-            &nbsp; &nbsp; &nbsp;
-            <InactiveSectionButton text="book"/>
-            &nbsp; &nbsp; &nbsp;
-            <InactiveSectionButton text="history"/>
-        </div>
-      </div>
-    );
-}*/
   
 function Arrow(back: any) {
   return(
@@ -81,10 +68,12 @@ function FormatButton(main: any) {
 function Main(currentState: any) {
   if(currentState.type === "None"){
     return(
-      <div style={{textAlign: "center"}}>
-        <FormatButton icon="picture_as_pdf" type="PDF" title="Sube el artículo en formato PDF" setType={currentState.setType} />
-        <FormatButton icon="http" type="URL" title="Ingresa la URL del artículo" setType={currentState.setType}/>
-        <FormatButton icon="article" type="DOCX" title="Sube el artículo en formato DOCX" setType={currentState.setType}/>
+      <div className="formatsContainer">
+        <Fade cascade direction="up" damping={0.1}>
+          <FormatButton icon="picture_as_pdf" type="PDF" title="Sube el artículo en formato PDF" setType={currentState.setType} />
+          <FormatButton icon="http" type="URL" title="Ingresa la URL del artículo" setType={currentState.setType}/>
+          <FormatButton icon="article" type="DOCX" title="Sube el artículo en formato DOCX" setType={currentState.setType}/>
+        </Fade> 
       </div>
     );
   }
@@ -108,8 +97,10 @@ function Main(currentState: any) {
           {currentState.file === undefined ? <i className="material-icons" style={{fontSize: "900%", textAlign: "center"}}>picture_as_pdf</i> : <p>{currentState.file.name}</p>}
         </label>
         <input type="file" id="PDFUpload" name="filename" accept=".pdf" style={{opacity: "0", position: "absolute", zIndex: "-1"}} onChange={currentState.handleChage} />
-        <label htmlFor="siguiente" className="siguiente">Siguiente</label>
-        <input type="submit" id="siguiente" style={{opacity: "0", position: "absolute", zIndex: "-1"}} />
+        <Link href="/Analisis">
+          <label htmlFor="siguiente" className="siguiente">Siguiente</label>
+          <input type="submit" id="siguiente" style={{opacity: "0", position: "absolute", zIndex: "-1"}} />
+        </Link>
       </form>
     );
   }
@@ -126,20 +117,6 @@ function Main(currentState: any) {
     );
   }
 }
-  
-/*function UploadButton(type: any) {
-    return(
-      <button className="upload">
-        <i className="material-icons" style={{fontSize: "900%"}}>{type.text}</i>
-      </button>
-    );
-}
-  
-function SiguienteButton() {
-    return(
-      <button className="siguiente">Siguiente</button>
-    );
-}*/
 
 function CargaArchivos() {
   const [centerText, setTitle] = useState("Selecciona el formato del artículo");
