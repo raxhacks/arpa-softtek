@@ -1,20 +1,19 @@
+import axios from 'axios'
+
 export const createUser = async (userData: { email: string, password: string }) => {
     try {
-        const response = await fetch('https://arpa-2mgft7cefq-uc.a.run.app/user', {
-            method: 'POST',
+        const response = await axios.post('https://arpa-2mgft7cefq-uc.a.run.app/user', JSON.stringify(userData) ,{
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify(userData),
         });
-
-        if (!response.ok) {
+        const {message, user_id} = response.data;
+        if (user_id) {
+            console.log("User creado");
+        } else {
+            console.log("no jalo")
             throw new Error('Failed to create user');
         }
-
-        const responseData = await response.json();
-        return responseData.user_id; // El servicio también debe regresar la respuesta de la cloud function?
-
     } catch (error) {
         console.error('Error creating user:', error);
         throw new Error('Failed to create user');
