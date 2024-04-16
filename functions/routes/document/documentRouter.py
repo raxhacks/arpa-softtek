@@ -12,15 +12,26 @@ def create_document():
         db = firestore.client()
         user_doc_ref = db.collection('users').document(user_id)
         document_doc_ref = user_doc_ref.collection('documents').document()
-        
-        # insert chat and analysis object (empty objects)
-        new_document['chat'] = {}
-        new_document['analysis'] = {}
-        new_document['created_at'] = firestore.SERVER_TIMESTAMP
+
+        title = new_document.get('title')
+        content = new_document.get('content')
+        url = new_document.get('url')
+        extension = new_document.get('extension')
+
+        new_document = {
+            'title': title,
+            'content': content,
+            'url': url,
+            'extension': extension,
+            'created_at': firestore.SERVER_TIMESTAMP,
+            'favorite': False,
+            'chat': {},
+            'analysis': {}
+        }
         
         #create the document
         document_doc_ref.set(new_document)
-        
+            
         #set the id attribute
         document_doc_ref.update({"document_id":document_doc_ref.id})
         
