@@ -2,12 +2,11 @@
 
 import './CargarArchivos.css';
 import { useState } from 'react';
-import Head from 'next/head';
 
 function ActiveSectionButton(name: any) {
   return (
     <button className="sections">
-      <i className="material-icons" style={{fontSize: "600%", verticalAlign: "middle", color: "rgb(217, 189, 122)"}}>{name.text}</i>
+      <i className="material-icons" style={{fontSize: "250%", verticalAlign: "middle", color: "rgb(217, 189, 122)"}}>{name.text}</i>
     </button>
   );
 }
@@ -15,7 +14,7 @@ function ActiveSectionButton(name: any) {
 function InactiveSectionButton(name: any) {
   return (
     <button className="sections">
-      <i className="material-icons" style={{fontSize: "600%", verticalAlign: "middle"}}>{name.text}</i>
+      <i className="material-icons" style={{fontSize: "250%", verticalAlign: "middle"}}>{name.text}</i>
     </button>
   );
 }
@@ -167,17 +166,15 @@ function CargaArchivos() {
 
   return (
     <>
-      <Head>
+      <div className="main">
         <meta name="viewport" content="width=device-width, initial-scale=1.0"></meta>
         <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons"></link>
-      </Head>
-      <body className="main">
         <ARPAHeader />
         <SectionsHeader />
         <Arrow selected={formatSelected} goBack={goBack} />
         <CenterHeader text={centerText} />
         <Main type={currentFormat} setType={setType} file={file} handleChage={handleChange} />
-      </body>
+      </div>
     </>
   );
 }
