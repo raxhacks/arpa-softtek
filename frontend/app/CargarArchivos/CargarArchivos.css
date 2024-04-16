@@ -105,8 +105,7 @@ div.ARPA_header{
     border-width: 0px;
     background-color: transparent;
     vertical-align: middle;
-    padding: 0% 0% 0% 0%;
-    margin-top: 1%;
+    margin-bottom: -2%;
     margin-left: 3%;
     color: rgb(252, 250, 245);
   }
@@ -118,29 +117,31 @@ div.ARPA_header{
   }
   
   
-  body.main{
+  .main{
     background-color: rgb(48, 50, 61);
-    font-family: Arial, sans-serif;
-    padding-top: 15vw;
-    padding-bottom: 20vw;
+    padding-top: 15vh;
+    padding-bottom: 20vh;
+    font-weight: 600;
+    
   }
   @media only screen and (min-width: 768px){
-    body.main{
+    .main{
       background-color: rgb(48, 50, 61);
-      font-family: Arial, sans-serif;
-      padding-top: 100px;
+      padding-top: 125px;
       padding-bottom: 0;
+      height: 100vh;
+      font-weight: 600;
     }
   }
   
   h1.centerHeader{
     color: rgb(252, 250, 245);
     text-align: center;
-    margin-top: 0%;
+    margin-top: 3vh;
     margin-bottom: 0%;
-    margin-left: 2%;
-    margin-right: 2%;
-    font-size: 5ch;
+    margin-left: 5%;
+    margin-right: 5%;
+    font-size: 8vw;
   }
   @media only screen and (min-width: 768px){
     h1.centerHeader{
@@ -152,33 +153,33 @@ div.ARPA_header{
     }
   }
   
-  button.format{
+  .format{
     background-color: transparent;
     color: rgb(84, 86, 245);
     border-width: 0px;
     border-radius: 10px;
     margin: auto;
-    margin-top: 5vw;
+    margin-top: 5vh;
     display: block;
     position: relative;
   }
   @media only screen and (min-width: 768px){
-    button.format{
+    .format{
       background-color: transparent;
       color: rgb(84, 86, 245);
       border-width: 0px;
       border-radius: 10px;
-      margin-top: 5vw;
+      margin-top: 10vh;
       margin-left: 5vw;
       margin-right: 5vw;
       display: inline;
       position: relative;
     }
   }
-  button.format:hover{
+  .format:hover{
     color: rgb(67, 69, 175);
   }
-  button.format:active{
+  .format:active{
     background-color: rgb(84, 86, 245);
     color: rgb(48, 50, 61);
   }
