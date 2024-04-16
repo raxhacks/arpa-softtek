@@ -154,15 +154,13 @@ div.ARPA_header{
   }
 
   .formatsContainer{
-    text-align: "center";
-    display: "flex";
-    justify-content: "center";
+    text-align: center;
   }
   @media only screen and (min-width: 768px){
     .formatsContainer{
-      text-align: "center";
-      display: "flex";
-      justify-content: "center";
+      text-align: center;
+      display: flex;
+      justify-content: center;
     }
   }
   
@@ -315,4 +313,27 @@ div.ARPA_header{
     background-color: rgb(252, 250, 245);
     border-color: rgb(48, 50, 61);
     color: rgb(48, 50, 61);
+  }
+
+  .errorMessage{
+    color: brown;
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    margin-left: 5vw;
+    margin-right: 5vw;
+    margin-top: 5vh;
+    font-size: 1.5em;
+  }
+  @media only screen and (min-width: 768px){
+    .errorMessage{
+      color: brown;
+      display: flex;
+      justify-content: center;
+      text-align: center;
+      margin-left: 25vw;
+      margin-right: 25vw;
+      margin-top: 5vh;
+      font-size: 2em;
+    }
   }
