@@ -100,7 +100,7 @@ function MyTabs() {
   return (
     <Tab.Group className={`w-full flex flex-grow justify-center items-center`}>
       <Tab.Panels className={`flex-grow w-full rounded-lg bg-opacity-95`}>
-        <Tab.Panel className={`w-full pr-20 pl-20 mb-10`}>
+        <Tab.Panel className={`w-full lg:pr-32 pr-20 pl-20 mb-10`}>
           <Tab></Tab>
           {/* Inicio de Sesion Button */}
           <Tab className={`rounded-lg border border-transparent py-4 w-full text-center font-semibold text-2xl bg-blue-600 transition-colors hover:border-blue-300 hover:bg-yellow-100 hover:dark:bg-neutral-800/20`} >
