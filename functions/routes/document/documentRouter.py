@@ -27,13 +27,10 @@ def create_document():
         
         # Parse PDF if the file is a PDF
         if extension == 'PDF':
-            pdf_content = file.read()  # Read the PDF content into memory
             reader = PyPDF2.PdfReader(file)
             text = ''
             for page in range(len(reader.pages)):
                 text += reader.pages[page].extract_text()
-                
-            # Now 'text' contains the extracted text from the PDF
         else:
             text = ''  # Placeholder for content extraction for other file types
         
