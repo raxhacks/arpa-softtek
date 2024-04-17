@@ -1,6 +1,5 @@
 import { setCookie } from "cookies-next";
 import axios from "axios";
-import { set } from "firebase/database";
 
 export const login = async (userData: { email: string, password: string }) => {
     try {
