@@ -16,6 +16,8 @@ function MyTabs() {
 
   const [errorMessage, setErrorMessage] = useState("");
   const [errorInLogin, setErrorInLogin] = useState("");
+  const [succsefullRegister, setsuccsefullRegister] = useState("");
+
 
   const handleInputChange = (event) => {
     const {name, value} = event.target;
@@ -31,6 +33,7 @@ function MyTabs() {
         password:'',
         confirmPassword: ''
       });
+      setsuccsefullRegister("");
       setErrorMessage("La contraseña y la confirmacion de la contraseña deben coincidir para completar el registro.") 
       return false
     }
@@ -39,6 +42,7 @@ function MyTabs() {
         password:'',
         confirmPassword: ''
       });
+      setsuccsefullRegister("");
       setErrorMessage("La contraseña debe ser mayor de 7 caracteres.") 
       return false
     }
@@ -76,6 +80,8 @@ function MyTabs() {
         password: "",
         confirmPassword: ""
       });
+      setErrorMessage("");
+      setsuccsefullRegister("Registro exitoso");
       return true
     }
   }
@@ -88,6 +94,7 @@ function MyTabs() {
       confirmPassword: ""
     });
     setErrorMessage("");
+    setsuccsefullRegister("");
   }
 
   return (
@@ -165,6 +172,7 @@ function MyTabs() {
           <form 
           onSubmit={registerSubmit} className="flex flex-col items-center justify-center mx-auto max-w-sm mt-8 lg:mt-40">
             {errorMessage && <p className="text-red-500 mb-4">{errorMessage}</p>} 
+            {succsefullRegister && <p className="text-green-500 mb-4">{succsefullRegister}</p>} 
             <input 
               name="email" 
               type="text" 
