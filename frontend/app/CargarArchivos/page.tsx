@@ -1,11 +1,12 @@
 'use client';
+
 import { deleteCookie } from "cookies-next";
+
 import Link from 'next/link';
 import './CargarArchivos.css';
 import { useState } from 'react';
 import axios from 'axios';
 import { Fade } from "react-awesome-reveal";
-
 import { createDocument } from '@/services/document.service';
 import { useRouter } from 'next/navigation';
 
@@ -48,7 +49,6 @@ function SectionsHeader() {
 }
   
 function Arrow(back: any) {
-  const router = useRouter();
   return(
     <button className="arrow" onClick={() => {back.selected && back.goBack()}}>
       <i className="material-icons" style={{fontSize: "400%"}}>keyboard_backspace</i>
@@ -246,7 +246,4 @@ export default function CargaArchivos({
     </>
   );
 }
-
-
-
 
