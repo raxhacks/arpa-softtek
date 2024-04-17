@@ -24,11 +24,12 @@ export default function Home() {
                     "Y dime si habla sobre el capitalismo",
                     "Y dime si habla sobre la guerra fria",
                     "Y dime si menciona algo sobre las nebulosas",
-                    "Y ayudame a seguir aprendiendo"
+                    "    ",
+                    "Y ayudame a seguir aprendiendo     ",
                   ],
                   autoStart: true,
-                  loop: true
-
+                  loop: true,
+                  delay: 25
                 }} 
               />
             </div>

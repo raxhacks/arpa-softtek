@@ -8,15 +8,16 @@ import { useRouter } from 'next/navigation';
 
 function MyTabs() {
   const router = useRouter()
-
   const [values, setValues] = useState({
     email: "",
     pasword: "",
     confirmPassword: ""
   })
 
-  const [showModal, setShowModal] = useState(false);
-  const [modalMessage, setModalMessage] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
+  const [errorInLogin, setErrorInLogin] = useState("");
+  const [succsefullRegister, setsuccsefullRegister] = useState("");
+
 
   const handleInputChange = (event) => {
     const {name, value} = event.target;
@@ -26,12 +27,23 @@ function MyTabs() {
     });
   };
 
-  function validatePassword(password) {
-    if (password.length < 7) {
+  function validatePassword(password, confirmPassword) {
+    if (password != confirmPassword){
       setValues({
         password:'',
         confirmPassword: ''
       });
+      setsuccsefullRegister("");
+      setErrorMessage("La contraseña y la confirmacion de la contraseña deben coincidir para completar el registro.") 
+      return false
+    }
+    else if (password.length < 7) {
+      setValues({
+        password:'',
+        confirmPassword: ''
+      });
+      setsuccsefullRegister("");
+      setErrorMessage("La contraseña debe ser mayor de 7 caracteres.") 
       return false
     }
     return true;
@@ -47,45 +59,56 @@ function MyTabs() {
     if (logedIn){
       router.push('/CargarArchivos')
     } else {
-      goBack()
+      setErrorInLogin("Correo o contraseña invalido")
+      setValues({
+        email: "",
+        password: "",
+      });
     }
   }
   
   const registerSubmit = (event) => {
     event.preventDefault();
-    if (!(validatePassword(values.password))) {
-      console.log(validatePassword(values.password));
-    } else {
+    if ((validatePassword(values.password, values.confirmPassword))) {
       const body = {
         email: values.email,
         password: values.password
       }
       createUser(body);
+      setValues({
+        email: "",
+        password: "",
+        confirmPassword: ""
+      });
+      setErrorMessage("");
+      setsuccsefullRegister("Registro exitoso");
+      return true
     }
-
   }
 
-  const goBack = () => {
+  const resetStates = () => {
+    setErrorInLogin("");
     setValues({
       email: "",
       password: "",
       confirmPassword: ""
     });
+    setErrorMessage("");
+    setsuccsefullRegister("");
   }
-
 
   return (
     <Tab.Group className={`w-full flex flex-grow justify-center items-center`}>
       <Tab.Panels className={`flex-grow w-full rounded-lg bg-opacity-95`}>
-        <Tab.Panel className={`w-96 mb-10`}>
+        <Tab.Panel className={`w-96 lg:w-full lg:pr-20 lg:pl-20 mb-10`}>
           <Tab></Tab>
           {/* Inicio de Sesion Button */}
-          <Tab className={`rounded-lg border border-transparent py-4 w-full text-center font-semibold text-2xl bg-blue-600 transition-colors hover:border-blue-300 hover:bg-yellow-100 hover:dark:bg-neutral-800/20`}>
-            Inicio sesion
+          <Tab className={`rounded-lg border border-transparent py-4 w-full text-center font-semibold text-2xl bg-blue-600 transition-colors hover:border-blue-300 hover:bg-yellow-100 hover:dark:bg-neutral-800/20`} >
+            <div onClick={resetStates}>Inicio sesion</div>
           </Tab>
           {/* Registro Button */}
-          <Tab className={`rounded-lg border border-transparent py-4 w-full text-center mt-8 font-semibold text-2xl text-black bg-yellow-300 transition-colors hover:border-yellow-300 hover:bg-yellow-100 hover:dark:bg-neutral-800/20 hover:text-white`}>
-            Registrarse
+          <Tab className={`rounded-lg border border-transparent py-4 w-full text-center mt-8 font-semibold text-2xl text-black bg-yellow-300 transition-colors hover:border-yellow-300 hover:bg-yellow-100 hover:dark:bg-neutral-800/20 hover:text-white`} >
+            <div onClick={resetStates}>Registrarse</div>
           </Tab>
         </Tab.Panel>
 
@@ -106,10 +129,10 @@ function MyTabs() {
               </svg>
           </Tab>
           <form onSubmit={loginSubmit} className="flex flex-col items-center justify-center mx-auto max-w-sm mt-10 lg:mt-40">
-          
+            {errorInLogin && <p className="text-red-500 mb-4">{errorInLogin}</p>} 
             <input 
               name="email" 
-              type="text" 
+              type="email" 
               value={values.email}
               onChange={handleInputChange}
               placeholder = "Correo electrónico"
@@ -146,10 +169,13 @@ function MyTabs() {
                 />
               </svg>
           </Tab>
-          <form onSubmit={registerSubmit} className="flex flex-col items-center justify-center mx-auto max-w-sm mt-8 lg:mt-40">
+          <form 
+          onSubmit={registerSubmit} className="flex flex-col items-center justify-center mx-auto max-w-sm mt-8 lg:mt-40">
+            {errorMessage && <p className="text-red-500 mb-4">{errorMessage}</p>} 
+            {succsefullRegister && <p className="text-green-500 mb-4">{succsefullRegister}</p>} 
             <input 
               name="email" 
-              type="text" 
+              type="email" 
               value={values.email}
               onChange={handleInputChange}
               placeholder = "Correo electrónico"

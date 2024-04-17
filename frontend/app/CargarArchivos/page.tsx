@@ -82,14 +82,16 @@ function Main(currentState: any) {
     setURL(event.target.value)
   }
 
-  const getPdfBlob = async (e:any, url: any) => {
+  const getPdfBlob = async (e:any, url: any, setFState: any) => {
     try {
       e.preventDefault();
       const body = {url: url};
       const response = await axios.post('http://localhost:3000/api/pdf_retrieve', body);
       console.log(response);
+      setFState("Correct")
     } catch (error) {
       console.error(error);
+      setFState("ErrorUploading")
     }
   }
 
@@ -112,11 +114,10 @@ function Main(currentState: any) {
         onChange={handleUrlChange}
         />
         <button className="url"
-        onClick={(e)=>getPdfBlob(e,url)}>
+        onClick={(e)=>getPdfBlob(e,url,currentState.setfileState)}>
           <i className="material-icons" style={{fontSize: "50px"}}>search</i>
         </button>
-        <label htmlFor="siguiente" className="siguiente">Siguiente</label>
-        <input type="submit" id="siguiente" style={{opacity: "0", position: "absolute", zIndex: "-1"}} />
+        <FileStateMessage state={currentState.fileState} file={currentState.file} type={currentState.type}/>
       </form>
     );
   }
@@ -238,7 +239,7 @@ function CargaArchivos() {
         <SectionsHeader />
         <Arrow selected={formatSelected} goBack={goBack} />
         <CenterHeader text={centerText} />
-        <Main type={currentFormat} setType={setType} file={file} fileState={fileState} handleChangePDF={handleChangePDF} handleChangeDOCX={handleChangeDOCX} />
+        <Main type={currentFormat} setType={setType} file={file} fileState={fileState} handleChangePDF={handleChangePDF} handleChangeDOCX={handleChangeDOCX} setfileState={setFState} />
       </div>
     </>
   );
