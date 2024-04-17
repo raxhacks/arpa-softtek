@@ -29,7 +29,12 @@ initialize_app(cred)
 app = flask.Flask(__name__)
 
 # Allow CORS for all origins on all routes
-CORS(app)
+cors_config = {
+    "origins": "*",
+    "methods": ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    "allow_headers": ["Content-Type", "Authorization"],
+}
+CORS(app, resources={r"*": cors_config})
 
 @app.before_request
 def before_request():
@@ -48,4 +53,11 @@ app.register_blueprint(analysisBlueprint)
 @https_fn.on_request()
 def arpa(req: https_fn.Request) -> https_fn.Response:
     with app.request_context(req.environ):
+        if req.method == 'OPTIONS':
+            response = flask.make_response()
+            response.headers['Access-Control-Allow-Origin'] = '*'
+            response.headers['Access-Control-Allow-Methods'] = 'POST, GET, PUT, DELETE, OPTIONS'
+            response.headers['Access-Control-Allow-Headers'] = 'Content-Type, Authorization'
+            return response
+    
         return app.full_dispatch_request()

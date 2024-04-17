@@ -4,3 +4,5 @@ flask
 flask[async]
 python-dotenv
 flask-cors
+PyPDF2
+docx2txt

@@ -1,46 +1,46 @@
 "use client"
 import React, { useState } from 'react';
-import useHistory from 'react-router-dom';
 import { Tab } from '@headlessui/react';
-import createUser from '@/services/auth';
-import user from '@/services/user';
+import { createUser } from '@/services/user.service';
+import { login } from '@/services/login.service';
+import { eventNames } from 'process';
 
 function MyTabs() {
-  const [selectedIndex, setSelectedIndex] = useState(0);
-  const [] = useState("");
-  //const history = useHistory(); // Obtiene el historial de navegación
+  const [values, setValues] = useState({
+    email: "",
+    pasword: "",
+    confirmPassword: ""
+  })
 
-  // Función para manejar el envío del formulario
-  const sendFormDataToServer = async (formData) => {
-    try {
-      const email = formData.get('email');
-      const password = formData.get('password');
-      const registered = createUser(email, password); // Espera a que createUser termine y devuelva un resultado
-
-      if (registered) {
-        // Si el registro es exitoso, redirige al usuario a la página de inicio de sesión
-        history.push('../CargarArchivos/page');
-        console.log("funciono el registro")
-      } else {
-        console.error('Error al enviar los datos');
-      }
-    } catch (error) {
-      console.error('Error de red:', error);
-    }
-  };
-
-  const handleSubmit = async (event) => {
-    event.preventDefault();
-    // Llama a la función para enviar los datos al servidor
-    const formData = new FormData(event.target);
-    const formDataObject = {};
-    formData.forEach((value, key) => {
-      formDataObject[key] = value;
+  const handleInputChange = (event) => {
+    const {name, value} = event.target;
+    setValues({
+      ...values,
+      [name]: value,
     });
-    await sendFormDataToServer(formDataObject);
   };
+
+  const handleForm = async (event) => {
+    event.preventDefault();
+    const body = {
+      email: values.email,
+      password: values.password
+    }
+    await login(body);
+  }
+  
+  const handleFormSubmit = (event) => {
+    event.preventDefault();
+    const body = {
+      email: values.email,
+      password: values.password
+    }
+    createUser(body);
+  }
+
+
   return (
-    <Tab.Group selectedIndex={selectedIndex} onChange={setSelectedIndex} className={`w-full flex flex-grow items-center justify-center`}>
+    <Tab.Group className={`w-full flex flex-grow items-center justify-center`}>
       <Tab.Panels>
         <Tab.Panel className={`static lg:w-full rounded-lg lg:pb-32 bg-opacity-95`}>
           <Tab></Tab>
@@ -70,14 +70,26 @@ function MyTabs() {
               />
             </svg>
           </Tab>
-          <form onSubmit={handleSubmit} className="flex flex-col items-center justify-center mx-auto max-w-sm">
+          <form onSubmit={handleForm} className="flex flex-col items-center justify-center mx-auto max-w-sm">
             <label className="block text-center">
               Correo electrónico:<br/>
-              <input name="email" type="email" className="border w-full border-gray-300 rounded-md px-4 py-2 mt-1 focus:outline-none focus:border-blue-500 text-black" />
+              <input 
+                name="email" 
+                type="email" 
+                value={values.email}
+                onChange={handleInputChange}
+                className="border w-full border-gray-300 rounded-md px-4 py-2 mt-1 focus:outline-none focus:border-blue-500 text-black"
+              />
             </label>
             <label className="block mb-2 text-center">
               Contraseña:<br/>
-              <input name="password" type="password" className="border w-full border-gray-300 rounded-md px-4 py-2 mt-1 focus:outline-none focus:border-blue-500 text-black" />
+              <input 
+                name="password" 
+                type="password"
+                value={values.password}
+                onChange={handleInputChange} 
+                className="border w-full border-gray-300 rounded-md px-4 py-2 mt-1 focus:outline-none focus:border-blue-500 text-black" 
+              />
             </label>
             <button type="submit" className="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-md mb-16 w-full">Enviar</button>
           </form>
@@ -99,29 +111,37 @@ function MyTabs() {
               />
             </svg>
           </Tab>
-          <form onSubmit={handleSubmit} className="flex flex-col items-center justify-center mx-auto max-w-sm">
+          <form onSubmit={handleFormSubmit} className="flex flex-col items-center justify-center mx-auto ">
             <label className="block text-center">
               Correo electrónico:<br/>
-              <input 
-                name="email" 
+              <input
+                className="border w-96 border-gray-300 rounded-md px-4 py-2 mt-1 focus:outline-none focus:border-blue-500 text-black"  
                 type="email" 
-                className="border w-96 border-gray-300 rounded-md px-4 py-2 mt-1 focus:outline-none focus:border-blue-500 text-black" 
+                name="email"
                 placeholder = "Correo electrónico"
+                value = {values.email}
+                onChange={handleInputChange}
               />
             </label>
             <label className="block mb-2 text-center">
               <input 
-                name="password" 
-                type="password" 
                 className="border w-96 border-gray-300 rounded-md px-4 py-2 mt-1 focus:outline-none focus:border-blue-500 text-black" 
+                type="password" 
+                name='password'
+                value={values.password}
                 placeholder = "Contraseña"
+                onChange={handleInputChange}
               />
             </label>
             <label className="block mb-2 text-center">
               <input 
-                type="password" 
                 className="border w-full border-gray-300 rounded-md px-4 py-2 mt-1 focus:outline-none focus:border-blue-500 text-black"
+                type="password" 
+                name='confirmPassword'
+                value={values.confirmPassword}
                 placeholder='Confirmar contraseña'
+                onChange={handleInputChange}
+
               />
             </label>
             <button type="submit" className="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-md mb-4 w-full">Enviar</button>
