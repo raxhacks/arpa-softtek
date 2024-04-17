@@ -132,7 +132,7 @@ function MyTabs() {
             {errorInLogin && <p className="text-red-500 mb-4">{errorInLogin}</p>} 
             <input 
               name="email" 
-              type="text" 
+              type="email" 
               value={values.email}
               onChange={handleInputChange}
               placeholder = "Correo electrónico"
@@ -175,7 +175,7 @@ function MyTabs() {
             {succsefullRegister && <p className="text-green-500 mb-4">{succsefullRegister}</p>} 
             <input 
               name="email" 
-              type="text" 
+              type="email" 
               value={values.email}
               onChange={handleInputChange}
               placeholder = "Correo electrónico"
