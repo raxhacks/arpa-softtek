@@ -170,7 +170,7 @@ function MyTabs() {
               </svg>
           </Tab>
           <form 
-          onSubmit={registerSubmit} className="flex flex-col items-center justify-center mx-auto max-w-sm mt-8 lg:mt-40">
+          onSubmit={registerSubmit} className="flex flex-col items-center justify-center mx-auto max-w-sm mt-4 lg:mt-40">
             {errorMessage && <p className="text-red-500 mb-4">{errorMessage}</p>} 
             {succsefullRegister && <p className="text-green-500 mb-4">{succsefullRegister}</p>} 
             <input 
@@ -200,7 +200,7 @@ function MyTabs() {
               autoComplete='off'
               className="border w-full mb-4 border-gray-300 rounded-md px-4 py-2 mt-1 focus:outline-none focus:border-blue-500 text-black" 
             /> 
-            <button type="submit" className="rounded-lg border border-transparent py-4 w-full text-center mt-8 font-semibold text-2xl text-black bg-yellow-300 transition-colors hover:border-yellow-300 hover:bg-yellow-100 hover:dark:bg-neutral-800/20 hover:text-white">Registrarse</button>
+            <button type="submit" className="rounded-lg border border-transparent py-4 w-full text-center mt-4 font-semibold text-2xl text-black bg-yellow-300 transition-colors hover:border-yellow-300 hover:bg-yellow-100 hover:dark:bg-neutral-800/20 hover:text-white">Registrarse</button>
           </form>
         </Tab.Panel>
 
