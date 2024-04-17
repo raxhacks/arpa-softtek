@@ -1,10 +1,12 @@
 'use client';
-
+import { deleteCookie } from "cookies-next";
 import Link from 'next/link';
 import './CargarArchivos.css';
 import { useState } from 'react';
 import axios from 'axios';
 import { Fade } from "react-awesome-reveal";
+import { useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 
 function ActiveSectionButton(name: any) {
   return (
@@ -45,6 +47,7 @@ function SectionsHeader() {
 }
   
 function Arrow(back: any) {
+  const router = useRouter();
   return(
     <button className="arrow" onClick={() => {back.selected && back.goBack()}}>
       <i className="material-icons" style={{fontSize: "400%"}}>keyboard_backspace</i>
@@ -157,7 +160,11 @@ function FileStateMessage(fileState: any) {
   }
 }
 
-function CargaArchivos() {
+export default function CargaArchivos({
+  children,
+}: {
+  children: React.ReactNode
+}) {
   const [centerText, setTitle] = useState("Selecciona el formato del artículo");
   const [currentFormat, setFormat] = useState("None");
   const [formatSelected, setSelected] = useState(false);
@@ -230,5 +237,3 @@ function CargaArchivos() {
       </body>
     );
 }*/
-
-export default CargaArchivos;

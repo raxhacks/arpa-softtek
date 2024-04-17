@@ -15,13 +15,13 @@ export const login = async (userData: { email: string, password: string }) => {
         if (token) {
             setCookie('token', token);
             console.log('Login exitoso');
-        } else {
-            console.log("Error creando usuario");
-            throw new Error('Failed to create user');
-        }
+            return true
+        } 
+        console.error('Error logging in:');
+        return false
     } catch (error) {
         console.error('Error logging in:', error);
-        throw new Error('Failed to login');
+        return false
     }
 };
 

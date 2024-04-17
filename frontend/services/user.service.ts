@@ -11,11 +11,9 @@ export const createUser = async (userData: { email: string, password: string }) 
         if (user_id) {
             console.log("User creado");
         } else {
-            console.log("no jalo")
             throw new Error('Failed to create user');
         }
     } catch (error) {
         console.error('Error creating user:', error);
-        throw new Error('Failed to create user');
     }
 };
