@@ -196,24 +196,53 @@ div.ARPA_header{
   }
   
   input.urlField{
-    height: 45px;
-    width: 550px;
-    font-size: 2vw;
-    margin-left: 5vw;
+    height: 10vw;
+    max-height: 60px;
+    width: 80vw;
+    font-size: 5vw;
     margin-top: 15vh;
+  }
+  @media only screen and (min-width: 768px){
+    input.urlField{
+      height: 10vh;
+      max-height: 50px;
+      width: 70vw;
+      max-width: 700px;
+      font-size: 2vw;
+      margin-left: 5vw;
+      margin-top: 15vh;
+    }
   }
   
   button.url{
     background-color: rgb(84, 86, 245);
     color: rgb(48, 50, 61);
+    width: 40vw;
     border-width: 0px;
     border-radius: 15px;
-    margin-bottom: 8vw;
-    margin-left: 1vw;
-    margin-right: 5vw;
-    display: inline;
+    margin-top: 5vh;
+    margin-bottom: 8vh;
+    margin-left: 3vw;
+    margin-right: 3vw;
     position: relative;
-    transform: translateY(20%);
+    transform: translateY(0%);
+  }
+  @media only screen and (min-width: 768px){
+    button.url{
+      background-color: rgb(84, 86, 245);
+      color: rgb(48, 50, 61);
+      width: 8vh;
+      height: 8vh;
+      border-width: 0px;
+      border-radius: 15px;
+      margin-top: 0vh;
+      margin-bottom: 8vw;
+      margin-left: 1vw;
+      margin-right: 5vw;
+      display: inline;
+      position: relative;
+      transform: translateY(20%);
+    }
   }
   button.url:hover{
     background-color: rgb(67, 69, 175);

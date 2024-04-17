@@ -27,8 +27,8 @@ export default function Home() {
                     "Y ayudame a seguir aprendiendo"
                   ],
                   autoStart: true,
-                  loop: true
-
+                  loop: true,
+                  delay: 25
                 }} 
               />
             </div>
