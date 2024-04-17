@@ -5,6 +5,8 @@ import './CargarArchivos.css';
 import { useState } from 'react';
 import axios from 'axios';
 import { Fade } from "react-awesome-reveal";
+import { createDocument } from '@/services/document.service';
+import { useRouter } from 'next/navigation';
 
 function ActiveSectionButton(name: any) {
   return (
@@ -120,7 +122,7 @@ function Main(currentState: any) {
           {currentState.file === undefined ? <i className="material-icons" style={{fontSize: "900%", textAlign: "center"}}>picture_as_pdf</i> : <p>{currentState.file.name}</p>}
         </label>
         <input type="file" id="PDFUpload" name="filename" accept=".pdf" style={{opacity: "0", position: "absolute", zIndex: "-1"}} onChange={currentState.handleChangePDF} />
-        <FileStateMessage state={currentState.fileState} />
+        <FileStateMessage state={currentState.fileState} file={currentState.file} type={currentState.type}/>
       </form>
     );
   }
@@ -138,8 +140,21 @@ function Main(currentState: any) {
 }
 
 function FileStateMessage(fileState: any) {
-  const handleSubmitDocument = async () => {
-
+  const router = useRouter();
+  const handleSubmitDocument = async (e:any) => {
+    try {
+      e.preventDefault();
+      console.log(fileState)
+      const formData = new FormData();
+      formData.append("file", fileState.file);
+      formData.append("extension", fileState.type); 
+      const res = await createDocument(formData);
+      const text = res.text;
+      localStorage.setItem("text", text);
+      router.push('/Analisis');
+    } catch (error) {
+      console.error(error);
+    }
   }
   if(fileState.state === "None"){
     return(<></>);
@@ -152,10 +167,10 @@ function FileStateMessage(fileState: any) {
   }
   else if(fileState.state === "Correct"){
     return(
-      <Link href="/Analisis">
+      <button onClick={handleSubmitDocument}>
         <label htmlFor="siguiente" className="siguiente">Siguiente</label>
         <input type="submit" id="siguiente" style={{opacity: "0", position: "absolute", zIndex: "-1"}} />
-      </Link>
+      </button>
     );
   }
 }
