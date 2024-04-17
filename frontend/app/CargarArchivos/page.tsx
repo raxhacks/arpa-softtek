@@ -1,5 +1,7 @@
 'use client';
 
+import { deleteCookie } from "cookies-next";
+
 import Link from 'next/link';
 import './CargarArchivos.css';
 import { useState } from 'react';
@@ -7,6 +9,7 @@ import axios from 'axios';
 import { Fade } from "react-awesome-reveal";
 import { createDocument } from '@/services/document.service';
 import { useRouter } from 'next/navigation';
+import exp from "constants";
 
 function ActiveSectionButton(name: any) {
   return (
