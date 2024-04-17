@@ -9,6 +9,7 @@ import axios from 'axios';
 import { Fade } from "react-awesome-reveal";
 import { createDocument } from '@/services/document.service';
 import { useRouter } from 'next/navigation';
+import exp from "constants";
 
 function ActiveSectionButton(name: any) {
   return (
@@ -182,11 +183,7 @@ function FileStateMessage(fileState: any) {
   }
 }
 
-export default function CargaArchivos({
-  children,
-}: {
-  children: React.ReactNode
-}) {
+function CargaArchivos() {
   const [centerText, setTitle] = useState("Selecciona el formato del artículo");
   const [currentFormat, setFormat] = useState("None");
   const [formatSelected, setSelected] = useState(false);
@@ -247,3 +244,4 @@ export default function CargaArchivos({
   );
 }
 
+export default CargaArchivos;
