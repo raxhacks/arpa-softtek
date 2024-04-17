@@ -200,7 +200,7 @@ div.ARPA_header{
     width: 550px;
     font-size: 2vw;
     margin-left: 5vw;
-    margin-top: 8vw;
+    margin-top: 15vh;
   }
   
   button.url{
@@ -231,7 +231,7 @@ div.ARPA_header{
     border-width: 4px;
     border-radius: 15px;
     margin-inline: auto;
-    margin-top: 7%;
+    margin-top: 3vh;
     width: 70vw;
     max-width: 325px;
     height: 70vw;
@@ -249,7 +249,7 @@ div.ARPA_header{
       border-width: 4px;
       border-radius: 15px;
       margin-inline: auto;
-      margin-top: 2%;
+      margin-top: 1vh;
       width: 70vw;
       max-width: 325px;
       height: 70vw;
@@ -276,7 +276,7 @@ div.ARPA_header{
     border-color: rgb(252, 250, 245);
     border-radius: 10px;
     margin: auto;
-    margin-top: 7%;
+    margin-top: 5vh;
     margin-bottom: 5vw;
     width: 70vw;
     max-width: 325px;
@@ -295,7 +295,7 @@ div.ARPA_header{
       border-color: rgb(252, 250, 245);
       border-radius: 10px;
       margin: auto;
-      margin-top: 2%;
+      margin-top: 3vh;
       width: 70vw;
       max-width: 325px;
       height: 20vw;

@@ -104,7 +104,7 @@ function Main(currentState: any) {
   else if(currentState.type === "URL"){
     return(
       <form style={{textAlign: "center"}}>
-        <input type="text" className="urlField text-black" 
+        <input type="text" className="urlField" 
         value={url}
         onChange={handleUrlChange}
         />
@@ -170,10 +170,12 @@ function FileStateMessage(fileState: any) {
   }
   else if(fileState.state === "Correct"){
     return(
-      <button onClick={handleSubmitDocument}>
-        <label htmlFor="siguiente" className="siguiente">Siguiente</label>
-        <input type="submit" id="siguiente" style={{opacity: "0", position: "absolute", zIndex: "-1"}} />
-      </button>
+      <div style={{display: "flex", justifyContent: "center"}}>
+        <button onClick={handleSubmitDocument}>
+          <label htmlFor="siguiente" className="siguiente">Siguiente</label>
+          <input type="submit" id="siguiente" style={{opacity: "0", position: "absolute", zIndex: "-1"}} />
+        </button>
+      </div>
     );
   }
 }
@@ -238,18 +240,5 @@ function CargaArchivos() {
     </>
   );
 }
-//bodyAttributes={{style: "background-color : rgb(48, 50, 61)"}}
-/*export default function CargaArchivos() {
-    return (
-      <body className="main">
-        <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons"></link>
-        <Header />
-        <Arrow />
-        <CenterHeader text="Sube el artículo en formato PDF" />
-        <UploadButton text="picture_as_pdf" />
-        <SiguienteButton />
-      </body>
-    );
-}*/
 
 export default CargaArchivos;
