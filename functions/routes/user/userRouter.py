@@ -1,5 +1,19 @@
 import flask
 from firebase_admin import firestore, auth
+import json
+import requests
+import os
+
+# Get the current directory of the script
+current_directory = os.path.dirname(os.path.realpath(__file__))
+
+# Construct the path to keys.json
+keys_path = os.path.join(current_directory, "..", "..", "keys.json")
+
+with open(keys_path) as f:
+    keys = json.load(f)
+
+FIREBASE_API_KEY = keys['FIREBASE_API_KEY']
 
 userBlueprint = flask.Blueprint('user', __name__, url_prefix="/user")
 
@@ -19,7 +33,18 @@ def create_user():
             "documents":[]
         }
         firestore.client().collection('users').document(user_id).set(user_object)
-        return flask.jsonify({"message":"New user created successfully","user_id":user_id}), 201
+        
+        # login user automatically
+        payload = json.dumps({"email":user['email'], "password":user['password'], "return_secure_token":True})
+        rest_api_url = "https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword"
+
+        r = requests.post(rest_api_url,
+                    params={"key": FIREBASE_API_KEY},
+                    data=payload)
+
+        response = r.json()
+        token = response['idToken']
+        return flask.jsonify({"message":"New user created successfully","user_id":user_id, "token":token}), 201
     except Exception as e:
         print("Error:",e)
         return flask.jsonify({"message":"Failed to create new user"}), 500

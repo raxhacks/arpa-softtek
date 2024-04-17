@@ -31,6 +31,8 @@ def create_document():
             text = ''
             for page in range(len(reader.pages)):
                 text += reader.pages[page].extract_text()
+        elif extension == 'DOCX':
+            text = docx2txt.process(file)
         else:
             text = ''  # Placeholder for content extraction for other file types
         
@@ -45,7 +47,7 @@ def create_document():
 
         new_document = {
             'title': title,
-            'content': text if extension == 'PDF' else content,
+            'content': text if extension == 'PDF' or extension == 'DOCX' else content,
             'url': url,
             'extension': extension,
             'created_at': firestore.SERVER_TIMESTAMP,
