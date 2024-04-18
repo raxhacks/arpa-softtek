@@ -5,7 +5,6 @@ import { createUser } from '@/services/user.service';
 import { login } from '@/services/login.service';
 import { useSearchParams } from 'next/navigation'
 import { useRouter } from 'next/navigation';
-import { push } from 'firebase/database';
 
 function MyTabs() {
   const router = useRouter()
