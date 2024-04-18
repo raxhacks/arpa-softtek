@@ -1,3 +1,4 @@
+import { setCookie } from "cookies-next";
 import axios from 'axios'
 
 export const createUser = async (userData: { email: string, password: string }) => {
@@ -7,13 +8,18 @@ export const createUser = async (userData: { email: string, password: string }) 
                 'Content-Type': 'application/json',
             },
         });
-        const {message, user_id} = response.data;
-        if (user_id) {
-            console.log("User creado");
+        const {message, user_id, token} = response.data;
+
+        if (user_id && token) {
+            setCookie('token', token);
+            return true
+
         } else {
-            throw new Error('Failed to create user');
+            console.error('Failed to create user');
+            return true
         }
     } catch (error) {
-        console.error('Error creating user:', error);
+        console.error('Error creating user:');
+        return false
     }
 };
