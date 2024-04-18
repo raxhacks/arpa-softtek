@@ -118,8 +118,8 @@ function MyTabs() {
         </Tab.Panel>
 
         {/* Inicio de Sesion tab */}
-        <Tab.Panel className={`w-full lg:static rounded-lg flex-grow fixed h-screen bg-gray-600`}>
-          <Tab className={`rounded-lg ml-2 mt-2 border w-16 border-transparent px-5 py-2 text-white`}>
+        <Tab.Panel className={`w-full lg:static rounded-lg flex-grow fixed h-screen p-12 pt-6 bg-gray-600`}>
+          <Tab className={`rounded-lg border w-16 border-transparent py-2 text-white`}>
             <svg
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 20 20"
@@ -134,7 +134,7 @@ function MyTabs() {
               </svg>
           </Tab>
           <form onSubmit={loginSubmit} className="flex flex-col items-center justify-center mx-auto max-w-sm mt-10 lg:mt-40">
-            {errorInLogin && <p className="text-red-700 text-center bg-white rounded-lg w-full">{errorInLogin}</p>} 
+            {errorInLogin && <p className="text-red-700 text-center bg-white rounded-lg w-full px-2">{errorInLogin}</p>} 
             <input 
               name="email" 
               type="email" 
@@ -176,8 +176,8 @@ function MyTabs() {
           </Tab>
           <form 
           onSubmit={registerSubmit} className="flex flex-col items-center justify-center mx-auto max-w-sm mt-4 lg:mt-40">
-            {errorMessage && <p className="text-red-700 text-center bg-white rounded-lg w-full">{errorMessage}</p>}
-            {erroMessageInRegister && <p className="text-red-700 text-center bg-white rounded-lg w-full">{erroMessageInRegister}</p>} 
+            {errorMessage && <p className="text-red-700 text-center bg-white rounded-lg w-full px-2">{errorMessage}</p>}
+            {erroMessageInRegister && <p className="text-red-700 text-center bg-white rounded-lg w-full px-2">{erroMessageInRegister}</p>} 
             <input 
               name="email" 
               type="email" 
