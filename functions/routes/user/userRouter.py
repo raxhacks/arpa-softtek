@@ -33,6 +33,11 @@ def create_user():
             "documents":[]
         }
         firestore.client().collection('users').document(user_id).set(user_object)
+
+        # Add custom claims
+        custom_claims = {'admin': False,
+                         'user_id': user_id}
+        auth.set_custom_user_claims(user_id, custom_claims)
         
         # login user automatically
         payload = json.dumps({"email":user['email'], "password":user['password'], "return_secure_token":True})
