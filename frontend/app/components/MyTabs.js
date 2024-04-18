@@ -134,7 +134,7 @@ function MyTabs() {
               </svg>
           </Tab>
           <form onSubmit={loginSubmit} className="flex flex-col items-center justify-center mx-auto max-w-sm mt-10 lg:mt-40">
-            {errorInLogin && <p className="text-red-700 text-center bg-white rounded-lg">{errorInLogin}</p>} 
+            {errorInLogin && <p className="text-red-700 text-center bg-white rounded-lg w-full">{errorInLogin}</p>} 
             <input 
               name="email" 
               type="email" 
@@ -176,8 +176,8 @@ function MyTabs() {
           </Tab>
           <form 
           onSubmit={registerSubmit} className="flex flex-col items-center justify-center mx-auto max-w-sm mt-4 lg:mt-40">
-            {errorMessage && <p className="text-red-700 text-center bg-white rounded-lg">{errorMessage}</p>}
-            {erroMessageInRegister && <p className="text-red-700 text-center bg-white rounded-lg">{erroMessageInRegister}</p>} 
+            {errorMessage && <p className="text-red-700 text-center bg-white rounded-lg w-full">{errorMessage}</p>}
+            {erroMessageInRegister && <p className="text-red-700 text-center bg-white rounded-lg w-full">{erroMessageInRegister}</p>} 
             <input 
               name="email" 
               type="email" 
