@@ -1,3 +1,7 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 div.ARPA_header{
     background-color: rgb(77, 80, 97);
     font-size: 200%;

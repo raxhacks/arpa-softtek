@@ -6,3 +6,4 @@ python-dotenv
 flask-cors
 PyPDF2
 docx2txt
+pdfminer.six

@@ -2,7 +2,39 @@ import flask
 from firebase_admin import firestore
 import PyPDF2
 import docx2txt
-import io
+import urllib.request
+from io import BytesIO, StringIO
+from pdfminer.pdfparser import PDFParser
+from pdfminer.converter import XMLConverter, HTMLConverter, TextConverter, PDFConverter, LTContainer, LTText, LTTextBox, LTImage
+from pdfminer.layout import LAParams
+from pdfminer.pdfinterp import PDFResourceManager, PDFPageInterpreter, PDFPage
+
+
+def pdf_from_url_to_txt(url):
+    rsrcmgr = PDFResourceManager()
+    retstr = StringIO()
+    codec = 'utf-8'
+    laparams = LAParams()
+    device = TextConverter(rsrcmgr, retstr, codec=codec, laparams=laparams)
+    f = urllib.request.urlopen(url).read()
+    fp = BytesIO(f)
+    interpreter = PDFPageInterpreter(rsrcmgr, device)
+    password = ""
+    maxpages = 0
+    caching = True
+    pagenos = set()
+    for page in PDFPage.get_pages(fp,
+                                  pagenos,
+                                  maxpages=maxpages,
+                                  password=password,
+                                  caching=caching,
+                                  check_extractable=True):
+        interpreter.process_page(page)
+    fp.close()
+    device.close()
+    str = retstr.getvalue()
+    retstr.close()
+    return str
 
 documentBlueprint = flask.Blueprint('document', __name__, url_prefix="/document")
 
@@ -13,29 +45,35 @@ def create_document():
 
         # Get other form data
         extension = flask.request.form.get('extension')
-        
-        # Check if file is present in request
-        if 'file' not in flask.request.files:
-            return flask.jsonify({"message": "No file part in the request"}), 400
 
-        file = flask.request.files['file']
-        
-        # Check if file is allowed
-        allowed_extensions = {'pdf', 'docx'}
-        if '.' in file.filename and file.filename.rsplit('.', 1)[1].lower() not in allowed_extensions:
-            return flask.jsonify({"message": "Invalid file extension"}), 400
-        
-        # Parse PDF if the file is a PDF
-        if extension == 'PDF':
-            reader = PyPDF2.PdfReader(file)
-            text = ''
-            for page in range(len(reader.pages)):
-                text += reader.pages[page].extract_text()
-        elif extension == 'DOCX':
-            text = docx2txt.process(file)
+        url = flask.request.form.get('url')
+        print("URL:",url)
+        if url == None:
+            # Check if file is present in request
+            if 'file' not in flask.request.files:
+                print("No file part in the request")
+                return flask.jsonify({"message": "No file part in the request"}), 400
+
+            file = flask.request.files['file']
+            
+            print("File",file.filename)
+            # Check if file is allowed
+            allowed_extensions = {'pdf', 'docx'}
+            if '.' in file.filename and file.filename.rsplit('.', 1)[1].lower() not in allowed_extensions:
+                return flask.jsonify({"message": "Invalid file extension"}), 400
+            print("File extension:", extension)
+            # Parse PDF if the file is a PDF
+            if extension == 'PDF':
+                reader = PyPDF2.PdfReader(file)
+                text = ''
+                for page in range(len(reader.pages)):
+                    text += reader.pages[page].extract_text()
+            elif extension == 'DOCX':
+                text = docx2txt.process(file)
+            else:
+                text = ''  # Placeholder for content extraction for other file types
         else:
-            text = ''  # Placeholder for content extraction for other file types
-        
+            text = pdf_from_url_to_txt(url)
         # Save other data to Firestore
         db = firestore.client()
         user_doc_ref = db.collection('users').document(user_id)
@@ -43,7 +81,6 @@ def create_document():
 
         title = flask.request.form.get('title')
         content = flask.request.form.get('content')
-        url = flask.request.form.get('url')
 
         new_document = {
             'title': title,

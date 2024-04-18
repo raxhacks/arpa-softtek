@@ -77,7 +77,8 @@ function FormatButton(main: any) {
 */
 function Main(currentState: any) {
   const [url, setURL] = useState("");
-  
+  const router = useRouter();
+
   const handleUrlChange = (event: any) => {
     setURL(event.target.value)
   }
@@ -87,8 +88,9 @@ function Main(currentState: any) {
       e.preventDefault();
       const body = {url: url};
       const response = await axios.post('http://localhost:3000/api/pdf_retrieve', body);
-      console.log(response);
+      localStorage.setItem("text", response.data.text);
       setFState("Correct")
+      router.push('/Analisis');
     } catch (error) {
       console.error(error);
       setFState("ErrorUploading")
@@ -108,7 +110,7 @@ function Main(currentState: any) {
   }
   else if(currentState.type === "URL"){
     return(
-      <form style={{textAlign: "center"}}>
+      <div style={{textAlign: "center"}}>
         <input type="text" className="urlField" 
         value={url}
         onChange={handleUrlChange}
@@ -118,7 +120,7 @@ function Main(currentState: any) {
           <i className="material-icons" style={{fontSize: "50px"}}>search</i>
         </button>
         <FileStateMessage state={currentState.fileState} file={currentState.file} type={currentState.type}/>
-      </form>
+      </div>
     );
   }
   else if(currentState.type === "PDF"){
@@ -140,7 +142,7 @@ function Main(currentState: any) {
           {currentState.file === undefined ? <i className="material-icons" style={{fontSize: "900%", textAlign: "center"}}>article</i> : <p>{currentState.file.name}</p>}
         </label>
         <input type="file" id="DOCXUpload" name="filename" accept=".docx" style={{opacity: "0", position: "absolute", zIndex: "-1"}} onChange={currentState.handleChangeDOCX} />
-        <FileStateMessage state={currentState.fileState} file={currentState.file}/>
+        <FileStateMessage state={currentState.fileState} file={currentState.file} type={currentState.type}/>
       </form>
     );
   }
@@ -151,7 +153,6 @@ function FileStateMessage(fileState: any) {
   const handleSubmitDocument = async (e:any) => {
     try {
       e.preventDefault();
-      console.log(fileState)
       const formData = new FormData();
       formData.append("file", fileState.file);
       formData.append("extension", fileState.type); 
