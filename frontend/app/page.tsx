@@ -1,5 +1,6 @@
 import MyTabs from './login/MyTabs'
-import Typewritereffect from './typewriter'
+// import Typewritereffect from './typewriter'
+import TypewriterComponent from 'typewriter-effect';
 
 export default function Home() {
   return (
@@ -13,7 +14,7 @@ export default function Home() {
             <div className="pr-16 pt-16 lg:pt-10 flex-col text-5xl text-center font-mono lg:text-left lg:text-6xl">
               Analiza este articulo
             </div>
-            <Typewritereffect />
+            {/* <Typewritereffect /> */}
           </div>
         </div>
         <MyTabs />
