@@ -1,9 +1,7 @@
 'use server'
 
 import { redirect } from 'next/navigation';
-import { getCookie } from 'cookies-next';
 import { cookies } from 'next/headers';
-import { decrypt } from '@/app/actions/session'
 import { cache } from 'react';
 
 export const verifySession = cache(async () => {
@@ -14,7 +12,7 @@ export const verifySession = cache(async () => {
     // console.log('obtuve la sesion',session);
     
     if (!cookie) {
-        
+
         redirect('/')
     }
     console.log('Obtuve la sesion puedes pasar');
