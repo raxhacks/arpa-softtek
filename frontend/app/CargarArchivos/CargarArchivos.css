@@ -282,15 +282,6 @@ div.ARPA_header{
       justify-content: center;
     }
   }
-  label.upload:hover{
-    border-color: rgb(67, 69, 175);
-    color: rgb(67, 69, 175);
-  }
-  label.upload:active{
-    background-color: rgb(84, 86, 245);
-    border-color: rgb(84, 86, 245);
-    color: rgb(48, 50, 61);
-  }
   
   label.siguiente{
     background-color: rgb(48, 50, 61);
