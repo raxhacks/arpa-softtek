@@ -64,17 +64,52 @@ function CenterHeader(title: any) {
 }
 
 function FormatButton(main: any) {
-  return(
+  let svg = null;
+
+  if (main.type === "PDF") {
+    svg = (
+      <svg xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler icon-tabler-file-type-pdf" width="200" height="200" viewBox="0 0 24 24" strokeWidth="1" stroke="#5756F5" fill="none" strokeLinecap="round" strokeLinejoin="round">
+        <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+        <path d="M14 3v4a1 1 0 0 0 1 1h4" />
+        <path d="M5 12v-7a2 2 0 0 1 2 -2h7l5 5v4" />
+        <path d="M5 18h1.5a1.5 1.5 0 0 0 0 -3h-1.5v6" />
+        <path d="M17 18h2" />
+        <path d="M20 15h-3v6" />
+        <path d="M11 15v6h1a2 2 0 0 0 2 -2v-2a2 2 0 0 0 -2 -2h-1z" />
+      </svg>
+    );
+  } else if (main.type === "URL") {
+    svg = (
+      <svg xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler icon-tabler-forms" width="200" height="200" viewBox="0 0 24 24" stroke-width="1" stroke="#5756F5" fill="none" stroke-linecap="round" stroke-linejoin="round">
+        <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+        <path d="M12 3a3 3 0 0 0 -3 3v12a3 3 0 0 0 3 3" />
+        <path d="M6 3a3 3 0 0 1 3 3v12a3 3 0 0 1 -3 3" />
+        <path d="M13 7h7a1 1 0 0 1 1 1v8a1 1 0 0 1 -1 1h-7" />
+        <path d="M5 7h-1a1 1 0 0 0 -1 1v8a1 1 0 0 0 1 1h1" />
+        <path d="M17 12h.01" />
+        <path d="M13 12h.01" />
+      </svg>
+    );
+  } else if (main.type === "DOCX") {
+    svg = (
+      <svg xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler icon-tabler-file-type-doc" width="200" height="200" viewBox="0 0 24 24" stroke-width="1" stroke="#5756F5" fill="none" stroke-linecap="round" stroke-linejoin="round">
+        <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+        <path d="M14 3v4a1 1 0 0 0 1 1h4" />
+        <path d="M5 12v-7a2 2 0 0 1 2 -2h7l5 5v4" />
+        <path d="M5 15v6h1a2 2 0 0 0 2 -2v-2a2 2 0 0 0 -2 -2h-1z" />
+        <path d="M20 16.5a1.5 1.5 0 0 0 -3 0v3a1.5 1.5 0 0 0 3 0" />
+        <path d="M12.5 15a1.5 1.5 0 0 1 1.5 1.5v3a1.5 1.5 0 0 1 -3 0v-3a1.5 1.5 0 0 1 1.5 -1.5z" />
+      </svg>
+    );
+  }
+
+  return (
     <button className="format" onClick={() => {main.setType(main.title, main.type)}}>
-      <i className="material-icons" style={{fontSize: "150px"}}>{main.icon}</i>
+      {svg}
     </button>
   );
 }
-/*
-<FormatButton icon="picture_as_pdf" type="PDF" title="Sube el artículo en formato PDF" setType={currentState.setType} />
-        <FormatButton icon="http" type="URL" title="Ingresa la URL del artículo" setType={currentState.setType}/>
-        <FormatButton icon="article" type="DOCX" title="Sube el artículo en formato DOCX" setType={currentState.setType}/>
-*/
+
 function Main(currentState: any) {
   const [url, setURL] = useState("");
   const router = useRouter();
