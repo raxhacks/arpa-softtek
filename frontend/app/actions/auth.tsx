@@ -49,6 +49,6 @@ export async function signup(state: FormState, formData: FormData) {
     const session = await createSession(token)
     console.log('cree la sesion', session);
     // 5. Redirect user
-    redirect('/main/CargarArchivos')
+    redirect('/CargarArchivos')
     
 }

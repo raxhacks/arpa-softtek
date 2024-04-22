@@ -5,7 +5,7 @@ import { cookies } from 'next/headers'
 
  
 // 1. Specify protected and public routes
-const protectedRoutes = ['/main/CargarArchivos', '/main/Analisis']
+const protectedRoutes = ['/CargarArchivos', '/Analisis']
 const publicRoutes = ['/']
  
 export default async function middleware(req) {
@@ -26,9 +26,9 @@ export default async function middleware(req) {
   if (
     isProtectedRoute &&
     session &&
-    !req.nextUrl.pathname.startsWith('/main/CargarArchivos')
+    !req.nextUrl.pathname.startsWith('/CargarArchivos')
   ) {
-    return NextResponse.redirect(new URL('/main/CargarArchivos', req.nextUrl))
+    return NextResponse.redirect(new URL('/CargarArchivos', req.nextUrl))
   }
  
   return NextResponse.next()

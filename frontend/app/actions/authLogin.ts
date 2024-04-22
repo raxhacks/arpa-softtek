@@ -44,6 +44,6 @@ export async function login(state: FormState, formData: FormData) {
     // 4. Create user session
     await createSession(token)
     // 5. Redirect user
-    redirect('/main/CargarArchivos')
+    redirect('/CargarArchivos')
     
 }
