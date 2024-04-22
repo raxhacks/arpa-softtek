@@ -12,17 +12,81 @@ import { useRouter } from 'next/navigation';
 import exp from "constants";
 
 function ActiveSectionButton(name: any) {
+  let svg = null;
+
+  if (name.text === "feed") {
+    svg = (
+      <svg xmlns="http://www.w3.org/2000/svg" className="icon-header icon-tabler icon-tabler-news" width="70" height="70" viewBox="0 0 24 24" stroke-width="1.5" stroke="#F5C556" fill="none" stroke-linecap="round" stroke-linejoin="round">
+        <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+        <path d="M16 6h3a1 1 0 0 1 1 1v11a2 2 0 0 1 -4 0v-13a1 1 0 0 0 -1 -1h-10a1 1 0 0 0 -1 1v12a3 3 0 0 0 3 3h11" />
+        <path d="M8 8l4 0" />
+        <path d="M8 12l4 0" />
+        <path d="M8 16l4 0" />
+      </svg>
+    );
+  }
+  else if (name.text === "book") {
+    svg = (
+      <svg xmlns="http://www.w3.org/2000/svg" className="icon-header icon-tabler icon-tabler-bookmarks" width="70" height="70" viewBox="0 0 24 24" stroke-width="1.5" stroke="#F5C556" fill="none" stroke-linecap="round" stroke-linejoin="round">
+        <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+        <path d="M15 10v11l-5 -3l-5 3v-11a3 3 0 0 1 3 -3h4a3 3 0 0 1 3 3z" />
+        <path d="M11 3h5a3 3 0 0 1 3 3v11" />
+      </svg>
+    );
+  }
+  else if (name.text === "history") {
+    svg = (
+      <svg xmlns="http://www.w3.org/2000/svg" className="icon-header icon-tabler icon-tabler-history" width="70" height="70" viewBox="0 0 24 24" stroke-width="1.5" stroke="#F5C556" fill="none" stroke-linecap="round" stroke-linejoin="round">
+        <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+        <path d="M12 8l0 4l2 2" />
+        <path d="M3.05 11a9 9 0 1 1 .5 4m-.5 5v-5h5" />
+      </svg>
+    );
+  }
+
   return (
     <button className="sections">
-      <i className="material-icons" style={{fontSize: "250%", verticalAlign: "middle", color: "rgb(217, 189, 122)"}}>{name.text}</i>
+      {svg}
     </button>
   );
 }
   
 function InactiveSectionButton(name: any) {
+  let svg = null;
+
+  if (name.text === "feed") {
+    svg = (
+      <svg xmlns="http://www.w3.org/2000/svg" className="icon-header icon-tabler icon-tabler-news" width="70" height="70" viewBox="0 0 24 24" stroke-width="1.5" stroke="#FCFAF5" fill="none" stroke-linecap="round" stroke-linejoin="round">
+        <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+        <path d="M16 6h3a1 1 0 0 1 1 1v11a2 2 0 0 1 -4 0v-13a1 1 0 0 0 -1 -1h-10a1 1 0 0 0 -1 1v12a3 3 0 0 0 3 3h11" />
+        <path d="M8 8l4 0" />
+        <path d="M8 12l4 0" />
+        <path d="M8 16l4 0" />
+      </svg>
+    );
+  }
+  else if (name.text === "book") {
+    svg = (
+      <svg xmlns="http://www.w3.org/2000/svg" className="icon-header icon-tabler icon-tabler-bookmarks" width="70" height="70" viewBox="0 0 24 24" stroke-width="1.5" stroke="#FCFAF5" fill="none" stroke-linecap="round" stroke-linejoin="round">
+        <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+        <path d="M15 10v11l-5 -3l-5 3v-11a3 3 0 0 1 3 -3h4a3 3 0 0 1 3 3z" />
+        <path d="M11 3h5a3 3 0 0 1 3 3v11" />
+      </svg>
+    );
+  }
+  else if (name.text === "history") {
+    svg = (
+      <svg xmlns="http://www.w3.org/2000/svg" className="icon-header icon-tabler icon-tabler-history" width="70" height="70" viewBox="0 0 24 24" stroke-width="1.5" stroke="#FCFAF5" fill="none" stroke-linecap="round" stroke-linejoin="round">
+        <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+        <path d="M12 8l0 4l2 2" />
+        <path d="M3.05 11a9 9 0 1 1 .5 4m-.5 5v-5h5" />
+      </svg>
+    );
+  }
+
   return (
     <button className="sections">
-      <i className="material-icons" style={{fontSize: "250%", verticalAlign: "middle"}}>{name.text}</i>
+      {svg}
     </button>
   );
 }
@@ -68,7 +132,7 @@ function FormatButton(main: any) {
 
   if (main.type === "PDF") {
     svg = (
-      <svg xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler icon-tabler-file-type-pdf" width="200" height="200" viewBox="0 0 24 24" strokeWidth="1" stroke="#5756F5" fill="none" strokeLinecap="round" strokeLinejoin="round">
+      <svg xmlns="http://www.w3.org/2000/svg" className="icon-format icon-tabler icon-tabler-file-type-pdf" width="200" height="200" viewBox="0 0 24 24" strokeWidth="1" stroke="#5756F5" fill="none" strokeLinecap="round" strokeLinejoin="round">
         <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
         <path d="M14 3v4a1 1 0 0 0 1 1h4" />
         <path d="M5 12v-7a2 2 0 0 1 2 -2h7l5 5v4" />
@@ -78,9 +142,10 @@ function FormatButton(main: any) {
         <path d="M11 15v6h1a2 2 0 0 0 2 -2v-2a2 2 0 0 0 -2 -2h-1z" />
       </svg>
     );
-  } else if (main.type === "URL") {
+  }
+  else if (main.type === "URL") {
     svg = (
-      <svg xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler icon-tabler-forms" width="200" height="200" viewBox="0 0 24 24" stroke-width="1" stroke="#5756F5" fill="none" stroke-linecap="round" stroke-linejoin="round">
+      <svg xmlns="http://www.w3.org/2000/svg" className="icon-format icon-tabler icon-tabler-forms" width="200" height="200" viewBox="0 0 24 24" stroke-width="1" stroke="#5756F5" fill="none" stroke-linecap="round" stroke-linejoin="round">
         <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
         <path d="M12 3a3 3 0 0 0 -3 3v12a3 3 0 0 0 3 3" />
         <path d="M6 3a3 3 0 0 1 3 3v12a3 3 0 0 1 -3 3" />
@@ -90,9 +155,10 @@ function FormatButton(main: any) {
         <path d="M13 12h.01" />
       </svg>
     );
-  } else if (main.type === "DOCX") {
+  }
+  else if (main.type === "DOCX") {
     svg = (
-      <svg xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler icon-tabler-file-type-doc" width="200" height="200" viewBox="0 0 24 24" stroke-width="1" stroke="#5756F5" fill="none" stroke-linecap="round" stroke-linejoin="round">
+      <svg xmlns="http://www.w3.org/2000/svg" className="icon-format icon-tabler icon-tabler-file-type-doc" width="200" height="200" viewBox="0 0 24 24" stroke-width="1" stroke="#5756F5" fill="none" stroke-linecap="round" stroke-linejoin="round">
         <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
         <path d="M14 3v4a1 1 0 0 0 1 1h4" />
         <path d="M5 12v-7a2 2 0 0 1 2 -2h7l5 5v4" />
