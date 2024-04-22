@@ -10,13 +10,15 @@ export default function Home() {
       <div className="grid lg:grid-cols-2 w-full flex-grow">
         <div className="lg:ml-10 flex items-center justify-center ">
           <div className='pl-16 pb-16 lg:pl-20 lg:ml-10 flex-grow'>
-            <div className="pr-16 pt-16 lg:pt-10 flex-col text-7xl text-center font-semibold lg:text-left lg:pb-16 lg:text-8xl lg:static ">
+            <div className="pr-16 pt-16 lg:pt-10 flex-col text-7xl text-center font-semibold lg:text-left lg:text-8xl ">
               ARPA
             </div>
-            <div className="felx-col text-5xl max-w-[50ch] pb-5 pt-16 lg:pt-0 lg:static font-mono">
+            <div className="pr-16 pt-16 lg:pt-10 flex-col text-5xl text-center font-mono lg:text-left lg:text-6xl">
               Analiza este articulo
+              {/* pr-16 pt-16 flex-col text-5xl justify-center items-center lg:text-6xl pb-5 font-mono */}
             </div>
-            <div className="felx-col text-3xl max-w-[20ch] pt-5 lg:text-4xl font-mono h-32">
+            <div className="pr-16 pt-12 lg:max-w-[20ch] flex-col text-3xl h-32 text-center font-mono lg:text-left lg:text-4xl">
+            {/* flex-col text-3xl max-w-[20ch] pt-5 lg:text-4xl font-mono h-32 */}
               <Typewriter
                 options={{
                   strings:[
@@ -24,7 +26,8 @@ export default function Home() {
                     "Y dime si habla sobre el capitalismo",
                     "Y dime si habla sobre la guerra fria",
                     "Y dime si menciona algo sobre las nebulosas",
-                    "Y ayudame a seguir aprendiendo"
+                    "    ",
+                    "Y ayudame a seguir aprendiendo     ",
                   ],
                   autoStart: true,
                   loop: true,

@@ -11,3 +11,6 @@ backend/embbebed/.env
 backend/node_modules
 
 **/__pycache__/
+
+frontend/node_modules
+.firebase/

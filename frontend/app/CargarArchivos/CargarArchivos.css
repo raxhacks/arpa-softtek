@@ -1,3 +1,7 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 div.ARPA_header{
     background-color: rgb(77, 80, 97);
     font-size: 200%;
@@ -90,15 +94,11 @@ div.ARPA_header{
   button.sections{
     border-width: 0px;
     background-color: transparent;
-    color: rgb(252, 250, 245);
     vertical-align: middle;
     padding: 0% 0% 0% 0%;
   }
-  button.sections:hover{
-    color: rgb(232, 221, 197);
-  }
-  button.sections:active{
-    color: rgb(217, 189, 122)
+  .icon-header:hover {
+    stroke: rgb(221, 198, 146);
   }
   
   button.arrow{
@@ -166,7 +166,6 @@ div.ARPA_header{
   
   .format{
     background-color: transparent;
-    color: rgb(84, 86, 245);
     border-width: 0px;
     border-radius: 10px;
     margin: auto;
@@ -177,7 +176,6 @@ div.ARPA_header{
   @media only screen and (min-width: 768px){
     .format{
       background-color: transparent;
-      color: rgb(84, 86, 245);
       border-width: 0px;
       border-radius: 10px;
       margin-top: 10vh;
@@ -187,12 +185,8 @@ div.ARPA_header{
       position: relative;
     }
   }
-  .format:hover{
-    color: rgb(67, 69, 175);
-  }
-  .format:active{
-    background-color: rgb(84, 86, 245);
-    color: rgb(48, 50, 61);
+  .icon-format:hover {
+    stroke: rgb(47, 49, 171);
   }
   
   input.urlField{
@@ -287,15 +281,6 @@ div.ARPA_header{
       align-items: center;
       justify-content: center;
     }
-  }
-  label.upload:hover{
-    border-color: rgb(67, 69, 175);
-    color: rgb(67, 69, 175);
-  }
-  label.upload:active{
-    background-color: rgb(84, 86, 245);
-    border-color: rgb(84, 86, 245);
-    color: rgb(48, 50, 61);
   }
   
   label.siguiente{
