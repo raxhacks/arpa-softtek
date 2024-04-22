@@ -8,9 +8,11 @@ import React from 'react';
 import { Tab } from '@headlessui/react';
 import { useFormStatus, useFormState } from 'react-dom'
 import { signup } from '@/app/actions/auth'
+import { login } from '@/app/actions/authLogin'
 
 function MyTabs() {
   const [state, action] = useFormState(signup, undefined)
+  const [loginstate, loginaction] = useFormState(login, undefined)
 
   // const router = useRouter()
   // const [values, setValues] = useState({
@@ -141,16 +143,17 @@ function MyTabs() {
                 />
               </svg>
           </Tab>
-          <form action={action} className="flex flex-col items-center justify-center mx-auto max-w-sm mt-10 lg:mt-40">
+          <form action={loginaction} 
+            className="flex flex-col items-center justify-center mx-auto max-w-sm mt-10 lg:mt-40">
             {/* onSubmit={loginSubmit}  */}
             {/* {errorInLogin && <p className="text-red-700 text-center bg-white rounded-lg w-full px-2">{errorInLogin}</p>}  */}
-            <div>
+            {loginstate?.errors?.email && <p>{loginstate.errors.email}</p>}
+            <div className='w-full'>
               <input id="email" name="email" placeholder = "Correo electrónico" className="w-full mb-1 lg:mb-8 border-b-2 border-yellow-500 px-3 py-2 mt-1 focus:outline-none bg-transparent text-white" autoComplete='on'/>
               {/* value={values.email}
               onChange={handleInputChange} */}
             </div>
-            {state.errors.email && <p>{state.errors.email}</p>}
-            <div>
+            <div className='w-full'>
               <input 
                 name="password" 
                 type="password"
@@ -161,9 +164,9 @@ function MyTabs() {
                 className="w-full mb-1 lg:mb-8 border-b-2 border-yellow-500 px-3 py-2 mt-1 focus:outline-none bg-transparent text-white" 
               />
             </div>
-            {state.errors.password && (
+            {loginstate?.errors?.password && (
               <div>
-                <p>Password must:</p>
+                <p>Porfavor introdusca una contraseña:</p>
                 <ul>
                   {state.errors.password.map((error) => (
                     <li key={error}>- {error}</li>
@@ -171,8 +174,7 @@ function MyTabs() {
                 </ul>
               </div>
             )}
-          
-            <button type="submit" className="rounded-lg border border-transparent py-4 w-full text-center mt-4 font-semibold text-2xl text-black bg-yellow-300 transition-colors hover:border-yellow-300 hover:bg-yellow-100 hover:dark:bg-neutral-800/20 hover:text-white">Iniciar sesión</button>
+            <LoginButton />
           </form>
         </Tab.Panel>
         
@@ -194,10 +196,10 @@ function MyTabs() {
           </Tab>
           <form action={action} 
           // onSubmit={registerSubmit} 
-          className="flex flex-col items-center justify-center mx-auto max-w-sm mt-4 lg:mt-40">
+            className="flex flex-col items-center justify-center mx-auto max-w-sm mt-4 lg:mt-40">
             {/* {errorMessage && <p className="text-red-700 text-center bg-white rounded-lg w-full px-2">{errorMessage}</p>} */}
             {/* {erroMessageInRegister && <p className="text-red-700 text-center bg-white rounded-lg w-full px-2">{erroMessageInRegister}</p>}  */}
-            <div>
+            <div className='w-full'>
               <input 
                 name="email" 
                 type="text" 
@@ -209,9 +211,9 @@ function MyTabs() {
                 className= "w-full mb-2 lg:mb-8 border-b-2 border-yellow-500 px-3 py-2 mt-1 focus:outline-none bg-transparent text-white"
               />
             </div>
-            {state.errors.email && <p>{state.errors.email}</p>}
+            {state?.errors?.email && <p>{state.errors.email}</p>}
 
-            <div>
+            <div className='w-full'>
               <input 
                 name="password" 
                 type="password"
@@ -223,30 +225,7 @@ function MyTabs() {
                 className="w-full mb-1 lg:mb-8 border-b-2 border-yellow-500 px-3 py-2 mt-1 focus:outline-none bg-transparent text-white" 
               />
             </div>
-            {state.errors.password && (
-              <div>
-                <p>Password must:</p>
-                <ul>
-                  {state.errors.password.map((error) => (
-                    <li key={error}>- {error}</li>
-                  ))}
-                </ul>
-              </div>
-            )}
-
-            <div>
-              <input 
-                name="confirmPassword" 
-                type="password"
-                id="password"
-                // value={values.confirmPassword}
-                // onChange={handleInputChange}
-                placeholder = "Confirmar contraseña"
-                autoComplete='off'
-                className="w-full mb-2 lg:mb-8 border-b-2 border-yellow-500 px-3 py-2 mt-1 focus:outline-none bg-transparent text-white" 
-              />
-            </div>
-            {state.errors.password && (
+            {state?.errors?.password && (
               <div>
                 <p>Password must:</p>
                 <ul>
@@ -274,6 +253,16 @@ export function SignupButton() {
     </button>
   )
 }
+
+export function LoginButton() {
+    const { pending } = useFormStatus()
+  
+    return (
+      <button aria-disabled={pending} type="submit" className="rounded-lg border border-transparent py-4 w-full text-center mt-4 font-semibold text-2xl text-white bg-blue-500 transition-colors hover:border-blue-300 hover:bg-blue-100 hover:dark:bg-neutral-800/20 hover:text-white">
+        {pending ? 'Login in...' : 'Login'}
+      </button>
+    )
+  }
 
 
 export default MyTabs;

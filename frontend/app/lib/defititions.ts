@@ -1,14 +1,14 @@
 import { z } from 'zod'
  
 export const SignupFormSchema = z.object({
-  email: z.string().email({ message: 'Please enter a valid email.' }).trim(),
+  email: z.string().email({ message: 'Por favor ingrese un correo electrónico válido' }).trim(),
   password: z
     .string()
-    .min(8, { message: 'Be at least 8 characters long' })
-    .regex(/[a-zA-Z]/, { message: 'Contain at least one letter.' })
-    .regex(/[0-9]/, { message: 'Contain at least one number.' })
+    .min(7, { message: 'Ser más larga de 7 caracteres' })
+    .regex(/[a-zA-Z]/, { message: 'Contener al menos una letra' })
+    .regex(/[0-9]/, { message: 'Contener al menos un numero.' })
     .regex(/[^a-zA-Z0-9]/, {
-      message: 'Contain at least one special character.',
+      message: 'Contener al menos un caracter especial.',
     })
     .trim(),
 })
@@ -16,7 +16,6 @@ export const SignupFormSchema = z.object({
 export type FormState =
   | {
       errors?: {
-        name?: string[]
         email?: string[]
         password?: string[]
       }
