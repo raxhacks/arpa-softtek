@@ -8,6 +8,7 @@ functions/keys.json
 firebase-cred.json
 
 backend/embbebed/.env
+backend/embbebed/venv
 backend/node_modules
 
 **/__pycache__/
