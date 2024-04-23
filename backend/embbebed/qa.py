@@ -1,7 +1,4 @@
-import sys 
-print("path: ",sys.path)
-
-from langchain.document_loaders import UnstructuredPDFLoader, OnlinePDFLoader, PyPDFLoader
+from langchain_community.document_loaders import UnstructuredPDFLoader, OnlinePDFLoader, PyPDFLoader
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 import os
 import bs4
@@ -84,8 +81,6 @@ store = {}
 
 def get_session_history(session_id: str) -> BaseChatMessageHistory:
     if session_id not in store:
-        print(session_id)
-        print(store)
         store[session_id] = ChatMessageHistory()
     return store[session_id]
 
@@ -98,9 +93,12 @@ conversational_rag_chain = RunnableWithMessageHistory(
     output_messages_key="answer",
 )
 
-conversational_rag_chain.invoke(
-    {"input": "what are the most relevant and important words in the paper"},
-    config={
-        "configurable": {"session_id": "abc124"}
-    },  # constructs a key "abc123" in `store`.
-)["answer"]
+query_input = "what are the most relevant and important words in the paper"
+print("Query Input:", query_input)
+
+response = conversational_rag_chain.invoke(
+    {"input": query_input},
+    config={"configurable": {"session_id": "abc124"}},
+)
+
+print("Answer:", response["answer"])
