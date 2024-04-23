@@ -13,7 +13,7 @@ function ActiveSectionButton(name: any) {
       </button>
     );
 }
-    
+
 function InactiveSectionButton(name: any) {
     return (
       <button className="sections">
