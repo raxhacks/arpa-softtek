@@ -24,7 +24,7 @@ export default async function middleware(req) {
  
   // 6. Redirect to /dashboard if the user is authenticated
   if (
-    isProtectedRoute &&
+    isPublicRoute &&
     session &&
     !req.nextUrl.pathname.startsWith('/CargarArchivos')
   ) {

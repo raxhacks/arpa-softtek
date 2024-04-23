@@ -306,7 +306,6 @@ function FileStateMessage(fileState: any) {
 }
 
 function CargaArchivos() {
-  console.log('ando en carga de archivos verificare que la sesion exista')
   // verifySession()
   const [centerText, setTitle] = useState("Selecciona el formato del artículo");
   const [currentFormat, setFormat] = useState("None");
@@ -358,8 +357,8 @@ function CargaArchivos() {
       <div className="main">
         <meta name="viewport" content="width=device-width, initial-scale=1.0"></meta>
         <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons"></link>
-        <ARPAHeader />
-        <SectionsHeader />
+        {/* <ARPAHeader />
+        <SectionsHeader /> */}
         <Arrow selected={formatSelected} goBack={goBack} />
         <CenterHeader text={centerText} />
         <Main type={currentFormat} setType={setType} file={file} fileState={fileState} handleChangePDF={handleChangePDF} handleChangeDOCX={handleChangeDOCX} setfileState={setFState} />
