@@ -4,6 +4,7 @@ import Link from 'next/link';
 import './Analisis.css';
 import { useEffect, useState } from 'react';
 import Typewriter from 'typewriter-effect';
+import Chat from './components/Chat/Chat';
 
 function ActiveSectionButton(name: any) {
     return (
@@ -70,9 +71,10 @@ function MostrarAnalisis() {
           <SectionsHeader />
           <Arrow />
           <div className="text">
-          {sampleText &&
+          {/* {sampleText &&
             <Typewriter 
-            onInit={(typewriter) => {typewriter.changeDelay(1).typeString(sampleText).start()}} />}
+            onInit={(typewriter) => {typewriter.changeDelay(1).typeString(sampleText).start()}} />} */}
+            <Chat />
           </div>
         </div>
       </>

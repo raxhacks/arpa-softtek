@@ -1,7 +1,7 @@
 'use client';
 
 import { deleteCookie } from "cookies-next";
-
+import { verifySession } from '@/app/lib/dal'
 import Link from 'next/link';
 import './CargarArchivos.css';
 import { useState } from 'react';
@@ -188,6 +188,7 @@ function Main(currentState: any) {
     try {
       e.preventDefault();
       const body = {url: url};
+      // verifySession()
       const response = await axios.post('http://localhost:3000/api/pdf_retrieve', body);
       localStorage.setItem("text", response.data.text);
       setFState("Correct")
@@ -273,7 +274,8 @@ function FileStateMessage(fileState: any) {
       e.preventDefault();
       const formData = new FormData();
       formData.append("file", fileState.file);
-      formData.append("extension", fileState.type); 
+      formData.append("extension", fileState.type);
+      // verifySession() 
       const res = await createDocument(formData);
       const text = res.text;
       localStorage.setItem("text", text);
@@ -304,6 +306,8 @@ function FileStateMessage(fileState: any) {
 }
 
 function CargaArchivos() {
+  console.log('ando en carga de archivos verificare que la sesion exista')
+  // verifySession()
   const [centerText, setTitle] = useState("Selecciona el formato del artículo");
   const [currentFormat, setFormat] = useState("None");
   const [formatSelected, setSelected] = useState(false);
