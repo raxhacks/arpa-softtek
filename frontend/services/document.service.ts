@@ -1,15 +1,17 @@
+'use server'
+
 import axios from 'axios';
-import { Document } from '../model/document';
-import { getCookie, getCookies } from 'cookies-next';
+import { cookies } from 'next/headers';
 
 const baseUrl = process.env.NEXT_PUBLIC_API_URL + '/document';
 
 // Integrar estructura?
-export const createDocument = async (data: FormData, token?:string) => {
+export const createDocument = async (data: FormData) => {
     try {
+        const token = cookies().get('session')?.value
         const config = { 
             headers: { 
-                'Authorization': `Bearer ${token ? token : getCookie('token')}`,
+                'Authorization': `Bearer ${token}`,
                 'Content-Type': 'multipart/form-data'
             } 
         };
