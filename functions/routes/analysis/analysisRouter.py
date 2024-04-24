@@ -87,3 +87,23 @@ def delete_analysis():
     except Exception as e:
         print("Error:",e)
         return flask.jsonify({"message":"Failed to delete analysis"}), 500
+    
+@analysisBlueprint.route("/sections", methods=["GET"])
+def get_sections():
+    try:
+        user_id = flask.g.get('user_id')
+        document_id = flask.request.args.get('document_id')
+        analysis_id = flask.request.args.get('analysis_id')
+        
+        db = firestore.client()
+        analysis_doc_ref = db.collection('users').document(user_id).collection('documents').document(document_id).collection('analysis').document(analysis_id)
+        analysis = analysis_doc_ref.get()
+
+        analysis_data = analysis.to_dict()
+        sections = analysis_data.get('sections', [])
+        mapped_sections = [{"title": section.get("title", ""), "content": section.get("content", "")} for section in sections]
+        
+        return flask.jsonify(mapped_sections), 200
+    except Exception as e:
+        print("Error:",e)
+        return flask.jsonify({"message":"Failed to get sections"}), 500

@@ -13,7 +13,7 @@ export const getFavorites = async (): Promise<Document[]> => {
             } 
         };
         console.log('Fetching favorite documents...');
-        const response = await axios.get('https://arpa-2mgft7cefq-uc.a.run.app/favorites', config);
+        const response = await axios.get('https://arpa-2mgft7cefq-uc.a.run.app/document/favorites', config);
 
         const history: Document[] = response.data.map((item: any) => ({
             id: item.document_id,
@@ -43,7 +43,7 @@ export const toggleFavorite = async (documentId: string, favorite: boolean) => {
         };
 
         console.log('Toggling favorite status...');
-        const response = await axios.put('https://arpa-2mgft7cefq-uc.a.run.app/toggleFavorite', data, config);
+        const response = await axios.put('https://arpa-2mgft7cefq-uc.a.run.app/document/toggleFavorite', data, config);
 
         return response.data;
     } catch (error) {

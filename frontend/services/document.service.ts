@@ -34,7 +34,7 @@ export const getHistory = async (): Promise<Document[]> => {
             } 
         };
         console.log('Fetching documents history...');
-        const response = await axios.get('https://arpa-2mgft7cefq-uc.a.run.app/history', config);
+        const response = await axios.get('https://arpa-2mgft7cefq-uc.a.run.app/document/history', config);
 
         const history: Document[] = response.data.map((item: any) => ({
             id: item.document_id,
