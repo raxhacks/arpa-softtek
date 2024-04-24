@@ -8,7 +8,9 @@ from pdfminer.pdfparser import PDFParser
 from pdfminer.converter import XMLConverter, HTMLConverter, TextConverter, PDFConverter, LTContainer, LTText, LTTextBox, LTImage
 from pdfminer.layout import LAParams
 from pdfminer.pdfinterp import PDFResourceManager, PDFPageInterpreter, PDFPage
+import os
 
+MAX_FILE_SIZE_MB = 3 
 
 def pdf_from_url_to_txt(url):
     rsrcmgr = PDFResourceManager()
@@ -17,6 +19,12 @@ def pdf_from_url_to_txt(url):
     laparams = LAParams()
     device = TextConverter(rsrcmgr, retstr, codec=codec, laparams=laparams)
     f = urllib.request.urlopen(url).read()
+    
+    # Calculate the size of the downloaded document
+    file_size_mb = len(f) / (1024 * 1024)  # Size in MB
+    if file_size_mb > MAX_FILE_SIZE_MB:
+        return None, "File size exceeds the limit of 3MB"
+    
     fp = BytesIO(f)
     interpreter = PDFPageInterpreter(rsrcmgr, device)
     password = ""
@@ -62,6 +70,12 @@ def create_document():
             if '.' in file.filename and file.filename.rsplit('.', 1)[1].lower() not in allowed_extensions:
                 return flask.jsonify({"message": "Invalid file extension"}), 400
             print("File extension:", extension)
+            
+             # Calculate file size
+            file_size_mb = os.path.getsize(file) / (1024 * 1024)  # Size in MB
+            if file_size_mb > MAX_FILE_SIZE_MB:
+                return flask.jsonify({"message": "File size exceeds the limit of 3MB"}), 400
+            
             # Parse PDF if the file is a PDF
             if extension == 'PDF':
                 reader = PyPDF2.PdfReader(file)
