@@ -6,6 +6,7 @@ functions/keys.json
 
 .env
 firebase-cred.json
+firebase-debug.log
 
 backend/embbebed/.env
 backend/embbebed/venv
