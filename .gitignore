@@ -6,6 +6,7 @@ functions/keys.json
 
 .env
 firebase-cred.json
+firebase-debug.log
 
 backend/embbebed/.env
 backend/embbebed/venv
@@ -15,3 +16,5 @@ backend/node_modules
 
 frontend/node_modules
 .firebase/
+
+.idea/
