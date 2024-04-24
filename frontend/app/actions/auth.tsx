@@ -16,8 +16,7 @@ export async function signup(state: FormState, formData: FormData) {
           errors: validatedFields.error.flatten().fieldErrors,
       }
     }
-    console.log('valide todo')
-
+    
     // 2. Prepare data for insertion into database
     const { email, password } = validatedFields.data
     const body = {
@@ -36,7 +35,6 @@ export async function signup(state: FormState, formData: FormData) {
 
     // 3. Insert the user into the database or call an Auth Library's API 
     const token = await createUser(body);
-    console.log('Cree el usuario');
 
     if (!token) {
         console.log('An error occurred while creating your account.')
@@ -44,10 +42,9 @@ export async function signup(state: FormState, formData: FormData) {
           message: 'An error occurred while creating your account.',
         }
       }
-    console.log('User creado para asegurar')
+
     // 4. Create user session
-    const session = await createSession(token)
-    console.log('cree la sesion', session);
+    await createSession(token)
     // 5. Redirect user
     redirect('/CargarArchivos')
     

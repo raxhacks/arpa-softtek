@@ -37,7 +37,6 @@ export async function decrypt(session: string | undefined = '') {
 }
 
 export async function createSession(token: string) {
-  console.log('Estoy creando la sesion')
   const expiresAt = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000) // 7 days
   // const session = encrypt({ token, expiresAt })
   // console.log('encripte la sesion con exito')
@@ -49,10 +48,7 @@ export async function createSession(token: string) {
     sameSite: 'lax',
     path: '/',
   })
-  console.log('Esta es la cookie: ',cookies().get('session')?.value)
 }
-
-
 
 // export async function updateSession() {
 //   const session = getCookie('session')

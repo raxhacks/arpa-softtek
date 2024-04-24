@@ -8,7 +8,9 @@ from pdfminer.pdfparser import PDFParser
 from pdfminer.converter import XMLConverter, HTMLConverter, TextConverter, PDFConverter, LTContainer, LTText, LTTextBox, LTImage
 from pdfminer.layout import LAParams
 from pdfminer.pdfinterp import PDFResourceManager, PDFPageInterpreter, PDFPage
+import os
 
+MAX_FILE_SIZE_MB = 3 
 
 def pdf_from_url_to_txt(url):
     rsrcmgr = PDFResourceManager()
@@ -17,6 +19,12 @@ def pdf_from_url_to_txt(url):
     laparams = LAParams()
     device = TextConverter(rsrcmgr, retstr, codec=codec, laparams=laparams)
     f = urllib.request.urlopen(url).read()
+    
+    # Calculate the size of the downloaded document
+    file_size_mb = len(f) / (1024 * 1024)  # Size in MB
+    if file_size_mb > MAX_FILE_SIZE_MB:
+        return None, "File size exceeds the limit of 3MB"
+    
     fp = BytesIO(f)
     interpreter = PDFPageInterpreter(rsrcmgr, device)
     password = ""
@@ -62,6 +70,12 @@ def create_document():
             if '.' in file.filename and file.filename.rsplit('.', 1)[1].lower() not in allowed_extensions:
                 return flask.jsonify({"message": "Invalid file extension"}), 400
             print("File extension:", extension)
+            
+             # Calculate file size
+            file_size_mb = os.path.getsize(file) / (1024 * 1024)  # Size in MB
+            if file_size_mb > MAX_FILE_SIZE_MB:
+                return flask.jsonify({"message": "File size exceeds the limit of 3MB"}), 400
+            
             # Parse PDF if the file is a PDF
             if extension == 'PDF':
                 reader = PyPDF2.PdfReader(file)
@@ -179,3 +193,49 @@ def toggle_favorite():
     except Exception as e:
         print("Error:",e)
         return flask.jsonify({"message":"Failed to update favorite status"}), 500
+
+@documentBlueprint.route("/history", methods=["GET"])
+def get_history():
+    try:
+        user_id = flask.g.get('user_id')
+        
+        db = firestore.client()
+        documents_ref = db.collection('users').document(user_id).collection('documents').stream()
+        
+        documents_list = []
+        for doc in documents_ref:
+            document_data = doc.to_dict()
+            document_info = {
+                "document_id": doc.id,
+                "title": document_data.get("title", ""),
+                "created_at": document_data.get("created_at", "")
+            }
+            documents_list.append(document_info)
+        
+        return flask.jsonify(documents_list), 200
+    except Exception as e:
+        print("Error:", e)
+        return flask.jsonify({"message": "Failed to get history"}), 500
+
+@documentBlueprint.route("/favorites", methods=["GET"])
+def get_favorites():
+    try:
+        user_id = flask.g.get('user_id')
+        
+        db = firestore.client()
+        documents_ref = db.collection('users').document(user_id).collection('documents').where("favorite", "==", True).stream()
+        
+        documents_list = []
+        for doc in documents_ref:
+            document_data = doc.to_dict()
+            document_info = {
+                "document_id": doc.id,
+                "title": document_data.get("title", ""),
+                "created_at": document_data.get("created_at", "")
+            }
+            documents_list.append(document_info)
+        
+        return flask.jsonify(documents_list), 200
+    except Exception as e:
+        print("Error:", e)
+        return flask.jsonify({"message": "Failed to get favorites"}), 500
