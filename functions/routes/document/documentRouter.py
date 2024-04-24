@@ -173,7 +173,7 @@ def delete_document():
         print("Error:",e)
         return flask.jsonify({"message":"Failed to delete document"}), 500
     
-@documentBlueprint.route("/toggleFavorite", methods=["GET"])
+@documentBlueprint.route("/toggleFavorite", methods=["PUT"])
 def toggle_favorite():
     try:
         user_id = flask.g.get('user_id')

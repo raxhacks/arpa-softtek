@@ -27,3 +27,27 @@ export const getFavorites = async (): Promise<Document[]> => {
         throw error;
     }
 };
+
+export const toggleFavorite = async (documentId: string, favorite: boolean) => {
+    try {
+        const token = cookies().get('session')?.value
+        const config = { 
+            headers: { 
+                'Authorization': `Bearer ${token}`,
+            } 
+        };
+
+        const data = {
+            document_id: documentId,
+            favorite: favorite
+        };
+
+        console.log('Toggling favorite status...');
+        const response = await axios.put('https://arpa-2mgft7cefq-uc.a.run.app/toggleFavorite', data, config);
+
+        return response.data;
+    } catch (error) {
+        console.error('Could not toggle favorite status:', error);
+        throw error;
+    }
+};
