@@ -4,7 +4,7 @@
 // import { useSearchParams } from 'next/navigation'
 // import { useRouter } from 'next/navigation';
 'use client'
-import React from 'react';
+import React, { useState } from 'react';
 import { Tab } from '@headlessui/react';
 import { useFormStatus, useFormState } from 'react-dom'
 import { signup } from '@/app/actions/auth'
@@ -12,7 +12,7 @@ import { login } from '@/app/actions/authLogin'
 
 function MyTabs() {
   const [state, action] = useFormState(signup, undefined)
-  const [loginstate, loginaction] = useFormState(login, undefined)
+  const [loginstate, loginAction] = useFormState(login, undefined)
 
   // const router = useRouter()
   // const [values, setValues] = useState({
@@ -143,22 +143,15 @@ function MyTabs() {
                 />
               </svg>
           </Tab>
-          <form action={loginaction} 
+          <form action={loginAction} 
             className="flex flex-col items-center justify-center mx-auto max-w-sm mt-10 lg:mt-40">
-            {/* onSubmit={loginSubmit}  */}
-            {/* {errorInLogin && <p className="text-red-700 text-center bg-white rounded-lg w-full px-2">{errorInLogin}</p>}  */}
-            {loginstate?.errors?.email && <p>{loginstate.errors.email}</p>}
             <div className='w-full'>
               <input id="email" name="email" placeholder = "Correo electrónico" className="w-full mb-1 lg:mb-8 border-b-2 border-yellow-500 px-3 py-2 mt-1 focus:outline-none bg-transparent text-white" autoComplete='on'/>
-              {/* value={values.email}
-              onChange={handleInputChange} */}
             </div>
             <div className='w-full'>
               <input 
                 name="password" 
                 type="password"
-                // value={values.password}
-                // onChange={handleInputChange}
                 placeholder = "Contraseña"
                 autoComplete='on'
                 className="w-full mb-1 lg:mb-8 border-b-2 border-yellow-500 px-3 py-2 mt-1 focus:outline-none bg-transparent text-white" 
@@ -248,7 +241,7 @@ export function SignupButton() {
   const { pending } = useFormStatus()
 
   return (
-    <button aria-disabled={pending} type="submit" className="rounded-lg border border-transparent py-4 w-full text-center mt-4 font-semibold text-2xl text-black bg-yellow-300 transition-colors hover:border-yellow-300 hover:bg-yellow-100 hover:dark:bg-neutral-800/20 hover:text-white">
+    <button disabled={pending} type="submit" className="rounded-lg border border-transparent py-4 w-full text-center mt-4 font-semibold text-2xl text-black bg-yellow-300 transition-colors hover:border-yellow-300 hover:bg-yellow-100 hover:dark:bg-neutral-800/20 hover:text-white">
       {pending ? 'Submitting...' : 'Sign up'}
     </button>
   )
@@ -258,7 +251,7 @@ export function LoginButton() {
     const { pending } = useFormStatus()
   
     return (
-      <button aria-disabled={pending} type="submit" className="rounded-lg border border-transparent py-4 w-full text-center mt-4 font-semibold text-2xl text-white bg-blue-500 transition-colors hover:border-blue-300 hover:bg-blue-100 hover:dark:bg-neutral-800/20 hover:text-white">
+      <button disabled={pending} type="submit" className="rounded-lg border border-transparent py-4 w-full text-center mt-4 font-semibold text-2xl text-white bg-blue-500 transition-colors hover:border-blue-300 hover:bg-blue-100 hover:dark:bg-neutral-800/20 hover:text-white">
         {pending ? 'Login in...' : 'Login'}
       </button>
     )
