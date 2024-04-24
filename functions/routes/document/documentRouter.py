@@ -179,3 +179,49 @@ def toggle_favorite():
     except Exception as e:
         print("Error:",e)
         return flask.jsonify({"message":"Failed to update favorite status"}), 500
+
+@documentBlueprint.route("/history", methods=["GET"])
+def get_history():
+    try:
+        user_id = flask.g.get('user_id')
+        
+        db = firestore.client()
+        documents_ref = db.collection('users').document(user_id).collection('documents').stream()
+        
+        documents_list = []
+        for doc in documents_ref:
+            document_data = doc.to_dict()
+            document_info = {
+                "document_id": doc.id,
+                "title": document_data.get("title", ""),
+                "created_at": document_data.get("created_at", "")
+            }
+            documents_list.append(document_info)
+        
+        return flask.jsonify(documents_list), 200
+    except Exception as e:
+        print("Error:", e)
+        return flask.jsonify({"message": "Failed to get history"}), 500
+
+@documentBlueprint.route("/favorites", methods=["GET"])
+def get_favorites():
+    try:
+        user_id = flask.g.get('user_id')
+        
+        db = firestore.client()
+        documents_ref = db.collection('users').document(user_id).collection('documents').where("favorite", "==", True).stream()
+        
+        documents_list = []
+        for doc in documents_ref:
+            document_data = doc.to_dict()
+            document_info = {
+                "document_id": doc.id,
+                "title": document_data.get("title", ""),
+                "created_at": document_data.get("created_at", "")
+            }
+            documents_list.append(document_info)
+        
+        return flask.jsonify(documents_list), 200
+    except Exception as e:
+        print("Error:", e)
+        return flask.jsonify({"message": "Failed to get favorites"}), 500
