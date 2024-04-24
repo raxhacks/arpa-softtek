@@ -14,3 +14,5 @@ backend/node_modules
 
 frontend/node_modules
 .firebase/
+
+.idea/
