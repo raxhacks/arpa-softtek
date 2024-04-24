@@ -6,9 +6,9 @@ import { cookies } from 'next/headers';
 const baseUrl = process.env.NEXT_PUBLIC_API_URL + '/document';
 
 // Integrar estructura?
-export const createDocument = async (data: FormData) => {
+export const createDocument = async (data: FormData, tokenSSR?: string) => {
     try {
-        const token = cookies().get('session')?.value
+        const token = tokenSSR || cookies().get('session')?.value
         const config = { 
             headers: { 
                 'Authorization': `Bearer ${token}`,
