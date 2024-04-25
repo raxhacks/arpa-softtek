@@ -68,6 +68,7 @@ div.sections_header{
     display: inline;
     vertical-align: middle;
     font-size: 175%;
+    font-weight: 600;
   }
   @media screen and (min-width: 768px){
     .headerText{
@@ -75,8 +76,10 @@ div.sections_header{
       display: inline;
       vertical-align: middle;
       font-size: 175%;
+      font-weight: 600;
     }
   }
+
   div.sectionGroup{
     float: inline-end;
     background-color: transparent;
