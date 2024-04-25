@@ -55,7 +55,7 @@ def create_document():
         extension = flask.request.form.get('extension')
 
         url = flask.request.form.get('url')
-        print("URL:",url)
+        public_url = ""
         if url == None:
             # Check if file is present in request
             if 'file' not in flask.request.files:
@@ -78,11 +78,12 @@ def create_document():
             
             # Configure bucket
             bucket = storage.bucket()
-            bucket.blob(f"users/{user_id}/{file.filename}").upload_from_file(file)
             blob = bucket.blob(f"users/{user_id}/{file.filename}")
+            blob.upload_from_file(file)
+
             blob.make_public()
-            url = blob.public_url
-            print("URL:",url)
+            public_url = blob.public_url
+
             # Parse PDF if the file is a PDF
             if extension == 'PDF':
                 reader = PyPDF2.PdfReader(file)
@@ -107,6 +108,7 @@ def create_document():
             'title': title,
             'content': text if extension == 'PDF' or extension == 'DOCX' else content,
             'url': url,
+            'public_url': public_url,
             'extension': extension,
             'created_at': firestore.SERVER_TIMESTAMP,
             'favorite': False,
@@ -122,6 +124,21 @@ def create_document():
 
         # Add the doc reference to the user's document collection
         user_doc_ref.update({"documents": firestore.ArrayUnion([document_doc_ref.id])})
+
+        # Create chat collection for the document
+        chat_doc_ref = document_doc_ref.collection('chat').document()
+        
+        new_chat = {}
+        new_chat['messages'] = []
+        
+        chat_doc_ref.set(new_chat)
+        
+        chat_doc_ref.update({"chat_id":chat_doc_ref.id})
+        
+        document_doc_ref.update({"chat":firestore.ArrayUnion([chat_doc_ref.id])})
+
+        # Create analysis collection for the document
+
 
         return flask.jsonify({"message": "New document created successfully", "document_id": document_doc_ref.id, "text":text}), 201
     except Exception as e:

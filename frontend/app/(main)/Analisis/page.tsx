@@ -61,7 +61,11 @@ function MostrarAnalisis() {
       const text = localStorage.getItem('text');
       setSample(text || "");
     }, []);
-  
+
+
+    // esta url esta hardcodeada, cambienla y reciban la url de manera dinamica
+    const encodedUrl = encodeURIComponent("https://storage.googleapis.com/arpa-softtek.appspot.com/users/hNb7IaKYx7bRUWEWB9cn575nATF2/Raymundo_Guzman_Mata_English_CV%20%281%29.pdf");
+    const viewerURL = `https://docs.google.com/viewer?url=${encodedUrl}&embedded=true`;
     return (
       <>
         <div className="main">
@@ -75,6 +79,11 @@ function MostrarAnalisis() {
             <Typewriter 
             onInit={(typewriter) => {typewriter.changeDelay(1).typeString(sampleText).start()}} />} */}
             <Chat />
+            <iframe
+            src={viewerURL}
+            width="100%"
+            height="100%"
+            />
           </div>
         </div>
       </>
