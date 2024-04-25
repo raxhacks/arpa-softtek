@@ -3,7 +3,7 @@ import { createSession } from './session';
 import { redirect } from 'next/navigation';
 import { loginAuth } from '@/services/login.service';
 
-export async function login(state: FormState, formData: FormData) {
+export async function authLogin(state: FormState, formData: FormData) {
     // Validate form fields
     const validatedFields = SignupFormSchema.safeParse({
       email: formData.get('email'),
