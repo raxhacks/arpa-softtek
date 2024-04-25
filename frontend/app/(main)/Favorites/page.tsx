@@ -5,7 +5,6 @@ import { useState, useEffect, use } from 'react';
 import { Fade } from "react-awesome-reveal";
 import './Favorites.css'
 import { getFavorites } from '@/services/favorites.service'
-import { json } from 'stream/consumers';
 
 
 async function getAllFavorites() {
