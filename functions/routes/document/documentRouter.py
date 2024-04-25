@@ -1,5 +1,5 @@
 import flask
-from firebase_admin import firestore
+from firebase_admin import firestore, storage
 import PyPDF2
 import docx2txt
 import urllib.request
@@ -72,10 +72,17 @@ def create_document():
             print("File extension:", extension)
             
              # Calculate file size
-            file_size_mb = os.path.getsize(file) / (1024 * 1024)  # Size in MB
-            if file_size_mb > MAX_FILE_SIZE_MB:
-                return flask.jsonify({"message": "File size exceeds the limit of 3MB"}), 400
+            # file_size_mb = os.path.getsize(file) / (1024 * 1024)  # Size in MB
+            # if file_size_mb > MAX_FILE_SIZE_MB:
+            #     return flask.jsonify({"message": "File size exceeds the limit of 3MB"}), 400
             
+            # Configure bucket
+            bucket = storage.bucket()
+            bucket.blob(f"users/{user_id}/{file.filename}").upload_from_file(file)
+            blob = bucket.blob(f"users/{user_id}/{file.filename}")
+            blob.make_public()
+            url = blob.public_url
+            print("URL:",url)
             # Parse PDF if the file is a PDF
             if extension == 'PDF':
                 reader = PyPDF2.PdfReader(file)
