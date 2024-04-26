@@ -8,6 +8,7 @@ import Chat from './components/Chat/Chat';
 import Segmented from 'rc-segmented';
 import cx from "classnames";
 import { handleClientScriptLoad } from 'next/script';
+import Header from '../header';
 
 function Resumen(center: any) {
   const encodedUrl = encodeURIComponent("https://storage.googleapis.com/arpa-softtek.appspot.com/users/hNb7IaKYx7bRUWEWB9cn575nATF2/Raymundo_Guzman_Mata_English_CV%20%281%29.pdf");
@@ -106,6 +107,7 @@ function MostrarAnalisis() {
   }
   return (
     <div className="flex items-center justify-center overflow-y-scroll overflow-x-hiddden">
+      < Header />
       <div className="flex items-center">
         <div className={cx("sideBarLeft", {"sideBarLeft-closed":!leftBarOpen})}>
           <p className={cx("leftText", {"leftText-closed":!leftBarOpen})}>

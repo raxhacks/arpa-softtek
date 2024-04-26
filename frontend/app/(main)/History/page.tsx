@@ -7,7 +7,7 @@ import { useState, useEffect, use } from 'react';
 import { Fade } from "react-awesome-reveal";``
 import { getHistory } from '@/services/document.service'
 import { Document } from '../../../model/document';
-
+import Header from '../header';
 
 export default function MostrarHistorial() {
 
@@ -25,20 +25,17 @@ export default function MostrarHistorial() {
     
     return (
       <>
-        <div className="pt-14 lg:pt-24">
-          <meta name="viewport" content="width=device-width, initial-scale=1.0"></meta>
-          <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons"></link>
-          <div className='font-semibold w-full text-4xl lg:text-5xl text-center fixed p-4 lg:p-4 text-white backdrop-blur-10 z-10 bg-blur bg-transparent'>Historial</div>
+        <div className="pt-12 lg:pt-24 pb-14 lg:pb-24">
+          <Header />          
+          <div className='font-semibold w-full text-4xl lg:text-5xl text-center fixed p-4 lg:p-4 text-white bg-background-500 z-10'>Historial</div>
           <div className='w-full p-8'></div>
-          <div className='flex justify-center items-start p-4 lg:p-20'>
+          <div className='flex justify-center items-start p-4 lg:p-20 z-0'>
               <div className="w-full grid lg:grid-cols-2">
-
               {historyDocs.map((doc, index) => 
-
                    ( 
                     <div key={index} className='pb-4 w-full flex justify-center items-center text-center text-white'>
                       <Link href={`/Analisis`}>
-                        <Fade className='w-72 lg:w-96 h-56 rounded-2xl p-4 bg-blue-500 transition-colors shadow-md hover:border-blue-200 hover:bg-blue-400'>
+                        <Fade className='w-72 lg:w-96 h-56 rounded-2xl p-4 bg-favsnhistory-500 transition-colors shadow-md hover:border-blue-200 hover:bg-blue-400'>
                           <div>
                             <h1 className='font-bold'>{doc.title}</h1>
                             <p className='font-bold'>{doc.createdAt}</p>

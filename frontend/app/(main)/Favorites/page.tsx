@@ -6,7 +6,7 @@ import { Fade } from "react-awesome-reveal";
 import { getFavorites } from '../../../services/favorites.service';
 import { Document } from '../../../model/document';
 import './Favorites.css';
-
+import Header from '../header';
 
 export default function MostrarFavoritos() {
 
@@ -25,21 +25,21 @@ export default function MostrarFavoritos() {
   
     return (
       <>
-        <div className="pt-14 lg:pt-24">
-          <meta name="viewport" content="width=device-width, initial-scale=1.0"></meta>
-          <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons"></link>
-          <div className='font-semibold w-full text-4xl lg:text-5xl text-center fixed p-4 lg:p-4 text-white bg-transparent z-10'>Favoritos</div>
+        <div className="pt-12 lg:pt-24 pb-14 lg:pb-24">
+          <Header/>
+          <div className='font-semibold w-full text-4xl lg:text-5xl text-center fixed p-4 lg:p-4 text-white bg-background-500 z-10'>Favoritos</div>
           <div className='w-full p-8'></div>
-          <div className='flex justify-center items-start p-4 lg:p-20'>
+          <div className='flex justify-center items-start p-4 lg:p-20 z-0'>
               <div className="w-full grid lg:grid-cols-2">
                 {favoriteDocs.map((doc, index) => 
                   ( 
-                    <div key={index} className='p-1 w-full flex justify-center items-center text-center text-white'>
+                    <div key={index} className='pb-4 w-full flex justify-center items-center text-center text-white'>
                       <Link href={`/Analisis`}>
-                        <Fade className='w-full rounded-2xl p-4 bg-blue-500 transition-colors shadow-md hover:border-blue-200 hover:bg-blue-400 '>
-                          <div className='aspect-w-16 aspect-h-9'>
-                            <h1>{doc.title}</h1>
-                            <p>{doc.createdAt}</p>
+                        <Fade className='w-72 lg:w-96 h-56 rounded-2xl p-4 bg-favsnhistory-500 transition-colors shadow-md hover:border-blue-200 hover:bg-blue-400'>
+                          <div>
+                            <h1 className='font-bold'>{doc.title}</h1>
+                            <p className='font-bold'>{doc.createdAt}</p>
+                            <hr></hr>
                             <div className='flex justify-center items-center'>
                               <iframe
                                 src={viewerURL}

@@ -14,7 +14,7 @@ div.ARPA_header{
     display: flex;
     align-items: center;
     justify-content: center;
-    z-index: 2;
+    z-index: 20;
   }
   @media screen and (min-width: 768px){
     div.ARPA_header{
@@ -45,7 +45,7 @@ div.sections_header{
     display: flex;
     align-items: center;
     justify-content: center;
-    z-index: 2;
+    z-index: 20;
 }
   @media only screen and (min-width: 768px){
     div.sections_header{
@@ -68,7 +68,7 @@ div.sections_header{
     display: inline;
     vertical-align: middle;
     font-size: 175%;
-    font-weight: 600;
+    font: bold
   }
   @media screen and (min-width: 768px){
     .headerText{
@@ -76,10 +76,8 @@ div.sections_header{
       display: inline;
       vertical-align: middle;
       font-size: 175%;
-      font-weight: 600;
     }
   }
-
   div.sectionGroup{
     float: inline-end;
     background-color: transparent;

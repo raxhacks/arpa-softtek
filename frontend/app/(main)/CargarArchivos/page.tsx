@@ -7,6 +7,7 @@ import axios from 'axios';
 import { Fade } from "react-awesome-reveal";
 import { createDocument } from '@/services/document.service';
 import { useRouter } from 'next/navigation';
+import Header from '../header';
 
 export function Arrow(back: any) {
   return(
@@ -248,8 +249,8 @@ function CargaArchivos() {
 
   return (
     <>
-      
       <div className="main">
+        < Header />
         <meta name="viewport" content="width=device-width, initial-scale=1.0"></meta>
         <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons"></link>
         <Arrow selected={formatSelected} goBack={goBack} />
