@@ -9,7 +9,7 @@ import Segmented from 'rc-segmented';
 import cx from "classnames";
 import { handleClientScriptLoad } from 'next/script';
 
-function Resumen(center: any) {
+function Content(center: any) {
   if(center.currentTab === "Resumen"){
     return(
       <div className="text">
@@ -132,7 +132,7 @@ function MostrarAnalisis() {
         <div className="flex items-center justify-center">
           <Segmented options={["Resumen", "Texto Original", "Chatbot"]} onChange={(value) => handleTabChange(value)} />
         </div>
-        <Resumen currentTab={currentTab}/>
+        <Content currentTab={currentTab}/>
       </div>
       <div className="flex items-center h-screen overflow-x-hidden">
         <button onClick={() => {setRightBar(!rightBarOpen), setLeftBar(false)}} className={cx("sideBarRight_button", {"sideBarRight_button-closed":!rightBarOpen})}>
