@@ -101,6 +101,9 @@ function MostrarAnalisis() {
   const [leftBarOpen, setLeftBar] = useState(false);
   const [rightBarOpen, setRightBar] = useState(false);
   
+  function handleTabChange(value: any){
+    setTab(value)
+  }
   return (
     <div className="flex items-center justify-center overflow-y-scroll overflow-x-hiddden">
       <div className="flex items-center">

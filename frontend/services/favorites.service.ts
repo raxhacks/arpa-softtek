@@ -1,3 +1,5 @@
+'use server'
+
 import axios from 'axios';
 import { cookies } from 'next/headers';
 import { Document } from '../model/document';

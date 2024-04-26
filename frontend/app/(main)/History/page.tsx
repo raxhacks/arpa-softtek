@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import { useState, useEffect, use } from 'react';
 import { Fade } from "react-awesome-reveal";
-import './Favorites.css'
+import './History.css'
 import { getFavorites } from '@/services/favorites.service'
 
 
@@ -17,7 +17,7 @@ function Arrow(back: any) {
     );
 }
 
-export default async function MostrarFavoritos() {
+export default async function MostrarHistorial() {
 
     const [favoriteDocTitle, setFavoriteDocTitle] = useState('');
     const [favoriteDocId, setFavoriteDocId] = useState('');
