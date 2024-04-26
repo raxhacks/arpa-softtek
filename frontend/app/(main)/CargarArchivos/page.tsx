@@ -113,7 +113,7 @@ function SectionsHeader() {
   );
 }
   
-function Arrow(back: any) {
+export function Arrow(back: any) {
   return(
     <button className="arrow" onClick={() => {back.selected && back.goBack()}}>
       <i className="material-icons" style={{fontSize: "400%"}}>keyboard_backspace</i>
@@ -357,8 +357,6 @@ function CargaArchivos() {
       <div className="main">
         <meta name="viewport" content="width=device-width, initial-scale=1.0"></meta>
         <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons"></link>
-        {/* <ARPAHeader />
-        <SectionsHeader /> */}
         <Arrow selected={formatSelected} goBack={goBack} />
         <CenterHeader text={centerText} />
         <Main type={currentFormat} setType={setType} file={file} fileState={fileState} handleChangePDF={handleChangePDF} handleChangeDOCX={handleChangeDOCX} setfileState={setFState} />

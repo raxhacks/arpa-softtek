@@ -7,3 +7,4 @@ flask-cors
 PyPDF2
 docx2txt
 pdfminer.six
+google-cloud-storage

@@ -37,6 +37,7 @@ export async function login(state: FormState, formData: FormData) {
     const token = await loginAuth(body);
 
     if (!token) {
+        console.log('no entras')
         return {
           message: 'credenciales incorrectas',
         }

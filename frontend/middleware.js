@@ -5,7 +5,7 @@ import { cookies } from 'next/headers'
 
  
 // 1. Specify protected and public routes
-const protectedRoutes = ['/CargarArchivos', '/Analisis']
+const protectedRoutes = ['/CargarArchivos', '/Analisis', '/Favorites']
 const publicRoutes = ['/']
  
 export default async function middleware(req) {

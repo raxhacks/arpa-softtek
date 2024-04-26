@@ -10,6 +10,8 @@ import cx from "classnames";
 import { handleClientScriptLoad } from 'next/script';
 
 function Content(center: any) {
+  const encodedUrl = encodeURIComponent("https://storage.googleapis.com/arpa-softtek.appspot.com/users/hNb7IaKYx7bRUWEWB9cn575nATF2/Raymundo_Guzman_Mata_English_CV%20%281%29.pdf");
+  const viewerURL = `https://docs.google.com/viewer?url=${encodedUrl}&embedded=true`;
   if(center.currentTab === "Resumen"){
     return(
       <div className="text">
@@ -35,22 +37,11 @@ function Content(center: any) {
   else if(center.currentTab === "Texto Original"){
     return(
       <div className="text">
-        Aqui va el texto original
-        <br/> <br/>
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-        Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure
-        dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-        proident, sunt in culpa qui officia deserunt mollit anim id est laborum
-        <br/> <br/>
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-        Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure
-        dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-        proident, sunt in culpa qui officia deserunt mollit anim id est laborum
-        <br/> <br/>
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-        Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure
-        dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-        proident, sunt in culpa qui officia deserunt mollit anim id est laborum
+        <iframe
+            src={viewerURL}
+            width="100%"
+            height="100%"
+            />
       </div>
     );
   }
@@ -109,10 +100,6 @@ function MostrarAnalisis() {
   const [currentTab, setTab] = useState("Resumen");
   const [leftBarOpen, setLeftBar] = useState(false);
   const [rightBarOpen, setRightBar] = useState(false);
-
-  function handleTabChange(value: any){
-    setTab(value)
-  }
   
   return (
     <div className="flex items-center justify-center overflow-y-scroll overflow-x-hiddden">
