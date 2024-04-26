@@ -8,11 +8,11 @@ import React, { useState } from 'react';
 import { Tab } from '@headlessui/react';
 import { useFormStatus, useFormState } from 'react-dom'
 import { signup } from '@/app/actions/auth'
-import { login } from '@/app/actions/authLogin'
+import { authLogin, login } from '@/app/actions/authLogin'
 
 function MyTabs() {
   const [state, action] = useFormState(signup, undefined)
-  const [loginstate, loginAction] = useFormState(login, undefined)
+  const [loginstate, loginAction] = useFormState(authLogin, undefined)
 
   // const router = useRouter()
   // const [values, setValues] = useState({

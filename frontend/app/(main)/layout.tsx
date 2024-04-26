@@ -119,13 +119,13 @@ function SectionsHeader() {
             </Link>
 
             {/* Boton 3  */}
-            <div className="mr-4 lg:mr-10">
+            <Link className="mr-4 lg:mr-10" href={`/History`}>
               <svg xmlns="http://www.w3.org/2000/svg" className="icon-header icon-tabler icon-tabler-history" width="70" height="70" viewBox="0 0 24 24" stroke-width="1.5" stroke="#FCFAF5" fill="none" stroke-linecap="round" stroke-linejoin="round">
                 <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
                 <path d="M12 8l0 4l2 2" />
                 <path d="M3.05 11a9 9 0 1 1 .5 4m-.5 5v-5h5" />
               </svg>
-            </div>
+            </Link>
 
           </div>
         </div>
