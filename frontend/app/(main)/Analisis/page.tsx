@@ -105,7 +105,7 @@ function MostrarAnalisis() {
     setTab(value)
   }
   return (
-    <div className="flex items-center justify-center overflow-y-scroll overflow-x-hiddden">
+    <div className="center">
       <div className="flex items-center">
         <div className={cx("sideBarLeft", {"sideBarLeft-closed":!leftBarOpen})}>
           <p className={cx("leftText", {"leftText-closed":!leftBarOpen})}>

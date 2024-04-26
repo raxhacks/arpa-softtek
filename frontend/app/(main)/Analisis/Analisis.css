@@ -146,6 +146,17 @@ div.ARPA_header{
     }
   }
 
+  .center{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow-y: scroll;
+    overflow-x: hidden;
+  }
+  .center::-webkit-scrollbar{
+    width: 0vw;
+  }
+
   /*COSAS DEL TAB BAR LEFT*/
   .sideBarLeft_button{
     position: fixed;
@@ -184,6 +195,7 @@ div.ARPA_header{
   
   .sideBarLeft{
     position: fixed;
+    left: 0;
     top: 0;
     bottom: 0;
     background-color: rgb(36, 37, 46);
@@ -204,15 +216,17 @@ div.ARPA_header{
     top: 0;
     bottom: 0;
     transition: 0.4s ease-in;
-    margin-top: 7vw;
+    margin-top: 15vh;
     padding-left: 1vw;
     padding-right: 1vw;
+    padding-top: 2vh;
+    text-align: left;
+    direction: rtl;
     overflow-x: hidden;
     overflow-y: scroll;
   }
   .leftText-closed{
     left: -30%;
-    overflow-y: hidden;
   }
 
   /*COSAS DEL TAB BAR Right*/
@@ -274,27 +288,25 @@ div.ARPA_header{
     top: 0;
     bottom: 0;
     transition: 0.4s ease-in;
-    margin-top: 7vw;
+    margin-top: 15vh;
     padding-left: 1vw;
     padding-right: 1vw;
+    padding-top: 2vh;
     overflow-x: hidden;
     overflow-y: scroll;
   }
   .rightText-closed{
     right: -30%;
-    overflow-y: hidden;
   }
 
   /*COSAS DEL SCROLLBAR*/
   ::-webkit-scrollbar{
     width: 1vw;
   }
-
   ::-webkit-scrollbar-track {
     background: rgb(36, 37, 46);
     border-radius: 10px;
   }
-  
   ::-webkit-scrollbar-thumb {
     background: rgb(77, 80, 97);
     border-radius: 10px;
@@ -341,7 +353,7 @@ div.ARPA_header{
     cursor: not-allowed;
   }
   .rc-segmented-item-label {
-    z-index: 2;
+    z-index: 1;
     line-height: 24px;
   }
   .rc-segmented-item-input {
