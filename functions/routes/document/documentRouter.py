@@ -8,7 +8,7 @@ from pdfminer.pdfparser import PDFParser
 from pdfminer.converter import XMLConverter, HTMLConverter, TextConverter, PDFConverter, LTContainer, LTText, LTTextBox, LTImage
 from pdfminer.layout import LAParams
 from pdfminer.pdfinterp import PDFResourceManager, PDFPageInterpreter, PDFPage
-import os
+import yake
 
 MAX_FILE_SIZE_MB = 3 
 
@@ -104,6 +104,16 @@ def create_document():
         title = flask.request.form.get('title')
         content = flask.request.form.get('content')
 
+        # Extract keywords
+        kw_extractor = yake.KeywordExtractor()
+        keywords_tuple = kw_extractor.extract_keywords(text)
+        keywords = [keyword[0] for keyword in keywords_tuple]
+        # Get frequency of each keyword
+        analysis_keywords = []
+        for keyword in keywords:
+            count = text.lower().count(keyword.lower())
+            analysis_keywords.append({"keyword": keyword, "count": count})
+
         new_document = {
             'title': title,
             'content': text if extension == 'PDF' or extension == 'DOCX' else content,
@@ -113,7 +123,7 @@ def create_document():
             'created_at': firestore.SERVER_TIMESTAMP,
             'favorite': False,
             'chat': {},
-            'analysis': {}
+            'analysis': {"keywords": analysis_keywords}
         }
 
         # Create the document
