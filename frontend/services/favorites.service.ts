@@ -22,7 +22,6 @@ export const getFavorites = async (): Promise<Document[]> => {
             title: item.title,
             createdAt: item.created_at
         }));
-
         return history;
     } catch (error) {
         console.error('Could not fetch favorite documents:', error);
