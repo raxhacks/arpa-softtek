@@ -8,6 +8,9 @@ from functools import wraps
 import flask
 from dotenv import load_dotenv
 from flask_cors import CORS
+from google.cloud import storage
+import os
+import json
 
 # Import routes
 from routes.auth.authRouter import authBlueprint
@@ -23,9 +26,18 @@ from middlewares.validateJWT import validateJWT
 load_dotenv()
 
 # Access the variables
+current_directory = os.path.dirname(os.path.realpath(__file__))
+keys_path = os.path.join(current_directory, "keys.json")
+
+with open(keys_path) as f:
+    keys = json.load(f)
+
+FIREBASE_BUCKET = keys['FIREBASE_BUCKET']
 
 cred = credentials.Certificate("./firebase-cred.json")
-initialize_app(cred)
+initialize_app(cred, {
+    'storageBucket': FIREBASE_BUCKET
+})
 app = flask.Flask(__name__)
 
 # Allow CORS for all origins on all routes

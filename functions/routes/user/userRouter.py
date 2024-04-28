@@ -1,8 +1,9 @@
 import flask
-from firebase_admin import firestore, auth
+from firebase_admin import firestore, auth, storage
 import json
 import requests
 import os
+
 
 # Get the current directory of the script
 current_directory = os.path.dirname(os.path.realpath(__file__))
@@ -34,8 +35,12 @@ def create_user():
         }
         firestore.client().collection('users').document(user_id).set(user_object)
         
+        # create user's document folder
+        bucket = storage.bucket()
+        bucket.blob(f"users/{user_id}/initial.txt").upload_from_string("")
+
         # login user automatically
-        payload = json.dumps({"email":user['email'], "password":user['password'], "return_secure_token":True})
+        payload = json.dumps({"email":email, "password":new_user['password'], "return_secure_token":True})
         rest_api_url = "https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword"
 
         r = requests.post(rest_api_url,

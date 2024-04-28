@@ -1,6 +1,6 @@
 export interface Document {
+    id: string;
     title: string;
-    content: string;
-    url: string;
-    extension: string;
-}   
+    createdAt: string;
+    publicURL: string;
+}

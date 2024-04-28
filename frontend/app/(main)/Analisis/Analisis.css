@@ -1,0 +1,382 @@
+div.ARPA_header{
+    background-color: rgb(77, 80, 97);
+    font-size: 200%;
+    color: rgb(252, 250, 245);
+    position: fixed;
+    top: 0;
+    height: 15vw;
+    max-height: 75px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2;
+  }
+  @media screen and (min-width: 768px){
+    div.ARPA_header{
+      background-color: rgb(77, 80, 97);
+      font-size: 200%;
+      color: rgb(252, 250, 245);
+      position: fixed;
+      top: 0;
+      height: 25vw;
+      max-height: 100px;
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+  }
+  
+  div.sections_header{
+    background-color: rgb(77, 80, 97);
+    font-size: 200%;
+    color: rgb(252, 250, 245);
+    position: fixed;
+    bottom: 0;
+    height: 25vw;
+    max-height: 100px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2;
+  }
+  @media only screen and (min-width: 768px){
+    div.sections_header{
+      background-color: transparent;
+      font-size: 200%;
+      color: rgb(252, 250, 245);
+      position: fixed;
+      top: 0;
+      height: 25vw;
+      max-height: 100px;
+      width: 50%;
+      margin-left: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+    }
+  }
+  
+  .headerText{
+    display: inline;
+    vertical-align: middle;
+    font-size: 175%;
+  }
+  @media screen and (min-width: 768px){
+    .headerText{
+      padding-left: 5%;
+      display: inline;
+      vertical-align: middle;
+      font-size: 175%;
+    }
+  }
+  
+  div.sectionGroup{
+    float: inline-end;
+    background-color: transparent;
+    vertical-align: middle;
+  }
+  @media screen and (min-width: 768px){
+    div.sectionGroup{
+      float: inline-end;
+      background-color: transparent;
+      vertical-align: middle;
+      padding-right: 5%;
+    }
+  }
+  
+  button.sections{
+    border-width: 0px;
+    background-color: transparent;
+    color: rgb(252, 250, 245);
+    vertical-align: middle;
+    padding: 0% 0% 0% 0%;
+  }
+  button.sections:hover{
+    color: rgb(232, 221, 197);
+  }
+  button.sections:active{
+    color: rgb(217, 189, 122)
+  }
+  
+  button.arrow{
+    border-width: 0px;
+    background-color: transparent;
+    vertical-align: middle;
+    margin-left: 3%;
+    color: rgb(252, 250, 245);
+  }
+  button.arrow:hover{
+    color: rgb(188, 186, 181);
+  }
+  button.arrow:active{
+    color: rgb(86, 85, 83);
+  }
+
+  .text{
+    color: rgb(252, 250, 245);
+  }
+  @media only screen and (min-width: 768px){
+    .text{
+      color: rgb(252, 250, 245);
+      margin-left: 10vw;
+      margin-right: 10vw;
+      margin-top: 5vh;
+      font-size: 1.5vw;
+    }
+  }
+
+  /*COSAS DEL CENTER*/
+  .main{
+    background-color: rgb(48, 50, 61);
+    padding-top: 15vh;
+    padding-bottom: 20vh;
+    font-weight: 600;
+  }
+  @media only screen and (min-width: 768px){
+    .main{
+      background-color: rgb(48, 50, 61);
+      padding-top: 125px;
+      padding-bottom: 0;
+      height: 100vh;
+      font-weight: 600;
+      flex-basis: 93vw;
+    }
+  }
+
+  /*COSAS DEL TAB BAR LEFT*/
+  .sideBarLeft_button{
+    position: fixed;
+    left: 30%;
+    writing-mode: vertical-rl;
+    height: 40%;
+    width: 3.5vw;
+    border-radius: 10px;
+    margin-top: 125px;
+    padding-right: 0.5vw;
+    background-color: rgb(36, 37, 46);
+    color: rgb(252, 250, 245);
+    font-size: 1.5vw;
+    transform: translateX(-10%);
+    font-weight: 600;
+    transition: 0.4s ease-in;
+  }
+  .sideBarLeft_button-closed{
+    left: 0%;
+  }
+  .sideBarLeft_button:hover{
+    background-color: #F5C556;
+    color: rgb(36, 37, 46);
+  }
+
+  .sideBarLeftSpace{
+    background-color: transparent;
+    width: 30vw;
+    height: 100%;
+    transition: 0.4s ease-in;
+    padding-top: 125px;
+  }
+  .sideBarLeftSpace-closed{
+    width: 0vw;
+  }
+  
+  .sideBarLeft{
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    background-color: rgb(36, 37, 46);
+    width: 30vw;
+    transition: 0.4s ease-in;
+    padding-top: 125px;
+    z-index: 1;
+  }
+  .sideBarLeft-closed{
+    width: 0vw;
+  }
+
+  .leftText{
+    color: rgb(252, 250, 245);
+    width: 29.8vw;
+    position: fixed;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    transition: 0.4s ease-in;
+    margin-top: 7vw;
+    padding-left: 1vw;
+    padding-right: 1vw;
+    overflow-x: hidden;
+    overflow-y: scroll;
+  }
+  .leftText-closed{
+    left: -30%;
+    overflow-y: hidden;
+  }
+
+  /*COSAS DEL TAB BAR Right*/
+  .sideBarRight_button{
+    position: fixed;
+    right: 30%;
+    writing-mode: vertical-rl;
+    height: 40%;
+    width: 3.5vw;
+    border-radius: 10px;
+    margin-top: 125px;
+    padding-right: 0.5vw;
+    background-color: rgb(36, 37, 46);
+    color: rgb(252, 250, 245);
+    font-size: 1.5vw;
+    transform: translateX(10%);
+    font-weight: 600;
+    transition: 0.4s ease-in;
+  }
+  .sideBarRight_button-closed{
+    right: 0%;
+  }
+  .sideBarRight_button:hover{
+    background-color: #F5C556;
+    color: rgb(36, 37, 46);
+  }
+
+  .sideBarRightSpace{
+    background-color: transparent;
+    width: 30vw;
+    height: 100%;
+    transition: 0.4s ease-in;
+    padding-top: 125px;
+  }
+  .sideBarRightSpace-closed{
+    width: 0vw;
+  }
+
+  .sideBarRight{
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    background-color: rgb(36, 37, 46);
+    width: 30vw;
+    transition: 0.4s ease-in;
+    padding-top: 125px;
+    z-index: 1;
+  }
+  .sideBarRight-closed{
+    width: 0vw;
+  }
+
+  .rightText{
+    color: rgb(252, 250, 245);
+    width: 29.8vw;
+    position: fixed;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    transition: 0.4s ease-in;
+    margin-top: 7vw;
+    padding-left: 1vw;
+    padding-right: 1vw;
+    overflow-x: hidden;
+    overflow-y: scroll;
+  }
+  .rightText-closed{
+    right: -30%;
+    overflow-y: hidden;
+  }
+
+  /*COSAS DEL SCROLLBAR*/
+  ::-webkit-scrollbar{
+    width: 1vw;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: rgb(36, 37, 46);
+    border-radius: 10px;
+  }
+  
+  ::-webkit-scrollbar-thumb {
+    background: rgb(77, 80, 97);
+    border-radius: 10px;
+  }
+
+  /*COSAS DE RC-SEGMENTED*/
+  .rc-segmented {
+    display: inline-block;
+    background-color: rgba(29, 31, 40, 0.5);
+  }
+  .rc-segmented-group {
+    position: relative;
+    display: flex;
+    align-items: stretch;
+    justify-items: flex-start;
+    width: 100%;
+    border-radius: 2px;
+  }
+  .rc-segmented-item {
+    position: relative;
+    height: 8vh;
+    max-height: 40px;
+    padding-left: 3vw;
+    padding-right: 3vw;
+    color: rgba(84, 86, 245, 0.85);
+    text-align: center;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    font-size: 3vh;
+  }
+  .rc-segmented-item-selected {
+    background-color: rgb(84, 86, 245);
+    color: rgb(252, 250, 245);
+  }
+  .rc-segmented-item:hover,
+  .rc-segmented-item:focus {
+    color: rgb(252, 250, 245);
+  }
+  .rc-segmented-item-disabled,
+  .rc-segmented-item-disabled:hover,
+  .rc-segmented-item-disabled:focus {
+    color: rgba(0, 0, 0, 0.25);
+    cursor: not-allowed;
+  }
+  .rc-segmented-item-label {
+    z-index: 2;
+    line-height: 24px;
+  }
+  .rc-segmented-item-input {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 0;
+    height: 0;
+    opacity: 0;
+    pointer-events: none;
+  }
+  .rc-segmented-disabled .rc-segmented-item,
+  .rc-segmented-disabled .rc-segmented-item:hover,
+  .rc-segmented-disabled .rc-segmented-item:focus,
+  .rc-segmented-disabled .rc-segmented-item:hover,
+  .rc-segmented-disabled .rc-segmented-item:hover:hover,
+  .rc-segmented-disabled .rc-segmented-item:focus:hover,
+  .rc-segmented-disabled .rc-segmented-item:focus,
+  .rc-segmented-disabled .rc-segmented-item:hover:focus,
+  .rc-segmented-disabled .rc-segmented-item:focus:focus {
+    color: rgba(0, 0, 0, 0.25);
+    cursor: not-allowed;
+  }
+  .rc-segmented-thumb {
+    background-color: rgb(84, 86, 245);
+    position: absolute;
+    width: 0;
+    height: 100%;
+    padding: 4px 0;
+  }
+  .rc-segmented-thumb-motion-appear-active,
+  .rc-segmented-thumb-motion-enter-active {
+    transition: transform 0.3s cubic-bezier(0.645, 0.045, 0.355, 1), width 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
+    will-change: transform, width;
+  }
+  .rc-segmented-rtl {
+    direction: rtl;
+  }

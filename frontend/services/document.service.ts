@@ -1,15 +1,18 @@
+'use server'
+
 import axios from 'axios';
+import { cookies } from 'next/headers';
 import { Document } from '../model/document';
-import { getCookie } from 'cookies-next';
 
 const baseUrl = process.env.NEXT_PUBLIC_API_URL + '/document';
 
 // Integrar estructura?
-export const createDocument = async (data: FormData) => {
+export const createDocument = async (data: FormData, tokenSSR?: string) => {
     try {
+        const token = tokenSSR || cookies().get('session')?.value
         const config = { 
             headers: { 
-                'Authorization': `Bearer ${getCookie('token')}`,
+                'Authorization': `Bearer ${token}`,
                 'Content-Type': 'multipart/form-data'
             } 
         };
@@ -18,6 +21,31 @@ export const createDocument = async (data: FormData) => {
         return response.data;
     } catch (error) {
         console.error('Could not upload the document:', error);
+        throw error;
+    }
+};
+
+export const getHistory = async (): Promise<Document[]> => {
+    try {
+        const token = cookies().get('session')?.value
+        const config = { 
+            headers: { 
+                'Authorization': `Bearer ${token}`
+            } 
+        };
+        console.log('Fetching documents history...');
+        const response = await axios.get('https://arpa-2mgft7cefq-uc.a.run.app/document/history', config);
+
+        const history: Document[] = response.data.map((item: any) => ({
+            id: item.document_id,
+            title: item.title,
+            createdAt: item.created_at,
+            publicURL: item.public_url
+        }));
+
+        return history;
+    } catch (error) {
+        console.error('Could not fetch history:', error);
         throw error;
     }
 };

@@ -1,3 +1,7 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 div.ARPA_header{
     background-color: rgb(77, 80, 97);
     font-size: 200%;
@@ -10,7 +14,7 @@ div.ARPA_header{
     display: flex;
     align-items: center;
     justify-content: center;
-    z-index: 2;
+    z-index: 20;
   }
   @media screen and (min-width: 768px){
     div.ARPA_header{
@@ -27,8 +31,9 @@ div.ARPA_header{
       justify-content: space-between;
     }
   }
+
   
-  div.sections_header{
+div.sections_header{
     background-color: rgb(77, 80, 97);
     font-size: 200%;
     color: rgb(252, 250, 245);
@@ -40,8 +45,8 @@ div.ARPA_header{
     display: flex;
     align-items: center;
     justify-content: center;
-    z-index: 2;
-  }
+    z-index: 20;
+}
   @media only screen and (min-width: 768px){
     div.sections_header{
       background-color: transparent;
@@ -58,11 +63,12 @@ div.ARPA_header{
       justify-content: flex-end;
     }
   }
-  
+
   .headerText{
     display: inline;
     vertical-align: middle;
     font-size: 175%;
+    font: bold
   }
   @media screen and (min-width: 768px){
     .headerText{
@@ -72,7 +78,6 @@ div.ARPA_header{
       font-size: 175%;
     }
   }
-  
   div.sectionGroup{
     float: inline-end;
     background-color: transparent;
@@ -90,58 +95,9 @@ div.ARPA_header{
   button.sections{
     border-width: 0px;
     background-color: transparent;
-    color: rgb(252, 250, 245);
     vertical-align: middle;
     padding: 0% 0% 0% 0%;
   }
-  button.sections:hover{
-    color: rgb(232, 221, 197);
-  }
-  button.sections:active{
-    color: rgb(217, 189, 122)
-  }
-  
-  button.arrow{
-    border-width: 0px;
-    background-color: transparent;
-    vertical-align: middle;
-    margin-left: 3%;
-    color: rgb(252, 250, 245);
-  }
-  button.arrow:hover{
-    color: rgb(188, 186, 181);
-  }
-  button.arrow:active{
-    color: rgb(86, 85, 83);
-  }
-  
-  
-  .main{
-    background-color: rgb(48, 50, 61);
-    padding-top: 15vh;
-    padding-bottom: 20vh;
-    font-weight: 600;
-    
-  }
-  @media only screen and (min-width: 768px){
-    .main{
-      background-color: rgb(48, 50, 61);
-      padding-top: 125px;
-      padding-bottom: 0;
-      height: 100vh;
-      font-weight: 600;
-    }
-  }
-
-  .text{
-    color: rgb(252, 250, 245);
-  }
-  @media only screen and (min-width: 768px){
-    .text{
-      color: rgb(252, 250, 245);
-      margin-left: 10vw;
-      margin-right: 10vw;
-      margin-top: 5vh;
-      font-size: 2vw;
-    }
+  .icon-header:hover {
+    stroke: rgb(221, 198, 146);
   }
