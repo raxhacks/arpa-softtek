@@ -9,7 +9,7 @@ import { createDocument } from '@/services/document.service';
 import { useRouter } from 'next/navigation';
 import Header from '../header';
 
-export function Arrow(back: any) {
+function Arrow(back: any) {
   return(
     <button className="arrow" onClick={() => {back.selected && back.goBack()}}>
       <i className="material-icons" style={{fontSize: "400%"}}>keyboard_backspace</i>
