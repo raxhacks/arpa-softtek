@@ -101,7 +101,13 @@ def get_sections():
 
         analysis_data = analysis.to_dict()
         sections = analysis_data.get('sections', [])
-        mapped_sections = [{"title": section.get("title", ""), "content": section.get("content", "")} for section in sections]
+        mapped_sections = [
+            {
+                "title": section.get("title", ""),
+                "content": section.get("content", "")
+            }
+            for section in sections
+        ]
         
         return flask.jsonify(mapped_sections), 200
     except Exception as e:

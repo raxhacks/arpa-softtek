@@ -39,7 +39,8 @@ export const getHistory = async (): Promise<Document[]> => {
         const history: Document[] = response.data.map((item: any) => ({
             id: item.document_id,
             title: item.title,
-            createdAt: item.created_at
+            createdAt: item.created_at,
+            publicURL: item.public_url
         }));
 
         return history;
