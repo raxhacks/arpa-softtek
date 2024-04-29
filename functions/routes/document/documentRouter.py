@@ -242,7 +242,8 @@ def get_history():
             document_info = {
                 "document_id": doc.id,
                 "title": document_data.get("title", ""),
-                "created_at": document_data.get("created_at", "")
+                "created_at": document_data.get("created_at", ""),
+                "public_url": document_data.get("public_url", "")
             }
             documents_list.append(document_info)
         
@@ -265,7 +266,8 @@ def get_favorites():
             document_info = {
                 "document_id": doc.id,
                 "title": document_data.get("title", ""),
-                "created_at": document_data.get("created_at", "")
+                "created_at": document_data.get("created_at", ""),
+                "public_url": document_data.get("public_url", "")
             }
             documents_list.append(document_info)
         
