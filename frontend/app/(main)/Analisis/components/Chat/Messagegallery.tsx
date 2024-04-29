@@ -3,6 +3,7 @@
 import { MessageStruct } from "@/model/message";
 import Message from "./Message";
 import { useEffect, useState } from "react";
+import { Bounce } from "react-awesome-reveal";
 
 type MessageGalleryProps = {
   newMessage: string;
@@ -33,11 +34,15 @@ const MessageGallery: React.FC<MessageGalleryProps> = ({
 
   return (
     <div className="w-full">
-      <h1>MessageGallery</h1>
+      {/*<h1>MessageGallery</h1>*/}
       {messages.map((message, index) => (
         <>
-          <Message key={index} message={message.prompt} isUser={true}/>
-          <Message key={100+index} message={message.response} isUser={false}/>
+          <Bounce duration={300} triggerOnce={true} fraction={1}>
+            <Message key={index} message={message.prompt} isUser={true}/>
+          </Bounce>
+          <Bounce duration={300} triggerOnce={true} fraction={0.5}>
+            <Message key={100+index} message={message.response} isUser={false}/>
+          </Bounce>
         </>
       ))}
     </div>
