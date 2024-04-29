@@ -11,7 +11,7 @@ import { createDocument } from '@/services/document.service';
 import { useRouter } from 'next/navigation';
 import exp from "constants";
   
-export function Arrow(back: any) {
+function Arrow(back: any) {
   if(back.selected){
     return(
       <button className="border-0 bg-transparent align-middle mt-[0.5vh] ml-[2vw]" onClick={() => {back.goBack()}}>
