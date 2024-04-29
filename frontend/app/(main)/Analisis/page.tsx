@@ -9,6 +9,7 @@ import Segmented from 'rc-segmented';
 import cx from "classnames";
 import { handleClientScriptLoad } from 'next/script';
 import Collapsible from 'react-collapsible';
+import Header from '../header';
 
 function SectionTitle(title: string){
   return(
@@ -144,7 +145,8 @@ function MostrarAnalisis() {
     setTab(value)
   }
   return (
-    <div className="center">
+    <div className="flex items-center justify-center overflow-y-scroll overflow-x-hiddden">
+      < Header />
       <div className="flex items-center">
         <div className={cx("sideBarLeft", {"sideBarLeft-closed":!leftBarOpen})}>
           <p className={cx("leftText", {"leftText-closed":!leftBarOpen})}>
