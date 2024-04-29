@@ -101,3 +101,9 @@ div.sections_header{
   .icon-header:hover {
     stroke: rgb(221, 198, 146);
   }
+  .icon-tabler-logout-2 {
+    stroke: rgb(250, 232, 189);
+  }
+  .icon-tabler-logout-2:hover {
+    stroke: rgb(221, 198, 146);
+  }

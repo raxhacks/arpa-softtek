@@ -1,6 +1,4 @@
 import { NextResponse } from 'next/server'
-import { decrypt } from './app/actions/session'
-import { getCookie } from 'cookies-next'
 import { cookies } from 'next/headers'
 
  

@@ -37,7 +37,7 @@ function Resumen(center: any) {
   }
   else if(center.currentTab === "Texto Original"){
     return(
-      <div className="text">
+      <div className="text h-screen">
         <iframe
             src={viewerURL}
             width="100%"
