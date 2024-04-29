@@ -10,120 +10,28 @@ import { Fade } from "react-awesome-reveal";
 import { createDocument } from '@/services/document.service';
 import { useRouter } from 'next/navigation';
 import exp from "constants";
-
-function ActiveSectionButton(name: any) {
-  let svg = null;
-
-  if (name.text === "feed") {
-    svg = (
-      <svg xmlns="http://www.w3.org/2000/svg" className="icon-header icon-tabler icon-tabler-news" width="70" height="70" viewBox="0 0 24 24" stroke-width="1.5" stroke="#F5C556" fill="none" stroke-linecap="round" stroke-linejoin="round">
-        <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-        <path d="M16 6h3a1 1 0 0 1 1 1v11a2 2 0 0 1 -4 0v-13a1 1 0 0 0 -1 -1h-10a1 1 0 0 0 -1 1v12a3 3 0 0 0 3 3h11" />
-        <path d="M8 8l4 0" />
-        <path d="M8 12l4 0" />
-        <path d="M8 16l4 0" />
-      </svg>
-    );
-  }
-  else if (name.text === "book") {
-    svg = (
-      <svg xmlns="http://www.w3.org/2000/svg" className="icon-header icon-tabler icon-tabler-bookmarks" width="70" height="70" viewBox="0 0 24 24" stroke-width="1.5" stroke="#F5C556" fill="none" stroke-linecap="round" stroke-linejoin="round">
-        <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-        <path d="M15 10v11l-5 -3l-5 3v-11a3 3 0 0 1 3 -3h4a3 3 0 0 1 3 3z" />
-        <path d="M11 3h5a3 3 0 0 1 3 3v11" />
-      </svg>
-    );
-  }
-  else if (name.text === "history") {
-    svg = (
-      <svg xmlns="http://www.w3.org/2000/svg" className="icon-header icon-tabler icon-tabler-history" width="70" height="70" viewBox="0 0 24 24" stroke-width="1.5" stroke="#F5C556" fill="none" stroke-linecap="round" stroke-linejoin="round">
-        <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-        <path d="M12 8l0 4l2 2" />
-        <path d="M3.05 11a9 9 0 1 1 .5 4m-.5 5v-5h5" />
-      </svg>
-    );
-  }
-
-  return (
-    <button className="sections">
-      {svg}
-    </button>
-  );
-}
-  
-function InactiveSectionButton(name: any) {
-  let svg = null;
-
-  if (name.text === "feed") {
-    svg = (
-      <svg xmlns="http://www.w3.org/2000/svg" className="icon-header icon-tabler icon-tabler-news" width="70" height="70" viewBox="0 0 24 24" stroke-width="1.5" stroke="#FCFAF5" fill="none" stroke-linecap="round" stroke-linejoin="round">
-        <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-        <path d="M16 6h3a1 1 0 0 1 1 1v11a2 2 0 0 1 -4 0v-13a1 1 0 0 0 -1 -1h-10a1 1 0 0 0 -1 1v12a3 3 0 0 0 3 3h11" />
-        <path d="M8 8l4 0" />
-        <path d="M8 12l4 0" />
-        <path d="M8 16l4 0" />
-      </svg>
-    );
-  }
-  else if (name.text === "book") {
-    svg = (
-      <svg xmlns="http://www.w3.org/2000/svg" className="icon-header icon-tabler icon-tabler-bookmarks" width="70" height="70" viewBox="0 0 24 24" stroke-width="1.5" stroke="#FCFAF5" fill="none" stroke-linecap="round" stroke-linejoin="round">
-        <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-        <path d="M15 10v11l-5 -3l-5 3v-11a3 3 0 0 1 3 -3h4a3 3 0 0 1 3 3z" />
-        <path d="M11 3h5a3 3 0 0 1 3 3v11" />
-      </svg>
-    );
-  }
-  else if (name.text === "history") {
-    svg = (
-      <svg xmlns="http://www.w3.org/2000/svg" className="icon-header icon-tabler icon-tabler-history" width="70" height="70" viewBox="0 0 24 24" stroke-width="1.5" stroke="#FCFAF5" fill="none" stroke-linecap="round" stroke-linejoin="round">
-        <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-        <path d="M12 8l0 4l2 2" />
-        <path d="M3.05 11a9 9 0 1 1 .5 4m-.5 5v-5h5" />
-      </svg>
-    );
-  }
-
-  return (
-    <button className="sections">
-      {svg}
-    </button>
-  );
-}
-
-function ARPAHeader() {
-  return (
-    <div className="ARPA_header">
-      <h2 className="headerText">ARPA</h2>
-    </div>
-  );
-}
-
-function SectionsHeader() {
-  return (
-    <div className="sections_header">
-      <div className="sectionGroup">
-        <ActiveSectionButton text="feed"/>
-        &nbsp; &nbsp; &nbsp; &nbsp;
-        <InactiveSectionButton text="book"/>
-        &nbsp; &nbsp; &nbsp; &nbsp;
-        <InactiveSectionButton text="history"/>
-      </div>
-    </div>
-  );
-}
   
 export function Arrow(back: any) {
-  return(
-    <button className="arrow" onClick={() => {back.selected && back.goBack()}}>
-      <i className="material-icons" style={{fontSize: "400%"}}>keyboard_backspace</i>
-    </button>
-  );
+  if(back.selected){
+    return(
+      <button className="border-0 bg-transparent align-middle mt-[0.5vh] ml-[2vw]" onClick={() => {back.goBack()}}>
+        <svg xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler icon-tabler-arrow-left hover:stroke-[#BCBAB5] active:stroke-[#565553]" width="56" height="56" viewBox="0 0 24 24" stroke-width="3" stroke="#FCFAF5" fill="none" stroke-linecap="round" stroke-linejoin="round">
+          <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+          <path d="M5 12l14 0" />
+          <path d="M5 12l6 6" />
+          <path d="M5 12l6 -6" />
+        </svg>
+      </button>
+    );
+  }
+  else{
+    return(<></>);
+  }
 }
   
 function CenterHeader(title: any) {
   return(
-    <h1 className="centerHeader">{title.text}</h1>
+    <h1 className="text-[#FCFAF5] text-center mb-[0vh] mx-[5vw] text-[7vh] md:text-[8vh]">{title.text}</h1>
   );
 }
 
@@ -132,7 +40,7 @@ function FormatButton(main: any) {
 
   if (main.type === "PDF") {
     svg = (
-      <svg xmlns="http://www.w3.org/2000/svg" className="icon-format icon-tabler icon-tabler-file-type-pdf" width="200" height="200" viewBox="0 0 24 24" strokeWidth="1" stroke="#5756F5" fill="none" strokeLinecap="round" strokeLinejoin="round">
+      <svg xmlns="http://www.w3.org/2000/svg" className="icon-format icon-tabler icon-tabler-file-type-pdf hover:stroke-[#2F31AB]" width="200" height="200" viewBox="0 0 24 24" strokeWidth="1" stroke="#5756F5" fill="none" strokeLinecap="round" strokeLinejoin="round">
         <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
         <path d="M14 3v4a1 1 0 0 0 1 1h4" />
         <path d="M5 12v-7a2 2 0 0 1 2 -2h7l5 5v4" />
@@ -145,7 +53,7 @@ function FormatButton(main: any) {
   }
   else if (main.type === "URL") {
     svg = (
-      <svg xmlns="http://www.w3.org/2000/svg" className="icon-format icon-tabler icon-tabler-forms" width="200" height="200" viewBox="0 0 24 24" stroke-width="1" stroke="#5756F5" fill="none" stroke-linecap="round" stroke-linejoin="round">
+      <svg xmlns="http://www.w3.org/2000/svg" className="icon-format icon-tabler icon-tabler-forms hover:stroke-[#2F31AB]" width="200" height="200" viewBox="0 0 24 24" stroke-width="1" stroke="#5756F5" fill="none" stroke-linecap="round" stroke-linejoin="round">
         <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
         <path d="M12 3a3 3 0 0 0 -3 3v12a3 3 0 0 0 3 3" />
         <path d="M6 3a3 3 0 0 1 3 3v12a3 3 0 0 1 -3 3" />
@@ -158,7 +66,7 @@ function FormatButton(main: any) {
   }
   else if (main.type === "DOCX") {
     svg = (
-      <svg xmlns="http://www.w3.org/2000/svg" className="icon-format icon-tabler icon-tabler-file-type-doc" width="200" height="200" viewBox="0 0 24 24" stroke-width="1" stroke="#5756F5" fill="none" stroke-linecap="round" stroke-linejoin="round">
+      <svg xmlns="http://www.w3.org/2000/svg" className="icon-format icon-tabler icon-tabler-file-type-doc hover:stroke-[#2F31AB]" width="200" height="200" viewBox="0 0 24 24" stroke-width="1" stroke="#5756F5" fill="none" stroke-linecap="round" stroke-linejoin="round">
         <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
         <path d="M14 3v4a1 1 0 0 0 1 1h4" />
         <path d="M5 12v-7a2 2 0 0 1 2 -2h7l5 5v4" />
@@ -170,7 +78,7 @@ function FormatButton(main: any) {
   }
 
   return (
-    <button className="format" onClick={() => {main.setType(main.title, main.type)}}>
+    <button className="bg-transparent mt-[5vh] mx-auto block relative md:mt-[10vh] md:mx-[5vw] md:inline" onClick={() => {main.setType(main.title, main.type)}}>
       {svg}
     </button>
   );
@@ -201,37 +109,38 @@ function Main(currentState: any) {
 
   if(currentState.type === "None"){
     return(
-      <div className="formatsContainer">
+      <div className="text-center md:flex md:justify-center">
         <Fade cascade direction="up" damping={0.1} triggerOnce fraction={1}>
-          <FormatButton icon="picture_as_pdf" type="PDF" title="Sube el artículo en formato PDF" setType={currentState.setType} />
-          <FormatButton icon="http" type="URL" title="Ingresa la URL del artículo" setType={currentState.setType}/>
-          <FormatButton icon="article" type="DOCX" title="Sube el artículo en formato DOCX" setType={currentState.setType}/>
-        </Fade> 
+          <FormatButton type="PDF" title="Sube el artículo en formato PDF" setType={currentState.setType} />
+          <FormatButton type="URL" title="Ingresa la URL del artículo" setType={currentState.setType}/>
+          <FormatButton type="DOCX" title="Sube el artículo en formato DOCX" setType={currentState.setType}/>
+        </Fade>
       </div>
     );
   }
   else if(currentState.type === "URL"){
     return(
-      <div style={{textAlign: "center"}}>
-        <input type="text" className="urlField" 
-        value={url}
-        onChange={handleUrlChange}
-        />
-        <button className="url"
-        onClick={(e)=>getPdfBlob(e,url,currentState.setfileState)}>
-          <i className="material-icons" style={{fontSize: "50px"}}>search</i>
-        </button>
+      <>
+        <div className="flex justify-center items-center mt-[12vh] mb-[10vh] flex-col md:flex-row">
+          <input type="text" className="h-[10vh] max-h-[60px] w-[90vw] text-[5vh] mb-[6vh] md:max-h-[50px] md:w-[70vw] md:max-w-[700px]
+          md:text-[4vh] md:ml-[5vw] md:mb-[0vh]" value={url} onChange={handleUrlChange} />
+          <button className="bg-[#5456F5] text-[#30323D] w-[40vw] rounded-[2vh] mx-[3vw] relative md:w-[4.5vw] md:h-[4.5vw] md:ml-[1vw]
+          md:mr-[5vw] md:inline hover:bg-[#4345AF] active:bg-[#FCFAF5]" onClick={(e)=>getPdfBlob(e,url,currentState.setfileState)}>
+            <i className="material-icons" style={{fontSize: "50px"}}>search</i>
+          </button>
+        </div>
         <FileStateMessage state={currentState.fileState} file={currentState.file} type={currentState.type}/>
-      </div>
+      </>
     );
   }
   else if(currentState.type === "PDF"){
     console.log(currentState.file)
     return(
       <form>
-        <label htmlFor="PDFUpload" className="upload" style={{textAlign: "center"}}>
+        <label htmlFor="PDFUpload" className="bg-transparent text-[#5756F5] border-dotted border-[#5756F5] border-[1vh] rounded-[4vh] mx-auto
+        mt-3vh w-[70vw] max-w-[325px] h-[70vh] max-h-[300px] flex items-center justify-center text-center hover:border-[#2F31AB]">
           {currentState.file === undefined ?
-          <svg xmlns="http://www.w3.org/2000/svg" className="icon-format icon-tabler icon-tabler-file-type-pdf" width="200" height="200" viewBox="0 0 24 24" strokeWidth="1" stroke="#5756F5" fill="none" strokeLinecap="round" strokeLinejoin="round">
+          <svg xmlns="http://www.w3.org/2000/svg" className="icon-format icon-tabler icon-tabler-file-type-pdf hover:stroke-[#2F31AB]" width="180" height="180" viewBox="0 0 24 24" strokeWidth="1" stroke="#5756F5" fill="none" strokeLinecap="round" strokeLinejoin="round">
             <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
             <path d="M14 3v4a1 1 0 0 0 1 1h4" />
             <path d="M5 12v-7a2 2 0 0 1 2 -2h7l5 5v4" />
@@ -249,9 +158,10 @@ function Main(currentState: any) {
   else if(currentState.type === "DOCX"){
     return(
       <form>
-        <label htmlFor="DOCXUpload" className="upload" style={{textAlign: "center"}}>
+        <label htmlFor="DOCXUpload" className="bg-transparent text-[#5756F5] border-dotted border-[#5756F5] border-[1vh] rounded-[4vh] mx-auto
+        mt-3vh w-[70vw] max-w-[325px] h-[70vh] max-h-[300px] flex items-center justify-center text-center hover:border-[#2F31AB]">
           {currentState.file === undefined ?
-          <svg xmlns="http://www.w3.org/2000/svg" className="icon-format icon-tabler icon-tabler-file-type-doc" width="200" height="200" viewBox="0 0 24 24" stroke-width="1" stroke="#5756F5" fill="none" stroke-linecap="round" stroke-linejoin="round">
+          <svg xmlns="http://www.w3.org/2000/svg" className="icon-format icon-tabler icon-tabler-file-type-doc" width="180" height="180" viewBox="0 0 24 24" stroke-width="1" stroke="#5756F5" fill="none" stroke-linecap="round" stroke-linejoin="round">
             <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
             <path d="M14 3v4a1 1 0 0 0 1 1h4" />
             <path d="M5 12v-7a2 2 0 0 1 2 -2h7l5 5v4" />
@@ -288,16 +198,18 @@ function FileStateMessage(fileState: any) {
     return(<></>);
   }
   else if(fileState.state === "WrongFormat"){
-    return(<p className="errorMessage">Error: El formato del archivo es incorrecto</p>);
+    return(<p className="text-[#F5C556] flex justify-center text-center mx-[5vw] mt-[5vh] text-[3vh] md:mx-[25vw]">Error: El formato del archivo es incorrecto</p>);
   }
   else if(fileState.state === "ErrorUploading"){
-    return(<p className="errorMessage">Error: No se ha podido cargar el archivo</p>);
+    return(<p className="text-[#F5C556] flex justify-center text-center mx-[5vw] mt-[5vh] text-[3vh] md:mx-[25vw]">Error: No se ha podido cargar el archivo</p>);
   }
   else if(fileState.state === "Correct"){
     return(
-      <div style={{display: "flex", justifyContent: "center"}}>
+      <div className="flex justify-center">
         <button onClick={handleSubmitDocument}>
-          <label htmlFor="siguiente" className="siguiente">Siguiente</label>
+          <label htmlFor="siguiente" className="bg-transparent text-[#FCFAF5] border-solid border-[#FCFAF5] border-[0.5vh] rounded-[2vh]
+          mx-auto mt-[5vh] md:mt-[3vh] mb-[1vh] w-[70vw] max-w-[325px] h-[12vh] max-h-[80px] flex items-center justify-center text-[4vh]
+          hover:bg-[#282933] active:bg-[#FCFAF5] active:border-[#30323D] active:text-[#30323D]">Siguiente</label>
           <input type="submit" id="siguiente" style={{opacity: "0", position: "absolute", zIndex: "-1"}} />
         </button>
       </div>
@@ -354,7 +266,7 @@ function CargaArchivos() {
 
   return (
     <>
-      <div className="main">
+      <div className="bg-[#30323D] pt-[15vh] pb-[20vh] font-semibold md:pt-[20vh] md:pb-[0vh]">
         <meta name="viewport" content="width=device-width, initial-scale=1.0"></meta>
         <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons"></link>
         <Arrow selected={formatSelected} goBack={goBack} />
