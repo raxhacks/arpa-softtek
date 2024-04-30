@@ -31,7 +31,7 @@ export default function MostrarFavoritos() {
           <div className='w-full p-8'></div>
           <div className='flex justify-center items-start p-4 lg:p-20 z-0'>
               <div className="w-full grid lg:grid-cols-2">
-                {favoriteDocs.map((doc, index) => 
+                {favoriteDocs?.map((doc, index) => 
                   ( 
                     <div key={index} className='pb-4 w-full flex justify-center items-center text-center text-white'>
                       <Link href={`/Analisis`}>

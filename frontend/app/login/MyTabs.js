@@ -128,7 +128,8 @@ function MyTabs() {
         </Tab.Panel>
 
         {/* Inicio de Sesion tab */}
-        <Tab.Panel className={`w-full lg:static rounded-lg flex-grow fixed h-screen p-12 pt-6 bg-gray-600`}>
+        <Tab.Panel className={`w-full lg:static rounded-lg flex-grow fixed h-screen p-12 pt-6 bg-gray-600 overflow-y-auto`}>
+          {/* Boton de atras  */}
           <Tab className={`rounded-lg border w-16 border-transparent py-2 text-white`}>
             <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -143,6 +144,8 @@ function MyTabs() {
                 />
               </svg>
           </Tab>
+
+          {/* form para login */}
           <form action={loginAction} 
             className="flex flex-col items-center justify-center mx-auto max-w-sm mt-10 lg:mt-40">
             <div className='w-full'>
@@ -170,9 +173,10 @@ function MyTabs() {
             <LoginButton />
           </form>
         </Tab.Panel>
-        
+
         {/* Registro tab */}
-        <Tab.Panel className={`w-full lg:static rounded-lg flex-grow fixed h-screen p-12 pt-6 bg-gray-600`}>
+        <Tab.Panel className={`w-full lg:static rounded-lg flex-grow fixed h-screen p-12 pt-6 bg-gray-600 overflow-y-auto`}>   
+          {/* Boton de atras */}
           <Tab className={`rounded-lg border w-16 border-transparent text-white`}>
             <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -187,6 +191,8 @@ function MyTabs() {
                 />
               </svg>
           </Tab>
+          
+          {/* form para registro */}
           <form action={action} 
           // onSubmit={registerSubmit} 
             className="flex flex-col items-center justify-center mx-auto max-w-sm mt-4 lg:mt-40">
@@ -252,7 +258,7 @@ export function LoginButton() {
   
     return (
       <button disabled={pending} type="submit" className="rounded-lg border border-transparent py-4 w-full text-center mt-4 font-semibold text-2xl text-white bg-blue-500 transition-colors hover:border-blue-300 hover:bg-blue-100 hover:dark:bg-neutral-800/20 hover:text-white">
-        {pending ? 'Login in...' : 'Login'}
+        {pending ? 'Iniciando sesion...' : 'Iniciar sesion'}
       </button>
     )
   }

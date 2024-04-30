@@ -1,6 +1,4 @@
 import { NextResponse } from 'next/server'
-import { decrypt } from './app/actions/session'
-import { getCookie } from 'cookies-next'
 import { cookies } from 'next/headers'
 
  
@@ -25,8 +23,7 @@ export default async function middleware(req) {
   // 6. Redirect to /dashboard if the user is authenticated
   if (
     isPublicRoute &&
-    session &&
-    !req.nextUrl.pathname.startsWith('/CargarArchivos')
+    session 
   ) {
     return NextResponse.redirect(new URL('/CargarArchivos', req.nextUrl))
   }

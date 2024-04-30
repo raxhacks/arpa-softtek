@@ -100,5 +100,11 @@ div.sections_header{
     padding: 0% 0% 0% 0%;
   }
   .icon-header:hover {
-    stroke: rgb(221, 198, 146);
+    stroke: rgb(187, 167, 120);
+  }
+  .icon-tabler-logout-2 {
+    stroke: rgb(250, 232, 189);
+  }
+  .icon-tabler-logout-2:hover {
+    stroke: rgb(187, 167, 120);
   }

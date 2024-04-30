@@ -265,6 +265,7 @@ function CargaArchivos() {
   return (
     <>
       <div className="bg-[#30323D] pt-[15vh] pb-[20vh] font-semibold md:pt-[20vh] md:pb-[0vh]">
+        <Header/>
         <meta name="viewport" content="width=device-width, initial-scale=1.0"></meta>
         <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons"></link>
         <Arrow selected={formatSelected} goBack={goBack} />

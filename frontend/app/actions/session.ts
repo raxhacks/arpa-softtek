@@ -69,7 +69,7 @@ export async function createSession(token: string) {
 // }
 
 export async function deleteSession() {
-  deleteCookie('session')
+  cookies().delete('session');
 }
 
 export async function logout() {

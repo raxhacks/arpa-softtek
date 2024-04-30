@@ -3,7 +3,7 @@ import { createUser } from '@/services/user.service';
 import axios from 'axios';
 import { createSession } from '@/app/actions/session'
 import { redirect } from 'next/navigation';
- 
+
 export async function signup(state: FormState, formData: FormData) {
     // Validate form fields
     const validatedFields = SignupFormSchema.safeParse({
