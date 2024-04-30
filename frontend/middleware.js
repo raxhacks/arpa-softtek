@@ -1,11 +1,10 @@
 import { NextResponse } from 'next/server'
 import { cookies } from 'next/headers'
 
- 
 // 1. Specify protected and public routes
 const protectedRoutes = ['/CargarArchivos', '/Analisis', '/Favorites', '/History']
 const publicRoutes = ['/']
- 
+
 export default async function middleware(req) {
   // 2. Check if the current route is protected or public
   const path = req.nextUrl.pathname
@@ -14,29 +13,24 @@ export default async function middleware(req) {
 
   // 3. Decrypt the session from the cookie
   const session = cookies().get('session')?.value
-  
-  // 5. Redirect to /login if the user is not authenticated
+
+  // 4. Redirect to /login if the user is not authenticated for protected routes
   if (isProtectedRoute && !session) {
-    return NextResponse.redirect(new URL('/', req.nextUrl))
+    return NextResponse.redirect(`${req.nextUrl.origin}/`)
   }
- 
-  // 6. Redirect to /dashboard if the user is authenticated
-  if (
-    isPublicRoute &&
-    session 
-  ) {
-    return NextResponse.redirect(new URL('/CargarArchivos', req.nextUrl))
+
+  // 5. Redirect to /CargarArchivos if the user is authenticated and trying to access public routes
+  if (isPublicRoute && session) {
+    return NextResponse.redirect(`${req.nextUrl.origin}/CargarArchivos`)
   }
- 
+
+  // 6. Continue to the next middleware or handler if no redirection is needed
   return NextResponse.next()
 }
- 
+
 // Routes Middleware should not run on
 export const config = {
-  matcher: [
-    '/:path*',
-    '/CargarArchivos/:path*', 
-    '/Analisis/:path*', 
-    '/Favorites/:path*', 
-    '/History/:path*'],
+  api: {
+    bodyParser: false,
+  },
 }
