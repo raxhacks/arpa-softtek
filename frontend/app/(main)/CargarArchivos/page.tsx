@@ -6,7 +6,7 @@ import { useState } from 'react';
 import axios from 'axios';
 import { Fade } from "react-awesome-reveal";
 import { createDocument } from '@/services/document.service';
-import { useRouter } from 'next/navigation'
+import { useRouter } from 'next/navigation';
 import exp from "constants";
 import Header from '../header';
   
