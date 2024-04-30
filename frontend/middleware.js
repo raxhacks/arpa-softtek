@@ -33,5 +33,5 @@ export default async function middleware(req) {
  
 // Routes Middleware should not run on
 export const config = {
-  matcher: ['/CargarArchivos/:path*', '/Analisis/:path*', '/Favorites/:path*', '/History/:path*'],
+  matcher: ['/:path*'],
 }
