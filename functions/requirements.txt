@@ -10,10 +10,9 @@ pdfminer.six
 google-cloud-storage
 yake
 bz2file
-
-langchain_openai 
-langchain_pinecone  
-pinecone 
+langchain-openai 
+langchain-pinecone  
+pinecone-client 
 openai 
 langchain-google-firestore
 langchain_google_firestore 

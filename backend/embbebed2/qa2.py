@@ -1,13 +1,10 @@
-from langchain.document_loaders import UnstructuredPDFLoader, OnlinePDFLoader, PyPDFLoader
+from langchain_community.document_loaders import PyPDFLoader
 from langchain.chains.combine_documents import create_stuff_documents_chain
 from langchain.chains import create_history_aware_retriever
 from langchain.chains import create_retrieval_chain
 from langchain_core.runnables.history import RunnableWithMessageHistory
 from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
 from langchain.text_splitter import RecursiveCharacterTextSplitter
-from langchain.embeddings import SentenceTransformerEmbeddings
-from langchain_core.chat_history import BaseChatMessageHistory
-from langchain_community.chat_message_histories import ChatMessageHistory
 from langchain.vectorstores import Pinecone
 from langchain_openai import OpenAIEmbeddings
 from langchain_pinecone import PineconeVectorStore
@@ -16,10 +13,10 @@ from langchain_openai import ChatOpenAI
 from pinecone import ServerlessSpec
 from pinecone import Pinecone
 from openai import OpenAI
+from dotenv import load_dotenv
 import pinecone 
 import time
 import os
-from google.auth import compute_engine
 from google.cloud import firestore
 from firebase_admin import firestore, credentials, initialize_app
 from langchain_google_firestore import FirestoreChatMessageHistory
@@ -35,14 +32,16 @@ keys_path = os.path.join(current_directory, "keys.json")
 with open(keys_path) as f:
     keys = json.load(f)
 
-OPENAI_API_KEY = keys["OPENAI_API_KEY"]
-PINECONE_API_KEY = keys["PINECONE_API_KEY"]
+
+load_dotenv()
+OPENAI_API_KEY = os.getenv('OPENAI_API_KEY')
+PINECONE_API_KEY = os.getenv('PINECONE_API_KEY')
 MODEL = "text-embedding-3-small"
 client = OpenAI(api_key=OPENAI_API_KEY)
 llm = ChatOpenAI(model="gpt-3.5-turbo", temperature=0)
 
 def obtener_texto(url):
-    loader = PyPDFLoader("C:/Users/Rax/Downloads/Raymundo_Guzman_Mata_English_CV.pdf")
+    loader = PyPDFLoader("/home/raxhacks/Downloads/Raymundo_Guzman_Mata_English_CV.pdf")
     data = loader.load()
     text_splitter = RecursiveCharacterTextSplitter(chunk_size=1000, chunk_overlap=0)
     texts = text_splitter.split_documents(data)
@@ -50,7 +49,7 @@ def obtener_texto(url):
 
 docs = obtener_texto('./model2.ipynb')
 
-index_name = 'arpa2'
+index_name = 'ray'
 spec = ServerlessSpec(cloud="aws", region="us-east-1")
 pc = Pinecone(api_key=PINECONE_API_KEY)
 
@@ -58,8 +57,8 @@ pc = Pinecone(api_key=PINECONE_API_KEY)
 if index_name not in pc.list_indexes().names():
     # if does not exist, create index
     pc.create_index(
-        index_name=index_name,
-        dimension=1536,  # dimensionality of text-embed-3-small
+        name=index_name,
+        dimension=1536,  # dimensionality of text-embeabc124d-3-small
         metric='cosine',
         spec=spec
     )
@@ -119,8 +118,6 @@ print(question_answer_chain)
 print(qa_prompt)
 rag_chain = create_retrieval_chain(history_aware_retriever, question_answer_chain)
 
-chat_history = None
-
 def get_session_history(session_id: str):
     # Reference the chat collection
     chat_ref = db.collection("chat").document(session_id)
@@ -135,6 +132,8 @@ def get_session_history(session_id: str):
         chat_history = FirestoreChatMessageHistory(session_id=session_id, collection="chat", client=db)
     return chat_history
 
+chat_history = get_session_history("ray")
+
 conversational_rag_chain = RunnableWithMessageHistory(
     rag_chain,
     get_session_history,
@@ -147,9 +146,11 @@ prompt = "what is the paper about?"
 answer = conversational_rag_chain.invoke(
     {"input": prompt},
     config={
-        "configurable": {"session_id": "abc124"}
+        "configurable": {"session_id": "ray"}
     },  # constructs a key "abc123" in `store`.
 )["answer"]
 
 chat_history.add_user_message(prompt)
 chat_history.add_ai_message(answer)
+print("RESPUESTA AL RIEL:",answer)
+
