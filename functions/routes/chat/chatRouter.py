@@ -82,7 +82,7 @@ def delete_chat():
     except Exception as e:
         print("Error:",e)
         return flask.jsonify({"message":"Failed to delete chat"}), 500
-
+    
 @chatBlueprint.route("/sendMessage", methods=["POST"])
 def send_message():
     try:
@@ -94,11 +94,12 @@ def send_message():
         
         db = firestore.client()
         chat_doc_ref = db.collection('users').document(user_id).collection('documents').document(document_id).collection('chat').document(chat_id)
-        messages = chat_doc_ref.get().to_dict().get('messages')
-        messages.append(user_interaction)
-        chat_doc_ref.update({"messages":messages})
         
-        return flask.jsonify({"message":"Message sent successfully"}), 200
+        chat_doc_ref.update({
+            "messages": firestore.ArrayUnion([user_interaction]),
+        })
+        
+        return flask.jsonify({"message": "Message sent successfully"}), 200
     except Exception as e:
-        print("Error:",e)
-        return flask.jsonify({"message":"Failed to send message"}), 500
+        print("Error:", e)
+        return flask.jsonify({"message": "Failed to send message"}), 500
