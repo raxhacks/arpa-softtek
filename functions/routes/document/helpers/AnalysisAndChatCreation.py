@@ -31,7 +31,7 @@ MODEL = "text-embedding-3-small"
 client = OpenAI(api_key=OPENAI_API_KEY)
 llm = ChatOpenAI(model="gpt-3.5-turbo", temperature=0)
 
-def AnalysisAndChatCreation(user_id, document_id, text):
+def addAnalysisToDocument(user_id, document_id, text, keywords):
     try:
         db = firestore.client()
         user_doc_ref = db.collection('users').document(user_id)
@@ -39,14 +39,17 @@ def AnalysisAndChatCreation(user_id, document_id, text):
 
         # Split in chunks
         text_splitter = RecursiveCharacterTextSplitter(chunk_size=1000, chunk_overlap=0)
-        texts = text_splitter.split_documents(text)
+        data = text_splitter.create_documents([text])
+        docs = text_splitter.split_documents(data)
 
-        index_name = document_id
+
+        index_name = document_id.lower()
         spec = ServerlessSpec(cloud="aws", region="us-east-1")
         pc = Pinecone(api_key=PINECONE_API_KEY)
 
         if index_name not in pc.list_indexes().names():
             # if does not exist, create index
+            print("Creating index")
             pc.create_index(
                 name=index_name,
                 dimension=1536,  # dimensionality of text-embeabc124d-3-small
@@ -57,11 +60,12 @@ def AnalysisAndChatCreation(user_id, document_id, text):
             while not pc.describe_index(index_name).status['ready']:
                 time.sleep(1)
             vectorstore = PineconeVectorStore.from_documents(
-                docs=texts,
+                docs,
                 index_name=index_name,
                 embedding=OpenAIEmbeddings(model=MODEL),
             )
-        else:  
+        else:
+            print("Index already exists")  
             vectorstore = PineconeVectorStore(index_name=index_name, embedding=OpenAIEmbeddings(model=MODEL))
         # connect to index
         index = pc.Index(index_name)
@@ -89,8 +93,7 @@ def AnalysisAndChatCreation(user_id, document_id, text):
         ### Answer question ###
         qa_system_prompt = """You are an assistant for question-answering tasks related to scientific papers, articles and investigations. \
         Use the following pieces of retrieved context to answer the question. \
-        If we ask this specific prompt "Analyze using ARPA", you must return a stringified JSON's array. Each index represents a section of the paper. Follow the next structure: \
-        [{\"section\": \"Introduction\", \"content\": \"This is the introduction of the paper\"}, {\"section\": \"Methodology\", \"content\": \"This is the methodology of the paper\"}] \
+        If we ask this specific prompt "Analyze this paper", you must return a stringified JSON's array. Each index represents a summarized section of the paper and the object has 2 attributes, the title of the section and the content. Just the stringified json, no other format (don't use backticks to tell you are using json). \
         {context}"""
         qa_prompt = ChatPromptTemplate.from_messages(
             [
@@ -116,12 +119,8 @@ def AnalysisAndChatCreation(user_id, document_id, text):
             else:
                 chat_history = FirestoreChatMessageHistory(session_id=session_id, collection=f"analysis_prompt", client=db)
             return chat_history
-        
-        def generateRandomString(stringLength=10):
-            letters = string.ascii_lowercase
-            return ''.join(random.choice(letters) for i in range(stringLength))
 
-        chat_history = get_session_history(generateRandomString(10))
+        chat_history = get_session_history(document_id)
 
         conversational_rag_chain = RunnableWithMessageHistory(
             rag_chain,
@@ -130,7 +129,7 @@ def AnalysisAndChatCreation(user_id, document_id, text):
             history_messages_key="chat_history",
             output_messages_key="answer",
         )
-        prompt = "Analyze using ARPA"
+        prompt = "Analyze this paper"
         answer = conversational_rag_chain.invoke(
             {"input": prompt},
             config={
@@ -140,6 +139,22 @@ def AnalysisAndChatCreation(user_id, document_id, text):
 
         chat_history.add_user_message(prompt)
         chat_history.add_ai_message(answer)
+
+        print(prompt)
+        print(answer)
+
+        # Save the analysis to the document
+        analysis_doc_ref = document_doc_ref.collection('analysis').document()
+        
+        new_analysis = {}
+        new_analysis['keywords'] = keywords
+        new_analysis['sections'] = json.loads(answer)
+        
+        analysis_doc_ref.set(new_analysis)
+        
+        analysis_doc_ref.update({"analysis":analysis_doc_ref.id})
+        
+        document_doc_ref.update({"analysis":firestore.ArrayUnion([analysis_doc_ref.id])})
 
     except Exception as e:
         print("Error",e)
