@@ -46,7 +46,7 @@ function Content(center: any) {
   const viewerURL = `https://docs.google.com/viewer?url=${encodedUrl}&embedded=true`;
   if(center.currentTab === "Resumen"){
     return(
-      <div className="text">
+      <div className="text-[#FCFAF5] text-[3vh] mx-[10vw] mt-[5vh]">
         <Collapsible trigger={SectionTitle("Sección 1")} triggerWhenOpen={SectionTitleOpen("Sección 1")} transitionTime={150} className="my-7">
           <div className="pl-14">
             Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
@@ -76,7 +76,7 @@ function Content(center: any) {
   }
   else if(center.currentTab === "Texto Original"){
     return(
-      <div className="text h-screen">
+      <div className="text-[#FCFAF5] text-[3vh] mx-[10vw] mt-[5vh] h-screen">
         <iframe
             src={viewerURL}
             width="100%"
@@ -87,7 +87,7 @@ function Content(center: any) {
   }
   else if(center.currentTab === "Chatbot"){
     return(
-      <div className="text">
+      <div className="text-[#FCFAF5] text-[3vh] mx-[10vw] mt-[5vh]">
         <Chat />
       </div>
     );
@@ -145,33 +145,38 @@ function MostrarAnalisis() {
     setTab(value)
   }
   return (
-    <div className="flex items-center justify-center overflow-y-scroll overflow-x-hiddden">
-      < Header />
-      <div className="flex items-center">
-        <div className={cx("sideBarLeft", {"sideBarLeft-closed":!leftBarOpen})}>
-          <p className={cx("leftText", {"leftText-closed":!leftBarOpen})}>
+    <div className="flex items-top justify-center">
+      <Header />
+      <div className="flex items-center h-screen">
+        <div className={cx("sideBar fixed left-0 top-0 bottom-0 bg-[#24252E] w-[30vw] pt-[125px] z-10", {"w-0":!leftBarOpen})}>
+          <p className={cx("leftText text-[#FCFAF5] text-left w-[29.8vw] fixed left-0 top-0 bottom-0 mt-[125px] px-[1vw] overflow-x-hidden overflow-y-scroll",
+          {"left-[-30vw]":!leftBarOpen})}>
             <LeftBarContent />
           </p>
         </div>
-        <div className={cx("sideBarLeftSpace", {"sideBarLeftSpace-closed":!leftBarOpen})} />
-        <button onClick={() => {setLeftBar(!leftBarOpen), setRightBar(false)}} className={cx("sideBarLeft_button", {"sideBarLeft_button-closed":!leftBarOpen})}>
+        <div className={cx("sideBar bg-transparent w-[30vw] h-[100vh] pt-[125px]", {"w-0":!leftBarOpen})} />
+        <button onClick={() => {setLeftBar(!leftBarOpen), setRightBar(false)}}
+        className={cx("sideBarButton fixed bg-[#24252E] text-[#FCFAF5] text-[3.5vh] left-[30vw] h-[40vh] w-[3.5vw] rounded-[10px] mt-[125px] pr-[0.5vw] font-semibold translate-x-[-10%] hover:bg-[#F5C556] hover:text-[#24252E]",
+        {"left-[0px]":!leftBarOpen})}>
           Analisis cualitativo
         </button>
       </div>
-      <div className="main">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0"></meta>
+      <div className="bg-[#30323D] pt-[125px] bottom-0 font-semibold basis-[93vw]">
         <div className="flex items-center justify-center">
           <Segmented options={["Resumen", "Texto Original", "Chatbot"]} onChange={(value) => handleTabChange(value)} />
         </div>
         <Content currentTab={currentTab}/>
       </div>
-      <div className="flex items-center h-screen overflow-x-hidden">
-        <button onClick={() => {setRightBar(!rightBarOpen), setLeftBar(false)}} className={cx("sideBarRight_button", {"sideBarRight_button-closed":!rightBarOpen})}>
+      <div className="flex items-center h-screen">
+        <button onClick={() => {setRightBar(!rightBarOpen), setLeftBar(false)}}
+        className={cx("sideBarButton fixed bg-[#24252E] text-[#FCFAF5] text-[3.5vh] right-[30vw] h-[40vh] w-[3.5vw] rounded-[10px] mt-[125px] pr-[0.5vw] font-semibold translate-x-[10%] hover:bg-[#F5C556] hover:text-[#24252E]",
+        {"right-[0vw]":!rightBarOpen})}>
           Analisis cuantitativo
         </button>
-        <div className={cx("sideBarRightSpace", {"sideBarRightSpace-closed":!rightBarOpen})} />
-        <div className={cx("sideBarRight", {"sideBarRight-closed":!rightBarOpen})}>
-          <p className={cx("rightText", {"rightText-closed":!rightBarOpen})}>
+        <div className={cx("sideBar bg-transparent w-[30vw] h-[100vh] pt-[125px]", {"w-0":!rightBarOpen})} />
+        <div className={cx("sideBar fixed right-0 top-0 bottom-0 bg-[#24252E] w-[30vw] pt-[125px] z-10", {"w-0":!rightBarOpen})}>
+          <p className={cx("sideBar text-[#FCFAF5] text-left w-[29.8vw] fixed right-0 top-0 bottom-0 mt-[125px] px-[1vw] overflow-x-hidden overflow-y-scroll",
+          {"right-[-30vw]":!rightBarOpen})}>
             <RightBarContent />
           </p>
         </div>
