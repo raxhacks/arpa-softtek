@@ -11,7 +11,7 @@ from pdfminer.converter import XMLConverter, HTMLConverter, TextConverter, PDFCo
 from pdfminer.layout import LAParams
 from pdfminer.pdfinterp import PDFResourceManager, PDFPageInterpreter, PDFPage
 import yake
-from .helpers.AnalysisAndChatCreation import AnalysisAndChatCreation
+from .helpers.AnalysisAndChatCreation import addAnalysisToDocument
 
 MAX_FILE_SIZE_MB = 3 
 
@@ -138,7 +138,6 @@ def create_document():
             'created_at': firestore.SERVER_TIMESTAMP,
             'favorite': False,
             'chat': {},
-            'analysis': {"keywords": analysis_keywords}
         }
 
         # Create the document
@@ -163,7 +162,7 @@ def create_document():
         document_doc_ref.update({"chat":firestore.ArrayUnion([chat_doc_ref.id])})
 
         # Create analysis collection for the document
-        
+        addAnalysisToDocument(user_id, document_doc_ref.id, text, analysis_keywords)
 
         return flask.jsonify({"message": "New document created successfully", "document_id": document_doc_ref.id, "text":text}), 201
     except Exception as e:
