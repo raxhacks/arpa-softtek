@@ -10,6 +10,10 @@ import cx from "classnames";
 import { handleClientScriptLoad } from 'next/script';
 import Collapsible from 'react-collapsible';
 import Header from '../header';
+import queryString from 'query-string';
+import { getDocument } from '@/services/document.service';
+import { Document } from '@/model/document';
+import { doc } from 'firebase/firestore';
 
 function SectionTitle(title: string){
   return(
@@ -44,6 +48,37 @@ function SectionTitleOpen(title: string){
 function Content(center: any) {
   const encodedUrl = encodeURIComponent("https://storage.googleapis.com/arpa-softtek.appspot.com/users/hNb7IaKYx7bRUWEWB9cn575nATF2/Raymundo_Guzman_Mata_English_CV%20%281%29.pdf");
   const viewerURL = `https://docs.google.com/viewer?url=${encodedUrl}&embedded=true`;
+  
+  // const url = (window.location.href).toString();
+  const url = window.location.href;
+  // Parsear el query
+  const parsedURL = queryString.parseUrl(url);
+  // Obtener el valor del parámetro "id"
+  // const id = parsedURL.query.id;
+
+  const docUrl = parsedURL.query.url;
+  // console.log('sdass', id)
+  // if (docUrl){
+  //   setDocumentExtraction(docUrl);
+  // }
+  // useEffect(() => {
+  //   const fetchDocument = async () => {
+  //     if (id) {
+  //       const documentId = id.toString();
+  //       try {
+  //         const doc = await getDocument(documentId);
+  //         setDocumentExtraction(doc);
+  //         console.log('Document fetch succesfully doc id:',doc.id);
+  //       } catch (error) {
+  //         const doc = ''
+  //         // Manejo de errores, como mostrar un mensaje de error
+  //         console.log('Error al obtener el documento:', error);
+  //       }
+  //     }
+  //   };
+  //   fetchDocument();
+  // }, [id]);
+
   if(center.currentTab === "Resumen"){
     return(
       <div className="text">
@@ -77,11 +112,11 @@ function Content(center: any) {
   else if(center.currentTab === "Texto Original"){
     return(
       <div className="text h-screen">
-        <iframe
-            src={viewerURL}
-            width="100%"
-            height="100%"
-            />
+         <iframe
+         src={`https://docs.google.com/viewer?url=${docUrl}&embedded=true`}
+         width="100%"
+         height="100%"
+         />   
       </div>
     );
   }
