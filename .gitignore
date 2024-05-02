@@ -9,6 +9,7 @@ firebase-cred.json
 firebase-debug.log
 
 backend/embbebed/.env
+backend/embbebed2/.env
 backend/embbebed/venv
 backend/node_modules
 
