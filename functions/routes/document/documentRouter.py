@@ -11,6 +11,7 @@ from pdfminer.converter import XMLConverter, HTMLConverter, TextConverter, PDFCo
 from pdfminer.layout import LAParams
 from pdfminer.pdfinterp import PDFResourceManager, PDFPageInterpreter, PDFPage
 import yake
+from .helpers.AnalysisAndChatCreation import AnalysisAndChatCreation
 
 MAX_FILE_SIZE_MB = 3 
 
