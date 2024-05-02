@@ -70,7 +70,13 @@ export const getDocument = async (document_id: string): Promise<Document> => {
 
         return document;
     } catch (error) {
+        const document: Document = {
+            id: '',
+            title: '',
+            createdAt: '',
+            publicURL: ''
+        };
         console.error('Could not fetch document:', error);
-        throw error;
+        return document;
     }
 };

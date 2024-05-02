@@ -1,8 +1,4 @@
 
-// import { createUser } from '@/services/user.service';
-// import { login } from '@/services/login.service';
-// import { useSearchParams } from 'next/navigation'
-// import { useRouter } from 'next/navigation';
 'use client'
 import React, { useState } from 'react';
 import { Tab } from '@headlessui/react';
@@ -13,6 +9,44 @@ import { authLogin, login } from '@/app/actions/authLogin'
 function MyTabs() {
   const [state, action] = useFormState(signup, undefined)
   const [loginstate, loginAction] = useFormState(authLogin, undefined)
+
+  // const [showMessage, setShowMessage] = useState(false);
+  // const [message, setMessage] = useState('');
+  // const [showMessageR, setShowMessageR] = useState(false);
+  // const [messageR, setMessageR] = useState('');
+
+
+  // useEffect(() => {
+  //   // Si loginstate tiene un mensaje, mostrarlo y configurar showMessage en true
+  //   if (loginstate?.message) {
+  //     setMessage(loginstate.message);
+  //     setShowMessage(true);
+
+  //     // Configurar un temporizador para cambiar showMessage a false después de 5 segundos
+  //     const timer = setTimeout(() => {
+  //       setShowMessage(false);
+  //     }, 10000);
+
+  //     // Limpiar el temporizador en la limpieza del efecto para evitar fugas de memoria
+  //     return () => clearTimeout(timer);
+  //   }
+  // }, [loginstate]);
+
+  // useEffect(() => {
+  //   // Si loginstate tiene un mensaje, mostrarlo y configurar showMessage en true
+  //   if (state?.message) {
+  //     setMessageR(state.message);
+  //     setShowMessageR(true);
+
+  //     // Configurar un temporizador para cambiar showMessage a false después de 5 segundos
+  //     const timer = setTimeout(() => {
+  //       setShowMessageR(false);
+  //     }, 10000);
+
+  //     // Limpiar el temporizador en la limpieza del efecto para evitar fugas de memoria
+  //     return () => clearTimeout(timer);
+  //   }
+  // }, [state]);
 
   // const router = useRouter()
   // const [values, setValues] = useState({
@@ -148,8 +182,23 @@ function MyTabs() {
           {/* form para login */}
           <form action={loginAction} 
             className="flex flex-col items-center justify-center mx-auto max-w-sm mt-10 lg:mt-40">
+            {loginstate?.message && 
+              <div className='pl-2 pr-2 rounded-2xl border border-red-500' style={{ display: 'flex', alignItems: 'center' }}>
+                <svg xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler icon-tabler-exclamation-circle mr-1" width="15" height="15" viewBox="0 0 24 24" strokeWidth="1.5" stroke="#ffffff" fill="none" strokeLinecap="round" strokeLinejoin="round" style={{ marginLeft: '5px' }}>
+                  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                  <path d="M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0" />
+                  <path d="M12 9v4" />
+                  <path d="M12 16v.01" />
+                </svg>
+                <p className='mr-1'>{loginstate.message}</p>
+              </div>
+            }
             <div className='w-full'>
-              <input id="email" name="email" placeholder = "Correo electrónico" className="w-full mb-1 lg:mb-8 border-b-2 border-yellow-500 px-3 py-2 mt-1 focus:outline-none bg-transparent text-white" autoComplete='on'/>
+              <input 
+                id="email" 
+                name="email" 
+                placeholder = "Correo electrónico" 
+                className="w-full mb-1 lg:mb-8 border-b-2 border-yellow-500 px-3 py-2 mt-1 focus:outline-none bg-transparent text-white" autoComplete='on'/>
             </div>
             <div className='w-full'>
               <input 
@@ -160,16 +209,6 @@ function MyTabs() {
                 className="w-full mb-1 lg:mb-8 border-b-2 border-yellow-500 px-3 py-2 mt-1 focus:outline-none bg-transparent text-white" 
               />
             </div>
-            {loginstate?.errors?.password && (
-              <div>
-                <p>Porfavor introdusca una contraseña:</p>
-                <ul>
-                  {state.errors.password.map((error) => (
-                    <li key={error}>- {error}</li>
-                  ))}
-                </ul>
-              </div>
-            )}
             <LoginButton />
           </form>
         </Tab.Panel>
@@ -196,8 +235,18 @@ function MyTabs() {
           <form action={action} 
           // onSubmit={registerSubmit} 
             className="flex flex-col items-center justify-center mx-auto max-w-sm mt-4 lg:mt-40">
-            {/* {errorMessage && <p className="text-red-700 text-center bg-white rounded-lg w-full px-2">{errorMessage}</p>} */}
-            {/* {erroMessageInRegister && <p className="text-red-700 text-center bg-white rounded-lg w-full px-2">{erroMessageInRegister}</p>}  */}
+            {state?.message && 
+              <div className='pl-2 pr-2 rounded-2xl border border-red-500' style={{ display: 'flex', alignItems: 'center' }}>
+                <svg xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler icon-tabler-exclamation-circle mr-1" width="15" height="15" viewBox="0 0 24 24" strokeWidth="1.5" stroke="#ffffff" fill="none" strokeLinecap="round" strokeLinejoin="round" style={{ marginLeft: '5px' }}>
+                  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                  <path d="M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0" />
+                  <path d="M12 9v4" />
+                  <path d="M12 16v.01" />
+                </svg>
+                <p className='mr-1'>{state.message}</p>
+              </div>
+            }
+
             <div className='w-full'>
               <input 
                 name="email" 
@@ -248,7 +297,7 @@ export function SignupButton() {
 
   return (
     <button disabled={pending} type="submit" className="rounded-lg border border-transparent py-4 w-full text-center mt-4 font-semibold text-2xl text-black bg-yellow-300 transition-colors hover:border-yellow-300 hover:bg-yellow-100 hover:dark:bg-neutral-800/20 hover:text-white">
-      {pending ? 'Submitting...' : 'Sign up'}
+      {pending ? 'Registrando...' : 'Registrarse'}
     </button>
   )
 }
@@ -258,7 +307,7 @@ export function LoginButton() {
   
     return (
       <button disabled={pending} type="submit" className="rounded-lg border border-transparent py-4 w-full text-center mt-4 font-semibold text-2xl text-white bg-blue-500 transition-colors hover:border-blue-300 hover:bg-blue-100 hover:dark:bg-neutral-800/20 hover:text-white">
-        {pending ? 'Iniciando sesion...' : 'Iniciar sesion'}
+        {pending ? 'Iniciando sesion...' : 'Iniciar sesión'}
       </button>
     )
   }
