@@ -2,7 +2,7 @@ import flask
 from firebase_admin import firestore
 from langchain_pinecone import PineconeVectorStore
 from langchain_openai import OpenAIEmbeddings
-from functions.routes.document.helpers.chat import RAG_chain, chatQA
+from .helpers.chat import RAG_chain, chatQA
 
 chatBlueprint = flask.Blueprint('chat', __name__, url_prefix="/chat")
 
@@ -94,23 +94,22 @@ def send_message():
         # Logica para OpenAI
         user_id = flask.g.get('user_id')
         document_id = flask.request.args.get('document_id')
-        chat_id = flask.request.args.get('chat_id')
-        user_interaction = flask.request.json
+        body = flask.request.json
         index_name = document_id.lower()
 
         chat_prompt_ref = db.collection('users').document(user_id).collection('documents').document(document_id).collection('chat')
         
-        if chat_prompt_ref.get().exists:
+        if len(chat_prompt_ref.get()) == 0:
             ## Get RAG chain and chat history
             # ver como hacer que esto se corra una sola vez ya que si lo corremos cada
             # que se manda una pregunta, se generaran muchos contextos
-            rag_chain, chat_history = RAG_chain(index_name)
+            rag_chain, chat_history = RAG_chain(document_id, user_id)
         
         # obtain prompt
-        user_interaction = user_interaction['message']
+        prompt = body['message']
 
         # get response
-        response = chatQA(rag_chain, chat_history, user_interaction, index_name)
+        response = chatQA(rag_chain, chat_history, prompt, index_name)
         
         return flask.jsonify(
             {"message": "Message sent successfully", 
@@ -118,5 +117,5 @@ def send_message():
              }), 200
     
     except Exception as e:
-        print("Error:", e)
+        print("Error at endpoint:", e)
         return flask.jsonify({"message": "Failed to send message"}), 500

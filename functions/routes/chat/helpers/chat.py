@@ -35,7 +35,7 @@ def get_session_history(session_id: str, db: firestore.client, user_id: str) -> 
     chat_history = FirestoreChatMessageHistory(session_id=session_id, collection=f"users/{user_id}/documents/{session_id}/chat", client=db)
     return chat_history
 
-def RAG_chain(document_id): 
+def RAG_chain(document_id, user_id): 
     try: 
         db = firestore.client()
 
@@ -75,9 +75,11 @@ def RAG_chain(document_id):
             ]
         )
 
-        question_answer_chain = create_retrieval_chain(llm, create_history_aware_retriever, qa_prompt)
+        question_answer_chain = create_stuff_documents_chain(llm, create_history_aware_retriever, qa_prompt)
         rag_chain = create_retrieval_chain(history_aware_retreiver, question_answer_chain)
-        chat_history = get_session_history(document_id, db)
+        print(rag_chain)
+
+        chat_history = get_session_history(document_id, user_id, db)
         converational_rag_chain = RunnableWithMessageHistory(
             rag_chain, 
             get_session_history, 
@@ -107,5 +109,5 @@ def chatQA(rag_chain: RunnableWithMessageHistory, chat_history:FirestoreChatMess
         return response
     
     except Exception as e:
-        print("Error:", e)
+        print("Error at chat script:", e)
         return "Error"
