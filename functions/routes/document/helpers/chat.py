@@ -31,15 +31,8 @@ MODEL = "text-embedding-3-small"
 client = OpenAI(api_key=OPENAI_API_KEY)
 llm = ChatOpenAI(model="gpt-3.5-turbo", temperature=0)
 
-def get_session_history(session_id: str, db: firestore.client): 
-    analysis_prompt_ref = db.collection("analysis_prompt").document(session_id)
-    analysis_prompt_doc = analysis_prompt_ref.get()
-
-    if analysis_prompt_doc.exists: 
-        chat_history = FirestoreChatMessageHistory(session_id=session_id, collection=f"chat_history", client=db)
-    else:
-        chat_history = FirestoreChatMessageHistory(session_id=session_id, collection=f"chat_history", client=db)
-    
+def get_session_history(session_id: str, db: firestore.client, user_id: str) -> FirestoreChatMessageHistory: 
+    chat_history = FirestoreChatMessageHistory(session_id=session_id, collection=f"users/{user_id}/documents/{session_id}/chat", client=db)
     return chat_history
 
 def RAG_chain(document_id): 
