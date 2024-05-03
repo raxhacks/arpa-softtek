@@ -18,7 +18,6 @@ export default function MostrarFavoritos() {
       (async () => {
         setFavoriteDocs(await getFavorites());
       })();
-      console.log('fav docs',favoriteDocs)
       // Llama a fetchData directamente dentro del useEffect
     
     }, []); // Dependencias vacías para ejecutar solo una vez al montar el componente
