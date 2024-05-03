@@ -88,7 +88,10 @@ def RAG_chain(document_id, user_id):
             output_messages_key="answer"
         )
 
-        return converational_rag_chain, chat_history
+        ans = []
+        ans.append(converational_rag_chain)
+        ans.append(chat_history)
+        return ans 
     
     except Exception as e:
         print("Error:", e)

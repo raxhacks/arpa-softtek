@@ -103,13 +103,13 @@ def send_message():
             ## Get RAG chain and chat history
             # ver como hacer que esto se corra una sola vez ya que si lo corremos cada
             # que se manda una pregunta, se generaran muchos contextos
-            rag_chain, chat_history = RAG_chain(document_id, user_id)
+            answer = RAG_chain(document_id, user_id)
         
         # obtain prompt
         prompt = body['message']
 
         # get response
-        response = chatQA(rag_chain, chat_history, prompt, index_name)
+        response = chatQA(answer[0], answer[1], prompt, index_name)
         
         return flask.jsonify(
             {"message": "Message sent successfully", 
