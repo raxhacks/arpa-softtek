@@ -39,7 +39,7 @@ function FormatButton(main: any) {
 
   if (main.type === "PDF") {
     svg = (
-      <svg xmlns="http://www.w3.org/2000/svg" className="icon-format icon-tabler icon-tabler-file-type-pdf hover:stroke-[#2F31AB]" width="200" height="200" viewBox="0 0 24 24" strokeWidth="1" stroke="#5756F5" fill="none" strokeLinecap="round" strokeLinejoin="round">
+      <svg xmlns="http://www.w3.org/2000/svg" className="icon-format icon-tabler icon-tabler-file-type-pdf hover:stroke-[#2F31AB]" width="150" height="150" viewBox="0 0 24 24" strokeWidth="1" stroke="#5756F5" fill="none" strokeLinecap="round" strokeLinejoin="round">
         <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
         <path d="M14 3v4a1 1 0 0 0 1 1h4" />
         <path d="M5 12v-7a2 2 0 0 1 2 -2h7l5 5v4" />
@@ -52,7 +52,7 @@ function FormatButton(main: any) {
   }
   else if (main.type === "URL") {
     svg = (
-      <svg xmlns="http://www.w3.org/2000/svg" className="icon-format icon-tabler icon-tabler-forms hover:stroke-[#2F31AB]" width="200" height="200" viewBox="0 0 24 24" stroke-width="1" stroke="#5756F5" fill="none" stroke-linecap="round" stroke-linejoin="round">
+      <svg xmlns="http://www.w3.org/2000/svg" className="icon-format icon-tabler icon-tabler-forms hover:stroke-[#2F31AB]" width="150" height="150" viewBox="0 0 24 24" stroke-width="1" stroke="#5756F5" fill="none" stroke-linecap="round" stroke-linejoin="round">
         <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
         <path d="M12 3a3 3 0 0 0 -3 3v12a3 3 0 0 0 3 3" />
         <path d="M6 3a3 3 0 0 1 3 3v12a3 3 0 0 1 -3 3" />
@@ -65,7 +65,7 @@ function FormatButton(main: any) {
   }
   else if (main.type === "DOCX") {
     svg = (
-      <svg xmlns="http://www.w3.org/2000/svg" className="icon-format icon-tabler icon-tabler-file-type-doc hover:stroke-[#2F31AB]" width="200" height="200" viewBox="0 0 24 24" stroke-width="1" stroke="#5756F5" fill="none" stroke-linecap="round" stroke-linejoin="round">
+      <svg xmlns="http://www.w3.org/2000/svg" className="icon-format icon-tabler icon-tabler-file-type-doc hover:stroke-[#2F31AB]" width="150" height="150" viewBox="0 0 24 24" stroke-width="1" stroke="#5756F5" fill="none" stroke-linecap="round" stroke-linejoin="round">
         <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
         <path d="M14 3v4a1 1 0 0 0 1 1h4" />
         <path d="M5 12v-7a2 2 0 0 1 2 -2h7l5 5v4" />
