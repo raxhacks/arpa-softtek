@@ -136,10 +136,30 @@ function RightBarContent() {
   );
 }
 
+function BotonFavorito(favorito: any){
+  if(favorito.state == true){
+    return(
+      <svg xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler icon-tabler-star hover:stroke-[#2F31AB] hover:fill-[#2F31AB]" width="50" height="50" viewBox="0 0 24 24" stroke-width="1.5" stroke="#5756F5" fill="#5756F5" stroke-linecap="round" stroke-linejoin="round">
+        <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+        <path d="M12 17.75l-6.172 3.245l1.179 -6.873l-5 -4.867l6.9 -1l3.086 -6.253l3.086 6.253l6.9 1l-5 4.867l1.179 6.873z" />
+      </svg>
+    );
+  }
+  else{
+    return(
+      <svg xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler icon-tabler-star hover:stroke-[#2F31AB]" width="50" height="50" viewBox="0 0 24 24" stroke-width="1.5" stroke="#5756F5" fill="none" stroke-linecap="round" stroke-linejoin="round">
+        <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+        <path d="M12 17.75l-6.172 3.245l1.179 -6.873l-5 -4.867l6.9 -1l3.086 -6.253l3.086 6.253l6.9 1l-5 4.867l1.179 6.873z" />
+      </svg>
+    );
+  }
+}
+
 function MostrarAnalisis() {
   const [currentTab, setTab] = useState("Resumen");
   const [leftBarOpen, setLeftBar] = useState(false);
   const [rightBarOpen, setRightBar] = useState(false);
+  const [isFavorito, setFavorito] = useState(false);
   
   function handleTabChange(value: any){
     setTab(value)
@@ -148,22 +168,33 @@ function MostrarAnalisis() {
     <div className="flex items-top justify-center">
       <Header />
       <div className="flex items-center h-screen">
-        <div className={cx("sideBar fixed left-0 top-0 bottom-0 bg-[#24252E] w-[30vw] pt-[125px] z-10", {"w-0":!leftBarOpen})}>
+        <div className={cx("sideBar fixed left-0 top-0 bottom-0 bg-[#24252E] w-[30vw] pt-[125px] z-10", {"w-[0vw]":!leftBarOpen})}>
           <p className={cx("leftText text-[#FCFAF5] text-left w-[29.8vw] fixed left-0 top-0 bottom-0 mt-[125px] px-[1vw] overflow-x-hidden overflow-y-scroll",
           {"left-[-30vw]":!leftBarOpen})}>
             <LeftBarContent />
           </p>
         </div>
-        <div className={cx("sideBar bg-transparent w-[30vw] h-[100vh] pt-[125px]", {"w-0":!leftBarOpen})} />
+        <div className={cx("sideBar bg-transparent w-[30vw] h-[100vh] pt-[125px]", {"w-[0vw]":!leftBarOpen})} />
         <button onClick={() => {setLeftBar(!leftBarOpen), setRightBar(false)}}
         className={cx("sideBarButton fixed bg-[#24252E] text-[#FCFAF5] text-[3.5vh] left-[30vw] h-[40vh] w-[3.5vw] rounded-[10px] mt-[125px] pr-[0.5vw] font-semibold translate-x-[-10%] hover:bg-[#F5C556] hover:text-[#24252E]",
-        {"left-[0px]":!leftBarOpen})}>
+        {"left-[0vw]":!leftBarOpen})}>
           Analisis cualitativo
         </button>
       </div>
       <div className="bg-[#30323D] pt-[125px] bottom-0 font-semibold basis-[93vw]">
         <div className="flex items-center justify-center">
+          <button className="mr-[1vw]" onClick={() => setFavorito(!isFavorito)}>
+            <BotonFavorito state={isFavorito} setFavorito={setFavorito}/>
+          </button>
           <Segmented options={["Resumen", "Texto Original", "Chatbot"]} onChange={(value) => handleTabChange(value)} />
+          <button className="ml-[1vw]">
+            <svg xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler icon-tabler-device-floppy hover:stroke-[#2F31AB]" width="50" height="50" viewBox="0 0 24 24" stroke-width="1.5" stroke="#5756F5" fill="none" stroke-linecap="round" stroke-linejoin="round">
+              <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+              <path d="M6 4h10l4 4v10a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2" />
+              <path d="M12 14m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" />
+              <path d="M14 4l0 4l-6 0l0 -4" />
+            </svg>
+          </button>
         </div>
         <Content currentTab={currentTab}/>
       </div>
@@ -173,8 +204,8 @@ function MostrarAnalisis() {
         {"right-[0vw]":!rightBarOpen})}>
           Analisis cuantitativo
         </button>
-        <div className={cx("sideBar bg-transparent w-[30vw] h-[100vh] pt-[125px]", {"w-0":!rightBarOpen})} />
-        <div className={cx("sideBar fixed right-0 top-0 bottom-0 bg-[#24252E] w-[30vw] pt-[125px] z-10", {"w-0":!rightBarOpen})}>
+        <div className={cx("sideBar bg-transparent w-[30vw] h-[100vh] pt-[125px]", {"w-[0vw]":!rightBarOpen})} />
+        <div className={cx("sideBar fixed right-0 top-0 bottom-0 bg-[#24252E] w-[30vw] pt-[125px] z-10", {"w-[0vw]":!rightBarOpen})}>
           <p className={cx("sideBar text-[#FCFAF5] text-left w-[29.8vw] fixed right-0 top-0 bottom-0 mt-[125px] px-[1vw] overflow-x-hidden overflow-y-scroll",
           {"right-[-30vw]":!rightBarOpen})}>
             <RightBarContent />

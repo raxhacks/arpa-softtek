@@ -2,7 +2,7 @@
 
 import { MessageStruct } from "@/model/message";
 import Message from "./Message";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { Bounce } from "react-awesome-reveal";
 
 type MessageGalleryProps = {
@@ -18,6 +18,7 @@ const MessageGallery: React.FC<MessageGalleryProps> = ({
     }
   ]
   const [messages, setMessages] = useState<MessageStruct[]>(prop_messages);
+  const scroller = useRef(null);
 
   useEffect(() => {
     console.log(newMessage)
@@ -32,8 +33,17 @@ const MessageGallery: React.FC<MessageGalleryProps> = ({
     }
   }, [newMessage]);
 
+  useEffect(() => {
+    if(scroller) {
+      scroller.current.addEventListener('DOMNodeInserted', (event: { currentTarget: any; }) => {
+        const { currentTarget: target } = event;
+        target.scroll({ top: target.scrollHeight, behavior: 'smooth' });
+      });
+    }
+  }, [])
+
   return (
-    <div className="w-full">
+    <div className="w-full h-[55vh] pr-[1vw] overflow-y-scroll overflow-x-hidden" ref={scroller}>
       {/*<h1>MessageGallery</h1>*/}
       {messages.map((message, index) => (
         <>
