@@ -184,7 +184,6 @@ function FileStateMessage(fileState: any) {
       const formData = new FormData();
       formData.append("file", fileState.file);
       formData.append("extension", fileState.type);
-      // verifySession() 
       const res = await createDocument(formData);
       const text = res.text;
       localStorage.setItem("text", text);
