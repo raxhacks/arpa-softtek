@@ -2,7 +2,7 @@ import flask
 from firebase_admin import firestore
 from langchain_pinecone import PineconeVectorStore
 from langchain_openai import OpenAIEmbeddings
-from .helpers.chat import RAG_chain, chatQA
+from .helpers.chat import chatQA
 
 chatBlueprint = flask.Blueprint('chat', __name__, url_prefix="/chat")
 
@@ -98,18 +98,19 @@ def send_message():
         index_name = document_id.lower()
 
         chat_prompt_ref = db.collection('users').document(user_id).collection('documents').document(document_id).collection('chat')
-        
-        if len(chat_prompt_ref.get()) == 0:
-            ## Get RAG chain and chat history
-            # ver como hacer que esto se corra una sola vez ya que si lo corremos cada
-            # que se manda una pregunta, se generaran muchos contextos
-            answer = RAG_chain(document_id, user_id)
+
+        # answer = RAG_chain(document_id, user_id)
+        # if len(chat_prompt_ref.get()) == 0:
+        #     ## Get RAG chain and chat history
+        #     # ver como hacer que esto se corra una sola vez ya que si lo corremos cada
+        #     # que se manda una pregunta, se generaran muchos contextos
+        #     answer = RAG_chain(document_id, user_id)
         
         # obtain prompt
         prompt = body['message']
 
         # get response
-        response = chatQA(answer[0], answer[1], prompt, index_name)
+        response = chatQA(document_id, user_id, prompt, index_name)
         
         return flask.jsonify(
             {"message": "Message sent successfully", 
