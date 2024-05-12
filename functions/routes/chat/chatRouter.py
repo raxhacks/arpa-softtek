@@ -96,15 +96,6 @@ def send_message():
         document_id = flask.request.args.get('document_id')
         body = flask.request.json
         index_name = document_id.lower()
-
-        chat_prompt_ref = db.collection('users').document(user_id).collection('documents').document(document_id).collection('chat')
-
-        # answer = RAG_chain(document_id, user_id)
-        # if len(chat_prompt_ref.get()) == 0:
-        #     ## Get RAG chain and chat history
-        #     # ver como hacer que esto se corra una sola vez ya que si lo corremos cada
-        #     # que se manda una pregunta, se generaran muchos contextos
-        #     answer = RAG_chain(document_id, user_id)
         
         # obtain prompt
         prompt = body['message']

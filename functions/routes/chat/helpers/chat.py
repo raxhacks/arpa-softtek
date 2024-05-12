@@ -32,7 +32,7 @@ client = OpenAI(api_key=OPENAI_API_KEY)
 llm = ChatOpenAI(model="gpt-3.5-turbo", temperature=0)
 
 def get_session_history(session_id: str, user_id: str, db: firestore.client) -> FirestoreChatMessageHistory: 
-    print(FirestoreChatMessageHistory(session_id=session_id, collection=f"users/{user_id}/documents/{session_id}/chat", client=db))
+    # print(FirestoreChatMessageHistory(session_id=session_id, collection=f"users/{user_id}/documents/{session_id}/chat", client=db))
     return FirestoreChatMessageHistory(session_id=session_id, collection=f"users/{user_id}/documents/{session_id}/chat", client=db)
 
 def chatQA(document_id, user_id, prompt, session_id: str): 
