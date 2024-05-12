@@ -32,69 +32,8 @@ client = OpenAI(api_key=OPENAI_API_KEY)
 llm = ChatOpenAI(model="gpt-3.5-turbo", temperature=0)
 
 def get_session_history(session_id: str, user_id: str, db: firestore.client) -> FirestoreChatMessageHistory: 
+    print(FirestoreChatMessageHistory(session_id=session_id, collection=f"users/{user_id}/documents/{session_id}/chat", client=db))
     return FirestoreChatMessageHistory(session_id=session_id, collection=f"users/{user_id}/documents/{session_id}/chat", client=db)
-
-# def RAG_chain(document_id, user_id): 
-#     try: 
-#         db = firestore.client()
-
-#         index_name = document_id.lower()
-#         vectorstore = PineconeVectorStore(index_name=index_name, embedding=OpenAIEmbeddings(model=MODEL))
-#         retreiver = vectorstore.as_retriever()
-
-#         # Contextualize question 
-#         contextualize_q_system_prompt = """Given a chat history and the latest user question \
-#         which might reference context in the chat history, formulate a standalone question \
-#         which can be understood without the chat history. Do NOT answer the question, \
-#         just reformulate it if needed and otherwise return it as is."""
-
-#         contextualize_q_prompt = ChatPromptTemplate.from_messages(
-#             [
-#                 ("system", contextualize_q_system_prompt),
-#                 MessagesPlaceholder("chat_history"),
-#                 ("human", "{input}")
-#             ]
-#         ) 
-
-#         history_aware_retreiver = create_history_aware_retriever(llm , retreiver, contextualize_q_prompt)
-
-#         ### Answer question ###
-#         qa_system_prompt = """You are an assistant for question-answering tasks related to scientific papers, articles and investigations. \
-#         Use the following pieces of retrieved context to answer the question. \
-#         If you don't know the answer, just say that you don't know. \
-#         Use three sentences maximum and keep the answer concise.\
-        
-#         {context}"""
-
-#         qa_prompt = ChatPromptTemplate.from_messages(
-#             [
-#                 ("system", qa_system_prompt),
-#                 MessagesPlaceholder("chat_history"),
-#                 ("human", "{input}")
-#             ]
-#         )
-
-#         question_answer_chain = create_stuff_documents_chain(llm, create_history_aware_retriever, qa_prompt)
-#         rag_chain = create_retrieval_chain(history_aware_retreiver, question_answer_chain)
-#         print(rag_chain)
-
-#         chat_history = get_session_history(document_id, user_id, db)
-#         converational_rag_chain = RunnableWithMessageHistory(
-#             rag_chain, 
-#             get_session_history, 
-#             input_messages_key="input",
-#             history_messages_key="chat_history",
-#             output_messages_key="answer"
-#         )
-
-#         ans = []
-#         ans.append(converational_rag_chain)
-#         ans.append(chat_history)
-#         return ans 
-    
-#     except Exception as e:
-#         print("Error:", e)
-#         return "Error"
 
 def chatQA(document_id, user_id, prompt, session_id: str): 
     try:  
