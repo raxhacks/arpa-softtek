@@ -83,7 +83,7 @@ def chatQA(document_id, user_id, prompt, session_id: str):
         qa_system_prompt = """You are an assistant for question-answering tasks related to scientific papers, articles and investigations. \
         Use the following pieces of retrieved context to answer the question. \
         If you don't know the answer, just say that you don't know. \
-        Use three sentences maximum and keep the answer concise.\
+        Use three sentences maximum, keep the answer concise and response in the same language as the question.\
         
         {context}"""
 
@@ -95,7 +95,7 @@ def chatQA(document_id, user_id, prompt, session_id: str):
             ]
         )
 
-        """"
+        """
         This line creates a component named question_answer_chain. 
         The exact details might depend on the specific library used, 
         but it likely involves the LLM (llm) and the qa_prompt defined earlier.
