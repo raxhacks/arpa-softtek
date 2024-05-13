@@ -107,18 +107,7 @@ def addAnalysisToDocument(user_id, document_id, text, keywords):
         rag_chain = create_retrieval_chain(history_aware_retriever, question_answer_chain)
 
         def get_session_history(session_id: str):
-            # Reference the chat collection
-            analysis_prompt_ref = db.collection("analysis_prompt").document(session_id)
-            
-            # Retrieve the chat document
-            analysis_prompt_doc = analysis_prompt_ref.get()
-            
-            if analysis_prompt_doc.exists: #Funcion para ver si existe un historial de chat    
-                # Create a new FirestoreChatMessageHistory instance
-                chat_history = FirestoreChatMessageHistory(session_id=session_id, collection=f"analysis_prompt", client=db)
-            else:
-                chat_history = FirestoreChatMessageHistory(session_id=session_id, collection=f"analysis_prompt", client=db)
-            return chat_history
+            return FirestoreChatMessageHistory(session_id=session_id, collection=f"analysis_prompt", client=db)
 
         chat_history = get_session_history(document_id)
 
@@ -137,8 +126,21 @@ def addAnalysisToDocument(user_id, document_id, text, keywords):
             },  # constructs a key "abc123" in `store`.
         )["answer"]
 
-        chat_history.add_user_message(prompt)
-        chat_history.add_ai_message(answer)
+        promptCitation = "Given the information found in this paper, provide the source in APA 7 format. Just give me the source, no other format or text."
+        answerCitation = conversational_rag_chain.invoke(
+            {"input": promptCitation},
+            config={
+                "configurable": {"session_id": document_id}
+            },  # constructs a key "abc123" in `store`.
+        )["answer"]
+
+        promptQuantData = "Given the information found in this paper, I want you to give me the quantitative data found in the paper. Give me the data in an stringified array of objects, each object should have the following attributes: datum: the single quantitive datum, sentence: trimmed sentence in which the quantitive datum was found. Just give me the data, no other format or text."
+        answerQuantData = conversational_rag_chain.invoke(
+            {"input": promptQuantData},
+            config={
+                "configurable": {"session_id": document_id}
+            },  # constructs a key "abc123" in `store`.
+        )["answer"]
 
         print(prompt)
         print(answer)
@@ -149,6 +151,8 @@ def addAnalysisToDocument(user_id, document_id, text, keywords):
         new_analysis = {}
         new_analysis['keywords'] = keywords
         new_analysis['sections'] = json.loads(answer)
+        new_analysis['apa'] = json.loads(answerCitation)
+        new_analysis['quantitative_data'] = json.loads(answerQuantData)
         
         analysis_doc_ref.set(new_analysis)
         
