@@ -4,20 +4,16 @@ import Link from 'next/link';
 import './Analisis.css';
 import { useRef, useState, useEffect } from 'react';
 import Typewriter from 'typewriter-effect';
-import Chat from './components/Chat/Chat';
+import Chat from './Chat/Chat';
 import Segmented from 'rc-segmented';
 import cx from "classnames";
 import { handleClientScriptLoad } from 'next/script';
 import Collapsible from 'react-collapsible';
-import Header from '../header';
+import Header from '../../header';
 import queryString from 'query-string';
 import { getDocument } from '@/services/document.service';
 import { Document } from '@/model/document';
-<<<<<<< HEAD
-
-=======
 import { Section } from "@/model/section";
->>>>>>> dev
 
 function SectionTitle(title: string){
   return(
@@ -64,7 +60,7 @@ interface ContentProps{
   sections: Section[];
 }
 
-function Content(props: ContentProps) {
+function Content(props: ContentProps, { params }: { params: { docId: string | (string | null)[] } }) {
   const encodedUrl = encodeURIComponent("https://storage.googleapis.com/arpa-softtek.appspot.com/users/hNb7IaKYx7bRUWEWB9cn575nATF2/Raymundo_Guzman_Mata_English_CV%20%281%29.pdf");
   const viewerURL = `https://docs.google.com/viewer?url=${encodedUrl}&embedded=true`;
   
@@ -76,30 +72,10 @@ function Content(props: ContentProps) {
   // const id = parsedURL.query.id;
 
   const docUrl = parsedURL.query.url;
-  const docId = parsedURL.query.id
-  // console.log('sdass', id)
-  // if (docUrl){
-  //   setDocumentExtraction(docUrl);
-  // }
-  // useEffect(() => {
-  //   const fetchDocument = async () => {
-  //     if (id) {
-  //       const documentId = id.toString();
-  //       try {
-  //         const doc = await getDocument(documentId);
-  //         setDocumentExtraction(doc);
-  //         console.log('Document fetch succesfully doc id:',doc.id);
-  //       } catch (error) {
-  //         const doc = ''
-  //         // Manejo de errores, como mostrar un mensaje de error
-  //         console.log('Error al obtener el documento:', error);
-  //       }
-  //     }
-  //   };
-  //   fetchDocument();
-  // }, [id]);
+  //const docId = parsedURL.query.id;
+  const docId = params.docId;
 
-  if(center.currentTab === "Resumen"){
+  if(props.currentTab === "Resumen"){
     return(
       <div className="text-[#FCFAF5] text-[3vh] mx-[8vw] mt-[8vh] md:mx-[10vw]">
         {props.sections.map((section, index) => (
@@ -150,7 +126,7 @@ function Content(props: ContentProps) {
   else if(props.currentTab === "Chatbot"){
     return(
       <div className="text-[#FCFAF5] text-[3vh] mx-[8vw] mt-[3vh] md:mx-[10vw] md:mt-[5vh]">
-        <Chat />
+        <Chat docId={docId} />
       </div>
     );
   }

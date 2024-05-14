@@ -95,11 +95,10 @@ function Main(currentState: any) {
     try {
       e.preventDefault();
       const body = {url: url};
-      // verifySession()
       const response = await axios.post('http://localhost:3000/api/pdf_retrieve', body);
       localStorage.setItem("text", response.data.text);
       setFState("Correct")
-      router.push('/Analisis');
+      router.push(`/Analisis`);
     } catch (error) {
       console.error(error);
       setFState("ErrorUploading")
@@ -185,9 +184,10 @@ function FileStateMessage(fileState: any) {
       formData.append("file", fileState.file);
       formData.append("extension", fileState.type);
       const res = await createDocument(formData);
-      const text = res.text;
-      localStorage.setItem("text", text);
-      router.push('/Analisis');
+      const docId = res.document_id;
+      // const text = res.text;
+      // localStorage.setItem("text", text);
+      router.push(`/Analisis/${docId}`);
     } catch (error) {
       console.error(error);
     }

@@ -12,11 +12,12 @@ import queryString from 'query-string';
 
 type MessageGalleryProps = {
   newMessage: string;
+  docId: string | (string | null)[];
 }
 
 const MessageGallery: React.FC<MessageGalleryProps> = ({
   newMessage
-}) => {
+}, {docId}) => {
   const prop_messages = [
     {
       prompt: "En el artículo se menciona la concentración de ozono, pero, ¿Cómo se mide?",
@@ -24,41 +25,50 @@ const MessageGallery: React.FC<MessageGalleryProps> = ({
     }
   ]
   const [messages, setMessages] = useState<MessageStruct[]>(prop_messages);
-<<<<<<< HEAD
   const url = window.location.href;
   // Parsear el query
   const parsedURL = queryString.parseUrl(url);
   // Obtener el valor del parámetro "id"
-  
-=======
   const scroller = useRef(null);
->>>>>>> dev
+  console.log(newMessage);
 
   useEffect(() => {
-    const docId = parsedURL.query.id;
+    console.log('entre')
+    console.log(docId)
     if (newMessage && docId) {
+      console.log(newMessage);
       (async () => {
-        await sendMessage(docId, newMessage)
-//        await getChat(docId)
-      })();
-      setMessages((prevMessages) => [
-        ...prevMessages,
-        {
-          prompt: newMessage,
-          response: "No se la respuesta a tu pregunta"
+        const response = await sendMessage(docId, newMessage)
+        //await getChat(docId)
+        if (response) {
+          setMessages((prevMessages) => [
+            ...prevMessages,
+            {
+              prompt: newMessage,
+              response: response
+            }
+          ]);
+        } else {
+          setMessages((prevMessages) => [
+            ...prevMessages,
+            {
+              prompt: newMessage,
+              response: "Ha ocurrido un error"
+            }
+          ]);
         }
-      ]);
+      })();
     }
   }, [newMessage]);
 
-  useEffect(() => {
-    if(scroller) {
-      scroller.current.addEventListener('DOMNodeInserted', (event: { currentTarget: any; }) => {
-        const { currentTarget: target } = event;
-        target.scroll({ top: target.scrollHeight, behavior: 'smooth' });
-      });
-    }
-  }, [])
+  // useEffect(() => {
+  //   if(scroller) {
+  //     scroller.current.addEventListener('DOMNodeInserted', (event: { currentTarget: any; }) => {
+  //       const { currentTarget: target } = event;
+  //       target.scroll({ top: target.scrollHeight, behavior: 'smooth' });
+  //     });
+  //   }
+  // }, [])
 
   return (
     <div className="w-full h-[47vh] pr-[1vw] overflow-y-scroll overflow-x-hidden md:h-[55vh]" ref={scroller}>
