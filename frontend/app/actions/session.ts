@@ -37,7 +37,7 @@ export async function decrypt(session: string | undefined = '') {
 }
 
 export async function createSession(token: string) {
-  const expiresAt = new Date(Date.now() + 60 * 60 * 1000) // 1 hour 
+  const expiresAt = new Date(Date.now() + 11 * 60 * 60 * 1000 + 59 * 60 * 1000) // 12 hour 
   // const session = encrypt({ token, expiresAt })
   // console.log('encripte la sesion con exito')
 

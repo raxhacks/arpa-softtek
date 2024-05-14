@@ -4,10 +4,16 @@ import { MessageStruct } from "@/model/message";
 import Message from "./Message";
 import { useEffect, useState } from "react";
 import { Bounce } from "react-awesome-reveal";
+import { getChat } from "@/services/chat.service";
+import { sendMessage } from "@/services/chat.service";
+import queryString from 'query-string';
+
+
 
 type MessageGalleryProps = {
   newMessage: string;
 }
+
 const MessageGallery: React.FC<MessageGalleryProps> = ({
   newMessage
 }) => {
@@ -18,10 +24,19 @@ const MessageGallery: React.FC<MessageGalleryProps> = ({
     }
   ]
   const [messages, setMessages] = useState<MessageStruct[]>(prop_messages);
+  const url = window.location.href;
+  // Parsear el query
+  const parsedURL = queryString.parseUrl(url);
+  // Obtener el valor del parámetro "id"
+  
 
   useEffect(() => {
-    console.log(newMessage)
-    if (newMessage) {
+    const docId = parsedURL.query.id;
+    if (newMessage && docId) {
+      (async () => {
+        await sendMessage(docId, newMessage)
+//        await getChat(docId)
+      })();
       setMessages((prevMessages) => [
         ...prevMessages,
         {

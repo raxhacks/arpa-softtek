@@ -13,7 +13,7 @@ import Header from '../header';
 import queryString from 'query-string';
 import { getDocument } from '@/services/document.service';
 import { Document } from '@/model/document';
-import { doc } from 'firebase/firestore';
+
 
 function SectionTitle(title: string){
   return(
@@ -57,6 +57,7 @@ function Content(center: any) {
   // const id = parsedURL.query.id;
 
   const docUrl = parsedURL.query.url;
+  const docId = parsedURL.query.id
   // console.log('sdass', id)
   // if (docUrl){
   //   setDocumentExtraction(docUrl);
