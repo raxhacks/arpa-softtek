@@ -13,7 +13,7 @@ import Header from '../header';
 function Arrow(back: any) {
   if(back.selected){
     return(
-      <button className="border-0 bg-transparent align-middle mt-[0.5vh] ml-[2vw]" onClick={() => {back.goBack()}}>
+      <button className="border-0 bg-transparent align-middle ml-[2vw] fixed top-[1.5vh] z-30 md:top-[22vh] md:z-auto" onClick={() => {back.goBack()}}>
         <svg xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler icon-tabler-arrow-left hover:stroke-[#BCBAB5] active:stroke-[#565553]" width="56" height="56" viewBox="0 0 24 24" stroke-width="3" stroke="#FCFAF5" fill="none" stroke-linecap="round" stroke-linejoin="round">
           <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
           <path d="M5 12l14 0" />
@@ -30,7 +30,7 @@ function Arrow(back: any) {
   
 function CenterHeader(title: any) {
   return(
-    <h1 className="text-[#FCFAF5] text-center mb-[0vh] mx-[5vw] text-[7vh] md:text-[8vh]">{title.text}</h1>
+    <h1 className="text-[#FCFAF5] text-center mb-[3vh] mx-[8vw] text-[7vh] md:text-[8vh]">{title.text}</h1>
   );
 }
 
@@ -136,8 +136,8 @@ function Main(currentState: any) {
     console.log(currentState.file)
     return(
       <form>
-        <label htmlFor="PDFUpload" className="bg-transparent text-[#5756F5] border-dotted border-[#5756F5] border-[1vh] rounded-[4vh] mx-auto
-        mt-3vh w-[70vw] max-w-[325px] h-[70vh] max-h-[300px] flex items-center justify-center text-center hover:border-[#2F31AB]">
+        <label htmlFor="PDFUpload" className="bg-transparent text-[#5756F5] border-dotted border-[#5756F5] border-[7px] rounded-[20px] mx-auto
+        w-[70vw] max-w-[300px] h-[70vh] max-h-[300px] flex items-center justify-center text-center hover:border-[#2F31AB]">
           {currentState.file === undefined ?
           <svg xmlns="http://www.w3.org/2000/svg" className="icon-format icon-tabler icon-tabler-file-type-pdf hover:stroke-[#2F31AB]" width="180" height="180" viewBox="0 0 24 24" strokeWidth="1" stroke="#5756F5" fill="none" strokeLinecap="round" strokeLinejoin="round">
             <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
@@ -158,7 +158,7 @@ function Main(currentState: any) {
     return(
       <form>
         <label htmlFor="DOCXUpload" className="bg-transparent text-[#5756F5] border-dotted border-[#5756F5] border-[1vh] rounded-[4vh] mx-auto
-        mt-3vh w-[70vw] max-w-[325px] h-[70vh] max-h-[300px] flex items-center justify-center text-center hover:border-[#2F31AB]">
+        w-[70vw] max-w-[325px] h-[70vh] max-h-[300px] flex items-center justify-center text-center hover:border-[#2F31AB]">
           {currentState.file === undefined ?
           <svg xmlns="http://www.w3.org/2000/svg" className="icon-format icon-tabler icon-tabler-file-type-doc" width="180" height="180" viewBox="0 0 24 24" stroke-width="1" stroke="#5756F5" fill="none" stroke-linecap="round" stroke-linejoin="round">
             <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
@@ -207,7 +207,7 @@ function FileStateMessage(fileState: any) {
       <div className="flex justify-center">
         <button onClick={handleSubmitDocument}>
           <label htmlFor="siguiente" className="bg-transparent text-[#FCFAF5] border-solid border-[#FCFAF5] border-[0.5vh] rounded-[2vh]
-          mx-auto mt-[5vh] md:mt-[3vh] mb-[1vh] w-[70vw] max-w-[325px] h-[12vh] max-h-[80px] flex items-center justify-center text-[4vh]
+          mx-auto mt-[5vh] md:mt-[5vh] mb-[1vh] w-[70vw] max-w-[325px] h-[12vh] max-h-[80px] flex items-center justify-center text-[4vh]
           hover:bg-[#282933] active:bg-[#FCFAF5] active:border-[#30323D] active:text-[#30323D]">Siguiente</label>
           <input type="submit" id="siguiente" style={{opacity: "0", position: "absolute", zIndex: "-1"}} />
         </button>

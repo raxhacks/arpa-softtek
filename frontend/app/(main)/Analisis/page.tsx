@@ -10,6 +10,7 @@ import cx from "classnames";
 import { handleClientScriptLoad } from 'next/script';
 import Collapsible from 'react-collapsible';
 import Header from '../header';
+import { Section } from "@/model/section";
 
 function SectionTitle(title: string){
   return(
@@ -41,42 +42,64 @@ function SectionTitleOpen(title: string){
   );
 }
 
-function Content(center: any) {
+/*function SectionCollapsible(section: Section){
+  return(
+    <Collapsible trigger={SectionTitle(section.title)} triggerWhenOpen={SectionTitleOpen(section.title)} transitionTime={150} className="mb-[4vh]">
+      <div className="pl-[2vw] mb-[4vh] md:pl-[4vw]">
+        {section.content}
+      </div>
+    </Collapsible>
+  );
+}*/
+
+interface ContentProps{
+  currentTab: string;
+  sections: Section[];
+}
+
+function Content(props: ContentProps) {
   const encodedUrl = encodeURIComponent("https://storage.googleapis.com/arpa-softtek.appspot.com/users/hNb7IaKYx7bRUWEWB9cn575nATF2/Raymundo_Guzman_Mata_English_CV%20%281%29.pdf");
   const viewerURL = `https://docs.google.com/viewer?url=${encodedUrl}&embedded=true`;
-  if(center.currentTab === "Resumen"){
+  if(props.currentTab === "Resumen"){
     return(
-      <div className="text-[#FCFAF5] text-[3vh] mx-[10vw] mt-[5vh]">
-        <Collapsible trigger={SectionTitle("Sección 1")} triggerWhenOpen={SectionTitleOpen("Sección 1")} transitionTime={150} className="my-7">
-          <div className="pl-14">
+      <div className="text-[#FCFAF5] text-[3vh] mx-[8vw] mt-[8vh] md:mx-[10vw]">
+        {props.sections.map((section, index) => (
+          <Collapsible trigger={SectionTitle(section.title)} triggerWhenOpen={SectionTitleOpen(section.title)} transitionTime={150} className="mb-[4vh]">
+            <div className="pl-[2vw] mb-[4vh] md:pl-[4vw]">
+              {section.content}
+            </div>
+          </Collapsible>
+        ))}
+        {/*<Collapsible trigger={SectionTitle("Sección 1")} triggerWhenOpen={SectionTitleOpen("Sección 1")} transitionTime={150} className="mb-[4vh]">
+          <div className="pl-[2vw] mb-[4vh] md:pl-[4vw]">
             Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
             Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure
             dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
             proident, sunt in culpa qui officia deserunt mollit anim id est laborum
           </div>
         </Collapsible>
-        <Collapsible trigger={SectionTitle("Sección 2")} triggerWhenOpen={SectionTitleOpen("Sección 2")} transitionTime={150} className="my-7">
-          <div className="pl-14">
+        <Collapsible trigger={SectionTitle("Sección 2")} triggerWhenOpen={SectionTitleOpen("Sección 2")} transitionTime={150} className="mb-[4vh]">
+          <div className="pl-[2vw] mb-[4vh] md:pl-[4vw]">
             Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
             Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure
             dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
             proident, sunt in culpa qui officia deserunt mollit anim id est laborum
           </div>
         </Collapsible>
-        <Collapsible trigger={SectionTitle("Sección 3")} triggerWhenOpen={SectionTitleOpen("Sección 3")} transitionTime={150} className="my-7">
-          <div className="pl-14">
+        <Collapsible trigger={SectionTitle("Sección 3")} triggerWhenOpen={SectionTitleOpen("Sección 3")} transitionTime={150} className="mb-[4vh]">
+          <div className="pl-[2vw] mb-[4vh] md:pl-[4vw]">
             Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
             Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure
             dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
             proident, sunt in culpa qui officia deserunt mollit anim id est laborum
           </div>
-        </Collapsible>
+        </Collapsible>*/}
       </div>
     );
   }
-  else if(center.currentTab === "Texto Original"){
+  else if(props.currentTab === "Texto Original"){
     return(
-      <div className="text-[#FCFAF5] text-[3vh] mx-[10vw] mt-[5vh] h-screen">
+      <div className="text-[#FCFAF5] text-[3vh] mx-[8vw] mt-[5vh] h-screen md:mx-[10vw]">
         <iframe
             src={viewerURL}
             width="100%"
@@ -85,9 +108,9 @@ function Content(center: any) {
       </div>
     );
   }
-  else if(center.currentTab === "Chatbot"){
+  else if(props.currentTab === "Chatbot"){
     return(
-      <div className="text-[#FCFAF5] text-[3vh] mx-[10vw] mt-[5vh]">
+      <div className="text-[#FCFAF5] text-[3vh] mx-[8vw] mt-[3vh] md:mx-[10vw] md:mt-[5vh]">
         <Chat />
       </div>
     );
@@ -136,10 +159,59 @@ function RightBarContent() {
   );
 }
 
+function BotonFavorito(favorito: any){
+  if(favorito.state == true){
+    return(
+      <svg xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler icon-tabler-star hover:stroke-[#BCBAB5] hover:fill-[#BCBAB5] md:stroke-[#5756F5] md:fill-[#5756F5] md:hover:stroke-[#2F31AB] md:hover:fill-[#2F31AB]"
+      width="50" height="50" viewBox="0 0 24 24" stroke-width="1.5" stroke="#FCFAF5" fill="#FCFAF5" stroke-linecap="round" stroke-linejoin="round">
+        <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+        <path d="M12 17.75l-6.172 3.245l1.179 -6.873l-5 -4.867l6.9 -1l3.086 -6.253l3.086 6.253l6.9 1l-5 4.867l1.179 6.873z" />
+      </svg>
+    );
+  }
+  else{
+    return(
+      <svg xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler icon-tabler-star hover:stroke-[#BCBAB5] md:stroke-[#5756F5] md:hover:stroke-[#2F31AB]"
+      width="50" height="50" viewBox="0 0 24 24" stroke-width="1.5" stroke="#FCFAF5" fill="none" stroke-linecap="round" stroke-linejoin="round">
+        <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+        <path d="M12 17.75l-6.172 3.245l1.179 -6.873l-5 -4.867l6.9 -1l3.086 -6.253l3.086 6.253l6.9 1l-5 4.867l1.179 6.873z" />
+      </svg>
+    );
+  }
+}
+
+function BotonHome(){
+  return(
+    <svg xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler icon-tabler-home-2 hover:stroke-[#BCBAB5] active:fill-[#BCBAB5] md:stroke-[#5756F5] md:hover:stroke-[#2F31AB] md:active:fill-[#2F31AB]"
+    width="50" height="50" viewBox="0 0 24 24" stroke-width="1.5" stroke="#FCFAF5" fill="none" stroke-linecap="round" stroke-linejoin="round">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+      <path d="M5 12l-2 0l9 -9l9 9l-2 0" />
+      <path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-7" />
+      <path d="M10 12h4v4h-4z" />
+    </svg>
+  );
+}
+
 function MostrarAnalisis() {
   const [currentTab, setTab] = useState("Resumen");
   const [leftBarOpen, setLeftBar] = useState(false);
   const [rightBarOpen, setRightBar] = useState(false);
+  const [isFavorito, setFavorito] = useState(false);
+  const prop_sections = [
+    {
+      title: "Titulo de seccion 1",
+      content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum"
+    },
+    {
+      title: "Titulo de seccion 2",
+      content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum"
+    },
+    {
+      title: "Titulo de seccion 3",
+      content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum"
+    }
+  ]
+  const [sections, setSections] = useState<Section[]>(prop_sections);
   
   function handleTabChange(value: any){
     setTab(value)
@@ -147,38 +219,57 @@ function MostrarAnalisis() {
   return (
     <div className="flex items-top justify-center">
       <Header />
-      <div className="flex items-center h-screen">
-        <div className={cx("sideBar fixed left-0 top-0 bottom-0 bg-[#24252E] w-[30vw] pt-[125px] z-10", {"w-0":!leftBarOpen})}>
-          <p className={cx("leftText text-[#FCFAF5] text-left w-[29.8vw] fixed left-0 top-0 bottom-0 mt-[125px] px-[1vw] overflow-x-hidden overflow-y-scroll",
-          {"left-[-30vw]":!leftBarOpen})}>
+      <div className="flex items-center h-screen left-[-100vw] md:left-auto">
+        <div className={cx("sideBarLeft", {"sideBarLeft-closed":!leftBarOpen})}>
+          <div className={cx("sideBarLeftText", {"sideBarLeftText-closed":!leftBarOpen})}>
+            <div className="text-center text-[4vh] font-semibold pb-[1vh] md:text-[0vw] md:pb-[0vh]">
+              Análisis cualitativo
+            </div>
             <LeftBarContent />
-          </p>
+          </div>
         </div>
-        <div className={cx("sideBar bg-transparent w-[30vw] h-[100vh] pt-[125px]", {"w-0":!leftBarOpen})} />
+        <div className={cx("sideBarLeftSpace", {"sideBarLeftSpace-closed":!leftBarOpen})} />
         <button onClick={() => {setLeftBar(!leftBarOpen), setRightBar(false)}}
-        className={cx("sideBarButton fixed bg-[#24252E] text-[#FCFAF5] text-[3.5vh] left-[30vw] h-[40vh] w-[3.5vw] rounded-[10px] mt-[125px] pr-[0.5vw] font-semibold translate-x-[-10%] hover:bg-[#F5C556] hover:text-[#24252E]",
-        {"left-[0px]":!leftBarOpen})}>
-          Analisis cualitativo
+        className={cx("sideBarLeftButton hover:bg-[#F5C556] hover:text-[#24252E]", {"sideBarLeftButton-closed":!leftBarOpen})}>
+          Análisis cualitativo
+        </button>
+        <button onClick={() => {setLeftBar(!leftBarOpen), setRightBar(false)}}
+        className={cx("sideBarLeftButton2 hover:bg-[#F5C556] hover:text-[#24252E]", {"sideBarLeftButton2-closed":!leftBarOpen})}>
+          +
         </button>
       </div>
-      <div className="bg-[#30323D] pt-[125px] bottom-0 font-semibold basis-[93vw]">
+      <div className="bg-[#30323D] pt-[15vh] mb-[15vh] bottom-0 font-semibold basis-[93vw] md:pt-[125px] md:mb-auto">
         <div className="flex items-center justify-center">
+          <button className="fixed top-[1.5vh] left-[2vw] z-30 md:relative md:top-auto md:left-auto md:z-auto md:mr-[2vw]">
+            <BotonHome />
+          </button>
+          <div className="w-[10vw] md:w-0"/>
           <Segmented options={["Resumen", "Texto Original", "Chatbot"]} onChange={(value) => handleTabChange(value)} />
+          <div className="w-[10vw] md:w-0"/>
+          <button className="fixed top-[1.5vh] right-[2vw] z-30 md:relative md:top-auto md:right-auto md:z-auto md:ml-[2vw]" onClick={() => setFavorito(!isFavorito)}>
+            <BotonFavorito state={isFavorito} setFavorito={setFavorito}/>
+          </button>
+          <div/>
         </div>
-        <Content currentTab={currentTab}/>
+        <Content currentTab={currentTab} sections={sections}/>
       </div>
       <div className="flex items-center h-screen">
         <button onClick={() => {setRightBar(!rightBarOpen), setLeftBar(false)}}
-        className={cx("sideBarButton fixed bg-[#24252E] text-[#FCFAF5] text-[3.5vh] right-[30vw] h-[40vh] w-[3.5vw] rounded-[10px] mt-[125px] pr-[0.5vw] font-semibold translate-x-[10%] hover:bg-[#F5C556] hover:text-[#24252E]",
-        {"right-[0vw]":!rightBarOpen})}>
-          Analisis cuantitativo
+        className={cx("sideBarRightButton hover:bg-[#F5C556] hover:text-[#24252E]", {"sideBarRightButton-closed":!rightBarOpen})}>
+          Análisis cuantitativo
         </button>
-        <div className={cx("sideBar bg-transparent w-[30vw] h-[100vh] pt-[125px]", {"w-0":!rightBarOpen})} />
-        <div className={cx("sideBar fixed right-0 top-0 bottom-0 bg-[#24252E] w-[30vw] pt-[125px] z-10", {"w-0":!rightBarOpen})}>
-          <p className={cx("sideBar text-[#FCFAF5] text-left w-[29.8vw] fixed right-0 top-0 bottom-0 mt-[125px] px-[1vw] overflow-x-hidden overflow-y-scroll",
-          {"right-[-30vw]":!rightBarOpen})}>
+        <button onClick={() => {setRightBar(!rightBarOpen), setLeftBar(false)}}
+        className={cx("sideBarRightButton2 hover:bg-[#F5C556] hover:text-[#24252E]", {"sideBarRightButton2-closed":!rightBarOpen})}>
+          +
+        </button>
+        <div className={cx("sideBarRightSpace", {"sideBarRightSpace-closed":!rightBarOpen})} />
+        <div className={cx("sideBarRight", {"sideBarRight-closed":!rightBarOpen})}>
+          <div className={cx("sideBarRightText", {"sideBarRightText-closed":!rightBarOpen})}>
+            <div className="text-center text-[4vh] font-semibold pb-[1vh] md:text-[0vw] md:pb-[0vh]">
+              Análisis cuantitativo
+            </div>
             <RightBarContent />
-          </p>
+          </div>
         </div>
       </div>
     </div>

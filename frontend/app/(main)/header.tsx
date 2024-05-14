@@ -14,7 +14,7 @@ function ARPAHeader() {
   
   function SectionsHeader() {
     return (
-      <div className="bg-[#4D5061] fixed bottom-0 h-[20vh] max-h-[100px] left-0 right-0 flex items-center justify-center z-30
+      <div className="bg-[#4D5061] fixed bottom-0 h-[15vh] max-h-[100px] left-0 right-0 flex items-center justify-center z-30
       md:bg-transparent md:top-0 md:justify-end">
         <div className="flex flex-row justify-around w-[100%] md:w-auto">
   
