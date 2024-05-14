@@ -22,7 +22,6 @@ export const getFavorites = async (): Promise<Document[]> => {
             title: item.title,
             createdAt: item.created_at,
             publicURL: item.public_url,
-            chat_id: response.data.chat_id,
             analysis_id: response.data.analysis_id
         }));
         

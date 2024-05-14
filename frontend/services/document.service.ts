@@ -40,7 +40,6 @@ export const getHistory = async (): Promise<Document[]> => {
             title: item.title,
             createdAt: item.created_at,
             publicURL: item.public_url,
-            chat_id: response.data.chat_id,
             analysis_id: response.data.analysis_id
         }));
 
@@ -67,7 +66,6 @@ export const getDocument = async (document_id: string): Promise<Document> => {
             title: response.data.title,
             createdAt: response.data.created_at,
             publicURL: response.data.public_url,
-            chat_id: response.data.chat_id,
             analysis_id: response.data.analysis_id
         };
 
