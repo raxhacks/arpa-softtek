@@ -21,7 +21,9 @@ export const getFavorites = async (): Promise<Document[]> => {
             id: item.document_id,
             title: item.title,
             createdAt: item.created_at,
-            publicURL: item.public_url
+            publicURL: item.public_url,
+            chat_id: response.data.chat_id,
+            analysis_id: response.data.analysis_id
         }));
         
         return history;
