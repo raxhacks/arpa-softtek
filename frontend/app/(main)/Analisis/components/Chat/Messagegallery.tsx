@@ -2,7 +2,7 @@
 
 import { MessageStruct } from "@/model/message";
 import Message from "./Message";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { Bounce } from "react-awesome-reveal";
 import { getChat } from "@/services/chat.service";
 import { sendMessage } from "@/services/chat.service";
@@ -24,11 +24,15 @@ const MessageGallery: React.FC<MessageGalleryProps> = ({
     }
   ]
   const [messages, setMessages] = useState<MessageStruct[]>(prop_messages);
+<<<<<<< HEAD
   const url = window.location.href;
   // Parsear el query
   const parsedURL = queryString.parseUrl(url);
   // Obtener el valor del parámetro "id"
   
+=======
+  const scroller = useRef(null);
+>>>>>>> dev
 
   useEffect(() => {
     const docId = parsedURL.query.id;
@@ -47,15 +51,24 @@ const MessageGallery: React.FC<MessageGalleryProps> = ({
     }
   }, [newMessage]);
 
+  useEffect(() => {
+    if(scroller) {
+      scroller.current.addEventListener('DOMNodeInserted', (event: { currentTarget: any; }) => {
+        const { currentTarget: target } = event;
+        target.scroll({ top: target.scrollHeight, behavior: 'smooth' });
+      });
+    }
+  }, [])
+
   return (
-    <div className="w-full">
+    <div className="w-full h-[47vh] pr-[1vw] overflow-y-scroll overflow-x-hidden md:h-[55vh]" ref={scroller}>
       {/*<h1>MessageGallery</h1>*/}
       {messages.map((message, index) => (
         <>
-          <Bounce duration={300} triggerOnce={true} fraction={1}>
+          <Bounce duration={300} triggerOnce={true}>
             <Message key={index} message={message.prompt} isUser={true}/>
           </Bounce>
-          <Bounce duration={300} triggerOnce={true} fraction={0.5}>
+          <Bounce duration={300} triggerOnce={true}>
             <Message key={100+index} message={message.response} isUser={false}/>
           </Bounce>
         </>

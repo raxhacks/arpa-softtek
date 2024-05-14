@@ -1,302 +1,272 @@
-div.ARPA_header{
-    background-color: rgb(77, 80, 97);
-    font-size: 200%;
-    color: rgb(252, 250, 245);
-    position: fixed;
-    top: 0;
-    height: 15vw;
-    max-height: 75px;
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 2;
-  }
-  @media screen and (min-width: 768px){
-    div.ARPA_header{
-      background-color: rgb(77, 80, 97);
-      font-size: 200%;
-      color: rgb(252, 250, 245);
-      position: fixed;
-      top: 0;
-      height: 25vw;
-      max-height: 100px;
-      width: 100%;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-  }
-  
-  div.sections_header{
-    background-color: rgb(77, 80, 97);
-    font-size: 200%;
-    color: rgb(252, 250, 245);
-    position: fixed;
-    bottom: 0;
-    height: 25vw;
-    max-height: 100px;
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 2;
-  }
-  @media only screen and (min-width: 768px){
-    div.sections_header{
-      background-color: transparent;
-      font-size: 200%;
-      color: rgb(252, 250, 245);
-      position: fixed;
-      top: 0;
-      height: 25vw;
-      max-height: 100px;
-      width: 50%;
-      margin-left: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: flex-end;
-    }
-  }
-  
-  .headerText{
-    display: inline;
-    vertical-align: middle;
-    font-size: 175%;
-  }
-  @media screen and (min-width: 768px){
-    .headerText{
-      padding-left: 5%;
-      display: inline;
-      vertical-align: middle;
-      font-size: 175%;
-    }
-  }
-  
-  div.sectionGroup{
-    float: inline-end;
-    background-color: transparent;
-    vertical-align: middle;
-  }
-  @media screen and (min-width: 768px){
-    div.sectionGroup{
-      float: inline-end;
-      background-color: transparent;
-      vertical-align: middle;
-      padding-right: 5%;
-    }
-  }
-  
-  button.sections{
-    border-width: 0px;
-    background-color: transparent;
-    color: rgb(252, 250, 245);
-    vertical-align: middle;
-    padding: 0% 0% 0% 0%;
-  }
-  button.sections:hover{
-    color: rgb(232, 221, 197);
-  }
-  button.sections:active{
-    color: rgb(217, 189, 122)
-  }
-  
-  button.arrow{
-    border-width: 0px;
-    background-color: transparent;
-    vertical-align: middle;
-    margin-left: 3%;
-    color: rgb(252, 250, 245);
-  }
-  button.arrow:hover{
-    color: rgb(188, 186, 181);
-  }
-  button.arrow:active{
-    color: rgb(86, 85, 83);
-  }
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
-  .text{
-    color: rgb(252, 250, 245);
-  }
-  @media only screen and (min-width: 768px){
-    .text{
-      color: rgb(252, 250, 245);
-      margin-left: 10vw;
-      margin-right: 10vw;
-      margin-top: 5vh;
-      font-size: 1.5vw;
-    }
-  }
-
-  /*COSAS DEL CENTER*/
-  .main{
-    background-color: rgb(48, 50, 61);
-    padding-top: 15vh;
-    padding-bottom: 20vh;
-    font-weight: 600;
-  }
-  @media only screen and (min-width: 768px){
-    .main{
-      background-color: rgb(48, 50, 61);
-      padding-top: 125px;
-      padding-bottom: 0;
-      height: 100vh;
-      font-weight: 600;
-      flex-basis: 93vw;
-    }
-  }
-
-  .center{
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    overflow-y: scroll;
-    overflow-x: hidden;
-  }
-  .center::-webkit-scrollbar{
-    width: 0vw;
-  }
-
-  /*COSAS DEL TAB BAR LEFT*/
-  .sideBarLeft_button{
-    position: fixed;
-    left: 30%;
-    writing-mode: vertical-rl;
-    height: 40%;
-    width: 3.5vw;
-    border-radius: 10px;
-    margin-top: 125px;
-    padding-right: 0.5vw;
-    background-color: rgb(36, 37, 46);
-    color: rgb(252, 250, 245);
-    font-size: 1.5vw;
-    transform: translateX(-10%);
-    font-weight: 600;
-    transition: 0.4s ease-in;
-  }
-  .sideBarLeft_button-closed{
-    left: 0%;
-  }
-  .sideBarLeft_button:hover{
-    background-color: #F5C556;
-    color: rgb(36, 37, 46);
-  }
-
-  .sideBarLeftSpace{
-    background-color: transparent;
-    width: 30vw;
-    height: 100%;
-    transition: 0.4s ease-in;
-    padding-top: 125px;
-  }
-  .sideBarLeftSpace-closed{
-    width: 0vw;
-  }
-  
+  /*COSAS DE SIDE BAR LEFT*/
   .sideBarLeft{
     position: fixed;
     left: 0;
     top: 0;
     bottom: 0;
-    background-color: rgb(36, 37, 46);
-    width: 30vw;
-    transition: 0.4s ease-in;
+    background-color: #24252E;
+    width: 70vw;
     padding-top: 125px;
-    z-index: 1;
+    z-index: 20;
+    transition: 0.4s ease-in;
+  }
+  @media(min-width: 768px){
+    .sideBarLeft{
+      width: 30vw;
+    }
   }
   .sideBarLeft-closed{
-    width: 0vw;
+    width: 0;
   }
 
-  .leftText{
-    color: rgb(252, 250, 245);
-    width: 29.8vw;
+  .sideBarLeftText{
+    color: #FCFAF5;
+    text-align: left;
     position: fixed;
     left: 0;
     top: 0;
     bottom: 0;
-    transition: 0.4s ease-in;
-    margin-top: 15vh;
+    width: 69.8vw;
+    margin-top: 85px;
     padding-left: 1vw;
-    padding-right: 1vw;
-    padding-top: 2vh;
-    text-align: left;
-    direction: rtl;
+    padding-right: 2vw;
+    margin-bottom: 110px;
     overflow-x: hidden;
     overflow-y: scroll;
+    z-index: 20;
+    transition: 0.4s ease-in;
+    direction: rtl;
   }
-  .leftText-closed{
-    left: -30%;
+  @media(min-width: 768px){
+    .sideBarLeftText{
+      width: 29.8vw;
+      padding-right: 1vw;
+      margin-top: 125px;
+      margin-bottom: 0;
+    }
+  }
+  .sideBarLeftText-closed{
+    left: -70vw;
+  }
+  @media(min-width: 768px){
+    .sideBarLeftText-closed{
+      left: -30vw;
+    }
   }
 
-  /*COSAS DEL TAB BAR Right*/
-  .sideBarRight_button{
+  .sideBarLeftSpace{
+    background-color: transparent;
+    width: 0;
+    height: 100vh;
+    padding-top: 125px;
+    transition: 0.4s ease-in;
+  }
+  @media(min-width: 768px){
+    .sideBarLeftSpace{
+      width: 30vw;
+    }
+  }
+  .sideBarLeftSpace-closed{
+    width: 0;
+  }
+
+  .sideBarLeftButton{
     position: fixed;
-    right: 30%;
-    writing-mode: vertical-rl;
-    height: 40%;
+    left: -100vw;
+    color: #FCFAF5;
+    background-color: #24252E;
+    font-size: 3.5vh;
+    font-weight: 600;
     width: 3.5vw;
+    min-width: 50px;
+    height: 40vh;
     border-radius: 10px;
     margin-top: 125px;
     padding-right: 0.5vw;
-    background-color: rgb(36, 37, 46);
-    color: rgb(252, 250, 245);
-    font-size: 1.5vw;
-    transform: translateX(10%);
+    transform: translateX(-10%);
+    z-index: 10;
+    transition: 0.4s ease-in;
+    writing-mode: vertical-rl;
+  }
+  @media(min-width: 768px){
+    .sideBarLeftButton{
+      left: 30vw;
+    }
+  }
+  .sideBarLeftButton-closed{
+    left: -100vw;
+  }
+  @media(min-width: 768px){
+    .sideBarLeftButton-closed{
+      left: 0;
+    }
+  }
+
+  .sideBarLeftButton2{
+    position: fixed;
+    align-self: flex-start;
+    left: 70vw;
+    color: #FCFAF5;
+    background-color: #24252E;
+    font-size: 5vh;
     font-weight: 600;
+    width: 9vh;
+    height: 9vh;
+    border-radius: 10px;
+    margin-top: 100px;
+    z-index: 10;
+    transform: translateX(-10%);
     transition: 0.4s ease-in;
   }
-  .sideBarRight_button-closed{
-    right: 0%;
+  @media(min-width: 768px){
+    .sideBarLeftButton2{
+      left: -100vw;
+    }
   }
-  .sideBarRight_button:hover{
-    background-color: #F5C556;
-    color: rgb(36, 37, 46);
+  .sideBarLeftButton2-closed{
+    left: 0vw;
+  }
+  @media(min-width: 768px){
+    .sideBarLeftButton2-closed{
+      left: -100vw;
+    }
+  }
+
+  /*COSAS DE SIDE BAR RIGHT*/
+  .sideBarRight{
+    position: fixed;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    background-color: #24252E;
+    width: 70vw;
+    padding-top: 125px;
+    z-index: 20;
+    transition: 0.4s ease-in;
+  }
+  @media(min-width: 768px){
+    .sideBarRight{
+      width: 30vw;
+    }
+  }
+  .sideBarRight-closed{
+    width: 0;
+  }
+
+  .sideBarRightText{
+    color: #FCFAF5;
+    text-align: left;
+    position: fixed;
+    right: 0vw;
+    top: 0;
+    bottom: 0;
+    width: 69.8vw;
+    margin-top: 85px;
+    padding-left: 2vw;
+    padding-right: 1vw;
+    margin-bottom: 110px;
+    overflow-x: hidden;
+    overflow-y: scroll;
+    z-index: 20;
+    transition: 0.4s ease-in;
+  }
+  @media(min-width: 768px){
+    .sideBarRightText{
+      width: 29.8vw;
+      padding-left: 1vw;
+      margin-top: 125px;
+      margin-bottom: 0;
+    }
+  }
+  .sideBarRightText-closed{
+    right: -70vw;
+  }
+  @media(min-width: 768px){
+    .sideBarRightText-closed{
+      right: -30vw;
+    }
   }
 
   .sideBarRightSpace{
     background-color: transparent;
-    width: 30vw;
-    height: 100%;
-    transition: 0.4s ease-in;
+    width: 0;
+    height: 100vh;
     padding-top: 125px;
+    transition: 0.4s ease-in;
+  }
+  @media(min-width: 768px){
+    .sideBarRightSpace{
+      width: 30vw;
+    }
   }
   .sideBarRightSpace-closed{
-    width: 0vw;
+    width: 0;
   }
 
-  .sideBarRight{
+  .sideBarRightButton{
     position: fixed;
-    top: 0;
-    bottom: 0;
-    right: 0;
-    background-color: rgb(36, 37, 46);
-    width: 30vw;
+    right: -100vw;
+    color: #FCFAF5;
+    background-color: #24252E;
+    font-size: 3.5vh;
+    font-weight: 600;
+    width: 3.5vw;
+    min-width: 50px;
+    height: 40vh;
+    border-radius: 10px;
+    margin-top: 125px;
+    padding-right: 0.5vw;
+    transform: translateX(10%);
+    z-index: 10;
     transition: 0.4s ease-in;
-    padding-top: 125px;
-    z-index: 1;
+    writing-mode: vertical-rl;
   }
-  .sideBarRight-closed{
-    width: 0vw;
+  @media(min-width: 768px){
+    .sideBarRightButton{
+      right: 30vw;
+    }
+  }
+  .sideBarRightButton-closed{
+    right: -100vw;
+  }
+  @media(min-width: 768px){
+    .sideBarRightButton-closed{
+      right: 0;
+    }
   }
 
-  .rightText{
-    color: rgb(252, 250, 245);
-    width: 29.8vw;
+  .sideBarRightButton2{
     position: fixed;
-    right: 0;
-    top: 0;
-    bottom: 0;
+    align-self: flex-start;
+    right: 70vw;
+    color: #FCFAF5;
+    background-color: #24252E;
+    font-size: 5vh;
+    font-weight: 600;
+    width: 9vh;
+    height: 9vh;
+    border-radius: 10px;
+    margin-top: 100px;
+    z-index: 10;
+    transform: translateX(10%);
     transition: 0.4s ease-in;
-    margin-top: 15vh;
-    padding-left: 1vw;
-    padding-right: 1vw;
-    padding-top: 2vh;
-    overflow-x: hidden;
-    overflow-y: scroll;
   }
-  .rightText-closed{
-    right: -30%;
+  @media(min-width: 768px){
+    .sideBarRightButton2{
+      right: -100vw;
+    }
+  }
+  .sideBarRightButton2-closed{
+    right: 0;
+  }
+  @media(min-width: 768px){
+    .sideBarRightButton2-closed{
+      right: -100vw;
+    }
   }
 
   /*COSAS DEL SCROLLBAR*/
@@ -328,7 +298,7 @@ div.ARPA_header{
   .rc-segmented-item {
     position: relative;
     height: 8vh;
-    max-height: 40px;
+    max-height: 80px;
     padding-left: 3vw;
     padding-right: 3vw;
     color: rgba(84, 86, 245, 0.85);
@@ -336,7 +306,13 @@ div.ARPA_header{
     cursor: pointer;
     display: flex;
     align-items: center;
-    font-size: 3vh;
+    font-size: 2.5vh;
+  }
+  @media(min-width: 768px){
+    .rc-segmented-item{
+      max-height: 40px;
+      font-size: 3vh;
+    }
   }
   .rc-segmented-item-selected {
     background-color: rgb(84, 86, 245);
