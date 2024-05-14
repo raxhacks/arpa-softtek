@@ -37,7 +37,7 @@ const ChatInput: React.FC<ChatInputProps> = ({
     }
   };
   return (
-    <div className="w-full rounded-[20px] h-[70px]
+    <div className="w-full rounded-[20px] h-[10vh]
      border-[3px] border-[#5756F5] text-white
      inline-flex items-center px-5 my-5">
       <input type="text" placeholder="Ingresa aquí tu pregunta" 

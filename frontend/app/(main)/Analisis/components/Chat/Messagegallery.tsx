@@ -43,14 +43,14 @@ const MessageGallery: React.FC<MessageGalleryProps> = ({
   }, [])
 
   return (
-    <div className="w-full h-[55vh] pr-[1vw] overflow-y-scroll overflow-x-hidden" ref={scroller}>
+    <div className="w-full h-[47vh] pr-[1vw] overflow-y-scroll overflow-x-hidden md:h-[55vh]" ref={scroller}>
       {/*<h1>MessageGallery</h1>*/}
       {messages.map((message, index) => (
         <>
-          <Bounce duration={300} triggerOnce={true} fraction={1}>
+          <Bounce duration={300} triggerOnce={true}>
             <Message key={index} message={message.prompt} isUser={true}/>
           </Bounce>
-          <Bounce duration={300} triggerOnce={true} fraction={0.5}>
+          <Bounce duration={300} triggerOnce={true}>
             <Message key={100+index} message={message.response} isUser={false}/>
           </Bounce>
         </>
