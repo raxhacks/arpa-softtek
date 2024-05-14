@@ -13,7 +13,6 @@ import Header from '../header';
 import queryString from 'query-string';
 import { getDocument } from '@/services/document.service';
 import { Document } from '@/model/document';
-import { doc } from 'firebase/firestore';
 
 function SectionTitle(title: string){
   return(
