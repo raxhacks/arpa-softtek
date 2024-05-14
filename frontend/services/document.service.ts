@@ -16,12 +16,11 @@ export const createDocument = async (data: FormData, tokenSSR?: string) => {
                 'Content-Type': 'multipart/form-data'
             } 
         };
-        console.log('Uploading document...', data);
+        console.log('Uploading document...');
         const response = await axios.post('https://arpa-2mgft7cefq-uc.a.run.app/document', data, config);
         return response.data;
     } catch (error) {
-        console.error('Could not upload the document:', error);
-        throw error;
+        console.error('Could not upload the document:');
     }
 };
 
@@ -47,5 +46,36 @@ export const getHistory = async (): Promise<Document[]> => {
     } catch (error) {
         console.error('Could not fetch history:', error);
         throw error;
+    }
+};
+
+export const getDocument = async (document_id: string): Promise<Document> => {
+    try {
+        const token = cookies().get('session')?.value
+        const config = { 
+            headers: { 
+                'Authorization': `Bearer ${token}`
+            } 
+        };
+        console.log('Fetching document...');
+        const response = await axios.get(`https://arpa-2mgft7cefq-uc.a.run.app/document?document_id=${document_id}`, config);
+
+        const document: Document = {
+            id: response.data.document_id,
+            title: response.data.title,
+            createdAt: response.data.created_at,
+            publicURL: response.data.public_url
+        };
+
+        return document;
+    } catch (error) {
+        const document: Document = {
+            id: '',
+            title: '',
+            createdAt: '',
+            publicURL: ''
+        };
+        console.error('Could not fetch document:', error);
+        return document;
     }
 };

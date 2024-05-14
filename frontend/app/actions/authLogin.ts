@@ -37,9 +37,9 @@ export async function authLogin(state: FormState, formData: FormData) {
     const token = await loginAuth(body);
 
     if (!token) {
-        console.log('no entras')
+        console.log('Credenciales incorrectas')
         return {
-          message: 'credenciales incorrectas',
+          message: 'Credenciales incorrectas',
         }
       }
     // 4. Create user session

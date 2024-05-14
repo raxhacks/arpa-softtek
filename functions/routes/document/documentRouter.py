@@ -3,16 +3,22 @@ from firebase_admin import firestore, storage
 import PyPDF2
 import docx2txt
 import urllib.request
+import os.path
+import urllib.parse
 from io import BytesIO, StringIO
 from pdfminer.pdfparser import PDFParser
 from pdfminer.converter import XMLConverter, HTMLConverter, TextConverter, PDFConverter, LTContainer, LTText, LTTextBox, LTImage
 from pdfminer.layout import LAParams
 from pdfminer.pdfinterp import PDFResourceManager, PDFPageInterpreter, PDFPage
 import yake
+from .helpers.AnalysisAndChatCreation import addAnalysisToDocument
 
 MAX_FILE_SIZE_MB = 3 
 
-def pdf_from_url_to_txt(url):
+def pdf_from_url_to_txt(url, user_id):
+    # Parse the filename from the URL
+    filename = os.path.basename(urllib.parse.urlparse(url).path)
+
     rsrcmgr = PDFResourceManager()
     retstr = StringIO()
     codec = 'utf-8'
@@ -24,6 +30,14 @@ def pdf_from_url_to_txt(url):
     file_size_mb = len(f) / (1024 * 1024)  # Size in MB
     if file_size_mb > MAX_FILE_SIZE_MB:
         return None, "File size exceeds the limit of 3MB"
+    
+    # Configure bucket
+    bucket = storage.bucket()
+    blob = bucket.blob(f"users/{user_id}/{filename}")
+    blob.upload_from_string(f)
+
+    blob.make_public()
+    public_url = blob.public_url
     
     fp = BytesIO(f)
     interpreter = PDFPageInterpreter(rsrcmgr, device)
@@ -42,7 +56,7 @@ def pdf_from_url_to_txt(url):
     device.close()
     str = retstr.getvalue()
     retstr.close()
-    return str
+    return [str, public_url]
 
 documentBlueprint = flask.Blueprint('document', __name__, url_prefix="/document")
 
@@ -95,7 +109,8 @@ def create_document():
             else:
                 text = ''  # Placeholder for content extraction for other file types
         else:
-            text = pdf_from_url_to_txt(url)
+            text = pdf_from_url_to_txt(url, user_id)[0]
+            public_url = pdf_from_url_to_txt(url, user_id)[1]
         # Save other data to Firestore
         db = firestore.client()
         user_doc_ref = db.collection('users').document(user_id)
@@ -123,7 +138,6 @@ def create_document():
             'created_at': firestore.SERVER_TIMESTAMP,
             'favorite': False,
             'chat': {},
-            'analysis': {"keywords": analysis_keywords}
         }
 
         # Create the document
@@ -148,7 +162,7 @@ def create_document():
         document_doc_ref.update({"chat":firestore.ArrayUnion([chat_doc_ref.id])})
 
         # Create analysis collection for the document
-
+        addAnalysisToDocument(user_id, document_doc_ref.id, text, analysis_keywords)
 
         return flask.jsonify({"message": "New document created successfully", "document_id": document_doc_ref.id, "text":text}), 201
     except Exception as e:
