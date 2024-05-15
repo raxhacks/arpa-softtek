@@ -58,22 +58,15 @@ function SectionTitleOpen(title: string){
 interface ContentProps{
   currentTab: string;
   sections: Section[];
+  params: { docId: string | (string | null)[] } 
 }
 
-function Content(props: ContentProps, { params }: { params: { docId: string | (string | null)[] } }) {
+const Content: React.FC<ContentProps> = (props: ContentProps, { params: { docId } }) => {
   const encodedUrl = encodeURIComponent("https://storage.googleapis.com/arpa-softtek.appspot.com/users/hNb7IaKYx7bRUWEWB9cn575nATF2/Raymundo_Guzman_Mata_English_CV%20%281%29.pdf");
   const viewerURL = `https://docs.google.com/viewer?url=${encodedUrl}&embedded=true`;
   
-  // const url = (window.location.href).toString();
-  const url = window.location.href;
-  // Parsear el query
-  const parsedURL = queryString.parseUrl(url);
-  // Obtener el valor del parámetro "id"
-  // const id = parsedURL.query.id;
-
-  const docUrl = parsedURL.query.url;
-  //const docId = parsedURL.query.id;
-  const docId = params.docId;
+  //const docId = parsedURL.query.id; 
+  console.log('doc id: ',docId);
 
   if(props.currentTab === "Resumen"){
     return(
@@ -115,11 +108,11 @@ function Content(props: ContentProps, { params }: { params: { docId: string | (s
   else if(props.currentTab === "Texto Original"){
     return(
       <div className="text h-screen">
-         <iframe
+         {/* <iframe
          src={`https://docs.google.com/viewer?url=${docUrl}&embedded=true`}
          width="100%"
          height="100%"
-         />   
+         />    */}
       </div>
     );
   }
@@ -266,7 +259,9 @@ function MostrarAnalisis() {
           </button>
           <div/>
         </div>
-        <Content currentTab={currentTab} sections={sections}/>
+        <Content currentTab={currentTab} sections={sections} params={{
+          docId: ''
+        }}/>
       </div>
       <div className="flex items-center h-screen">
         <button onClick={() => {setRightBar(!rightBarOpen), setLeftBar(false)}}

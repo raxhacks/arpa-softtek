@@ -15,9 +15,7 @@ type MessageGalleryProps = {
   docId: string | (string | null)[];
 }
 
-const MessageGallery: React.FC<MessageGalleryProps> = ({
-  newMessage
-}, {docId}) => {
+const MessageGallery: React.FC<MessageGalleryProps> = ({newMessage, docId}) => {
   const prop_messages = [
     {
       prompt: "En el artículo se menciona la concentración de ozono, pero, ¿Cómo se mide?",
