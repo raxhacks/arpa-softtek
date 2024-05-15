@@ -29,7 +29,7 @@ export const getChat = async (document_id: string | (string | null)[]): Promise<
     }
 };
 
-export const sendMessage = async (document_id: string | (string | null)[], prompt: string) => {
+export const sendMessage = async (document_id: string | (string | null)[], message: string) => {
     try {
         const token = cookies().get('session')?.value
         const config = { 
@@ -38,8 +38,8 @@ export const sendMessage = async (document_id: string | (string | null)[], promp
             } 
         };
         console.log('Doc id', document_id);
-        console.log('Sending Message...', prompt);
-        const response = await axios.post(`http://arpa-2mgft7cefq-uc.a.run.app/arpa-softtek/us-central1/arpa/chat/sendMessage?document_id=${document_id}`, { prompt }, config);
+        console.log('Sending Message...', message);
+        const response = await axios.post(`https://arpa-2mgft7cefq-uc.a.run.app/chat/sendMessage?document_id=${document_id}`, { message }, config);
         console.log('respose', response)
         return response.data.response;
     } catch (error) {
