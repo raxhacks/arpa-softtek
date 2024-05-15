@@ -162,9 +162,9 @@ def create_document():
         document_doc_ref.update({"chat":firestore.ArrayUnion([chat_doc_ref.id])})
 
         # Create analysis collection for the document
-        addAnalysisToDocument(user_id, document_doc_ref.id, text, analysis_keywords)
+        analysis_id = addAnalysisToDocument(user_id, document_doc_ref.id, text, analysis_keywords)
 
-        return flask.jsonify({"message": "New document created successfully", "document_id": document_doc_ref.id, "text":text}), 201
+        return flask.jsonify({"message": "New document created successfully", "document_id": document_doc_ref.id, "text":text, "analysis_id":analysis_id}), 201
     except Exception as e:
         print("Error:",e)
         return flask.jsonify({"message":"Failed to create new document"}), 500

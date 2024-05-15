@@ -160,6 +160,8 @@ def addAnalysisToDocument(user_id, document_id, text, keywords):
         
         document_doc_ref.update({"analysis":firestore.ArrayUnion([analysis_doc_ref.id])})
 
+        return analysis_doc_ref.id
+
     except Exception as e:
         print("Error",e)
         return "Error"
