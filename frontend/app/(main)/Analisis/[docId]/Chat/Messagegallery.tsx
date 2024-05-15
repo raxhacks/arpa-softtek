@@ -37,8 +37,8 @@ const MessageGallery: React.FC<MessageGalleryProps> = ({newMessage, docId}) => {
       console.log(newMessage);
       (async () => {
         const response = await sendMessage(docId, newMessage)
-        //await getChat(docId)
-        if (response) {
+//        await getChat(docId)
+        if (response){
           setMessages((prevMessages) => [
             ...prevMessages,
             {
@@ -51,10 +51,11 @@ const MessageGallery: React.FC<MessageGalleryProps> = ({newMessage, docId}) => {
             ...prevMessages,
             {
               prompt: newMessage,
-              response: "Ha ocurrido un error"
+              response: 'Ha ocurido un error'
             }
           ]);
         }
+        
       })();
     }
   }, [newMessage]);

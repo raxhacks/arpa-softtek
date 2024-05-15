@@ -9,6 +9,9 @@ import cx from "classnames";
 import Collapsible from 'react-collapsible';
 import Header from '../../header';
 import { Section } from "@/model/section";
+import { getDocument } from '@/services/document.service';
+import { Document } from '../../../../model/document';
+import { toggleFavorite } from '@/services/favorites.service';
 
 function SectionTitle(title: string){
   return(
@@ -59,7 +62,13 @@ interface ContentProps{
 const Content: React.FC<ContentProps> = (props: ContentProps) => {
   const encodedUrl = encodeURIComponent("https://storage.googleapis.com/arpa-softtek.appspot.com/users/hNb7IaKYx7bRUWEWB9cn575nATF2/Raymundo_Guzman_Mata_English_CV%20%281%29.pdf");
   const viewerURL = `https://docs.google.com/viewer?url=${encodedUrl}&embedded=true`;
-  
+  const [docs, setDocs] = useState<Document>();
+  useEffect(() => {
+    (async () => {
+      setDocs(await getDocument(props.docId));
+    })();
+    // Llama a fetchData directamente dentro del useEffect
+  }, []);
   if(props.currentTab === "Resumen"){
     return(
       <div className="text-[#FCFAF5] text-[3vh] mx-[8vw] mt-[8vh] md:mx-[10vw]">
@@ -100,11 +109,11 @@ const Content: React.FC<ContentProps> = (props: ContentProps) => {
   else if(props.currentTab === "Texto Original"){
     return(
       <div className="text h-screen">
-         {/* <iframe
-         src={`https://docs.google.com/viewer?url=${docUrl}&embedded=true`}
+         <iframe
+         src={`https://docs.google.com/viewer?url=${docs?.publicURL}&embedded=true`}
          width="100%"
          height="100%"
-         />    */}
+         />    
       </div>
     );
   }
@@ -159,8 +168,19 @@ function RightBarContent() {
   );
 }
 
-function BotonFavorito(favorito: any){
+function BotonFavorito(favorito: any, {
+  params,
+}:{ 
+  params: { docId: string };
+}){
   if(favorito.state == true){
+    useEffect(() => {
+      (async () => {
+        await toggleFavorite(params.docId, favorito);
+      })();
+      // Llama a fetchData directamente dentro del useEffect
+    }, []);
+    
     return(
       <svg xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler icon-tabler-star hover:stroke-[#BCBAB5] hover:fill-[#BCBAB5] md:stroke-[#5756F5] md:fill-[#5756F5] md:hover:stroke-[#2F31AB] md:hover:fill-[#2F31AB]"
       width="50" height="50" viewBox="0 0 24 24" stroke-width="1.5" stroke="#FCFAF5" fill="#FCFAF5" stroke-linecap="round" stroke-linejoin="round">
@@ -251,7 +271,7 @@ function MostrarAnalisis({
           <Segmented options={["Resumen", "Texto Original", "Chatbot"]} onChange={(value) => handleTabChange(value)} />
           <div className="w-[10vw] md:w-0"/>
           <button className="fixed top-[1.5vh] right-[2vw] z-30 md:relative md:top-auto md:right-auto md:z-auto md:ml-[2vw]" onClick={() => setFavorito(!isFavorito)}>
-            <BotonFavorito state={isFavorito} setFavorito={setFavorito}/>
+            <BotonFavorito state={isFavorito} setFavorito={setFavorito} docId={params.docId}/>
           </button>
           <div/>
         </div>

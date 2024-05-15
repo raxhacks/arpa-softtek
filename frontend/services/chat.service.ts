@@ -37,11 +37,9 @@ export const sendMessage = async (document_id: string | (string | null)[], messa
                 'Authorization': `Bearer ${token}`
             } 
         };
-        console.log('Doc id', document_id);
-        console.log('Sending Message...', message);
         const response = await axios.post(`https://arpa-2mgft7cefq-uc.a.run.app/chat/sendMessage?document_id=${document_id}`, { message }, config);
-        console.log('respose', response)
         return response.data.response;
+
     } catch (error) {
         console.log('Could not send the message:', error);
         return null;
