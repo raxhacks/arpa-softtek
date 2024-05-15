@@ -4,7 +4,7 @@ import axios from 'axios';
 import { cookies } from 'next/headers';
 import { Section } from '../model/section';
 
-export const getSections = async (): Promise<Section[]> => {
+export const getSections = async (document_id: string, analysis_id: string): Promise<Section[]> => {
     try {
         const token = cookies().get('session')?.value
         const config = { 
@@ -13,7 +13,7 @@ export const getSections = async (): Promise<Section[]> => {
             } 
         };
         console.log('Fetching analysis sections...');
-        const response = await axios.get('https://arpa-2mgft7cefq-uc.a.run.app/analysis/sections', config);
+        const response = await axios.get(`https://arpa-2mgft7cefq-uc.a.run.app/analysis/sections?document_id=${document_id}&analysis_id=${analysis_id}`, config);
 
         const sections: Section[] = response.data.map((item: any) => ({
             title: item.title,
