@@ -3,4 +3,5 @@ export interface Document {
     title: string;
     createdAt: string;
     publicURL: string;
+    analysis_id: string;
 }
