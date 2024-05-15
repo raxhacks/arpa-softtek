@@ -3,16 +3,11 @@
 import Link from 'next/link';
 import './Analisis.css';
 import { useRef, useState, useEffect } from 'react';
-import Typewriter from 'typewriter-effect';
 import Chat from './Chat/Chat';
 import Segmented from 'rc-segmented';
 import cx from "classnames";
-import { handleClientScriptLoad } from 'next/script';
 import Collapsible from 'react-collapsible';
 import Header from '../../header';
-import queryString from 'query-string';
-import { getDocument } from '@/services/document.service';
-import { Document } from '@/model/document';
 import { Section } from "@/model/section";
 
 function SectionTitle(title: string){
@@ -58,16 +53,13 @@ function SectionTitleOpen(title: string){
 interface ContentProps{
   currentTab: string;
   sections: Section[];
-  params: { docId: string | (string | null)[] } 
+  docId: string;
 }
 
-const Content: React.FC<ContentProps> = (props: ContentProps, { params: { docId } }) => {
+const Content: React.FC<ContentProps> = (props: ContentProps) => {
   const encodedUrl = encodeURIComponent("https://storage.googleapis.com/arpa-softtek.appspot.com/users/hNb7IaKYx7bRUWEWB9cn575nATF2/Raymundo_Guzman_Mata_English_CV%20%281%29.pdf");
   const viewerURL = `https://docs.google.com/viewer?url=${encodedUrl}&embedded=true`;
   
-  //const docId = parsedURL.query.id; 
-  console.log('doc id: ',docId);
-
   if(props.currentTab === "Resumen"){
     return(
       <div className="text-[#FCFAF5] text-[3vh] mx-[8vw] mt-[8vh] md:mx-[10vw]">
@@ -119,7 +111,7 @@ const Content: React.FC<ContentProps> = (props: ContentProps, { params: { docId 
   else if(props.currentTab === "Chatbot"){
     return(
       <div className="text-[#FCFAF5] text-[3vh] mx-[8vw] mt-[3vh] md:mx-[10vw] md:mt-[5vh]">
-        <Chat docId={docId} />
+        <Chat docId={props.docId}/>
       </div>
     );
   }
@@ -200,7 +192,11 @@ function BotonHome(){
   );
 }
 
-function MostrarAnalisis() {
+function MostrarAnalisis({
+  params,
+}:{ 
+  params: { docId: string };
+}) {
   const [currentTab, setTab] = useState("Resumen");
   const [leftBarOpen, setLeftBar] = useState(false);
   const [rightBarOpen, setRightBar] = useState(false);
@@ -259,9 +255,7 @@ function MostrarAnalisis() {
           </button>
           <div/>
         </div>
-        <Content currentTab={currentTab} sections={sections} params={{
-          docId: ''
-        }}/>
+        <Content currentTab={currentTab} sections={sections} docId={params.docId}/>
       </div>
       <div className="flex items-center h-screen">
         <button onClick={() => {setRightBar(!rightBarOpen), setLeftBar(false)}}

@@ -39,11 +39,11 @@ export const sendMessage = async (document_id: string | (string | null)[], promp
         };
         console.log('Doc id', document_id);
         console.log('Sending Message...', prompt);
-        const response = await axios.post(`https://arpa-2mgft7cefq-uc.a.run.app/arpa-softtek/us-central1/arpa/chat/sendMessage?document_id=${document_id}`, { prompt }, config);
+        const response = await axios.post(`http://127.0.0.1:5001/arpa-softtek/us-central1/arpa/chat/sendMessage?document_id=${document_id}`, { prompt }, config);
         console.log('respose', response)
         return response.data.response;
     } catch (error) {
-        console.log('Could not send the message:');
+        console.log('Could not send the message:', error);
         return null;
     }
 };

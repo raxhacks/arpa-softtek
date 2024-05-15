@@ -17,12 +17,12 @@ export const createDocument = async (data: FormData, tokenSSR?: string) => {
             } 
         };
         console.log('Uploading document...');
-        const response = await axios.post('https://arpa-2mgft7cefq-uc.a.run.app/document', data, config);
+        const response = await axios.post('http://127.0.0.1:5001/document', data, config);
         console.log('Document uploaded succsefully');
         console.log(response.data);
         return response.data;
     } catch (error) {
-        console.error('Could not upload the document:', error);
+        console.error('Could not upload the document:', error.message);
         return null
     }
 };
