@@ -21,7 +21,7 @@ function SectionTitle(title: string){
           <path d="M16.375 6.22l-4.375 3.498l-4.375 -3.5a1 1 0 0 0 -1.625 .782v6a1 1 0 0 0 .375 .78l5 4a1 1 0 0 0 1.25 0l5 -4a1 1 0 0 0 .375 -.78v-6a1 1 0 0 0 -1.625 -.78z" stroke-width="0" fill="currentColor" />
         </svg>
       </div>
-      <div className="ml-3 text-4xl">
+      <div className="ml-[1vw] text-4xl break-words">
         {title}
       </div>
     </div>
@@ -35,22 +35,12 @@ function SectionTitleOpen(title: string){
         <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
         <path d="M16.375 6.22l-4.375 3.498l-4.375 -3.5a1 1 0 0 0 -1.625 .782v6a1 1 0 0 0 .375 .78l5 4a1 1 0 0 0 1.25 0l5 -4a1 1 0 0 0 .375 -.78v-6a1 1 0 0 0 -1.625 -.78z" stroke-width="0" fill="currentColor" />
       </svg>
-      <div className="ml-3 text-4xl">
+      <div className="ml-[1vw] text-4xl break-words">
         {title}
       </div>
     </div>
   );
 }
-
-/*function SectionCollapsible(section: Section){
-  return(
-    <Collapsible trigger={SectionTitle(section.title)} triggerWhenOpen={SectionTitleOpen(section.title)} transitionTime={150} className="mb-[4vh]">
-      <div className="pl-[2vw] mb-[4vh] md:pl-[4vw]">
-        {section.content}
-      </div>
-    </Collapsible>
-  );
-}*/
 
 interface ContentProps{
   currentTab: string;
@@ -62,7 +52,7 @@ function Content(props: ContentProps) {
   const viewerURL = `https://docs.google.com/viewer?url=${encodedUrl}&embedded=true`;
   if(props.currentTab === "Resumen"){
     return(
-      <div className="text-[#FCFAF5] text-[3vh] mx-[8vw] mt-[8vh] md:mx-[10vw]">
+      <div className="text-[#FCFAF5] text-[3vh] mx-[7vw] mt-[8vh] md:mx-[10vw]">
         {props.sections.map((section, index) => (
           <Collapsible trigger={SectionTitle(section.title)} triggerWhenOpen={SectionTitleOpen(section.title)} transitionTime={150} className="mb-[4vh]">
             <div className="pl-[2vw] mb-[4vh] md:pl-[4vw]">
@@ -70,30 +60,6 @@ function Content(props: ContentProps) {
             </div>
           </Collapsible>
         ))}
-        {/*<Collapsible trigger={SectionTitle("Sección 1")} triggerWhenOpen={SectionTitleOpen("Sección 1")} transitionTime={150} className="mb-[4vh]">
-          <div className="pl-[2vw] mb-[4vh] md:pl-[4vw]">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-            Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure
-            dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-            proident, sunt in culpa qui officia deserunt mollit anim id est laborum
-          </div>
-        </Collapsible>
-        <Collapsible trigger={SectionTitle("Sección 2")} triggerWhenOpen={SectionTitleOpen("Sección 2")} transitionTime={150} className="mb-[4vh]">
-          <div className="pl-[2vw] mb-[4vh] md:pl-[4vw]">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-            Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure
-            dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-            proident, sunt in culpa qui officia deserunt mollit anim id est laborum
-          </div>
-        </Collapsible>
-        <Collapsible trigger={SectionTitle("Sección 3")} triggerWhenOpen={SectionTitleOpen("Sección 3")} transitionTime={150} className="mb-[4vh]">
-          <div className="pl-[2vw] mb-[4vh] md:pl-[4vw]">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-            Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure
-            dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-            proident, sunt in culpa qui officia deserunt mollit anim id est laborum
-          </div>
-        </Collapsible>*/}
       </div>
     );
   }
@@ -199,15 +165,15 @@ function MostrarAnalisis() {
   const [isFavorito, setFavorito] = useState(false);
   const prop_sections = [
     {
-      title: "Titulo de seccion 1",
+      title: "Título de sección 1",
       content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum"
     },
     {
-      title: "Titulo de seccion 2",
+      title: "Título de sección 2",
       content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum"
     },
     {
-      title: "Titulo de seccion 3",
+      title: "Título de sección 3",
       content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum"
     }
   ]
