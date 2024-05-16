@@ -20,7 +20,7 @@ authBlueprint = flask.Blueprint('auth', __name__)
 def login():
     try:
         user = flask.request.json
-        payload = json.dumps({"email":user['email'], "password":user['password'], "return_secure_token":True})
+        payload = json.dumps({"email":user['email'], "password":user['password'], "return_secure_token":True, "expiresIn": "43200"})
         rest_api_url = "https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword"
 
         r = requests.post(rest_api_url,

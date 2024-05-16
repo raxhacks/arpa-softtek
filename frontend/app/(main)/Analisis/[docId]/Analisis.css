@@ -2,7 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
-  /*COSAS DE SIDE BAR LEFT*/
+  /* /COSAS DE SIDE BAR LEFT/ */
   .sideBarLeft{
     position: fixed;
     left: 0;
@@ -136,7 +136,7 @@
     }
   }
 
-  /*COSAS DE SIDE BAR RIGHT*/
+  /* /COSAS DE SIDE BAR RIGHT/ */
   .sideBarRight{
     position: fixed;
     right: 0;
@@ -269,7 +269,7 @@
     }
   }
 
-  /*COSAS DEL SCROLLBAR*/
+  /* /COSAS DEL SCROLLBAR/ */
   ::-webkit-scrollbar{
     width: 1vw;
   }
@@ -282,7 +282,7 @@
     border-radius: 10px;
   }
 
-  /*COSAS DE RC-SEGMENTED*/
+  /* /COSAS DE RC-SEGMENTED/ */
   .rc-segmented {
     display: inline-block;
     background-color: rgba(29, 31, 40, 0.5);

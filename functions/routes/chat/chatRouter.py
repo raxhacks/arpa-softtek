@@ -1,5 +1,8 @@
 import flask
 from firebase_admin import firestore
+from langchain_pinecone import PineconeVectorStore
+from langchain_openai import OpenAIEmbeddings
+from .helpers.chat import chatQA
 
 chatBlueprint = flask.Blueprint('chat', __name__, url_prefix="/chat")
 
@@ -37,10 +40,9 @@ def get_chat():
     try:
         user_id = flask.g.get('user_id')
         document_id = flask.request.args.get('document_id')
-        chat_id = flask.request.args.get('chat_id')
         
         db = firestore.client()
-        chat_doc_ref = db.collection('users').document(user_id).collection('documents').document(document_id).collection('chat').document(chat_id)
+        chat_doc_ref = db.collection('users').document(user_id).collection('documents').document(document_id).collection('chat').document(document_id)
         chat = chat_doc_ref.get()
         
         return flask.jsonify(chat.to_dict()), 200
@@ -82,23 +84,29 @@ def delete_chat():
     except Exception as e:
         print("Error:",e)
         return flask.jsonify({"message":"Failed to delete chat"}), 500
-
+    
 @chatBlueprint.route("/sendMessage", methods=["POST"])
 def send_message():
     try:
+        db = firestore.client()
+
         # Logica para OpenAI
         user_id = flask.g.get('user_id')
         document_id = flask.request.args.get('document_id')
-        chat_id = flask.request.args.get('chat_id')
-        user_interaction = flask.request.json
+        body = flask.request.json
+        index_name = document_id.lower()
         
-        db = firestore.client()
-        chat_doc_ref = db.collection('users').document(user_id).collection('documents').document(document_id).collection('chat').document(chat_id)
-        messages = chat_doc_ref.get().to_dict().get('messages')
-        messages.append(user_interaction)
-        chat_doc_ref.update({"messages":messages})
+        # obtain prompt
+        prompt = body['message']
+
+        # get response
+        response = chatQA(document_id, user_id, prompt, index_name)
         
-        return flask.jsonify({"message":"Message sent successfully"}), 200
+        return flask.jsonify(
+            {"message": "Message sent successfully", 
+             "response": response
+             }), 200
+    
     except Exception as e:
-        print("Error:",e)
-        return flask.jsonify({"message":"Failed to send message"}), 500
+        print("Error at endpoint:", e)
+        return flask.jsonify({"message": "Failed to send message"}), 500

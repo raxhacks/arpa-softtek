@@ -2,7 +2,7 @@ functions/venv
 functions/firestore-debug.log
 functions/firebase-debug.log
 functions/ui-debug.log
-functions/keys.json
+**/keys.json
 
 .env
 firebase-cred.json
@@ -14,8 +14,11 @@ backend/embbebed/venv
 backend/node_modules
 
 **/__pycache__/
+venv/
+
 
 frontend/node_modules
 .firebase/
 
 .idea/
+.vercel

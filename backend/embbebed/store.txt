@@ -1,0 +1,15 @@
+{'1234': 
+    ChatMessageHistory(messages=[HumanMessage(content='give me a resume of the document'), 
+    AIMessage(content='The document discusses the training of a large convolutional neural network on the ImageNet dataset, achieving record-breaking results on challenging tasks. The network architecture includes eight layers, with five convolutional and three fully-connected layers. Unique features like local response normalization and overlapping pooling are employed to improve performance. The study highlights the importance of network depth and the challenges of overfitting, emphasizing the need for computational power and larger datasets for further advancements in visual recognition tasks.'), 
+    HumanMessage(content='give me a resume of the document'), 
+    AIMessage(content='The document presents the training of a large convolutional neural network on the ImageNet dataset, achieving remarkable results. The network architecture consists of eight layers, including convolutional and fully-connected layers. Unique features like local response normalization and overlapping pooling are utilized for improved performance. The study underscores the significance of network depth and the challenges of overfitting, emphasizing the need for computational power and larger datasets for future advancements in visual recognition tasks.')]), 
+
+'barajas': 
+    ChatMessageHistory(messages=[HumanMessage(content='what are the key poinst of the paper'), 
+    AIMessage(content="The paper discusses training a large convolutional neural network on subsets of ImageNet, achieving record-breaking results on ILSVRC-2010 and ILSVRC-2012 datasets. The network architecture includes eight learned layers, with the depth being crucial for performance. The results show significant improvements in image recognition tasks, with the network's size limited by GPU memory and training time constraints.")]), 
+
+'luis': 
+    ChatMessageHistory(messages=[HumanMessage(content='what are the key word in the paper?'), 
+    AIMessage(content='The key words in the paper are "convolutional neural networks," "ILSVRC," "ImageNet," "supervised learning," "GPU implementation," "overfitting prevention," "training time," "dataset," "architecture," and "error rates."'), 
+    HumanMessage(content='what is a convulutional neural network?'), 
+    AIMessage(content='A convolutional neural network (CNN) is a type of deep learning model commonly used for image recognition tasks. It consists of multiple layers that learn to extract features from input images through convolution operations. CNNs are designed to automatically and adaptively learn spatial hierarchies of features from data.')])}

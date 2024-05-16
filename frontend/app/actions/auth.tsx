@@ -1,6 +1,5 @@
 import { SignupFormSchema, FormState } from '@/app/lib/defititions'
 import { createUser } from '@/services/user.service';
-import axios from 'axios';
 import { createSession } from '@/app/actions/session'
 import { redirect } from 'next/navigation';
 
@@ -37,9 +36,9 @@ export async function signup(state: FormState, formData: FormData) {
     const token = await createUser(body);
 
     if (!token) {
-        console.log('An error occurred while creating your account.')
+        console.log('user created already')
         return {
-          message: 'An error occurred while creating your account.',
+          message: 'Esta cuenta ya se encuentra registrada.',
         }
       }
 
