@@ -232,10 +232,10 @@ def toggle_favorite():
         document_doc_ref = db.collection('users').document(user_id).collection('documents').document(document_id)
         document = document_doc_ref.get().to_dict()
         
-        if favorite != 'true':
-            document_doc_ref.update({"favorite":False})
+        if favorite != "True":
+            document_doc_ref.update({"favorite": "False"})
         else:
-            document_doc_ref.update({"favorite":True})
+            document_doc_ref.update({"favorite": "True"})
         
         return flask.jsonify({"message":"Favorite status updated successfully"}), 200
     except Exception as e:
@@ -257,7 +257,9 @@ def get_history():
                 "document_id": doc.id,
                 "title": document_data.get("title", ""),
                 "created_at": document_data.get("created_at", ""),
-                "public_url": document_data.get("public_url", "")
+                "public_url": document_data.get("public_url", ""),
+                "analysis_id": document_data.get("analysis_id", ""),
+                "favorite": document_data.get("favorite", "False")
             }
             documents_list.append(document_info)
         
@@ -281,7 +283,9 @@ def get_favorites():
                 "document_id": doc.id,
                 "title": document_data.get("title", ""),
                 "created_at": document_data.get("created_at", ""),
-                "public_url": document_data.get("public_url", "")
+                "public_url": document_data.get("public_url", ""),
+                "analysis_id": document_data.get("analysis_id", ""),
+                "favorite": document_data.get("favorite", "False")
             }
             documents_list.append(document_info)
         
