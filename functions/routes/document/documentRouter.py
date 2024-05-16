@@ -230,7 +230,6 @@ def toggle_favorite():
         
         db = firestore.client()
         document_doc_ref = db.collection('users').document(user_id).collection('documents').document(document_id)
-        document = document_doc_ref.get().to_dict()
         
         if favorite != "True":
             document_doc_ref.update({"favorite": "False"})
@@ -253,12 +252,15 @@ def get_history():
         documents_list = []
         for doc in documents_ref:
             document_data = doc.to_dict()
+            analysis_ref = db.collection('users').document(user_id).collection('documents').document(doc.id).collection('analysis').document('analysis_id').get()
+            analysis_data = analysis_ref.to_dict()
+
             document_info = {
                 "document_id": doc.id,
                 "title": document_data.get("title", ""),
                 "created_at": document_data.get("created_at", ""),
                 "public_url": document_data.get("public_url", ""),
-                "analysis_id": document_data.get("analysis_id", ""),
+                "analysis_id": analysis_data.get("analysis_id", ""),
                 "favorite": document_data.get("favorite", "False")
             }
             documents_list.append(document_info)
@@ -279,12 +281,15 @@ def get_favorites():
         documents_list = []
         for doc in documents_ref:
             document_data = doc.to_dict()
+            analysis_ref = db.collection('users').document(user_id).collection('documents').document(doc.id).collection('analysis').document('analysis_id').get()
+            analysis_data = analysis_ref.to_dict()
+            
             document_info = {
                 "document_id": doc.id,
                 "title": document_data.get("title", ""),
                 "created_at": document_data.get("created_at", ""),
                 "public_url": document_data.get("public_url", ""),
-                "analysis_id": document_data.get("analysis_id", ""),
+                "analysis_id": analysis_data.get("analysis_id", ""),
                 "favorite": document_data.get("favorite", "False")
             }
             documents_list.append(document_info)
