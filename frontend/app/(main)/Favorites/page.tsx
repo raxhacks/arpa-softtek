@@ -37,7 +37,7 @@ export default function MostrarFavoritos() {
                 {favoriteDocs?.map((doc, index) => 
                   ( 
                     <div key={index} className='pb-4 w-full flex justify-center items-center text-center text-white'>
-                      <Link href={`/Analisis/?url=${encodeURIComponent(doc.publicURL)}`}>
+                      <Link href={`/Analisis/${doc.id}/`}>
                         <Fade className='w-72 lg:w-96 h-56 rounded-2xl p-4 bg-favsnhistory-500 transition-colors shadow-md hover:border-blue-200 hover:bg-blue-400'>
                           <div>
                             <h1 className='font-bold'>{doc.title}</h1>
