@@ -252,15 +252,15 @@ def get_history():
         documents_list = []
         for doc in documents_ref:
             document_data = doc.to_dict()
-            analysis_array = document_data.get('analysis', [])
-            analysis_id = analysis_array[0] if analysis_array else ""
+            # analysis_array = document_data.get('analysis', [])
+            # analysis_id = analysis_array[0] if analysis_array else ""
 
             document_info = {
                 "document_id": doc.id,
                 "title": document_data.get("title", ""),
                 "created_at": document_data.get("created_at", ""),
                 "public_url": document_data.get("public_url", ""),
-                "analysis_id": analysis_id,
+                # "analysis_id": analysis_id,
                 "favorite": document_data.get("favorite", False)
             }
             documents_list.append(document_info)
@@ -281,15 +281,15 @@ def get_favorites():
         documents_list = []
         for doc in documents_ref:
             document_data = doc.to_dict()
-            analysis_array = document_data.get('analysis', [])
-            analysis_id = analysis_array[0] if analysis_array else ""
+            # analysis_array = document_data.get('analysis', [])
+            # analysis_id = analysis_array[0] if analysis_array else ""
             
             document_info = {
                 "document_id": doc.id,
                 "title": document_data.get("title", ""),
                 "created_at": document_data.get("created_at", ""),
                 "public_url": document_data.get("public_url", ""),
-                "analysis_id": analysis_id,
+                # "analysis_id": analysis_id,
                 "favorite": document_data.get("favorite", False)
             }
             documents_list.append(document_info)
