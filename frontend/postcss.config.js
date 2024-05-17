@@ -3,4 +3,9 @@ module.exports = {
     tailwindcss: {},
     autoprefixer: {},
   },
+  experimental: {
+    serverActions: {
+      bodySizeLimit: '22mb',
+    },
+  }
 };

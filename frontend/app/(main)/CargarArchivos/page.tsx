@@ -184,9 +184,11 @@ function FileStateMessage(fileState: any) {
       formData.append("extension", fileState.type);
       const res = await createDocument(formData);
       const docId = res.document_id;
+      const analysisId = res.analysis_id;
+      console.log(analysisId);
       // const text = res.text;
       // localStorage.setItem("text", text);
-      router.push(`/Analisis/${docId}`);
+      router.push(`/Analisis/${docId}/${analysisId}`);
     } catch (error) {
       console.error(error);
     }

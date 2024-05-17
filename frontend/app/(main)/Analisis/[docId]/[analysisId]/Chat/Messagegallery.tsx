@@ -28,13 +28,9 @@ const MessageGallery: React.FC<MessageGalleryProps> = ({newMessage, docId}) => {
   const parsedURL = queryString.parseUrl(url);
   // Obtener el valor del parámetro "id"
   const scroller = useRef(null);
-  console.log(newMessage);
-
+  
   useEffect(() => {
-    console.log('entre')
-    console.log(docId)
     if (newMessage && docId) {
-      console.log(newMessage);
       (async () => {
         const response = await sendMessage(docId, newMessage)
 //        await getChat(docId)

@@ -14,12 +14,14 @@ export const getSections = async (document_id: string, analysis_id: string): Pro
         };
         console.log('Fetching analysis sections...');
         const response = await axios.get(`https://arpa-2mgft7cefq-uc.a.run.app/analysis/sections?document_id=${document_id}&analysis_id=${analysis_id}`, config);
+        console.log('Analysis fetch');
 
         const sections: Section[] = response.data.map((item: any) => ({
             title: item.title,
             content: item.content
         }));
-
+        console.log(sections);
+        
         return sections;
     } catch (error) {
         console.error('Could not fetch analysis sections:', error);
