@@ -42,14 +42,10 @@ export const toggleFavorite = async (documentId: string, favorite: string) => {
             } 
         };
 
-        const data = {
-            document_id: documentId,
-            favorite: favorite
-        };
         console.log('Toggling favorite status...');
         console.log('document id:', documentId)
         console.log('favorite status:', favorite)
-        const response = await axios.put(`https://arpa-2mgft7cefq-uc.a.run.app/document/toggleFavorite?document_id=${documentId}&favorite=${favorite}`, data, config);
+        const response = await axios.put(`https://arpa-2mgft7cefq-uc.a.run.app/document/toggleFavorite?document_id=${documentId}&favorite=${favorite}`, config);
         console.log(response.data.message);
         return response.data;
     } catch (error) {

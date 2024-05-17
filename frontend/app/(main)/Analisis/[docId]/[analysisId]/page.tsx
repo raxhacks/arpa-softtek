@@ -235,8 +235,11 @@ function MostrarAnalisis({
 
   const toggleFav = async () => {
     setFavorito(!isFavorito);
-    const fav = isFavorito
-    const favToString = fav.toString()
+    console.log('ahora sera favorito -> ', isFavorito);
+    const fav = !isFavorito
+    console.log('valor a pasar -> ', fav);
+    const favToString = fav.toString();
+    console.log('valor a pasar enstring-> ', favToString);
     const response = await toggleFavorite(params.docId, favToString);
     if (response) {
       console.log(isFavorito);

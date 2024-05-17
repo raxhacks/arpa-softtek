@@ -231,7 +231,7 @@ def toggle_favorite():
         db = firestore.client()
         document_doc_ref = db.collection('users').document(user_id).collection('documents').document(document_id)
         
-        if favorite != "True":
+        if favorite != "true":
             document_doc_ref.update({"favorite": False})
         else:
             document_doc_ref.update({"favorite": True})
