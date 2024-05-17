@@ -235,7 +235,9 @@ function MostrarAnalisis({
 
   const toggleFav = async () => {
     setFavorito(!isFavorito);
-    const response = await toggleFavorite(params.docId, isFavorito);
+    const fav = isFavorito
+    const favToString = fav.toString()
+    const response = await toggleFavorite(params.docId, favToString);
     if (response) {
       console.log(isFavorito);
     } else {
