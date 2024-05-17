@@ -221,18 +221,29 @@ function MostrarAnalisis({
     setTab(value)
   }
 
+  useEffect(() => {
+    (async () => {
+      const document = await getDocument(params.docId)
+      if (document){
+        const favorite = Boolean(document.favorite)
+        setFavorito(favorite)
+      } else {
+        console.log("error retrieving if its favorite or not")
+      }
+    })
+  })
+
   const toggleFav = async () => {
     setFavorito(!isFavorito);
-    const fav = !isFavorito;
-    const response = await toggleFavorite(params.docId, fav)
-    if (response){
-      console.log('error al marcar como favorito')
-      
+    const response = await toggleFavorite(params.docId, isFavorito);
+    if (response) {
+      console.log(isFavorito);
     } else {
-      console.log('error al marcar como favorito')
+      console.log('error al marcar como favorito');
       setFavorito(!isFavorito);
-    }
-  }
+    } 
+  };
+
   return (
     <div className="flex items-top justify-center">
       <Header />
