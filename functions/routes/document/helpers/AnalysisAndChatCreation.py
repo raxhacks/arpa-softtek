@@ -167,7 +167,7 @@ def addAnalysisToDocument(user_id, document_id, text, keywords):
         
         analysis_doc_ref.update({"analysis_id":analysis_doc_ref.id})
         
-        document_doc_ref.update({"analysis":firestore.ArrayUnion([analysis_doc_ref.id])})
+        document_doc_ref.update({"analysis":analysis_doc_ref.id})
 
         return analysis_doc_ref.id
 
