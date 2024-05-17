@@ -52,3 +52,30 @@ export const getHistory = async (): Promise<Document[]> => {
         throw error;
     }
 };
+
+export const getDocument = async (document_id: string): Promise<Document> => {
+    try {
+        const token = cookies().get('session')?.value
+        const config = { 
+            headers: { 
+                'Authorization': `Bearer ${token}`
+            } 
+        };
+        console.log('Fetching document...');
+        const response = await axios.get(`https://arpa-2mgft7cefq-uc.a.run.app/document?document_id=${document_id}`, config);
+
+        const document: Document = {
+            id: response.data.document_id,
+            title: response.data.title,
+            createdAt: response.data.created_at,
+            publicURL: response.data.public_url,
+            analysis_id: 'placeholder',
+            favorite: response.data.favorite.toString() //response.data.favorite
+        };
+
+        return document;
+    } catch (error) {
+        console.error('Could not fetch document:', error);
+        throw error;
+    }
+};
