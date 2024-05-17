@@ -23,7 +23,7 @@ export const getFavorites = async (): Promise<Document[]> => {
             createdAt: item.created_at,
             publicURL: item.public_url,
             analysis_id: item.analysis_id,
-            favorite: item.favorite
+            favorite: item.favorite.toString()
         }));
         
         return history;
@@ -33,7 +33,7 @@ export const getFavorites = async (): Promise<Document[]> => {
     }
 };
 
-export const toggleFavorite = async (documentId: string, favorite: boolean) => {
+export const toggleFavorite = async (documentId: string, favorite: string) => {
     try {
         const token = cookies().get('session')?.value
         const config = { 
@@ -42,13 +42,8 @@ export const toggleFavorite = async (documentId: string, favorite: boolean) => {
             } 
         };
 
-        const data = {
-            document_id: documentId,
-            favorite: favorite
-        };
-
         console.log('Toggling favorite status...');
-        const response = await axios.put('https://arpa-2mgft7cefq-uc.a.run.app/document/toggleFavorite', data, config);
+        const response = await axios.put(`https://arpa-2mgft7cefq-uc.a.run.app/document/toggleFavorite?document_id=${documentId}&favorite=${favorite}`, config);
 
         return response.data;
     } catch (error) {
