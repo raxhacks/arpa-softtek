@@ -40,10 +40,9 @@ def get_chat():
     try:
         user_id = flask.g.get('user_id')
         document_id = flask.request.args.get('document_id')
-        chat_id = flask.request.args.get('chat_id')
         
         db = firestore.client()
-        chat_doc_ref = db.collection('users').document(user_id).collection('documents').document(document_id).collection('chat').document(chat_id)
+        chat_doc_ref = db.collection('users').document(user_id).collection('documents').document(document_id).collection('chat').document(document_id)
         chat = chat_doc_ref.get()
         
         return flask.jsonify(chat.to_dict()), 200

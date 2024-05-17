@@ -145,20 +145,31 @@ def addAnalysisToDocument(user_id, document_id, text, keywords):
         print(prompt)
         print(answer)
 
+        print(promptCitation)
+        print(answerCitation)
+
+        print(promptQuantData)
+        print(answerQuantData)
+
+        print(keywords)
+
         # Save the analysis to the document
         analysis_doc_ref = document_doc_ref.collection('analysis').document()
         
         new_analysis = {}
         new_analysis['keywords'] = keywords
         new_analysis['sections'] = json.loads(answer)
-        new_analysis['apa'] = json.loads(answerCitation)
+        new_analysis['apa'] = answerCitation
         new_analysis['quantitative_data'] = json.loads(answerQuantData)
+
         
         analysis_doc_ref.set(new_analysis)
         
-        analysis_doc_ref.update({"analysis":analysis_doc_ref.id})
+        analysis_doc_ref.update({"analysis_id":analysis_doc_ref.id})
         
         document_doc_ref.update({"analysis":firestore.ArrayUnion([analysis_doc_ref.id])})
+
+        return analysis_doc_ref.id
 
     except Exception as e:
         print("Error",e)

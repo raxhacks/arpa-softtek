@@ -162,9 +162,9 @@ def create_document():
         document_doc_ref.update({"chat":firestore.ArrayUnion([chat_doc_ref.id])})
 
         # Create analysis collection for the document
-        addAnalysisToDocument(user_id, document_doc_ref.id, text, analysis_keywords)
+        analysis_id = addAnalysisToDocument(user_id, document_doc_ref.id, text, analysis_keywords)
 
-        return flask.jsonify({"message": "New document created successfully", "document_id": document_doc_ref.id, "text":text}), 201
+        return flask.jsonify({"message": "New document created successfully", "document_id": document_doc_ref.id, "text":text, "analysis_id":analysis_id}), 201
     except Exception as e:
         print("Error:",e)
         return flask.jsonify({"message":"Failed to create new document"}), 500
@@ -230,12 +230,11 @@ def toggle_favorite():
         
         db = firestore.client()
         document_doc_ref = db.collection('users').document(user_id).collection('documents').document(document_id)
-        document = document_doc_ref.get().to_dict()
         
-        if favorite != 'true':
-            document_doc_ref.update({"favorite":False})
+        if favorite != "True":
+            document_doc_ref.update({"favorite": "False"})
         else:
-            document_doc_ref.update({"favorite":True})
+            document_doc_ref.update({"favorite": "True"})
         
         return flask.jsonify({"message":"Favorite status updated successfully"}), 200
     except Exception as e:
@@ -253,11 +252,16 @@ def get_history():
         documents_list = []
         for doc in documents_ref:
             document_data = doc.to_dict()
+            analysis_ref = db.collection('users').document(user_id).collection('documents').document(doc.id).collection('analysis').document('analysis_id').get()
+            analysis_data = analysis_ref.to_dict()
+
             document_info = {
                 "document_id": doc.id,
                 "title": document_data.get("title", ""),
                 "created_at": document_data.get("created_at", ""),
-                "public_url": document_data.get("public_url", "")
+                "public_url": document_data.get("public_url", ""),
+                "analysis_id": analysis_data.get("analysis_id", ""),
+                "favorite": document_data.get("favorite", "False")
             }
             documents_list.append(document_info)
         
@@ -277,11 +281,16 @@ def get_favorites():
         documents_list = []
         for doc in documents_ref:
             document_data = doc.to_dict()
+            analysis_ref = db.collection('users').document(user_id).collection('documents').document(doc.id).collection('analysis').document('analysis_id').get()
+            analysis_data = analysis_ref.to_dict()
+            
             document_info = {
                 "document_id": doc.id,
                 "title": document_data.get("title", ""),
                 "created_at": document_data.get("created_at", ""),
-                "public_url": document_data.get("public_url", "")
+                "public_url": document_data.get("public_url", ""),
+                "analysis_id": analysis_data.get("analysis_id", ""),
+                "favorite": document_data.get("favorite", "False")
             }
             documents_list.append(document_info)
         

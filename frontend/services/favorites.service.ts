@@ -21,7 +21,9 @@ export const getFavorites = async (): Promise<Document[]> => {
             id: item.document_id,
             title: item.title,
             createdAt: item.created_at,
-            publicURL: item.public_url
+            publicURL: item.public_url,
+            analysis_id: item.analysis_id,
+            favorite: item.favorite
         }));
         
         return history;
@@ -39,15 +41,15 @@ export const toggleFavorite = async (documentId: string, favorite: boolean) => {
                 'Authorization': `Bearer ${token}`,
             } 
         };
-
         const data = {
             document_id: documentId,
             favorite: favorite
         };
-
         console.log('Toggling favorite status...');
-        const response = await axios.put('https://arpa-2mgft7cefq-uc.a.run.app/document/toggleFavorite', data, config);
-
+        console.log('document id:', documentId)
+        console.log('favorite status:', favorite)
+        const response = await axios.put(`https://arpa-2mgft7cefq-uc.a.run.app/document/toggleFavorite?document_id=${documentId}&favorite=${favorite}`, data, config);
+        console.log(response.data.message);
         return response.data;
     } catch (error) {
         console.error('Could not toggle favorite status:', error);
