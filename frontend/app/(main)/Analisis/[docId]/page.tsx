@@ -12,6 +12,8 @@ import { Section } from "@/model/section";
 import { getDocument } from '@/services/document.service';
 import { Document } from '../../../../model/document';
 import { toggleFavorite } from '@/services/favorites.service';
+import { PieChart } from 'react-minimal-pie-chart';
+import classNames from 'classnames';
 
 function SectionTitle(title: string){
   return(
@@ -43,16 +45,6 @@ function SectionTitleOpen(title: string){
   );
 }
 
-/*function SectionCollapsible(section: Section){
-  return(
-    <Collapsible trigger={SectionTitle(section.title)} triggerWhenOpen={SectionTitleOpen(section.title)} transitionTime={150} className="mb-[4vh]">
-      <div className="pl-[2vw] mb-[4vh] md:pl-[4vw]">
-        {section.content}
-      </div>
-    </Collapsible>
-  );
-}*/
-
 interface ContentProps{
   currentTab: string;
   sections: Section[];
@@ -79,30 +71,6 @@ const Content: React.FC<ContentProps> = (props: ContentProps) => {
             </div>
           </Collapsible>
         ))}
-        {/*<Collapsible trigger={SectionTitle("Sección 1")} triggerWhenOpen={SectionTitleOpen("Sección 1")} transitionTime={150} className="mb-[4vh]">
-          <div className="pl-[2vw] mb-[4vh] md:pl-[4vw]">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-            Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure
-            dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-            proident, sunt in culpa qui officia deserunt mollit anim id est laborum
-          </div>
-        </Collapsible>
-        <Collapsible trigger={SectionTitle("Sección 2")} triggerWhenOpen={SectionTitleOpen("Sección 2")} transitionTime={150} className="mb-[4vh]">
-          <div className="pl-[2vw] mb-[4vh] md:pl-[4vw]">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-            Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure
-            dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-            proident, sunt in culpa qui officia deserunt mollit anim id est laborum
-          </div>
-        </Collapsible>
-        <Collapsible trigger={SectionTitle("Sección 3")} triggerWhenOpen={SectionTitleOpen("Sección 3")} transitionTime={150} className="mb-[4vh]">
-          <div className="pl-[2vw] mb-[4vh] md:pl-[4vw]">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-            Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure
-            dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-            proident, sunt in culpa qui officia deserunt mollit anim id est laborum
-          </div>
-        </Collapsible>*/}
       </div>
     );
   }
@@ -126,45 +94,79 @@ const Content: React.FC<ContentProps> = (props: ContentProps) => {
   }
 }
 
+function PieLabel(data: any){
+  return(
+    <div className="flex inline justify-end items-center py-[1vh] pl-[2vw]">
+      <div>{data.name}</div>
+      <div className={data.style}/>
+    </div>
+  );
+}
+
+function KeywordButton(data: any){
+  return(
+    <div className="flex inline justify-center">
+      <button className="flex inline justify-between items-center w-[80%] px-[2vw] py-[0.5vh] my-[1vh] rounded-[10px] hover:bg-[#3E4051]">
+        <div className="font-semibold rounded-[10px] py-[1vh] px-[1.5vh] bg-[#5456F5]">{data.count}</div>
+        <div className="font-semibold text-[2.5vh]">:{data.name}</div>  
+      </button>
+    </div>
+  );
+}
+
 function LeftBarContent() {
   return(
-    <>
-      Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-      Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure
-      dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-      proident, sunt in culpa qui officia deserunt mollit anim id est laborum
+    <div>
+      <div className="text-center font-bold text-[3vh]">Frecuencia de palabras clave</div>
+      <PieChart
+        data={[
+          {title: "Ejemplo 1", value: 10, color: "#5183e8"},
+          {title: "Ejemplo 2", value: 20, color: "#7951e8"},
+          {title: "Ejemplo 3", value: 5, color: "#44c7b3"}
+        ]}
+        label={({ dataEntry }) => `${Math.round(dataEntry.percentage)} %`}
+        labelStyle={(index) => ({fill: "#FCFAF5", fontSize: "1vh", fontFamily: "sans-serif", fontWeight: "600"})}
+        labelPosition={60}
+        radius={35}
+      />
+      <div>
+        <PieLabel name="Ejemplo 1" style="h-[3vh] w-[3vh] rounded-[3px] bg-[#7951e8] mr-[1vw] bg-[#5183e8]" />
+        <PieLabel name="Ejemplo 2" style="h-[3vh] w-[3vh] rounded-[3px] bg-[#7951e8] mr-[1vw] bg-[#7951e8]" />
+        <PieLabel name="Ejemplo 3" style="h-[3vh] w-[3vh] rounded-[3px] bg-[#7951e8] mr-[1vw] bg-[#44c7b3]" />
+      </div>
       <br/> <br/>
-      Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-      Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure
-      dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-      proident, sunt in culpa qui officia deserunt mollit anim id est laborum
-      <br/> <br/>
-      Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-      Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure
-      dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-      proident, sunt in culpa qui officia deserunt mollit anim id est laborum
-    </>
+      <div className="text-center font-bold text-[3vh]">Cantidad de palabras clave</div>
+      <br/>
+      <div>
+        <KeywordButton name="Ácido cítrico" count="10"/>
+        <KeywordButton name="Ejemplo 2" count="20"/>
+        <KeywordButton name="Ejemplo 3" count="5"/>
+      </div>
+    </div>
+  );
+}
+
+function QuantitativeSection(text: any) {
+  return(
+    <div className="flex justify-center">
+      <button className="flex inline text-start items-center border-[2px] border-[#5456F5] w-[80%] px-[1vw] py-[1vh] my-[1vh]
+      rounded-[10px] hover:bg-[#5456F5]">
+        <div className="font-semibold text-[2.5vh]">{text.text}</div>  
+      </button>
+    </div>
   );
 }
 
 function RightBarContent() {
   return(
-    <>
-      Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-      Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure
-      dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-      proident, sunt in culpa qui officia deserunt mollit anim id est laborum
-      <br/> <br/>
-      Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-      Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure
-      dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-      proident, sunt in culpa qui officia deserunt mollit anim id est laborum
-      <br/> <br/>
-      Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-      Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure
-      dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-      proident, sunt in culpa qui officia deserunt mollit anim id est laborum
-    </>
+    <div>
+      <div className="text-center font-bold text-[3vh] mb-[2vh]">Datos cuantitativos encontrados en el documento</div>
+      <div>
+        <QuantitativeSection text="Esta es una oración con un dato cuantitativo: 100%" />
+        <QuantitativeSection text="Despite only making up 13% of the population, Black people commit 50% of all crimes in America" />
+        <QuantitativeSection text="Crazy? I Was Crazy Once. They Locked Me In A Room. A Rubber Room. A Rubber Room With Rats. And Rats Make Me Crazy" />
+      </div>
+    </div>
   );
 }
 
@@ -246,7 +248,7 @@ function MostrarAnalisis({
       <div className="flex items-center h-screen left-[-100vw] md:left-auto">
         <div className={cx("sideBarLeft", {"sideBarLeft-closed":!leftBarOpen})}>
           <div className={cx("sideBarLeftText", {"sideBarLeftText-closed":!leftBarOpen})}>
-            <div className="text-center text-[4vh] font-semibold pb-[1vh] md:text-[0vw] md:pb-[0vh]">
+            <div className="text-center text-[4vh] font-semibold pb-[3vh] md:text-[0vw] md:pb-[0vh]">
               Análisis cualitativo
             </div>
             <LeftBarContent />
@@ -289,7 +291,7 @@ function MostrarAnalisis({
         <div className={cx("sideBarRightSpace", {"sideBarRightSpace-closed":!rightBarOpen})} />
         <div className={cx("sideBarRight", {"sideBarRight-closed":!rightBarOpen})}>
           <div className={cx("sideBarRightText", {"sideBarRightText-closed":!rightBarOpen})}>
-            <div className="text-center text-[4vh] font-semibold pb-[1vh] md:text-[0vw] md:pb-[0vh]">
+            <div className="text-center text-[4vh] font-semibold pb-[3vh] md:text-[0vw] md:pb-[0vh]">
               Análisis cuantitativo
             </div>
             <RightBarContent />
