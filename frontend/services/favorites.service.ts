@@ -23,7 +23,7 @@ export const getFavorites = async (): Promise<Document[]> => {
             createdAt: item.created_at,
             publicURL: item.public_url,
             analysis_id: item.analysis_id,
-            favorite: item.favorite
+            favorite: item.favorite.toString()
         }));
         
         return history;
@@ -33,7 +33,7 @@ export const getFavorites = async (): Promise<Document[]> => {
     }
 };
 
-export const toggleFavorite = async (documentId: string, favorite: boolean) => {
+export const toggleFavorite = async (documentId: string, favorite: string) => {
     try {
         const token = cookies().get('session')?.value
         const config = { 
@@ -41,6 +41,7 @@ export const toggleFavorite = async (documentId: string, favorite: boolean) => {
                 'Authorization': `Bearer ${token}`,
             } 
         };
+
         const data = {
             document_id: documentId,
             favorite: favorite

@@ -44,7 +44,7 @@ export const getHistory = async (): Promise<Document[]> => {
             createdAt: item.created_at,
             publicURL: item.public_url,
             analysis_id: item.analysis_id,
-            favorite: item.favorite
+            favorite: item.favorite.toString()
         }));
 
         return history;
@@ -70,8 +70,8 @@ export const getDocument = async (document_id: string): Promise<Document> => {
             title: response.data.title,
             createdAt: response.data.created_at,
             publicURL: response.data.public_url,
-            analysis_id: response.data.analysis_id,
-            favorite: response.data.favorite
+            analysis_id: 'placeholder',
+            favorite: response.data.favorite.toString() //response.data.favorite
         };
 
         return document;
