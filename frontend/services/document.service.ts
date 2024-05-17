@@ -43,39 +43,12 @@ export const getHistory = async (): Promise<Document[]> => {
             createdAt: item.created_at,
             publicURL: item.public_url,
             analysis_id: item.analysis_id,
-            favorite: item.favorite
+            favorite: item.favorite.toString()
         }));
 
         return history;
     } catch (error) {
         console.error('Could not fetch history:', error);
-        throw error;
-    }
-};
-
-export const getDocument = async (document_id: string): Promise<Document> => {
-    try {
-        const token = cookies().get('session')?.value
-        const config = { 
-            headers: { 
-                'Authorization': `Bearer ${token}`
-            } 
-        };
-        console.log('Fetching document...');
-        const response = await axios.get(`https://arpa-2mgft7cefq-uc.a.run.app/document?document_id=${document_id}`, config);
-
-        const document: Document = {
-            id: response.data.document_id,
-            title: response.data.title,
-            createdAt: response.data.created_at,
-            publicURL: response.data.public_url,
-            analysis_id: response.data.analysis_id,
-            favorite: response.data.favorite
-        };
-
-        return document;
-    } catch (error) {
-        console.error('Could not fetch document:', error);
         throw error;
     }
 };
