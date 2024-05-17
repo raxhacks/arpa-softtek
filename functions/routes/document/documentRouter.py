@@ -232,9 +232,9 @@ def toggle_favorite():
         document_doc_ref = db.collection('users').document(user_id).collection('documents').document(document_id)
         
         if favorite != "True":
-            document_doc_ref.update({"favorite": "False"})
+            document_doc_ref.update({"favorite": False})
         else:
-            document_doc_ref.update({"favorite": "True"})
+            document_doc_ref.update({"favorite": True})
         
         return flask.jsonify({"message":"Favorite status updated successfully"}), 200
     except Exception as e:
