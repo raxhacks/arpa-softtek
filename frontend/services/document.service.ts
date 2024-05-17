@@ -19,6 +19,7 @@ export const createDocument = async (data: FormData, tokenSSR?: string) => {
         console.log('Uploading document...');
         const response = await axios.post('https://arpa-2mgft7cefq-uc.a.run.app/document', data, config);
         console.log(`Doument uploaded`)
+        console.log(response.data);
         return response.data;
     } catch (error) {
         console.error('Could not upload the document:', error);
@@ -42,8 +43,8 @@ export const getHistory = async (): Promise<Document[]> => {
             title: item.title,
             createdAt: item.created_at,
             publicURL: item.public_url,
-            analysis_id: 'placeholder', //response.data.analysis_id,
-            favorite: 'true', //item.favorite.toString()
+            analysis_id: item.analysis_id,
+            favorite: item.favorite.toString()
         }));
 
         return history;
@@ -69,8 +70,8 @@ export const getDocument = async (document_id: string): Promise<Document> => {
             title: response.data.title,
             createdAt: response.data.created_at,
             publicURL: response.data.public_url,
-            analysis_id: 'placeholder', //response.data.analysis_id,
-            favorite: 'true', //item.favorite.toString()
+            analysis_id: 'placeholder',
+            favorite: response.data.favorite.toString() //response.data.favorite
         };
 
         return document;
