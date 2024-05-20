@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import './Analisis.css';
-import { useRef, useState, useEffect } from 'react';
+import { useRef, useState, useEffect, use } from 'react';
 import Chat from './Chat/Chat';
 import Segmented from 'rc-segmented';
 import cx from "classnames";
@@ -13,6 +13,7 @@ import { getDocument } from '@/services/document.service';
 import { Document } from '../../../../../model/document';
 import { toggleFavorite } from '@/services/favorites.service';
 import { getSections } from '@/services/analysis.service';
+import { error } from 'console';
 
 function SectionTitle(title: string){
   return(
@@ -73,11 +74,11 @@ const Content: React.FC<ContentProps> = (props: ContentProps) => {
     })();
   }, []);
 
-  useEffect(() => {
-    (async () => {
-      setSections(await getSections(props.docId, props.analysisId))
-    })();
-  }, []);
+  // useEffect(() => {
+  //   (async () => {
+  //     setSections(await getSections(props.docId, props.analysisId))
+  //   })();
+  // }, []);
 
   if(props.currentTab === "Resumen"){
     return(
@@ -216,37 +217,42 @@ function MostrarAnalisis({
     }
   ]
   const [sections, setSections] = useState<Section[]>(prop_sections);
-  
+  const [documentInfo, setDocumentInfo] = useState<Document>();
+
   function handleTabChange(value: any){
     setTab(value)
   }
 
   useEffect(() => {
     (async () => {
-      const document = await getDocument(params.docId)
-      if (document){
-        const favorite = Boolean(document.favorite)
-        setFavorito(favorite)
-      } else {
-        console.log("error retrieving if its favorite or not")
-      }
-    })
-  })
+      setDocumentInfo(await getDocument(params.docId));
+    })();
+  }, []);
 
-  const toggleFav = async () => {
-    setFavorito(!isFavorito);
-    console.log('ahora sera favorito -> ', isFavorito);
-    const fav = !isFavorito
-    console.log('valor a pasar -> ', fav);
-    const favToString = fav.toString();
-    console.log('valor a pasar enstring-> ', favToString);
-    const response = await toggleFavorite(params.docId, favToString);
-    if (response) {
-      console.log(isFavorito);
+  useEffect(() => {
+    const storedFavorite = localStorage.getItem(`favorite-${params.docId}`);
+    if (storedFavorite !== null) {
+      setFavorito(storedFavorite === 'true');
     } else {
+      (async () => {
+        const docInfo = await getDocument(params.docId);
+        setFavorito(docInfo.favorite);
+        localStorage.setItem(`favorite-${params.docId}`, docInfo.favorite.toString());
+      })();
+    }
+  }, [params.docId]);
+  
+  const toggleFav = async () => {
+    const newFavoriteState = !isFavorito;
+    setFavorito(newFavoriteState);
+    localStorage.setItem(`favorite-${params.docId}`, newFavoriteState.toString());
+  
+    const response = await toggleFavorite(params.docId, newFavoriteState.toString());
+    if (!response) {
       console.log('error al marcar como favorito');
-      setFavorito(!isFavorito);
-    } 
+      setFavorito(!newFavoriteState);
+      localStorage.setItem(`favorite-${params.docId}`, (!newFavoriteState).toString());
+    }
   };
 
   return (

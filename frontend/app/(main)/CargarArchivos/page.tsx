@@ -185,9 +185,9 @@ function FileStateMessage(fileState: any) {
       const res = await createDocument(formData);
       const docId = res.document_id;
       const analysisId = res.analysis_id;
-      console.log(analysisId);
-      // const text = res.text;
-      // localStorage.setItem("text", text);
+      console.log(`/Analisis/${docId}/${analysisId}`);
+      const text = res.text;
+      localStorage.setItem("text", text);
       router.push(`/Analisis/${docId}/${analysisId}`);
     } catch (error) {
       console.error(error);
