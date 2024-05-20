@@ -163,7 +163,8 @@ def create_document():
 
         # Create analysis collection for the document
         analysis_id = addAnalysisToDocument(user_id, document_doc_ref.id, text, analysis_keywords)
-
+        document_doc_ref.update({"analysis":  analysis_id})
+        
         return flask.jsonify({"message": "New document created successfully", "document_id": document_doc_ref.id, "text":text, "analysis_id":analysis_id}), 201
     except Exception as e:
         print("Error:",e)
@@ -231,7 +232,7 @@ def toggle_favorite():
         db = firestore.client()
         document_doc_ref = db.collection('users').document(user_id).collection('documents').document(document_id)
         
-        if favorite != "True":
+        if favorite != "true":
             document_doc_ref.update({"favorite": False})
         else:
             document_doc_ref.update({"favorite": True})
@@ -252,7 +253,7 @@ def get_history():
         documents_list = []
         for doc in documents_ref:
             document_data = doc.to_dict()
-            # analysis_array = document_data.get('analysis', [])
+            analysis = document_data.get('analysis', "")
             # analysis_id = analysis_array[0] if analysis_array else ""
 
             document_info = {
@@ -260,7 +261,7 @@ def get_history():
                 "title": document_data.get("title", ""),
                 "created_at": document_data.get("created_at", ""),
                 "public_url": document_data.get("public_url", ""),
-                # "analysis_id": analysis_id,
+                "analysis_id": analysis,
                 "favorite": document_data.get("favorite", False)
             }
             documents_list.append(document_info)
@@ -281,7 +282,7 @@ def get_favorites():
         documents_list = []
         for doc in documents_ref:
             document_data = doc.to_dict()
-            # analysis_array = document_data.get('analysis', [])
+            analysis = document_data.get('analysis', "")
             # analysis_id = analysis_array[0] if analysis_array else ""
             
             document_info = {
@@ -289,7 +290,7 @@ def get_favorites():
                 "title": document_data.get("title", ""),
                 "created_at": document_data.get("created_at", ""),
                 "public_url": document_data.get("public_url", ""),
-                # "analysis_id": analysis_id,
+                "analysis_id": analysis,
                 "favorite": document_data.get("favorite", False)
             }
             documents_list.append(document_info)
