@@ -65,7 +65,6 @@ export const getDocument = async (document_id: string): Promise<Document> => {
         console.log('Fetching document...');
         const response = await axios.get(`https://arpa-2mgft7cefq-uc.a.run.app/document?document_id=${document_id}`, config);
         console.log('Document fetch');
-
         const document: Document = {
             id: response.data.document_id,
             title: response.data.title,
@@ -74,9 +73,19 @@ export const getDocument = async (document_id: string): Promise<Document> => {
             analysis_id: 'placeholder',
             favorite: response.data.favorite //response.data.favorite
         };
+        console.log(document);
+
         return document;
     } catch (error) {
         console.error('Could not fetch document:', error);
-        throw error;
+        const document: Document = {
+            id: '',
+            title: '',
+            createdAt: '',
+            publicURL: '',
+            analysis_id: '',
+            favorite: false //response.data.favorite
+        };
+        throw document;
     }
 };

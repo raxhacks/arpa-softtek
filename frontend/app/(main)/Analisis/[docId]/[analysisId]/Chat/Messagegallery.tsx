@@ -64,14 +64,14 @@ const MessageGallery: React.FC<MessageGalleryProps> = ({newMessage, docId}) => {
     }
   }, [newMessage]);
 
-  useEffect(() => {
-    if(scroller) {
-      scroller.current.addEventListener('DOMNodeInserted', (event: { currentTarget: any; }) => {
-        const { currentTarget: target } = event;
-        target.scroll({ top: target.scrollHeight, behavior: 'smooth' });
-      });
-    }
-  }, [])
+  // useEffect(() => {
+  //   if(scroller) {
+  //     scroller.current.addEventListener('DOMNodeInserted', (event: { currentTarget: any; }) => {
+  //       const { currentTarget: target } = event;
+  //       target.scroll({ top: target.scrollHeight, behavior: 'smooth' });
+  //     });
+  //   }
+  // }, [])
 
   return (
     <div className="w-full h-[47vh] pr-[1vw] overflow-y-scroll overflow-x-hidden md:h-[55vh]" ref={scroller}>
