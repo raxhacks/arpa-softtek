@@ -23,7 +23,6 @@ export default function MostrarHistorial() {
     return (
       <>
         <div className="pt-12 lg:pt-24 pb-20 lg:pb-24">
-          <Header />          
           <div className='font-semibold w-full text-4xl lg:text-5xl md:text-5xl text-center fixed pt-8 pb-2 lg:pb-4 md:pb-4 text-white bg-background-500 z-10'>Historial</div>
           {historyDocs.length === 0 && 
             <p className='pt-56 text-center'>Historial vacío</p>

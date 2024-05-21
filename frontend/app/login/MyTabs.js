@@ -275,7 +275,7 @@ function MyTabs() {
             </div>
             {state?.errors?.password && (
               <div>
-                <p>Password must:</p>
+                <p>La contraseña debe:</p>
                 <ul>
                   {state.errors.password.map((error) => (
                     <li key={error}>- {error}</li>
