@@ -257,6 +257,7 @@ function MostrarAnalisis({
 
   return (
     <div className="flex items-top justify-center">
+      <Header />
       <div className="flex items-center h-screen left-[-100vw] md:left-auto">
         <div className={cx("sideBarLeft", {"sideBarLeft-closed":!leftBarOpen})}>
           <div className={cx("sideBarLeftText", {"sideBarLeftText-closed":!leftBarOpen})}>
