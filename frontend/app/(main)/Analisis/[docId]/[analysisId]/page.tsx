@@ -74,11 +74,11 @@ const Content: React.FC<ContentProps> = (props: ContentProps) => {
     })();
   }, []);
 
-  // useEffect(() => {
-  //   (async () => {
-  //     setSections(await getSections(props.docId, props.analysisId))
-  //   })();
-  // }, []);
+  useEffect(() => {
+    (async () => {
+      setSections(await getSections(props.docId, props.analysisId))
+    })();
+  }, []);
 
   if(props.currentTab === "Resumen"){
     return(
