@@ -12,6 +12,8 @@ from pdfminer.layout import LAParams
 from pdfminer.pdfinterp import PDFResourceManager, PDFPageInterpreter, PDFPage
 import yake
 from .helpers.AnalysisAndChatCreation import addAnalysisToDocument
+from datetime import datetime
+from babel.dates import format_date
 
 MAX_FILE_SIZE_MB = 3 
 
@@ -254,15 +256,19 @@ def get_history():
         documents_list = []
         for doc in documents_ref:
             document_data = doc.to_dict()
-            analysis = document_data.get('analysis', "")
-            # analysis_id = analysis_array[0] if analysis_array else ""
+            created_at = document_data.get("created_at", "")
+            if created_at:
+                date = created_at.to_datetime()
+                created_at_formatted = format_date(date, locale='es_ES', format='long')
+            else:
+                created_at_formatted = ""
 
             document_info = {
                 "document_id": doc.id,
                 "title": document_data.get("title", ""),
-                "created_at": document_data.get("created_at", ""),
+                "created_at": created_at_formatted,
                 "public_url": document_data.get("public_url", ""),
-                "analysis_id": analysis,
+                "analysis_id": document_data.get('analysis', ""),
                 "favorite": document_data.get("favorite", False)
             }
             documents_list.append(document_info)
@@ -283,15 +289,19 @@ def get_favorites():
         documents_list = []
         for doc in documents_ref:
             document_data = doc.to_dict()
-            analysis = document_data.get('analysis', "")
-            # analysis_id = analysis_array[0] if analysis_array else ""
+            created_at = document_data.get("created_at", "")
+            if created_at:
+                date = created_at.to_datetime()
+                created_at_formatted = format_date(date, locale='es_ES', format='long')
+            else:
+                created_at_formatted = ""
             
             document_info = {
                 "document_id": doc.id,
                 "title": document_data.get("title", ""),
-                "created_at": document_data.get("created_at", ""),
+                "created_at": created_at_formatted,
                 "public_url": document_data.get("public_url", ""),
-                "analysis_id": analysis,
+                "analysis_id": document_data.get('analysis', ""),
                 "favorite": document_data.get("favorite", False)
             }
             documents_list.append(document_info)

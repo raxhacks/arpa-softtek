@@ -41,7 +41,7 @@ export default function MostrarFavoritos() {
           </div>
         </div>
         ) : favoriteDocs.length === 0 ? (
-          <p className='pt-56 text-center'>No hay favoritos guardados</p>
+          <p className='pt-60 text-center text-white'>No hay favoritos guardados</p>
         ) : (
           <div className='flex justify-center items-start mt-20 p-4 lg:p-20 z-0'>
             <div className="w-full grid lg:grid-cols-2">

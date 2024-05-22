@@ -10,138 +10,6 @@ function MyTabs() {
   const [state, action] = useFormState(signup, undefined)
   const [loginstate, loginAction] = useFormState(authLogin, undefined)
 
-  // const [showMessage, setShowMessage] = useState(false);
-  // const [message, setMessage] = useState('');
-  // const [showMessageR, setShowMessageR] = useState(false);
-  // const [messageR, setMessageR] = useState('');
-
-
-  // useEffect(() => {
-  //   // Si loginstate tiene un mensaje, mostrarlo y configurar showMessage en true
-  //   if (loginstate?.message) {
-  //     setMessage(loginstate.message);
-  //     setShowMessage(true);
-
-  //     // Configurar un temporizador para cambiar showMessage a false después de 5 segundos
-  //     const timer = setTimeout(() => {
-  //       setShowMessage(false);
-  //     }, 10000);
-
-  //     // Limpiar el temporizador en la limpieza del efecto para evitar fugas de memoria
-  //     return () => clearTimeout(timer);
-  //   }
-  // }, [loginstate]);
-
-  // useEffect(() => {
-  //   // Si loginstate tiene un mensaje, mostrarlo y configurar showMessage en true
-  //   if (state?.message) {
-  //     setMessageR(state.message);
-  //     setShowMessageR(true);
-
-  //     // Configurar un temporizador para cambiar showMessage a false después de 5 segundos
-  //     const timer = setTimeout(() => {
-  //       setShowMessageR(false);
-  //     }, 10000);
-
-  //     // Limpiar el temporizador en la limpieza del efecto para evitar fugas de memoria
-  //     return () => clearTimeout(timer);
-  //   }
-  // }, [state]);
-
-  // const router = useRouter()
-  // const [values, setValues] = useState({
-  //   email: "",
-  //   pasword: "",
-  //   confirmPassword: ""
-  // })
-  // const [errorMessage, setErrorMessage] = useState("");
-  // const [errorInLogin, setErrorInLogin] = useState("");
-  // const [erroMessageInRegister, setErroMessageInRegister] = useState("");
-
-
-  // const handleInputChange = (event) => {
-  //   const {name, value} = event.target;
-  //   setValues({
-  //     ...values,
-  //     [name]: value,
-  //   });
-  // };
-
-  // function validatePassword(password, confirmPassword) {
-  //   if (password != confirmPassword){
-  //     setValues({
-  //       password:'',
-  //       confirmPassword: ''
-  //     });
-  //     setErroMessageInRegister("")
-  //     setErrorMessage("La contraseña y la confirmacion deben ser iguales") 
-  //     return false
-  //   }
-  //   else if (password.length < 7) {
-  //     setValues({
-  //       password:'',
-  //       confirmPassword: ''
-  //     });
-  //     setErroMessageInRegister("")
-  //     setErrorMessage("La contraseña debe ser mayor de 7 caracteres") 
-  //     return false
-  //   }
-  //   return true;
-  // };
-
-  // const loginSubmit = async (event) => {
-  //   event.preventDefault();
-  //   const body = {
-  //     email: values.email,
-  //     password: values.password
-  //   }
-  //   const logedIn = await login(body);
-  //   if (logedIn){
-  //     router.push('/CargarArchivos')
-  //   } else {
-  //     setErrorInLogin("Correo o contraseña invalido")
-  //     setValues({
-  //       email: "",
-  //       password: "",
-  //     });
-  //   }
-  // }
-  
-  // const registerSubmit = async (event) => {
-  //   event.preventDefault();
-  //   if ((validatePassword(values.password, values.confirmPassword))) {
-  //     const body = {
-  //       email: values.email,
-  //       password: values.password
-  //     }
-  //     const registered = await createUser(body);
-  //     if (registered){
-  //       router.push('/CargarArchivos')
-  //     }
-  //     else if (!registered) {
-  //       setValues({
-  //         email: "",
-  //         password: "",
-  //         confirmPassword: ""
-  //       });
-  //       setErrorMessage("");
-  //       setErroMessageInRegister("Esta cuenta ya esta registrada");
-  //       return
-  //     }
-  //   }
-  // }
-
-  // const resetStates = () => {
-  //   setErrorInLogin("");
-  //   setErrorMessage("");
-  //   setErroMessageInRegister("");
-  //   setValues({
-  //     email: "",
-  //     password: "",
-  //     confirmPassword: ""
-  //   });
-  // }
-
   return (
     <Tab.Group className={`w-full flex flex-grow justify-center items-center`}>
       <Tab.Panels className={`flex-grow w-full rounded-lg bg-opacity-95`}>
@@ -151,7 +19,7 @@ function MyTabs() {
           <Tab className={`rounded-lg border border-transparent py-4 w-full text-center font-semibold text-2xl bg-blue-600 transition-colors hover:border-blue-300 hover:bg-yellow-100 hover:dark:bg-neutral-800/20`} >
             <div 
             // onClick={resetStates}
-            >Inicio sesion</div>
+            >Iniciar sesión</div>
           </Tab>
           {/* Registro Button */}
           <Tab className={`rounded-lg border border-transparent py-4 w-full text-center mt-8 font-semibold text-2xl text-black bg-yellow-300 transition-colors hover:border-yellow-300 hover:bg-yellow-100 hover:dark:bg-neutral-800/20 hover:text-white`} >
