@@ -30,7 +30,7 @@ function Arrow(back: any) {
   
 function CenterHeader(title: any) {
   return(
-    <h1 className="text-[#FCFAF5] text-center mb-[3vh] mx-[8vw] text-[7vh] md:text-[8vh]">{title.text}</h1>
+    <h1 className="text-[#FCFAF5] text-center mb-[3vh] mx-[8vw] text-[6vh]">{title.text}</h1>
   );
 }
 
@@ -39,7 +39,7 @@ function FormatButton(main: any) {
 
   if (main.type === "PDF") {
     svg = (
-      <svg xmlns="http://www.w3.org/2000/svg" className="icon-format icon-tabler icon-tabler-file-type-pdf hover:stroke-[#2F31AB]" width="150" height="150" viewBox="0 0 24 24" strokeWidth="1" stroke="#5756F5" fill="none" strokeLinecap="round" strokeLinejoin="round">
+      <svg xmlns="http://www.w3.org/2000/svg" className="icon-format icon-tabler icon-tabler-file-type-pdf hover:stroke-[#2F31AB]" width="130" height="130" viewBox="0 0 24 24" strokeWidth="1" stroke="#5756F5" fill="none" strokeLinecap="round" strokeLinejoin="round">
         <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
         <path d="M14 3v4a1 1 0 0 0 1 1h4" />
         <path d="M5 12v-7a2 2 0 0 1 2 -2h7l5 5v4" />
@@ -52,7 +52,7 @@ function FormatButton(main: any) {
   }
   else if (main.type === "URL") {
     svg = (
-      <svg xmlns="http://www.w3.org/2000/svg" className="icon-format icon-tabler icon-tabler-forms hover:stroke-[#2F31AB]" width="150" height="150" viewBox="0 0 24 24" stroke-width="1" stroke="#5756F5" fill="none" stroke-linecap="round" stroke-linejoin="round">
+      <svg xmlns="http://www.w3.org/2000/svg" className="icon-format icon-tabler icon-tabler-forms hover:stroke-[#2F31AB]" width="130" height="130" viewBox="0 0 24 24" stroke-width="1" stroke="#5756F5" fill="none" stroke-linecap="round" stroke-linejoin="round">
         <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
         <path d="M12 3a3 3 0 0 0 -3 3v12a3 3 0 0 0 3 3" />
         <path d="M6 3a3 3 0 0 1 3 3v12a3 3 0 0 1 -3 3" />
@@ -65,7 +65,7 @@ function FormatButton(main: any) {
   }
   else if (main.type === "DOCX") {
     svg = (
-      <svg xmlns="http://www.w3.org/2000/svg" className="icon-format icon-tabler icon-tabler-file-type-doc hover:stroke-[#2F31AB]" width="150" height="150" viewBox="0 0 24 24" stroke-width="1" stroke="#5756F5" fill="none" stroke-linecap="round" stroke-linejoin="round">
+      <svg xmlns="http://www.w3.org/2000/svg" className="icon-format icon-tabler icon-tabler-file-type-doc hover:stroke-[#2F31AB]" width="130" height="130" viewBox="0 0 24 24" stroke-width="1" stroke="#5756F5" fill="none" stroke-linecap="round" stroke-linejoin="round">
         <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
         <path d="M14 3v4a1 1 0 0 0 1 1h4" />
         <path d="M5 12v-7a2 2 0 0 1 2 -2h7l5 5v4" />
@@ -86,12 +86,13 @@ function FormatButton(main: any) {
 function Main(currentState: any) {
   const [url, setURL] = useState("");
   const router = useRouter();
-
+  const [loading, setLoading] = useState(false)
   const handleUrlChange = (event: any) => {
     setURL(event.target.value)
   }
 
   const getPdfBlob = async (e:any, url: any, setFState: any) => {
+    setLoading(true)
     try {
       e.preventDefault();
       const body = {url: url};
@@ -103,6 +104,7 @@ function Main(currentState: any) {
       console.error(error);
       setFState("ErrorUploading")
     }
+    setLoading(false);
   }
 
   if(currentState.type === "None"){
@@ -117,6 +119,7 @@ function Main(currentState: any) {
     );
   }
   else if(currentState.type === "URL"){
+
     return(
       <>
         <div className="flex justify-center items-center mt-[12vh] mb-[10vh] flex-col md:flex-row">
@@ -124,7 +127,14 @@ function Main(currentState: any) {
           md:text-[4vh] md:ml-[5vw] md:mb-[0vh]" value={url} onChange={handleUrlChange} />
           <button className="bg-[#5456F5] text-[#30323D] w-[40vw] rounded-[2vh] mx-[3vw] relative md:w-[4.5vw] md:h-[4.5vw] md:ml-[1vw]
           md:mr-[5vw] md:inline hover:bg-[#4345AF] active:bg-[#FCFAF5]" onClick={(e)=>getPdfBlob(e,url,currentState.setfileState)}>
-            <i className="material-icons" style={{fontSize: "50px"}}>search</i>
+            <i className="material-icons" style={{fontSize: "50px"}}>{loading ? 
+            <svg className="animate-spin mt-1 h-10 w-10" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+            <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+            <path className="opacity-75" fill="currentColor"
+            d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z">
+            </path>
+            </svg> :
+            'search' }</i>
           </button>
         </div>
         <FileStateMessage state={currentState.fileState} file={currentState.file} type={currentState.type}/>
