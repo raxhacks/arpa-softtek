@@ -14,6 +14,7 @@ import { Document } from '../../../../../model/document';
 import { toggleFavorite } from '@/services/favorites.service';
 import { getAnalysis } from '@/services/analysis.service';
 import { error } from 'console';
+import { useRouter } from 'next/navigation';
 
 function SectionTitle(title: string){
   return(
@@ -57,35 +58,20 @@ function SectionTitleOpen(title: string){
 
 interface ContentProps{
   currentTab: string;
-  sections: Section[];
+  sections: Section[] | undefined;
   analysisId: string;
-  docId: string;
+  docId: string | undefined;
+  docUrl: string | undefined;
 }
 
 const Content: React.FC<ContentProps> = (props: ContentProps) => {
   const encodedUrl = encodeURIComponent("https://storage.googleapis.com/arpa-softtek.appspot.com/users/hNb7IaKYx7bRUWEWB9cn575nATF2/Raymundo_Guzman_Mata_English_CV%20%281%29.pdf");
   const viewerURL = `https://docs.google.com/viewer?url=${encodedUrl}&embedded=true`;
-  const [docs, setDocs] = useState<Document>();
-  const [analysis, setAnalysis] = useState<Analysis>();
-  const [section, setSections] = useState<Section[]>();
-  const [keyword, setKeyword] = useState<Keyword[]>();
-  const [quantitativeDatum, setQuantitativeDatum] = useState<QuantitativeDatum[]>();
-  
-  
-  useEffect(() => {
-    (async () => {
-      setDocs(await getDocument(props.docId));
-    })();
-    setSections(analysis?.Sections);
-    setKeyword(analysis?.Keywords);
-    setQuantitativeDatum(analysis?.QuantitativeData);
-  }, []);
+  const [section, setSection] =useState<Section[]>();
 
   useEffect(() => {
-    (async () => {
-      setAnalysis(await getAnalysis(props.docId, props.analysisId))
-    })();
-  }, []);
+    setSection(props.sections)
+  },[props.sections])
 
   if(props.currentTab === "Resumen"){
     return(
@@ -97,7 +83,6 @@ const Content: React.FC<ContentProps> = (props: ContentProps) => {
             </div>
           </Collapsible>
         ))}
-        
       </div>
     );
   }
@@ -105,7 +90,7 @@ const Content: React.FC<ContentProps> = (props: ContentProps) => {
     return(
       <div className="text h-screen">
          <iframe
-         src={`https://docs.google.com/viewer?url=${docs?.publicURL}&embedded=true`}
+         src={`https://docs.google.com/viewer?url=${props.docUrl}&embedded=true`}
          width="100%"
          height="100%"
          />    
@@ -121,44 +106,42 @@ const Content: React.FC<ContentProps> = (props: ContentProps) => {
   }
 }
 
-function LeftBarContent() {
+interface ContentPropsLeftBar{
+  keywords: Keyword[] | undefined
+}
+const LeftBarContent: React.FC<ContentPropsLeftBar> = (props: ContentPropsLeftBar) => {
+  const [keywords, setKeywords] = useState<Keyword[]>()
+  useEffect(() => {
+    setKeywords(props.keywords)
+  },[props.keywords])
   return(
     <>
-      Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-      Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure
-      dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-      proident, sunt in culpa qui officia deserunt mollit anim id est laborum
-      <br/> <br/>
-      Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-      Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure
-      dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-      proident, sunt in culpa qui officia deserunt mollit anim id est laborum
-      <br/> <br/>
-      Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-      Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure
-      dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-      proident, sunt in culpa qui officia deserunt mollit anim id est laborum
+      {keywords?.map((keywords, index) => (
+        <div className="pl-[2vw] mb-[4vh] md:pl-[4vw]">
+          <p className='m-10'>{keywords.keyword}</p>
+          <p className='m-10'>{keywords.count}</p>
+        </div> 
+      ))}
     </>
   );
 }
 
-function RightBarContent() {
+interface ContentPropsRightBar{
+  quantitative: QuantitativeDatum[] | undefined;
+}
+const RightBarContent: React.FC<ContentPropsRightBar> = (props: ContentPropsRightBar) => {
+  const [quantitativeDatum, setQuantitativeDatum] = useState<QuantitativeDatum[]>()
+  useEffect(() => {
+    setQuantitativeDatum(props.quantitative)
+  },[props.quantitative])
   return(
     <>
-      Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-      Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure
-      dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-      proident, sunt in culpa qui officia deserunt mollit anim id est laborum
-      <br/> <br/>
-      Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-      Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure
-      dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-      proident, sunt in culpa qui officia deserunt mollit anim id est laborum
-      <br/> <br/>
-      Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-      Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure
-      dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-      proident, sunt in culpa qui officia deserunt mollit anim id est laborum
+       {quantitativeDatum?.map((quantitativeDatum, index) => (
+        <div className="pl-[2vw] mb-[4vh] md:pl-[4vw]">
+          <p className='m-10'>{quantitativeDatum.sentence}</p>
+          <p className='m-10'>{quantitativeDatum.datum}</p>
+        </div> 
+      ))}
     </>
   );
 }
@@ -189,7 +172,12 @@ function BotonFavorito(favorito: any, {
 }
 
 function BotonHome(){
+  const router = useRouter()
   return(
+    <button onClick={()=> {
+      router.push('/CargarArchivos');
+      localStorage.setItem("button", 'CargarArchivos')
+    }}>
     <svg xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler icon-tabler-home-2 hover:stroke-[#BCBAB5] active:fill-[#BCBAB5] md:stroke-[#5756F5] md:hover:stroke-[#2F31AB] md:active:fill-[#2F31AB]"
     width="50" height="50" viewBox="0 0 24 24" stroke-width="1.5" stroke="#FCFAF5" fill="none" stroke-linecap="round" stroke-linejoin="round">
       <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
@@ -197,6 +185,8 @@ function BotonHome(){
       <path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-7" />
       <path d="M10 12h4v4h-4z" />
     </svg>
+    </button>
+
   );
 }
 
@@ -223,18 +213,31 @@ function MostrarAnalisis({
       content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum"
     }
   ]
-  const [sections, setSections] = useState<Section[]>(prop_sections);
   const [documentInfo, setDocumentInfo] = useState<Document>();
-
-  function handleTabChange(value: any){
-    setTab(value)
-  }
+  const [section, setSection] = useState<Section[]>();
+  const [analysis, setAnalysis] = useState<Analysis>();
+  const [keywords, setKeyword] = useState<Keyword[]>();
+  const [quantitativeDatum, setQuantitativeDatum] = useState<QuantitativeDatum[]>();
 
   useEffect(() => {
     (async () => {
       setDocumentInfo(await getDocument(params.docId));
     })();
   }, []);
+
+  useEffect(() => {
+    (async () => {
+      setAnalysis(await getAnalysis(params.docId, params.analysisId))
+    })();
+    setSection(analysis?.Sections);
+    setKeyword(analysis?.Keywords);
+    setQuantitativeDatum(analysis?.QuantitativeData);
+  }, []);
+
+  function handleTabChange(value: any){
+    setTab(value)
+  }
+
 
   useEffect(() => {
     const storedFavorite = localStorage.getItem(`favorite-${params.docId}`);
@@ -271,7 +274,7 @@ function MostrarAnalisis({
             <div className="text-center text-[4vh] font-semibold pb-[1vh] md:text-[0vw] md:pb-[0vh]">
               Análisis cualitativo
             </div>
-            <LeftBarContent />
+            <LeftBarContent keywords={keywords} />
           </div>
         </div>
         <div className={cx("sideBarLeftSpace", {"sideBarLeftSpace-closed":!leftBarOpen})} />
@@ -297,7 +300,7 @@ function MostrarAnalisis({
           </button>
           <div/>
         </div>
-        <Content currentTab={currentTab} sections={sections} analysisId={params.analysisId} docId={params.docId}/>
+        <Content currentTab={currentTab} sections={section} analysisId={params.analysisId} docId={documentInfo?.id} docUrl={documentInfo?.publicURL} />
       </div>
       <div className="flex items-center h-screen">
         <button onClick={() => {setRightBar(!rightBarOpen), setLeftBar(false)}}
@@ -314,7 +317,7 @@ function MostrarAnalisis({
             <div className="text-center text-[4vh] font-semibold pb-[1vh] md:text-[0vw] md:pb-[0vh]">
               Análisis cuantitativo
             </div>
-            <RightBarContent />
+            <RightBarContent quantitative={quantitativeDatum} />
           </div>
         </div>
       </div>

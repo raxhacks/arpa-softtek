@@ -12,7 +12,7 @@ import queryString from 'query-string';
 
 type MessageGalleryProps = {
   newMessage: string;
-  docId: string | (string | null)[];
+  docId: string | undefined;
 }
 
 const MessageGallery: React.FC<MessageGalleryProps> = ({newMessage, docId}) => {
