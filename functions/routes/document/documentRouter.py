@@ -98,6 +98,8 @@ def create_document():
             blob.make_public()
             public_url = blob.public_url
 
+            title = os.path.splitext(file.filename)[0]
+
             # Parse PDF if the file is a PDF
             if extension == 'PDF':
                 reader = PyPDF2.PdfReader(file)
@@ -116,7 +118,6 @@ def create_document():
         user_doc_ref = db.collection('users').document(user_id)
         document_doc_ref = user_doc_ref.collection('documents').document()
 
-        title = flask.request.form.get('title')
         content = flask.request.form.get('content')
 
         # Extract keywords

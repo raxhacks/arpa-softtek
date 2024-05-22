@@ -9,10 +9,10 @@ export default function Typewritereffect() {
                     strings: [
                         "y dime si habla de la capa de ozono",
                         "y dime si habla de las nebulosas",
-                        "y dime si habla de la guerra fráa",
+                        "y dime si habla de la guerra fría",
                         "y dime si menciona a los mayas",
                         "  ",
-                        "y ayudame a seguir aprendiendo"
+                        "y ayúdame a seguir aprendiendo"
                     ],
                     autoStart: true,
                     loop: true,
