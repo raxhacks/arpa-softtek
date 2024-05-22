@@ -258,7 +258,7 @@ def get_history():
             document_data = doc.to_dict()
             created_at = document_data.get("created_at", "")
             if created_at:
-                date = created_at.to_datetime()
+                date = datetime.strptime(created_at, '%a, %d %b %Y %H:%M:%S %Z')
                 created_at_formatted = format_date(date, locale='es_ES', format='long')
             else:
                 created_at_formatted = ""
@@ -291,7 +291,7 @@ def get_favorites():
             document_data = doc.to_dict()
             created_at = document_data.get("created_at", "")
             if created_at:
-                date = created_at.to_datetime()
+                date = datetime.strptime(created_at, '%a, %d %b %Y %H:%M:%S %Z')
                 created_at_formatted = format_date(date, locale='es_ES', format='long')
             else:
                 created_at_formatted = ""
