@@ -19,6 +19,9 @@ const config: Config = {
         },
         favsnhistory: {
           500: "#5756F5"
+        },
+        coloHeader: {
+          500: "#BBA778"
         }
       }
     },

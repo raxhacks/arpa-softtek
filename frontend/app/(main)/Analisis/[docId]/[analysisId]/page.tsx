@@ -8,11 +8,11 @@ import Segmented from 'rc-segmented';
 import cx from "classnames";
 import Collapsible from 'react-collapsible';
 import Header from '../../../header';
-import { Section } from "@/model/section";
+import { Analysis, Section, Keyword, QuantitativeDatum } from '@/model/analysis';
 import { getDocument } from '@/services/document.service';
 import { Document } from '../../../../../model/document';
 import { toggleFavorite } from '@/services/favorites.service';
-import { getSections } from '@/services/analysis.service';
+import { getAnalysis } from '@/services/analysis.service';
 import { error } from 'console';
 
 function SectionTitle(title: string){
@@ -66,19 +66,26 @@ const Content: React.FC<ContentProps> = (props: ContentProps) => {
   const encodedUrl = encodeURIComponent("https://storage.googleapis.com/arpa-softtek.appspot.com/users/hNb7IaKYx7bRUWEWB9cn575nATF2/Raymundo_Guzman_Mata_English_CV%20%281%29.pdf");
   const viewerURL = `https://docs.google.com/viewer?url=${encodedUrl}&embedded=true`;
   const [docs, setDocs] = useState<Document>();
+  const [analysis, setAnalysis] = useState<Analysis>();
   const [section, setSections] = useState<Section[]>();
+  const [keyword, setKeyword] = useState<Keyword[]>();
+  const [quantitativeDatum, setQuantitativeDatum] = useState<QuantitativeDatum[]>();
+  
   
   useEffect(() => {
     (async () => {
       setDocs(await getDocument(props.docId));
     })();
+    setSections(analysis?.Sections);
+    setKeyword(analysis?.Keywords);
+    setQuantitativeDatum(analysis?.QuantitativeData);
   }, []);
 
-  // useEffect(() => {
-  //   (async () => {
-  //     setSections(await getSections(props.docId, props.analysisId))
-  //   })();
-  // }, []);
+  useEffect(() => {
+    (async () => {
+      setAnalysis(await getAnalysis(props.docId, props.analysisId))
+    })();
+  }, []);
 
   if(props.currentTab === "Resumen"){
     return(
