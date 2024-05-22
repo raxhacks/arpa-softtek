@@ -2,9 +2,9 @@
 
 import axios from 'axios';
 import { cookies } from 'next/headers';
-import { Section } from '../model/section';
+import { Analysis, Section, Keyword, QuantitativeDatum } from '../model/analysis';
 
-export const getSections = async (document_id: string, analysis_id: string): Promise<Section[]> => {
+export const getAnalysis = async (document_id: string, analysis_id: string): Promise<Analysis> => {
     try {
         const token = cookies().get('session')?.value
         const config = { 
@@ -13,16 +13,33 @@ export const getSections = async (document_id: string, analysis_id: string): Pro
             } 
         };
         console.log('Fetching analysis sections...');
-        const response = await axios.get(`https://arpa-2mgft7cefq-uc.a.run.app/analysis/sections?document_id=${document_id}&analysis_id=${analysis_id}`, config);
+        const response = await axios.get(`https://arpa-2mgft7cefq-uc.a.run.app/analysis?document_id=${document_id}&analysis_id=${analysis_id}`, config);
         console.log('Analysis fetch');
 
-        const sections: Section[] = response.data.map((item: any) => ({
+        const sections: Section[] = response.data.sections.map((item: any) => ({
             title: item.title,
             content: item.content
         }));
-        console.log(sections);
+
+        const keywords: Keyword[] = response.data.keywords.map((item: any) => ({
+            keyword: item.keyword,
+            count: item.count
+        }));
+
+        const quantitativeData: QuantitativeDatum[] = response.data.quantitative_data.map((item: any) => ({
+            datum: item.datum,
+            sentence: item.sentence
+        }));
+
+        const analysis: Analysis = {
+            Sections: sections,
+            Keywords: keywords,
+            QuantitativeData: quantitativeData
+        };
         
-        return sections;
+        console.log(analysis);
+        
+        return analysis;
     } catch (error) {
         console.error('Could not fetch analysis sections:', error);
         throw error;

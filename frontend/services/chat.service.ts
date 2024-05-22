@@ -6,7 +6,7 @@ import { MessageStruct } from '../model/message';
 
 const baseUrl = process.env.NEXT_PUBLIC_API_URL + '/chat';
 
-export const getChat = async (document_id: string | (string | null)[]): Promise<MessageStruct[]> => {
+export const getChat = async (document_id: string | undefined): Promise<MessageStruct[]> => {
     try {
         const token = cookies().get('session')?.value
         const config = { 
