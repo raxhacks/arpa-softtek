@@ -72,4 +72,3 @@ export default function MostrarHistorial() {
       </>
     );
 }
-//.pauseFor(3000).deleteAll()
