@@ -127,7 +127,7 @@ def chatQA(document_id, user_id, prompt, session_id: str):
         print("Error at chat script:", e)
         return "Error"
     
-def getChatHistory(document_id, user_id, session_id): 
+def getChat(document_id, user_id, session_id): 
     try: 
         db = firestore.client()
         chat_history = FirestoreChatMessageHistory(session_id=document_id, collection=f"users/{user_id}/documents/{session_id}/chat", client=db)

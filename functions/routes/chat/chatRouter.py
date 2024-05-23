@@ -2,7 +2,7 @@ import flask
 from firebase_admin import firestore
 from langchain_pinecone import PineconeVectorStore
 from langchain_openai import OpenAIEmbeddings
-from .helpers.chat import chatQA, getChatHistory
+from .helpers.chat import chatQA, getChat
 
 chatBlueprint = flask.Blueprint('chat', __name__, url_prefix="/chat")
 
@@ -118,10 +118,15 @@ def getChatHistory():
         document_id = flask.request.args.get('document_id')
         
         db = firestore.client()
-        # chat_history = db.collection('users').document(user_id).collection('documents').document(document_id).collection('chat').document(document_id)
-        messages = getChatHistory(document_id, user_id, document_id)
+        chat_history = db.collection('users').document(user_id).collection('documents').document(document_id).collection('chat')
+        chat = chat_history.get()  
+        print(chat_history.get())
+        # messages = getChat(document_id, user_id, document_id)
         
-        return flask.jsonify(messages.to_dict()), 200
+        return flask.jsonify(
+            {"message": "Message sent successfully", 
+             "response": chat
+             }),200
     except Exception as e: 
         print("Error at getChatHistory script:", e)
         return flask.jsonify({"message":"Failed to get chat history"}), 500
