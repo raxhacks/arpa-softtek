@@ -3,11 +3,13 @@
 import Link from 'next/link';
 import './CargarArchivos.css';
 import { useState } from 'react';
+import { useEffect } from 'react';
 import axios from 'axios';
 import { Fade } from "react-awesome-reveal";
 import { createDocument } from '@/services/document.service';
 import { useRouter } from 'next/navigation';
 import Header from '../header';
+import { useDropzone } from 'react-dropzone';
   
 function Arrow(back: any) {
   if(back.selected){
@@ -85,6 +87,16 @@ function FormatButton(main: any) {
 function Main(currentState: any) {
   const [url, setURL] = useState("");
   const router = useRouter();
+  const {acceptedFiles, getRootProps, getInputProps} = useDropzone({noClick: true});
+
+  useEffect(() => {
+    if(currentState.type === "PDF" && acceptedFiles[0] != null){
+      currentState.handleChangePDF(acceptedFiles[0])
+    }
+    else if(currentState.type === "DOCX" && acceptedFiles[0] != null){
+      currentState.handleChangeDOCX(acceptedFiles[0])
+    }
+  },[acceptedFiles])
 
   const handleUrlChange = (event: any) => {
     setURL(event.target.value)
@@ -105,6 +117,7 @@ function Main(currentState: any) {
   }
 
   if(currentState.type === "None"){
+    acceptedFiles.splice(0, 1)
     return(
       <div className="text-center md:flex md:justify-center">
         <Fade cascade direction="up" damping={0.1} triggerOnce fraction={1}>
@@ -133,11 +146,12 @@ function Main(currentState: any) {
   else if(currentState.type === "PDF"){
     console.log(currentState.file)
     return(
-      <form>
-        <label htmlFor="PDFUpload" className="bg-transparent text-[#5756F5] border-dotted border-[#5756F5] border-[7px] rounded-[20px] mx-auto
-        w-[70vw] max-w-[300px] h-[70vh] max-h-[300px] flex items-center justify-center text-center hover:border-[#2F31AB]">
-          {currentState.file === undefined ?
-          <svg xmlns="http://www.w3.org/2000/svg" className="icon-format icon-tabler icon-tabler-file-type-pdf hover:stroke-[#2F31AB]" width="180" height="180" viewBox="0 0 24 24" strokeWidth="1" stroke="#5756F5" fill="none" strokeLinecap="round" strokeLinejoin="round">
+      <div {...getRootProps({className: 'dropzone'})}>
+        <label htmlFor="PDFUpload" className="bg-transparent text-[#5756F5] mx-auto w-[70vw] max-w-[300px] h-[70vh] max-h-[300px] flex items-center justify-center text-center">
+          {acceptedFiles.length === 0 ?
+          <svg xmlns="http://www.w3.org/2000/svg" className="icon-format icon-tabler icon-tabler-file-type-pdf border-dotted
+          border-[#5756F5] border-[7px] rounded-[20px] w-[70vw] max-w-[300px] h-[70vh] max-h-[300px] hover:border-[#2F31AB]
+          hover:stroke-[#2F31AB]" viewBox="-6 -6 36 36" strokeWidth="1" stroke="#5756F5" fill="none" strokeLinecap="round" strokeLinejoin="round">
             <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
             <path d="M14 3v4a1 1 0 0 0 1 1h4" />
             <path d="M5 12v-7a2 2 0 0 1 2 -2h7l5 5v4" />
@@ -145,31 +159,40 @@ function Main(currentState: any) {
             <path d="M17 18h2" />
             <path d="M20 15h-3v6" />
             <path d="M11 15v6h1a2 2 0 0 0 2 -2v-2a2 2 0 0 0 -2 -2h-1z" />
-          </svg> : <p>{currentState.file.name}</p>}
+          </svg> :
+          <div className="border-dotted border-[#5756F5] border-[7px] rounded-[20px] text-[#5756F5] w-[70vw] max-w-[300px] h-[70vh]
+          max-h-[300px] hover:border-[#2F31AB] hover:text-[#2F31AB] flex items-center justify-center text-center break-words">
+            {acceptedFiles[0].name}
+          </div>}
         </label>
-        <input type="file" id="PDFUpload" name="filename" accept=".pdf" style={{opacity: "0", position: "absolute", zIndex: "-1"}} onChange={currentState.handleChangePDF} />
+        <input {...getInputProps()} id="PDFUpload" accept=".pdf" style={{opacity: "0", position: "absolute", zIndex: "-1"}} />
         <FileStateMessage state={currentState.fileState} file={currentState.file} type={currentState.type}/>
-      </form>
+      </div>
     );
   }
   else if(currentState.type === "DOCX"){
     return(
-      <form>
-        <label htmlFor="DOCXUpload" className="bg-transparent text-[#5756F5] border-dotted border-[#5756F5] border-[1vh] rounded-[4vh] mx-auto
-        w-[70vw] max-w-[325px] h-[70vh] max-h-[300px] flex items-center justify-center text-center hover:border-[#2F31AB]">
-          {currentState.file === undefined ?
-          <svg xmlns="http://www.w3.org/2000/svg" className="icon-format icon-tabler icon-tabler-file-type-doc" width="180" height="180" viewBox="0 0 24 24" stroke-width="1" stroke="#5756F5" fill="none" stroke-linecap="round" stroke-linejoin="round">
+      <div {...getRootProps({className: 'dropzone'})}>
+        <label htmlFor="DOCXUpload" className="bg-transparent text-[#5756F5] mx-auto w-[70vw] max-w-[300px] h-[70vh] max-h-[300px] flex items-center justify-center text-center">
+          {acceptedFiles.length === 0 ?
+          <svg xmlns="http://www.w3.org/2000/svg" className="icon-format icon-tabler icon-tabler-file-type-doc border-dotted
+          border-[#5756F5] border-[7px] rounded-[20px] w-[70vw] max-w-[300px] h-[70vh] max-h-[300px] hover:border-[#2F31AB]
+          hover:stroke-[#2F31AB]" viewBox="-6 -6 36 36" stroke-width="1" stroke="#5756F5" fill="none" stroke-linecap="round" stroke-linejoin="round">
             <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
             <path d="M14 3v4a1 1 0 0 0 1 1h4" />
             <path d="M5 12v-7a2 2 0 0 1 2 -2h7l5 5v4" />
             <path d="M5 15v6h1a2 2 0 0 0 2 -2v-2a2 2 0 0 0 -2 -2h-1z" />
             <path d="M20 16.5a1.5 1.5 0 0 0 -3 0v3a1.5 1.5 0 0 0 3 0" />
             <path d="M12.5 15a1.5 1.5 0 0 1 1.5 1.5v3a1.5 1.5 0 0 1 -3 0v-3a1.5 1.5 0 0 1 1.5 -1.5z" />
-          </svg> : <p>{currentState.file.name}</p>}
+          </svg> :
+          <div className="border-dotted border-[#5756F5] border-[7px] rounded-[20px] text-[#5756F5] w-[70vw] max-w-[300px] h-[70vh]
+          max-h-[300px] hover:border-[#2F31AB] hover:text-[#2F31AB] flex items-center justify-center text-center break-words">
+            {acceptedFiles[0].name}
+          </div>}
         </label>
-        <input type="file" id="DOCXUpload" name="filename" accept=".docx" style={{opacity: "0", position: "absolute", zIndex: "-1"}} onChange={currentState.handleChangeDOCX} />
+        <input {...getInputProps()} id="DOCXUpload" accept=".docx" style={{opacity: "0", position: "absolute", zIndex: "-1"}} />
         <FileStateMessage state={currentState.fileState} file={currentState.file} type={currentState.type}/>
-      </form>
+      </div>
     );
   }
 }
@@ -220,7 +243,7 @@ function CargaArchivos() {
   const [centerText, setTitle] = useState("Selecciona el formato del artículo");
   const [currentFormat, setFormat] = useState("None");
   const [formatSelected, setSelected] = useState(false);
-  const [file, setFile] = useState();
+  const [file, setFile] = useState<File | null>(null);;
   const [fileState, setFState] = useState("None");
 
   const setType = (text: any, type: any) => {
@@ -229,26 +252,24 @@ function CargaArchivos() {
     setSelected(true)
   }
 
-  function handleChangePDF(event: any) {
-    const file = event.target.files[0]
+  function handleChangePDF(file: File) {
     if(file.type == "application/pdf"){
       setFile(file)
       setFState("Correct")
     }
     else{
-      setFile(undefined)
+      setFile(null)
       setFState("WrongFormat")
     }
   }
 
-  function handleChangeDOCX(event: any) {
-    const file = event.target.files[0]
+  function handleChangeDOCX(file: File) {
     if(file.type == "application/vnd.openxmlformats-officedocument.wordprocessingml.document"){
       setFile(file)
       setFState("Correct")
     }
     else{
-      setFile(undefined)
+      setFile(null)
       setFState("WrongFormat")
       console.log(file.type)
     }
@@ -258,7 +279,7 @@ function CargaArchivos() {
     setTitle("Selecciona el formato del artículo")
     setFormat("None")
     setSelected(false)
-    setFile(undefined)
+    setFile(null)
     setFState("None")
   }
 
