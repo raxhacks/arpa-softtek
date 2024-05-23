@@ -17,11 +17,13 @@ export const getChat = async (document_id: string | undefined): Promise<MessageS
         console.log('Fetching chat...', document_id);
         const response = await axios.get(`https://arpa-2mgft7cefq-uc.a.run.app/chat?document_id=${document_id}`, config);
         
-        const chat: MessageStruct[] = response.data.messages.map((item: any) => ({
+        const chat: MessageStruct[] = response.data ? response.data.messages.map((item: any) => ({
             prompt: item.prompt,
             response: item.response
-        }));
+        })) : [];
+
         console.log(chat);
+
         return chat;
     } catch (error) {
         console.error('Could not fetch chat:', error);

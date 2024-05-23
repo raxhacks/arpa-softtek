@@ -16,20 +16,20 @@ export const getAnalysis = async (document_id: string, analysis_id: string): Pro
         const response = await axios.get(`https://arpa-2mgft7cefq-uc.a.run.app/analysis?document_id=${document_id}&analysis_id=${analysis_id}`, config);
         console.log('Analysis fetch');
 
-        const sections: Section[] = response.data.sections.map((item: any) => ({
+        const sections: Section[] = response.data ? response.data.sections.map((item: any) => ({
             title: item.title,
             content: item.content
-        }));
+        })) : [];
 
-        const keywords: Keyword[] = response.data.keywords.map((item: any) => ({
+        const keywords: Keyword[] = response.data ? response.data.keywords.map((item: any) => ({
             keyword: item.keyword,
             count: item.count
-        }));
+        })) : [];
 
-        const quantitativeData: QuantitativeDatum[] = response.data.quantitative_data.map((item: any) => ({
+        const quantitativeData: QuantitativeDatum[] = response.data ? response.data.quantitative_data.map((item: any) => ({
             datum: item.datum,
             sentence: item.sentence
-        }));
+        })) : [];
 
         const analysis: Analysis = {
             Sections: sections,
