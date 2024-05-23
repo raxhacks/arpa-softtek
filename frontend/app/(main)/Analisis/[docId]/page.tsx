@@ -132,34 +132,26 @@ interface KeywordProps{
   keyword: string;
   count: number;
 }
+interface LeftProps{
+  propWords: KeywordProps[];
+  setTarget: (target:string) => void;
+}
 
-function LeftBarContent(prop: any) {
+const LeftBarContent: React.FC<LeftProps> = (props: LeftProps) => {
   const pieColors = ["#54f55f", "#54f5ba", "#54d2f5", "#549ff5", "#5456f5", "#9f54f5", "#ea54f5", "#f5548a", "#f56954", "#f5b554"];
-  const propWords = [
-    {keyword: "Ejemplo 1", count: 10},
-    {keyword: "Ejemplo 2", count: 10},
-    {keyword: "Ejemplo 3", count: 10},
-    {keyword: "Ejemplo 4", count: 10},
-    {keyword: "Ejemplo 5", count: 10},
-    {keyword: "Ejemplo 6", count: 10},
-    {keyword: "Ejemplo 7", count: 10},
-    {keyword: "Ejemplo 8", count: 10},
-    {keyword: "Ejemplo 9", count: 10},
-    {keyword: "Ejemplo 10", count: 10},
-  ];
 
   return(
     <div>
       <div className="text-center font-bold text-[3vh]">Frecuencia de palabras clave</div>
       <PieChart
-        data={propWords.map((content: any, index: number) => ({title: content.keyword, value: content.count, color: pieColors[index]}))}
+        data={props.propWords.map((content: any, index: number) => ({title: content.keyword, value: content.count, color: pieColors[index]}))}
         label={({ dataEntry }) => `${Math.round(dataEntry.percentage)} %`}
         labelStyle={(index) => ({fill: "#FCFAF5", fontSize: "0.75vh", fontFamily: "sans-serif", fontWeight: "600"})}
         labelPosition={70}
         radius={35}
       />
       <div>
-        {propWords.map((content: any, index: number) => (
+        {props.propWords.map((content: any, index: number) => (
           <PieLabel name={content.keyword} color={pieColors[index]}/>
         ))}
       </div>
@@ -167,8 +159,8 @@ function LeftBarContent(prop: any) {
       <div className="text-center font-bold text-[3vh]">Cantidad de palabras clave</div>
       <br/>
       <div>
-        {propWords.map((content: any, index: number) => (
-          <KeywordButton name={content.keyword} count={content.count} setTarget={prop.setTarget} />
+        {props.propWords.map((content: any, index: number) => (
+          <KeywordButton name={content.keyword} count={content.count} setTarget={props.setTarget} />
         ))}
       </div>
     </div>
@@ -196,26 +188,17 @@ interface QuantDataProps{
   data: string;
   sentence: string;
 }
+interface RightProps{
+  propData: QuantDataProps[];
+  setTarget: (target:string) => void;
+}
 
-function RightBarContent(prop: any) {
-  const propData = [
-    {data: "100%", sentence: "Esta es una oración con un dato cuantitativo: 100%."},
-    {data: "50%", sentence: "Esta es otra oración que contiene varios datos cuantitativo: 50%, 50.0."},
-    {data: "50.0", sentence: "Esta es otra oración que contiene varios datos cuantitativo: 50%, 50.0."},
-    {data: "10%", sentence: "Esta es una oración contiene 10% un dato cuantitativo insertado arbitrariamente."},
-    {data: "10%", sentence: "Esta es una oración contiene un dato cuantitativo 10% insertado arbitrariamente."},
-    {data: "10%", sentence: "Esta es una oración 10% contiene un dato cuantitativo insertado arbitrariamente."},
-    {data: "101", sentence: "101: Esta oración inicia con un dato cuantitativo."},
-    {data: "22/2/2022", sentence: "Esta oración contiene un dato cuantitativo de tipo fecha: 22/2/2022."},
-    {data: "10,502,365,820.51", sentence: "Esta es una oración muy, muy, pero muy larga que contiene un dato cuantitativo igualmente muy,. muy, pero muy largo: 10,502,365,820.51."},
-    {data: "1", sentence: "Oración corta con dato cuantitativo: 1."},
-  ];
-
+const RightBarContent: React.FC<RightProps> = (props: RightProps) => {
   return (
     <div>
       <div className="text-center font-bold text-[3vh] mb-[2vh]">Datos cuantitativos encontrados en el documento</div>
-      {propData.map((content: any, index: number) =>
-        <QuantitativeSection data={content.data} sentence={content.sentence} setTarget={prop.setTarget} />
+      {props.propData.map((content: any, index: number) =>
+        <QuantitativeSection data={content.data} sentence={content.sentence} setTarget={props.setTarget} />
       )}
     </div>
   );
@@ -291,20 +274,6 @@ function MostrarAnalisis({
   ]
   const [sections, setSections] = useState<Section[]>(prop_sections);
 
-  /*const propData = [
-    {data: "100%", sentence: "Esta es una oración con un dato cuantitativo: 100%."},
-    {data: "50%", sentence: "Esta es otra oración que contiene varios datos cuantitativo: 50%, 50.0."},
-    {data: "50.0", sentence: "Esta es otra oración que contiene varios datos cuantitativo: 50%, 50.0."},
-    {data: "10%", sentence: "Esta es una oración contiene 10% un dato cuantitativo insertado arbitrariamente."},
-    {data: "10%", sentence: "Esta es una oración contiene un dato cuantitativo 10% insertado arbitrariamente."},
-    {data: "10%", sentence: "Esta es una oración 10% contiene un dato cuantitativo insertado arbitrariamente."},
-    {data: "101", sentence: "101: Esta oración inicia con un dato cuantitativo."},
-    {data: "22/2/2022", sentence: "Esta oración contiene un dato cuantitativo de tipo fecha: 22/2/2022."},
-    {data: "10,502,365,820.51", sentence: "Esta es una oración muy, muy, pero muy larga que contiene un dato cuantitativo igualmente muy,. muy, pero muy largo: 10,502,365,820.51."},
-    {data: "1", sentence: "Oración corta con dato cuantitativo: 1."},
-  ];
-  const [quantData, setQuantData] = useState<QuantDataProps[]>(propData);
-
   const propWords = [
     {keyword: "Ejemplo 1", count: 10},
     {keyword: "Ejemplo 2", count: 10},
@@ -317,7 +286,21 @@ function MostrarAnalisis({
     {keyword: "Ejemplo 9", count: 10},
     {keyword: "Ejemplo 10", count: 10},
   ];
-  const [keywords, setKeywords] = useState<KeywordProps[]>(propWords);*/
+  const [keywords, setKeywords] = useState<KeywordProps[]>(propWords);
+
+  const propData = [
+    {data: "100%", sentence: "Esta es una oración con un dato cuantitativo: 100%."},
+    {data: "50%", sentence: "Esta es otra oración que contiene varios datos cuantitativo: 50%, 50.0."},
+    {data: "50.0", sentence: "Esta es otra oración que contiene varios datos cuantitativo: 50%, 50.0."},
+    {data: "10%", sentence: "Esta es una oración contiene 10% un dato cuantitativo insertado arbitrariamente."},
+    {data: "10%", sentence: "Esta es una oración contiene un dato cuantitativo 10% insertado arbitrariamente."},
+    {data: "10%", sentence: "Esta es una oración 10% contiene un dato cuantitativo insertado arbitrariamente."},
+    {data: "101", sentence: "101: Esta oración inicia con un dato cuantitativo."},
+    {data: "22/2/2022", sentence: "Esta oración contiene un dato cuantitativo de tipo fecha: 22/2/2022."},
+    {data: "10,502,365,820.51", sentence: "Esta es una oración muy, muy, pero muy larga que contiene un dato cuantitativo igualmente muy,. muy, pero muy largo: 10,502,365,820.51."},
+    {data: "1", sentence: "Oración corta con dato cuantitativo: 1."},
+  ];
+  const [quantData, setQuantData] = useState<QuantDataProps[]>(propData);
 
   const [searchTarget, setTarget] = useState("");
   
@@ -333,7 +316,7 @@ function MostrarAnalisis({
             <div className="text-center text-[4vh] font-semibold pb-[3vh] md:text-[0vw] md:pb-[0vh]">
               Análisis cualitativo
             </div>
-            <LeftBarContent setTarget={setTarget} /> {/*propWords={keywords}*/}
+            <LeftBarContent propWords={keywords} setTarget={setTarget} />
           </div>
         </div>
         <div className={cx("sideBarLeftSpace", {"sideBarLeftSpace-closed":!leftBarOpen})} />
@@ -376,7 +359,7 @@ function MostrarAnalisis({
             <div className="text-center text-[4vh] font-semibold pb-[3vh] md:text-[0vw] md:pb-[0vh]">
               Análisis cuantitativo
             </div>
-            <RightBarContent setTarget={setTarget}/> {/*props={propData}*/}
+            <RightBarContent propData={quantData} setTarget={setTarget}/>
           </div>
         </div>
       </div>
