@@ -67,11 +67,17 @@ interface ContentProps{
 const Content: React.FC<ContentProps> = (props: ContentProps) => {
   const encodedUrl = encodeURIComponent("https://storage.googleapis.com/arpa-softtek.appspot.com/users/hNb7IaKYx7bRUWEWB9cn575nATF2/Raymundo_Guzman_Mata_English_CV%20%281%29.pdf");
   const viewerURL = `https://docs.google.com/viewer?url=${encodedUrl}&embedded=true`;
-  const [section, setSection] =useState<Section[]>();
+  const [section, setSection] =useState<Section[] | undefined>([]);
 
   useEffect(() => {
-    setSection(props.sections)
+    const sections = props.sections;
+    // console.log('dsd',sections);
+    setSection(sections)
   },[props.sections])
+
+  // useEffect(() => {
+  //   console.log('wew',section); 
+  // },[])
 
   if(props.currentTab === "Resumen"){
     return(
@@ -199,25 +205,9 @@ function MostrarAnalisis({
   const [leftBarOpen, setLeftBar] = useState(false);
   const [rightBarOpen, setRightBar] = useState(false);
   const [isFavorito, setFavorito] = useState(false);
-  const prop_sections = [
-    {
-      title: "Titulo de seccion 1",
-      content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum"
-    },
-    {
-      title: "Titulo de seccion 2",
-      content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum"
-    },
-    {
-      title: "Titulo de seccion 3",
-      content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum"
-    }
-  ]
+
   const [documentInfo, setDocumentInfo] = useState<Document>();
-  const [section, setSection] = useState<Section[]>();
-  const [analysis, setAnalysis] = useState<Analysis>();
-  const [keywords, setKeyword] = useState<Keyword[]>();
-  const [quantitativeDatum, setQuantitativeDatum] = useState<QuantitativeDatum[]>();
+  const [analysis, setAnalysis] = useState<Analysis>();  
 
   useEffect(() => {
     (async () => {
@@ -227,11 +217,12 @@ function MostrarAnalisis({
 
   useEffect(() => {
     (async () => {
-      setAnalysis(await getAnalysis(params.docId, params.analysisId))
+      console.log(params.docId)
+      console.log(params.analysisId)
+      const analysisResponse = await getAnalysis(params.docId, params.analysisId)
+      console.log('analysis: ', analysisResponse);
+      setAnalysis(analysisResponse);
     })();
-    setSection(analysis?.Sections);
-    setKeyword(analysis?.Keywords);
-    setQuantitativeDatum(analysis?.QuantitativeData);
   }, []);
 
   function handleTabChange(value: any){
@@ -274,7 +265,7 @@ function MostrarAnalisis({
             <div className="text-center text-[4vh] font-semibold pb-[1vh] md:text-[0vw] md:pb-[0vh]">
               Análisis cualitativo
             </div>
-            <LeftBarContent keywords={keywords} />
+            <LeftBarContent keywords={analysis?.Keywords} />
           </div>
         </div>
         <div className={cx("sideBarLeftSpace", {"sideBarLeftSpace-closed":!leftBarOpen})} />
@@ -300,7 +291,7 @@ function MostrarAnalisis({
           </button>
           <div/>
         </div>
-        <Content currentTab={currentTab} sections={section} analysisId={params.analysisId} docId={documentInfo?.id} docUrl={documentInfo?.publicURL} />
+        <Content currentTab={currentTab} sections={analysis?.Sections} analysisId={params.analysisId} docId={documentInfo?.id} docUrl={documentInfo?.publicURL} />
       </div>
       <div className="flex items-center h-screen">
         <button onClick={() => {setRightBar(!rightBarOpen), setLeftBar(false)}}
@@ -317,7 +308,7 @@ function MostrarAnalisis({
             <div className="text-center text-[4vh] font-semibold pb-[1vh] md:text-[0vw] md:pb-[0vh]">
               Análisis cuantitativo
             </div>
-            <RightBarContent quantitative={quantitativeDatum} />
+            <RightBarContent quantitative={analysis?.QuantitativeData} />
           </div>
         </div>
       </div>
