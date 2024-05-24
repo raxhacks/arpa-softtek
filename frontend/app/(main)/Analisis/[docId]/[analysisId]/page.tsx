@@ -172,14 +172,11 @@ function BotonFavorito(favorito: any, {
   };
   if(favorito.state == true){    
     return(
-      <button className='fixed top-[1.5vh] right-[2vw] z-30 md:relative md:top-auto md:right-auto md:z-auto md:ml-[2vw]' onClick={toggleFav}>
         <svg xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler icon-tabler-star hover:stroke-[#BCBAB5] hover:fill-[#BCBAB5] md:stroke-[#5756F5] md:fill-[#5756F5] md:hover:stroke-[#2F31AB] md:hover:fill-[#2F31AB]"
           width="50" height="50" viewBox="0 0 24 24" stroke-width="1.5" stroke="#FCFAF5" fill="#FCFAF5" stroke-linecap="round" stroke-linejoin="round">
           <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
           <path d="M12 17.75l-6.172 3.245l1.179 -6.873l-5 -4.867l6.9 -1l3.086 -6.253l3.086 6.253l6.9 1l-5 4.867l1.179 6.873z" />
         </svg>
-      </button>
-
     );
   }
   else{
@@ -245,18 +242,18 @@ function MostrarAnalisis({
   }
 
 
-  // useEffect(() => {
-  //   const storedFavorite = localStorage.getItem(`favorite-${params.docId}`);
-  //   if (storedFavorite !== null) {
-  //     setFavorito(storedFavorite === 'true');
-  //   } else {
-  //     (async () => {
-  //       const docInfo = await getDocument(params.docId);
-  //       setFavorito(docInfo.favorite);
-  //       localStorage.setItem(`favorite-${params.docId}`, docInfo.favorite.toString());
-  //     })();
-  //   }
-  // }, [params.docId]);
+  useEffect(() => {
+    const storedFavorite = localStorage.getItem(`favorite-${params.docId}`);
+    if (storedFavorite !== null) {
+      setFavorito(storedFavorite === 'true');
+    } else {
+      (async () => {
+        const docInfo = await getDocument(params.docId);
+        setFavorito(docInfo.favorite);
+        localStorage.setItem(`favorite-${params.docId}`, docInfo.favorite.toString());
+      })();
+    }
+  }, [params.docId]);
   
   const toggleFav = async () => {
     const newFavoriteState = !isFavorito;
@@ -299,7 +296,9 @@ function MostrarAnalisis({
           <div className="w-[10vw] md:w-0"/>
           <Segmented options={["Resumen", "Texto Original", "Chatbot"]} onChange={(value) => handleTabChange(value)} />
           <div className="w-[10vw] md:w-0"/>
-          <BotonFavorito className="fixed top-[1.5vh] right-[2vw] z-30 md:relative md:top-auto md:right-auto md:z-auto md:ml-[2vw]" onClick={toggleFav} state={isFavorito} setFavorito={setFavorito} docId={params.docId}/>
+          <button className="fixed top-[1.5vh] right-[2vw] z-30 md:relative md:top-auto md:right-auto md:z-auto md:ml-[2vw]" onClick={toggleFav}>
+            <BotonFavorito state={isFavorito} setFavorito={setFavorito} docId={params.docId}/>
+          </button>
           <div/>
         </div>
         <Content currentTab={currentTab} sections={analysis?.Sections} analysisId={params.analysisId} docId={documentInfo?.id} docUrl={documentInfo?.publicURL} />
