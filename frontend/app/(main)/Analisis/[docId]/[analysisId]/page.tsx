@@ -46,7 +46,7 @@ function SectionTitleOpen(title: string){
   );
 }
 
-/*function SectionCollapsible(section: Section){
+function SectionCollapsible(section: Section){
   return(
     <Collapsible trigger={SectionTitle(section.title)} triggerWhenOpen={SectionTitleOpen(section.title)} transitionTime={150} className="mb-[4vh]">
       <div className="pl-[2vw] mb-[4vh] md:pl-[4vw]">
@@ -54,7 +54,7 @@ function SectionTitleOpen(title: string){
       </div>
     </Collapsible>
   );
-}*/
+}
 
 interface ContentProps{
   currentTab: string;
@@ -217,10 +217,7 @@ function MostrarAnalisis({
 
   useEffect(() => {
     (async () => {
-      console.log(params.docId)
-      console.log(params.analysisId)
       const analysisResponse = await getAnalysis(params.docId, params.analysisId)
-      console.log('analysis: ', analysisResponse);
       setAnalysis(analysisResponse);
     })();
   }, []);
