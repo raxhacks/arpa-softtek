@@ -20,5 +20,4 @@ export const createUser = async (userData: { email: string, password: string }) 
         console.error('Failed to create user');
         return null
     }
-
 };
