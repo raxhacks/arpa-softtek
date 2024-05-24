@@ -353,14 +353,14 @@ function MostrarAnalisis({
         <div className={cx("sideBarLeftSpace", {"sideBarLeftSpace-closed":!leftBarOpen})} />
         <button onClick={() => {setLeftBar(!leftBarOpen), setRightBar(false)}}
         className={cx("sideBarLeftButton hover:bg-[#F5C556] hover:text-[#24252E]", {"sideBarLeftButton-closed":!leftBarOpen})}>
-          Análisis cualitativo
+          Palabras clave
         </button>
         <button onClick={() => {setLeftBar(!leftBarOpen), setRightBar(false)}}
         className={cx("sideBarLeftButton2 hover:bg-[#F5C556] hover:text-[#24252E]", {"sideBarLeftButton2-closed":!leftBarOpen})}>
           +
         </button>
       </div>
-      <div className="bg-[#30323D] pt-[15vh] mb-[15vh] bottom-0 font-semibold basis-[93vw] md:pt-[125px] md:mb-auto">
+      <div className="bg-[#30323D] pt-[25vh] mb-[15vh] bottom-0 font-semibold basis-[93vw] md:pt-[125px] md:mb-auto">
         <div className="flex items-center justify-center">
           <button className="fixed top-[1.5vh] left-[2vw] z-30 md:relative md:top-auto md:left-auto md:z-auto md:mr-[2vw]">
             <BotonHome />
@@ -378,7 +378,7 @@ function MostrarAnalisis({
       <div className="flex items-center h-screen">
         <button onClick={() => {setRightBar(!rightBarOpen), setLeftBar(false)}}
         className={cx("sideBarRightButton hover:bg-[#F5C556] hover:text-[#24252E]", {"sideBarRightButton-closed":!rightBarOpen})}>
-          Análisis cuantitativo
+          Datos cuantitativos
         </button>
         <button onClick={() => {setRightBar(!rightBarOpen), setLeftBar(false)}}
         className={cx("sideBarRightButton2 hover:bg-[#F5C556] hover:text-[#24252E]", {"sideBarRightButton2-closed":!rightBarOpen})}>
