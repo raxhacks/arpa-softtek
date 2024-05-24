@@ -43,10 +43,10 @@ export const getHistory = async (): Promise<Document[]> => {
             title: item.title,
             createdAt: item.created_at,
             publicURL: item.public_url,
-            analysis_id: item.analysis,
+            analysis_id: item.analysis_id,
             favorite: item.favorite
         }));
-
+        // console.log(history);
         return history;
     } catch (error) {
         console.error('Could not fetch history:', error);

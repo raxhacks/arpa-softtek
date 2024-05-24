@@ -22,7 +22,7 @@ export const getChat = async (document_id: string | undefined): Promise<MessageS
             response: item.response
         })) : [];
 
-        console.log(chat);
+        // console.log(chat);
 
         return chat;
     } catch (error) {

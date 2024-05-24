@@ -7,11 +7,15 @@ import { getFavorites } from '../../../services/favorites.service';
 import { Document } from '../../../model/document';
 import './Favorites.css';
 import Header from '../header';
+import { useRouter } from 'next/navigation';
+
 
 export default function MostrarFavoritos() {
   const [favoriteDocs, setFavoriteDocs] = useState<Document[]>([]);
   const [loading, setLoading] = useState(true);
+  const router = useRouter();
   
+
   const encodedUrl = encodeURIComponent("https://storage.googleapis.com/arpa-softtek.appspot.com/users/hNb7IaKYx7bRUWEWB9cn575nATF2/Raymundo_Guzman_Mata_English_CV%20%281%29.pdf");
   const viewerURL = `https://docs.google.com/viewer?url=${encodedUrl}&embedded=true`;
 
@@ -22,6 +26,12 @@ export default function MostrarFavoritos() {
       setLoading(false);
     })();
   }, []);
+
+  function handleClick(docId: string, analysisId: string){
+    console.log('docId en history', docId);
+    console.log('analysisId en history', analysisId);
+    router.push(`/Analisis/${docId}/${analysisId}`)
+  }
 
   return (
     <>
@@ -47,8 +57,9 @@ export default function MostrarFavoritos() {
             <div className="w-full grid lg:grid-cols-2">
               {favoriteDocs.map((doc, index) => (
                 <div key={index} className='pb-4 w-full flex justify-center items-center text-center text-white'>
-                  <Link href={`/Analisis/${doc.id}/${doc.analysis_id}`}>
-                    <Fade className='w-72 lg:w-96 h-56 rounded-2xl p-4 bg-favsnhistory-500 transition-colors shadow-md hover:border-blue-200 hover:bg-blue-400'>
+                  <Fade className='w-72 lg:w-96 h-56 rounded-2xl p-4 bg-favsnhistory-500 transition-colors shadow-md hover:border-blue-200 hover:bg-blue-400'>
+                    <button onClick={() => handleClick(doc.id, doc.analysis_id)}>
+
                       <div>
                         <h1 className='font-bold'>{doc.title}</h1>
                         <p className='font-bold'>{doc.createdAt}</p>
@@ -61,8 +72,8 @@ export default function MostrarFavoritos() {
                           />
                         </div>
                       </div>
-                    </Fade>
-                  </Link>
+                    </button>
+                  </Fade>
                 </div>
               ))}
             </div>
