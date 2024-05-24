@@ -77,24 +77,26 @@
   .sideBarLeftButton{
     position: fixed;
     left: -100vw;
+    top: 0;
     color: #FCFAF5;
-    background-color: #24252E;
-    font-size: 3.5vh;
+    font-size: 1.3vw;
     font-weight: 600;
-    width: 3.5vw;
-    min-width: 50px;
-    height: 40vh;
+    width: 10vw;
+    height: 12vh;
+    min-height: 40px;
+    padding-left: 1vw;
+    border-color: #5756F5;
+    border-width: 4px;
     border-radius: 10px;
     margin-top: 125px;
-    padding-right: 0.5vw;
     transform: translateX(-10%);
     z-index: 10;
     transition: 0.4s ease-in;
-    writing-mode: vertical-rl;
   }
   @media(min-width: 768px){
     .sideBarLeftButton{
       left: 30vw;
+      background-color: #5756F5;
     }
   }
   .sideBarLeftButton-closed{
@@ -103,6 +105,7 @@
   @media(min-width: 768px){
     .sideBarLeftButton-closed{
       left: 0;
+      background-color: #24252E;
     }
   }
 
@@ -114,8 +117,10 @@
     background-color: #24252E;
     font-size: 5vh;
     font-weight: 600;
-    width: 9vh;
-    height: 9vh;
+    width: 10vh;
+    height: 10vh;
+    border-color: #5756F5;
+    border-width: 4px;
     border-radius: 10px;
     margin-top: 100px;
     z-index: 10;
@@ -210,24 +215,26 @@
   .sideBarRightButton{
     position: fixed;
     right: -100vw;
+    top: 0;
     color: #FCFAF5;
-    background-color: #24252E;
-    font-size: 3.5vh;
+    font-size: 1.2vw;
     font-weight: 600;
-    width: 3.5vw;
-    min-width: 50px;
-    height: 40vh;
+    width: 10vw;
+    height: 12vh;
+    min-height: 40px;
+    border-color: #5756F5;
+    border-width: 4px;
     border-radius: 10px;
     margin-top: 125px;
     padding-right: 0.5vw;
     transform: translateX(10%);
     z-index: 10;
     transition: 0.4s ease-in;
-    writing-mode: vertical-rl;
   }
   @media(min-width: 768px){
     .sideBarRightButton{
       right: 30vw;
+      background-color: #5756F5;
     }
   }
   .sideBarRightButton-closed{
@@ -236,6 +243,7 @@
   @media(min-width: 768px){
     .sideBarRightButton-closed{
       right: 0;
+      background-color: #24252E;
     }
   }
 
@@ -244,11 +252,13 @@
     align-self: flex-start;
     right: 70vw;
     color: #FCFAF5;
-    background-color: #24252E;
+    background-color: #5756F5;
     font-size: 5vh;
     font-weight: 600;
-    width: 9vh;
-    height: 9vh;
+    width: 10vh;
+    height: 10vh;
+    border-color: #5756F5;
+    border-width: 4px;
     border-radius: 10px;
     margin-top: 100px;
     z-index: 10;
@@ -262,6 +272,7 @@
   }
   .sideBarRightButton2-closed{
     right: 0;
+    background-color: #24252E;
   }
   @media(min-width: 768px){
     .sideBarRightButton2-closed{
