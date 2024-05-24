@@ -6,7 +6,7 @@ import { MessageStruct } from '../model/message';
 
 const baseUrl = process.env.NEXT_PUBLIC_API_URL + '/chat';
 
-export const getChat = async (document_id: string | (string | null)[]): Promise<MessageStruct[]> => {
+export const getChat = async (document_id: string | undefined): Promise<MessageStruct[]> => {
     try {
         const token = cookies().get('session')?.value
         const config = { 
@@ -14,14 +14,16 @@ export const getChat = async (document_id: string | (string | null)[]): Promise<
                 'Authorization': `Bearer ${token}`
             } 
         };
-        console.log('Fetching chat...');
+        console.log('Fetching chat...', document_id);
         const response = await axios.get(`https://arpa-2mgft7cefq-uc.a.run.app/chat?document_id=${document_id}`, config);
         
-        const chat: MessageStruct[] = response.data.messages.map((item: any) => ({
+        const chat: MessageStruct[] = response.data ? response.data.messages.map((item: any) => ({
             prompt: item.prompt,
             response: item.response
-        }));
-        console.log(chat);
+        })) : [];
+
+        // console.log(chat);
+
         return chat;
     } catch (error) {
         console.error('Could not fetch chat:', error);
@@ -29,7 +31,7 @@ export const getChat = async (document_id: string | (string | null)[]): Promise<
     }
 };
 
-export const sendMessage = async (document_id: string | (string | null)[], message: string) => {
+export const sendMessage = async (document_id: string | undefined, message: string) => {
     try {
         const token = cookies().get('session')?.value
         const config = { 

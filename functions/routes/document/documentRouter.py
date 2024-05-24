@@ -12,6 +12,8 @@ from pdfminer.layout import LAParams
 from pdfminer.pdfinterp import PDFResourceManager, PDFPageInterpreter, PDFPage
 import yake
 from .helpers.AnalysisAndChatCreation import addAnalysisToDocument
+from datetime import datetime
+from babel.dates import format_date
 
 MAX_FILE_SIZE_MB = 3 
 
@@ -98,6 +100,8 @@ def create_document():
             blob.make_public()
             public_url = blob.public_url
 
+            title = os.path.splitext(file.filename)[0]
+
             # Parse PDF if the file is a PDF
             if extension == 'PDF':
                 reader = PyPDF2.PdfReader(file)
@@ -116,7 +120,6 @@ def create_document():
         user_doc_ref = db.collection('users').document(user_id)
         document_doc_ref = user_doc_ref.collection('documents').document()
 
-        title = flask.request.form.get('title')
         content = flask.request.form.get('content')
 
         # Extract keywords
@@ -253,15 +256,20 @@ def get_history():
         documents_list = []
         for doc in documents_ref:
             document_data = doc.to_dict()
-            analysis = document_data.get('analysis', "")
-            # analysis_id = analysis_array[0] if analysis_array else ""
+            created_at = document_data.get("created_at", "")
+            if created_at:
+                created_at_str = created_at.strftime('%a, %d %b %Y %H:%M:%S %Z')
+                date = datetime.strptime(created_at_str, '%a, %d %b %Y %H:%M:%S %Z')
+                created_at_formatted = format_date(date, locale='es_ES', format='long')
+            else:
+                created_at_formatted = ""
 
             document_info = {
                 "document_id": doc.id,
                 "title": document_data.get("title", ""),
-                "created_at": document_data.get("created_at", ""),
+                "created_at": created_at_formatted,
                 "public_url": document_data.get("public_url", ""),
-                "analysis_id": analysis,
+                "analysis_id": document_data.get('analysis', ""),
                 "favorite": document_data.get("favorite", False)
             }
             documents_list.append(document_info)
@@ -282,15 +290,20 @@ def get_favorites():
         documents_list = []
         for doc in documents_ref:
             document_data = doc.to_dict()
-            analysis = document_data.get('analysis', "")
-            # analysis_id = analysis_array[0] if analysis_array else ""
+            created_at = document_data.get("created_at", "")
+            if created_at:
+                created_at_str = created_at.strftime('%a, %d %b %Y %H:%M:%S %Z')
+                date = datetime.strptime(created_at_str, '%a, %d %b %Y %H:%M:%S %Z')
+                created_at_formatted = format_date(date, locale='es_ES', format='long')
+            else:
+                created_at_formatted = ""
             
             document_info = {
                 "document_id": doc.id,
                 "title": document_data.get("title", ""),
-                "created_at": document_data.get("created_at", ""),
+                "created_at": created_at_formatted,
                 "public_url": document_data.get("public_url", ""),
-                "analysis_id": analysis,
+                "analysis_id": document_data.get('analysis', ""),
                 "favorite": document_data.get("favorite", False)
             }
             documents_list.append(document_info)

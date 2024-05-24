@@ -2,7 +2,7 @@ import flask
 from firebase_admin import firestore
 from langchain_pinecone import PineconeVectorStore
 from langchain_openai import OpenAIEmbeddings
-from .helpers.chat import chatQA
+from .helpers.chat import chatQA, getChat
 
 chatBlueprint = flask.Blueprint('chat', __name__, url_prefix="/chat")
 
@@ -110,3 +110,24 @@ def send_message():
     except Exception as e:
         print("Error at endpoint:", e)
         return flask.jsonify({"message": "Failed to send message"}), 500
+    
+@chatBlueprint.route("/getMessages", methods=["GET"])
+def getChatHistory():
+    try: 
+        user_id = flask.g.get('user_id')
+        document_id = flask.request.args.get('document_id')
+        session_id = document_id.toLowerCase()
+
+        db = firestore.client()
+        chat_history = db.collection('users').document(user_id).collection('documents').document(document_id).collection('chat').document(session_id)
+        chat = chat_history.get()  
+        print(chat_history.get())
+        # messages = getChat(document_id, user_id, document_id)
+        
+        return flask.jsonify(
+            {"message": "Message sent successfully", 
+             "response": chat
+             }),200
+    except Exception as e: 
+        print("Error at getChatHistory script:", e)
+        return flask.jsonify({"message":"Failed to get chat history"}), 500

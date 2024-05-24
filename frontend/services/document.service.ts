@@ -44,9 +44,9 @@ export const getHistory = async (): Promise<Document[]> => {
             createdAt: item.created_at,
             publicURL: item.public_url,
             analysis_id: item.analysis_id,
-            favorite: item.favorite.toString()
+            favorite: item.favorite
         }));
-
+        // console.log(history);
         return history;
     } catch (error) {
         console.error('Could not fetch history:', error);
@@ -64,19 +64,28 @@ export const getDocument = async (document_id: string): Promise<Document> => {
         };
         console.log('Fetching document...');
         const response = await axios.get(`https://arpa-2mgft7cefq-uc.a.run.app/document?document_id=${document_id}`, config);
-
+        console.log('Document fetch');
         const document: Document = {
             id: response.data.document_id,
             title: response.data.title,
             createdAt: response.data.created_at,
             publicURL: response.data.public_url,
-            analysis_id: 'placeholder',
-            favorite: response.data.favorite.toString() //response.data.favorite
+            analysis_id: response.data.analysis,
+            favorite: response.data.favorite
         };
+        console.log(document);
 
         return document;
     } catch (error) {
         console.error('Could not fetch document:', error);
-        throw error;
+        const document: Document = {
+            id: '',
+            title: '',
+            createdAt: '',
+            publicURL: '',
+            analysis_id: '',
+            favorite: false
+        };
+        throw document;
     }
 };

@@ -3,8 +3,9 @@
 import { useState } from "react";
 import ChatInput from "./ChatInput";
 import MessageGallery from "./Messagegallery";
+import { Document } from "@/model/document";
 
-type ChatProps = { docId: string | (string | null)[] };
+type ChatProps = { docId: string | undefined };
 
 const Chat: React.FC<ChatProps> = ({ docId }) => {
   const [newMessage, setNewMessage] = useState<string>("");

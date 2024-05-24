@@ -10,138 +10,6 @@ function MyTabs() {
   const [state, action] = useFormState(signup, undefined)
   const [loginstate, loginAction] = useFormState(authLogin, undefined)
 
-  // const [showMessage, setShowMessage] = useState(false);
-  // const [message, setMessage] = useState('');
-  // const [showMessageR, setShowMessageR] = useState(false);
-  // const [messageR, setMessageR] = useState('');
-
-
-  // useEffect(() => {
-  //   // Si loginstate tiene un mensaje, mostrarlo y configurar showMessage en true
-  //   if (loginstate?.message) {
-  //     setMessage(loginstate.message);
-  //     setShowMessage(true);
-
-  //     // Configurar un temporizador para cambiar showMessage a false después de 5 segundos
-  //     const timer = setTimeout(() => {
-  //       setShowMessage(false);
-  //     }, 10000);
-
-  //     // Limpiar el temporizador en la limpieza del efecto para evitar fugas de memoria
-  //     return () => clearTimeout(timer);
-  //   }
-  // }, [loginstate]);
-
-  // useEffect(() => {
-  //   // Si loginstate tiene un mensaje, mostrarlo y configurar showMessage en true
-  //   if (state?.message) {
-  //     setMessageR(state.message);
-  //     setShowMessageR(true);
-
-  //     // Configurar un temporizador para cambiar showMessage a false después de 5 segundos
-  //     const timer = setTimeout(() => {
-  //       setShowMessageR(false);
-  //     }, 10000);
-
-  //     // Limpiar el temporizador en la limpieza del efecto para evitar fugas de memoria
-  //     return () => clearTimeout(timer);
-  //   }
-  // }, [state]);
-
-  // const router = useRouter()
-  // const [values, setValues] = useState({
-  //   email: "",
-  //   pasword: "",
-  //   confirmPassword: ""
-  // })
-  // const [errorMessage, setErrorMessage] = useState("");
-  // const [errorInLogin, setErrorInLogin] = useState("");
-  // const [erroMessageInRegister, setErroMessageInRegister] = useState("");
-
-
-  // const handleInputChange = (event) => {
-  //   const {name, value} = event.target;
-  //   setValues({
-  //     ...values,
-  //     [name]: value,
-  //   });
-  // };
-
-  // function validatePassword(password, confirmPassword) {
-  //   if (password != confirmPassword){
-  //     setValues({
-  //       password:'',
-  //       confirmPassword: ''
-  //     });
-  //     setErroMessageInRegister("")
-  //     setErrorMessage("La contraseña y la confirmacion deben ser iguales") 
-  //     return false
-  //   }
-  //   else if (password.length < 7) {
-  //     setValues({
-  //       password:'',
-  //       confirmPassword: ''
-  //     });
-  //     setErroMessageInRegister("")
-  //     setErrorMessage("La contraseña debe ser mayor de 7 caracteres") 
-  //     return false
-  //   }
-  //   return true;
-  // };
-
-  // const loginSubmit = async (event) => {
-  //   event.preventDefault();
-  //   const body = {
-  //     email: values.email,
-  //     password: values.password
-  //   }
-  //   const logedIn = await login(body);
-  //   if (logedIn){
-  //     router.push('/CargarArchivos')
-  //   } else {
-  //     setErrorInLogin("Correo o contraseña invalido")
-  //     setValues({
-  //       email: "",
-  //       password: "",
-  //     });
-  //   }
-  // }
-  
-  // const registerSubmit = async (event) => {
-  //   event.preventDefault();
-  //   if ((validatePassword(values.password, values.confirmPassword))) {
-  //     const body = {
-  //       email: values.email,
-  //       password: values.password
-  //     }
-  //     const registered = await createUser(body);
-  //     if (registered){
-  //       router.push('/CargarArchivos')
-  //     }
-  //     else if (!registered) {
-  //       setValues({
-  //         email: "",
-  //         password: "",
-  //         confirmPassword: ""
-  //       });
-  //       setErrorMessage("");
-  //       setErroMessageInRegister("Esta cuenta ya esta registrada");
-  //       return
-  //     }
-  //   }
-  // }
-
-  // const resetStates = () => {
-  //   setErrorInLogin("");
-  //   setErrorMessage("");
-  //   setErroMessageInRegister("");
-  //   setValues({
-  //     email: "",
-  //     password: "",
-  //     confirmPassword: ""
-  //   });
-  // }
-
   return (
     <Tab.Group className={`w-full flex flex-grow justify-center items-center`}>
       <Tab.Panels className={`flex-grow w-full rounded-lg bg-opacity-95`}>
@@ -151,7 +19,7 @@ function MyTabs() {
           <Tab className={`rounded-lg border border-transparent py-4 w-full text-center font-semibold text-2xl bg-blue-600 transition-colors hover:border-blue-300 hover:bg-yellow-100 hover:dark:bg-neutral-800/20`} >
             <div 
             // onClick={resetStates}
-            >Inicio sesion</div>
+            >Iniciar sesión</div>
           </Tab>
           {/* Registro Button */}
           <Tab className={`rounded-lg border border-transparent py-4 w-full text-center mt-8 font-semibold text-2xl text-black bg-yellow-300 transition-colors hover:border-yellow-300 hover:bg-yellow-100 hover:dark:bg-neutral-800/20 hover:text-white`} >
@@ -183,7 +51,7 @@ function MyTabs() {
           <form action={loginAction} 
             className="flex flex-col items-center justify-center mx-auto max-w-sm mt-10 lg:mt-40">
             {loginstate?.message && 
-              <div className='pl-2 pr-2 rounded-2xl border border-red-500' style={{ display: 'flex', alignItems: 'center' }}>
+              <div className='pl-2 pr-2 rounded-2xl border border-red-500 mb-3' style={{ display: 'flex', alignItems: 'center' }}>
                 <svg xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler icon-tabler-exclamation-circle mr-1" width="15" height="15" viewBox="0 0 24 24" strokeWidth="1.5" stroke="#ffffff" fill="none" strokeLinecap="round" strokeLinejoin="round" style={{ marginLeft: '5px' }}>
                   <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
                   <path d="M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0" />
@@ -198,7 +66,7 @@ function MyTabs() {
                 id="email" 
                 name="email" 
                 placeholder = "Correo electrónico" 
-                className="w-full mb-1 lg:mb-8 border-b-2 border-yellow-500 px-3 py-2 mt-1 focus:outline-none bg-transparent text-white" autoComplete='on'/>
+                className="w-full mb-4 border border-blue-500 rounded-3xl px-4 py-3 mt-1 focus:outline-none bg-slate-600 text-white"/> 
             </div>
             <div className='w-full'>
               <input 
@@ -206,7 +74,7 @@ function MyTabs() {
                 type="password"
                 placeholder = "Contraseña"
                 autoComplete='on'
-                className="w-full mb-1 lg:mb-8 border-b-2 border-yellow-500 px-3 py-2 mt-1 focus:outline-none bg-transparent text-white" 
+                className="w-full mb-1 border border-blue-500 rounded-3xl px-4 py-3 mt-1 focus:outline-none bg-slate-600 text-white" 
               />
             </div>
             <LoginButton />
@@ -236,7 +104,7 @@ function MyTabs() {
           // onSubmit={registerSubmit} 
             className="flex flex-col items-center justify-center mx-auto max-w-sm mt-4 lg:mt-40">
             {state?.message && 
-              <div className='pl-2 pr-2 rounded-2xl border border-red-500' style={{ display: 'flex', alignItems: 'center' }}>
+              <div className='pl-2 pr-2 rounded-2xl border border-red-500 mb-3' style={{ display: 'flex', alignItems: 'center' }}>
                 <svg xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler icon-tabler-exclamation-circle mr-1" width="15" height="15" viewBox="0 0 24 24" strokeWidth="1.5" stroke="#ffffff" fill="none" strokeLinecap="round" strokeLinejoin="round" style={{ marginLeft: '5px' }}>
                   <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
                   <path d="M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0" />
@@ -247,6 +115,7 @@ function MyTabs() {
               </div>
             }
 
+            {state?.errors?.email && <p>{state.errors.email}</p>}
             <div className='w-full'>
               <input 
                 name="email" 
@@ -256,10 +125,9 @@ function MyTabs() {
                 // onChange={handleInputChange}
                 placeholder = "Correo electrónico"
                 autoComplete = 'off'
-                className= "w-full mb-2 lg:mb-8 border-b-2 border-yellow-500 px-3 py-2 mt-1 focus:outline-none bg-transparent text-white"
+                className="w-full mb-4 border border-yellow-500 rounded-3xl px-4 py-3 mt-1 focus:outline-none bg-slate-600 text-white" 
               />
             </div>
-            {state?.errors?.email && <p>{state.errors.email}</p>}
 
             <div className='w-full'>
               <input 
@@ -270,12 +138,12 @@ function MyTabs() {
                 // onChange={handleInputChange}
                 placeholder = "Contraseña"
                 autoComplete='off'
-                className="w-full mb-1 lg:mb-8 border-b-2 border-yellow-500 px-3 py-2 mt-1 focus:outline-none bg-transparent text-white" 
+                className="w-full mb-1 border border-yellow-500 rounded-3xl px-4 py-3 mt-1 focus:outline-none bg-slate-600 text-white" 
               />
             </div>
             {state?.errors?.password && (
               <div>
-                <p>Password must:</p>
+                <p>La contraseña debe:</p>
                 <ul>
                   {state.errors.password.map((error) => (
                     <li key={error}>- {error}</li>
