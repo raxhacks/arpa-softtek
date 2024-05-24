@@ -165,7 +165,7 @@ def create_document():
         document_doc_ref.update({"chat":firestore.ArrayUnion([chat_doc_ref.id])})
 
         # Create analysis collection for the document
-        analysis_id = addAnalysisToDocument(user_id, document_doc_ref.id, text, analysis_keywords)
+        analysis_id = addAnalysisToDocument(user_id, document_doc_ref.id, text, analysis_keywords, keywords)
         document_doc_ref.update({"analysis":  analysis_id})
         
         return flask.jsonify({"message": "New document created successfully", "document_id": document_doc_ref.id, "text":text, "analysis_id":analysis_id}), 201

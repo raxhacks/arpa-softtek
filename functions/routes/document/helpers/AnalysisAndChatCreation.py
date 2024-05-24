@@ -31,7 +31,7 @@ MODEL = "text-embedding-3-small"
 client = OpenAI(api_key=OPENAI_API_KEY)
 llm = ChatOpenAI(model="gpt-3.5-turbo", temperature=0)
 
-def addAnalysisToDocument(user_id, document_id, text, keywords):
+def addAnalysisToDocument(user_id, document_id, text, keywords, keywords_str_array):
     try:
         db = firestore.client()
         user_doc_ref = db.collection('users').document(user_id)
@@ -91,10 +91,13 @@ def addAnalysisToDocument(user_id, document_id, text, keywords):
         )
 
         ### Answer question ###
-        qa_system_prompt = """You are an assistant for question-answering tasks related to scientific papers, articles and investigations. \
-        Use the following pieces of retrieved context to answer the question. \
-        If we ask this specific prompt "Analyze this paper", you must return a stringified JSON's array. Each index represents a summarized section of the paper and the object has 2 attributes, the title of the section and the content. Just the stringified json, no other format (don't use backticks to tell you are using json). \
-        {context}"""
+        keywords_str = ', '.join([f'"{keyword}"' for keyword in keywords_str_array])
+        qa_system_prompt = f"""
+        You are an assistant for question-answering tasks related to scientific papers, articles and investigations. 
+        Use the following pieces of retrieved context (the document text) to answer the question. 
+        If we ask this specific prompt "Analyze this paper", you must return a stringified JSON's array. Each index represents a summarized section of the paper and the object has 2 attributes, the title of the section and the content. Make sure that in the content of each section, if there's a keyword contained in the following list, be sure to include it: [{keywords_str}]. Just the stringified json, no other format (don't use backticks to tell you are using json).
+        {{context}}
+        """
         qa_prompt = ChatPromptTemplate.from_messages(
             [
                 ("system", qa_system_prompt),
