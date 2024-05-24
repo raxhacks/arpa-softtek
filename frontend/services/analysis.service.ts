@@ -37,7 +37,7 @@ export const getAnalysis = async (document_id: string, analysis_id: string): Pro
             QuantitativeData: quantitativeData
         };
         
-        // console.log(analysis);
+        console.log(analysis);
         
         return analysis;
     } catch (error) {
