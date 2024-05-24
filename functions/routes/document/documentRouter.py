@@ -292,7 +292,8 @@ def get_favorites():
             document_data = doc.to_dict()
             created_at = document_data.get("created_at", "")
             if created_at:
-                date = datetime.strptime(created_at, '%a, %d %b %Y %H:%M:%S %Z')
+                created_at_str = created_at.strftime('%a, %d %b %Y %H:%M:%S %Z')
+                date = datetime.strptime(created_at_str, '%a, %d %b %Y %H:%M:%S %Z')
                 created_at_formatted = format_date(date, locale='es_ES', format='long')
             else:
                 created_at_formatted = ""
