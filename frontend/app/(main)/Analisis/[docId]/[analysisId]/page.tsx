@@ -65,7 +65,7 @@ function SectionCollapsible(section: Section){
 
 interface ContentProps{
   currentTab: string;
-  sections: Section[];
+  sections: Section[] | undefined;
   analysisId: string;
   docId: string;
   docUrl: string | undefined;
@@ -91,7 +91,7 @@ const Content: React.FC<ContentProps> = (props: ContentProps) => {
   if(props.currentTab === "Resumen"){
     return(
       <div className="text-[#FCFAF5] text-[3vh] mx-[8vw] mt-[8vh] md:mx-[10vw]">
-        {props.sections.map((section, index) => (
+        {props.sections?.map((section, index) => (
           props.searchTarget !== "" && section.content.includes(props.searchTarget)?
           <Collapsible trigger={SectionTitle(section.title)} triggerWhenOpen={SectionTitleOpen(section.title)} transitionTime={150} className="mb-[4vh]" open >
             <div className="pl-[2vw] mb-[4vh] md:pl-[4vw]">
@@ -188,30 +188,31 @@ function KeywordButton(data: any){
   );
 }
 
-interface KeywordProps{
-  keyword: string;
-  count: number;
-}
 interface LeftProps{
-  propWords: KeywordProps[];
+  propWords: Keyword[] | undefined;
   setTarget: (target:string) => void;
 }
 
 const LeftBarContent: React.FC<LeftProps> = (props: LeftProps) => {
   const pieColors = ["#54f55f", "#54f5ba", "#54d2f5", "#549ff5", "#5456f5", "#9f54f5", "#ea54f5", "#f5548a", "#f56954", "#f5b554"];
-
+  const [keywords, setKeywords]= useState<Keyword[]>([])
+  useEffect(() => {
+    if(props.propWords){
+      setKeywords(props.propWords)
+    }
+  }, [[props.propWords]])
   return(
     <div>
       <div className="text-center font-bold text-[3vh]">Frecuencia de palabras clave</div>
       <PieChart
-        data={props.propWords.map((content: any, index: number) => ({title: content.keyword, value: content.count, color: pieColors[index]}))}
+        data={keywords.map((content: any, index: number) => ({title: content.keyword, value: content.count, color: pieColors[index]}))}
         label={({ dataEntry }) => `${Math.round(dataEntry.percentage)} %`}
         labelStyle={(index) => ({fill: "#FCFAF5", fontSize: "0.75vh", fontFamily: "sans-serif", fontWeight: "600"})}
         labelPosition={70}
         radius={35}
       />
       <div>
-        {props.propWords.map((content: any, index: number) => (
+        {keywords.map((content: any, index: number) => (
           <PieLabel name={content.keyword} color={pieColors[index]}/>
         ))}
       </div>
@@ -219,7 +220,7 @@ const LeftBarContent: React.FC<LeftProps> = (props: LeftProps) => {
       <div className="text-center font-bold text-[3vh]">Cantidad de palabras clave</div>
       <br/>
       <div>
-        {props.propWords.map((content: any, index: number) => (
+        {keywords.map((content: any, index: number) => (
           <KeywordButton name={content.keyword} count={content.count} setTarget={props.setTarget} />
         ))}
       </div>
@@ -245,7 +246,7 @@ function QuantitativeSection(prop: any) {
 }
 
 interface RightProps{
-  propData: QuantitativeDatum[];
+  propData: QuantitativeDatum[] | undefined;
   setTarget: (target:string) => void;
 }
 
@@ -253,7 +254,7 @@ const RightBarContent: React.FC<RightProps> = (props: RightProps) => {
   return (
     <div>
       <div className="text-center font-bold text-[3vh] mb-[2vh]">Datos cuantitativos encontrados en el documento</div>
-      {props.propData.map((content: any, index: number) =>
+      {props.propData?.map((content: any, index: number) =>
         <QuantitativeSection data={content.data} sentence={content.sentence} setTarget={props.setTarget} />
       )}
     </div>
@@ -328,9 +329,9 @@ function MostrarAnalisis({
   const [leftBarOpen, setLeftBar] = useState(false);
   const [rightBarOpen, setRightBar] = useState(false);
   const [isFavorito, setFavorito] = useState(false);
-
   const [documentInfo, setDocumentInfo] = useState<Document>();
   const [analysis, setAnalysis] = useState<Analysis>();  
+  const [searchTarget, setTarget] = useState("");
 
   useEffect(() => {
     (async () => {
@@ -345,64 +346,9 @@ function MostrarAnalisis({
     })();
   }, []);
 
-  const prop_sections = [
-    {
-      title: "Titulo de seccion 1",
-      content: "Lorem ipsum Ejemplo 1 dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Esta es una oración con un dato cuantitativo: 100%. Ut enim ad minim veniam, Oración corta con dato cuantitativo: 1. quis Ejemplo 3 nostrud Ejemplo 1 exercitation ullamco laboris nisi ut aliquip ex ea commodo Ejemplo 3 consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum"
-    },
-    {
-      title: "Titulo de seccion 2",
-      content: "Lorem ipsum dolor sit amet, Ejemplo 1 Esta es otra oración que contiene varios datos cuantitativo: 50%, 50.0. consectetur adipiscing Ejemplo 3 elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum"
-    },
-    {
-      title: "Titulo de seccion 3",
-      content: "Lorem ipsum dolor sit amet, Ejemplo 3 consectetur adipiscing elit, sed do eiusmod tempor incididunt Ejemplo 2 ut labore et dolore magna aliqua. Ut enim ad minim veniam, Oración corta con dato cuantitativo: 1. quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea Ejemplo 4 commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum"
-    }
-  ]
-  const [sections, setSections] = useState<Section[]>([]);
-
-  const propWords = [
-    {keyword: "Ejemplo 1", count: 10},
-    {keyword: "Ejemplo 2", count: 10},
-    {keyword: "Ejemplo 3", count: 10},
-    {keyword: "Ejemplo 4", count: 10},
-    {keyword: "Ejemplo 5", count: 10},
-    {keyword: "Ejemplo 6", count: 10},
-    {keyword: "Ejemplo 7", count: 10},
-    {keyword: "Ejemplo 8", count: 10},
-    {keyword: "Ejemplo 9", count: 10},
-    {keyword: "Ejemplo 10", count: 10},
-  ];
-  const [keywords, setKeywords] = useState<Keyword[]>([]);
-
-  const propData = [
-    {data: "100%", sentence: "Esta es una oración con un dato cuantitativo: 100%."},
-    {data: "50%", sentence: "Esta es otra oración que contiene varios datos cuantitativo: 50%, 50.0."},
-    {data: "50.0", sentence: "Esta es otra oración que contiene varios datos cuantitativo: 50%, 50.0."},
-    {data: "10%", sentence: "Esta es una oración contiene 10% un dato cuantitativo insertado arbitrariamente."},
-    {data: "10%", sentence: "Esta es una oración contiene un dato cuantitativo 10% insertado arbitrariamente."},
-    {data: "10%", sentence: "Esta es una oración 10% contiene un dato cuantitativo insertado arbitrariamente."},
-    {data: "101", sentence: "101: Esta oración inicia con un dato cuantitativo."},
-    {data: "22/2/2022", sentence: "Esta oración contiene un dato cuantitativo de tipo fecha: 22/2/2022."},
-    {data: "10,502,365,820.51", sentence: "Esta es una oración muy, muy, pero muy larga que contiene un dato cuantitativo igualmente muy,. muy, pero muy largo: 10,502,365,820.51."},
-    {data: "1", sentence: "Oración corta con dato cuantitativo: 1."},
-  ];
-  const [quantData, setQuantData] = useState<QuantitativeDatum[]>([]);
-
-  const [searchTarget, setTarget] = useState("");
-  
   function handleTabChange(value: any){
     setTab(value)
   }
-
-  useEffect(() => {
-    if (analysis){
-      setKeywords(analysis.Keywords);
-      setSections(analysis.Sections);
-      setQuantData(analysis.QuantitativeData);
-    }
-  },[])
-
 
   useEffect(() => {
     const storedFavorite = localStorage.getItem(`favorite-${params.docId}`);
@@ -430,6 +376,12 @@ function MostrarAnalisis({
     }
   };
 
+  useEffect(() => {
+    console.log('',analysis?.Keywords)
+    console.log('',analysis?.QuantitativeData)
+    console.log('',analysis?.Sections)
+  },[])
+
   return (
     <div className="flex items-top justify-center">
       <Header />
@@ -440,7 +392,7 @@ function MostrarAnalisis({
               Análisis cualitativo
             </div>
             {/* <LeftBarContent keywords={analysis?.Keywords} /> */}
-            <LeftBarContent propWords={keywords} setTarget={setTarget} />
+            <LeftBarContent propWords={analysis?.Keywords} setTarget={setTarget} />
           </div>
         </div>
         <div className={cx("sideBarLeftSpace", {"sideBarLeftSpace-closed":!leftBarOpen})} />
@@ -465,7 +417,7 @@ function MostrarAnalisis({
           <div/>
         </div>
         {/* <Content currentTab={currentTab} sections={analysis?.Sections} analysisId={params.analysisId} docId={documentInfo?.id} docUrl={documentInfo?.publicURL} /> */}
-        <Content currentTab={currentTab} sections={sections} analysisId={params.analysisId} docId={params.docId} docUrl={documentInfo?.publicURL} searchTarget={searchTarget}/>
+        <Content currentTab={currentTab} sections={analysis?.Sections} analysisId={params.analysisId} docId={params.docId} docUrl={documentInfo?.publicURL} searchTarget={searchTarget}/>
       </div>
       <div className="flex items-center h-screen">
         <button onClick={() => {setRightBar(!rightBarOpen), setLeftBar(false)}}
@@ -483,7 +435,7 @@ function MostrarAnalisis({
               Análisis cuantitativo
             </div>
             {/* <RightBarContent quantitative={analysis?.QuantitativeData} /> */}
-            <RightBarContent propData={quantData} setTarget={setTarget}/>
+            <RightBarContent propData={analysis?.QuantitativeData} setTarget={setTarget}/>
           </div>
         </div>
       </div>
