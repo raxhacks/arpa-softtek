@@ -116,9 +116,10 @@ def getChatHistory():
     try: 
         user_id = flask.g.get('user_id')
         document_id = flask.request.args.get('document_id')
-        
+        session_id = document_id.toLowerCase()
+
         db = firestore.client()
-        chat_history = db.collection('users').document(user_id).collection('documents').document(document_id).collection('chat')
+        chat_history = db.collection('users').document(user_id).collection('documents').document(document_id).collection('chat').document(session_id)
         chat = chat_history.get()  
         print(chat_history.get())
         # messages = getChat(document_id, user_id, document_id)
