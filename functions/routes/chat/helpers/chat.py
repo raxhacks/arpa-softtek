@@ -126,3 +126,12 @@ def chatQA(document_id, user_id, prompt, session_id: str):
     except Exception as e:
         print("Error at chat script:", e)
         return "Error"
+    
+def getChat(document_id, user_id, session_id): 
+    try: 
+        db = firestore.client()
+        chat_history = FirestoreChatMessageHistory(session_id=document_id, collection=f"users/{user_id}/documents/{session_id}/chat", client=db)
+        return chat_history.get_messages()
+    except Exception as e: 
+        print("Error at getChat script:", e)
+        return "Error"
