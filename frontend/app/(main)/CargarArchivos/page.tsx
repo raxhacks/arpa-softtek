@@ -14,7 +14,7 @@ import { useDropzone } from 'react-dropzone';
 function Arrow(back: any) {
   if(back.selected){
     return(
-      <button className="border-0 bg-transparent align-middle ml-[2vw] fixed top-[1.5vh] z-30 md:top-[22vh] md:z-auto" onClick={() => {back.goBack()}}>
+      <button className="border-0 bg-transparent align-middle ml-[2vw] fixed top-[1.5vh] z-30 md:top-[20vh] md:z-auto" onClick={() => {back.goBack()}}>
         <svg xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler icon-tabler-arrow-left hover:stroke-[#BCBAB5] active:stroke-[#565553]" width="56" height="56" viewBox="0 0 24 24" stroke-width="3" stroke="#FCFAF5" fill="none" stroke-linecap="round" stroke-linejoin="round">
           <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
           <path d="M5 12l14 0" />
@@ -31,7 +31,7 @@ function Arrow(back: any) {
   
 function CenterHeader(title: any) {
   return(
-    <h1 className="text-[#FCFAF5] text-center mb-[3vh] mx-[8vw] text-[7vh] md:text-[8vh]">{title.text}</h1>
+    <h1 className="text-[#FCFAF5] text-center mb-[3vh] mx-[8vw] text-[5vh] md:text-[6vh]">{title.text}</h1>
   );
 }
 
