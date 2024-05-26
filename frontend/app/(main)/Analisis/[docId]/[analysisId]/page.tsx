@@ -372,12 +372,6 @@ function MostrarAnalisis({
     }
   };
 
-  useEffect(() => {
-    console.log('s',analysis?.Keywords)
-    console.log('s1',analysis?.QuantitativeData)
-    console.log('s2',analysis?.Sections)
-  },[])
-
   return (
     <div className="flex items-top justify-center">
       <Header />

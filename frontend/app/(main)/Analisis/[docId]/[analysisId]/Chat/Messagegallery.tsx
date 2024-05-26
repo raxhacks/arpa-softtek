@@ -12,7 +12,7 @@ import queryString from 'query-string';
 
 type MessageGalleryProps = {
   newMessage: string;
-  docId: string | undefined;
+  docId: string;
 }
 
 const MessageGallery: React.FC<MessageGalleryProps> = ({newMessage, docId}) => {
@@ -31,13 +31,14 @@ const MessageGallery: React.FC<MessageGalleryProps> = ({newMessage, docId}) => {
   const scroller = useRef(null);
   useEffect(() => {
     (async () =>{
-      const respons = await getChat(docId);
+      const response = await getChat(docId);
     })()
   },[docId])
   useEffect(() => {
     if (newMessage && docId) {
       (async () => {
         const response = await sendMessage(docId, newMessage)
+        console.log(response);
         if (response){
           setMessages((prevMessages) => [
             ...prevMessages,
@@ -55,7 +56,7 @@ const MessageGallery: React.FC<MessageGalleryProps> = ({newMessage, docId}) => {
               prompt: newMessage,
             },
             {
-              response: response
+              response: 'Ha ocurrido un error, por favor contacte al administrador'
             }
           ]);
         }

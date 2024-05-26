@@ -7,8 +7,18 @@ import { signup } from '@/app/actions/auth'
 import { authLogin, login } from '@/app/actions/authLogin'
 
 function MyTabs() {
-  const [state, action] = useFormState(signup, undefined)
-  const [loginstate, loginAction] = useFormState(authLogin, undefined)
+  const [state, action] = useFormState(signup, undefined);
+  const [loginstate, loginAction] = useFormState(authLogin, undefined);
+  const [showPassword, setShowPassword] = useState(false);
+  const [showPasswordR, setShowPasswordR] = useState(false);
+
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
+  };
+
+  const togglePasswordVisibilityR = () => {
+    setShowPasswordR(!showPasswordR);
+  };
 
   return (
     <Tab.Group className={`w-full flex flex-grow justify-center items-center`}>
@@ -68,14 +78,33 @@ function MyTabs() {
                 placeholder = "Correo electrónico" 
                 className="w-full mb-4 border border-blue-500 rounded-3xl px-4 py-3 mt-1 focus:outline-none bg-slate-600 text-white"/> 
             </div>
-            <div className='w-full'>
+            <div className="w-full relative">
               <input 
                 name="password" 
-                type="password"
-                placeholder = "Contraseña"
+                type={showPassword ? "text" : "password"}
+                placeholder="Contraseña"
                 autoComplete='on'
                 className="w-full mb-1 border border-blue-500 rounded-3xl px-4 py-3 mt-1 focus:outline-none bg-slate-600 text-white" 
               />
+              <button 
+                type="button" 
+                onClick={togglePasswordVisibility}
+                className="absolute right-4 top-1/2 transform -translate-y-1/2 text-white focus:outline-none"
+              >
+                {showPassword ? 
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-eye" width="30" height="30" viewBox="0 0 24 24" stroke-width="1.5" stroke="#2c3e50" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                  <path d="M10 12a2 2 0 1 0 4 0a2 2 0 0 0 -4 0" />
+                  <path d="M21 12c-2.4 4 -5.4 6 -9 6c-3.6 0 -6.6 -2 -9 -6c2.4 -4 5.4 -6 9 -6c3.6 0 6.6 2 9 6" />
+                </svg> : 
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-eye-off" width="30" height="30" viewBox="0 0 24 24" stroke-width="1.5" stroke="#2c3e50" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                  <path d="M10.585 10.587a2 2 0 0 0 2.829 2.828" />
+                  <path d="M16.681 16.673a8.717 8.717 0 0 1 -4.681 1.327c-3.6 0 -6.6 -2 -9 -6c1.272 -2.12 2.712 -3.678 4.32 -4.674m2.86 -1.146a9.055 9.055 0 0 1 1.82 -.18c3.6 0 6.6 2 9 6c-.666 1.11 -1.379 2.067 -2.138 2.87" />
+                  <path d="M3 3l18 18" />
+                </svg>
+                }
+              </button>
             </div>
             <LoginButton />
           </form>
@@ -129,7 +158,7 @@ function MyTabs() {
               />
             </div>
 
-            <div className='w-full'>
+            <div className='w-full relative'>
               <input 
                 name="password" 
                 type="password"
@@ -140,6 +169,25 @@ function MyTabs() {
                 autoComplete='off'
                 className="w-full mb-1 border border-yellow-500 rounded-3xl px-4 py-3 mt-1 focus:outline-none bg-slate-600 text-white" 
               />
+              <button 
+                type="button" 
+                onClick={togglePasswordVisibilityR}
+                className="absolute right-4 top-1/2 transform -translate-y-1/2 text-white focus:outline-none"
+              >
+                {showPassword ? 
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-eye" width="30" height="30" viewBox="0 0 24 24" stroke-width="1.5" stroke="#2c3e50" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                  <path d="M10 12a2 2 0 1 0 4 0a2 2 0 0 0 -4 0" />
+                  <path d="M21 12c-2.4 4 -5.4 6 -9 6c-3.6 0 -6.6 -2 -9 -6c2.4 -4 5.4 -6 9 -6c3.6 0 6.6 2 9 6" />
+                </svg> : 
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-eye-off" width="30" height="30" viewBox="0 0 24 24" stroke-width="1.5" stroke="#2c3e50" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                  <path d="M10.585 10.587a2 2 0 0 0 2.829 2.828" />
+                  <path d="M16.681 16.673a8.717 8.717 0 0 1 -4.681 1.327c-3.6 0 -6.6 -2 -9 -6c1.272 -2.12 2.712 -3.678 4.32 -4.674m2.86 -1.146a9.055 9.055 0 0 1 1.82 -.18c3.6 0 6.6 2 9 6c-.666 1.11 -1.379 2.067 -2.138 2.87" />
+                  <path d="M3 3l18 18" />
+                </svg>
+                }
+              </button>
             </div>
             {state?.errors?.password && (
               <div>
