@@ -150,8 +150,6 @@ function MyTabs() {
                 name="email" 
                 type="text" 
                 id="email"
-                // value={values.email}
-                // onChange={handleInputChange}
                 placeholder = "Correo electrónico"
                 autoComplete = 'off'
                 className="w-full mb-4 border border-yellow-500 rounded-3xl px-4 py-3 mt-1 focus:outline-none bg-slate-600 text-white" 
@@ -161,10 +159,8 @@ function MyTabs() {
             <div className='w-full relative'>
               <input 
                 name="password" 
-                type="password"
+                type={showPasswordR ? "text" : "password"}
                 id="password"
-                // value={values.password}
-                // onChange={handleInputChange}
                 placeholder = "Contraseña"
                 autoComplete='off'
                 className="w-full mb-1 border border-yellow-500 rounded-3xl px-4 py-3 mt-1 focus:outline-none bg-slate-600 text-white" 
@@ -174,7 +170,7 @@ function MyTabs() {
                 onClick={togglePasswordVisibilityR}
                 className="absolute right-4 top-1/2 transform -translate-y-1/2 text-white focus:outline-none"
               >
-                {showPassword ? 
+                {showPasswordR ? 
                 <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-eye" width="30" height="30" viewBox="0 0 24 24" stroke-width="1.5" stroke="#2c3e50" fill="none" stroke-linecap="round" stroke-linejoin="round">
                   <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
                   <path d="M10 12a2 2 0 1 0 4 0a2 2 0 0 0 -4 0" />
