@@ -13,19 +13,19 @@ const cspHeader = `
 `
 const nextConfig = {
     reactStrictMode: false,
-    async headers() {
-        return [
-            {
-                source: '/(.*)',
-                headers: [
-                {
-                    key: 'Content-Security-Policy',
-                    value: cspHeader.replace(/\n/g, ''),
-                },
-                ],
-            },
-        ]
-    },
+    // async headers() {
+    //     return [
+    //         {
+    //             source: '/(.*)',
+    //             headers: [
+    //             {
+    //                 key: 'Content-Security-Policy',
+    //                 value: cspHeader.replace(/\n/g, ''),
+    //             },
+    //             ],
+    //         },
+    //     ]
+    // },
 };
 
 export default nextConfig;
