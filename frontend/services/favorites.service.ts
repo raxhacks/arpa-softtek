@@ -22,10 +22,9 @@ export const getFavorites = async (): Promise<Document[]> => {
             title: item.title,
             createdAt: item.created_at,
             publicURL: item.public_url,
-            analysis_id: item.analysis,
+            analysis_id: item.analysis_id,
             favorite: item.favorite
         }));
-        
         return history;
     } catch (error) {
         console.error('Could not fetch favorite documents:', error);
@@ -42,11 +41,11 @@ export const toggleFavorite = async (documentId: string, favorite: string) => {
             } 
         };
 
-        console.log('Toggling favorite status...');
-        console.log('document id:', documentId)
-        console.log('favorite status:', favorite)
+        // console.log('Toggling favorite status...');
+        // console.log('document id:', documentId)
+        // console.log('favorite status:', favorite)
         const response = await axios.put(`https://arpa-2mgft7cefq-uc.a.run.app/document/toggleFavorite?document_id=${documentId}&favorite=${favorite}`,{}, config);
-        console.log(response.data.message);
+        // console.log(response.data.message);
         return response.data;
     } catch (error) {
         console.error('Could not toggle favorite status:', error);

@@ -165,7 +165,7 @@ def create_document():
         document_doc_ref.update({"chat":firestore.ArrayUnion([chat_doc_ref.id])})
 
         # Create analysis collection for the document
-        analysis_id = addAnalysisToDocument(user_id, document_doc_ref.id, text, analysis_keywords)
+        analysis_id = addAnalysisToDocument(user_id, document_doc_ref.id, text, analysis_keywords, keywords)
         document_doc_ref.update({"analysis":  analysis_id})
         
         return flask.jsonify({"message": "New document created successfully", "document_id": document_doc_ref.id, "text":text, "analysis_id":analysis_id}), 201
@@ -292,7 +292,8 @@ def get_favorites():
             document_data = doc.to_dict()
             created_at = document_data.get("created_at", "")
             if created_at:
-                date = datetime.strptime(created_at, '%a, %d %b %Y %H:%M:%S %Z')
+                created_at_str = created_at.strftime('%a, %d %b %Y %H:%M:%S %Z')
+                date = datetime.strptime(created_at_str, '%a, %d %b %Y %H:%M:%S %Z')
                 created_at_formatted = format_date(date, locale='es_ES', format='long')
             else:
                 created_at_formatted = ""

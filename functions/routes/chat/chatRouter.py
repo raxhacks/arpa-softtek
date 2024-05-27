@@ -2,7 +2,7 @@ import flask
 from firebase_admin import firestore
 from langchain_pinecone import PineconeVectorStore
 from langchain_openai import OpenAIEmbeddings
-from .helpers.chat import chatQA, getChatHistory
+from .helpers.chat import chatQA, getChat
 
 chatBlueprint = flask.Blueprint('chat', __name__, url_prefix="/chat")
 

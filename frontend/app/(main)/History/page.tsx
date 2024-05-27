@@ -8,12 +8,13 @@ import { Fade } from "react-awesome-reveal";``
 import { getHistory } from '@/services/document.service'
 import { Document } from '../../../model/document';
 import Header from '../header';
+import { useRouter } from 'next/navigation';
 
 export default function MostrarHistorial() {
 
   const [historyDocs, setHistoryDocs] = useState<Document[]>([]);
   const [loading, setLoading] = useState(true);
-
+  const router = useRouter();
 
   useEffect(() => {
     (async () => {
@@ -23,6 +24,10 @@ export default function MostrarHistorial() {
     })();
     // Llama a fetchData directamente dentro del useEffect
   }, []); // Dependencias vacías para ejecutar solo una vez al montar el componente
+
+  function handleClick(docId: string, analysisId: string){
+    router.push(`/Analisis/${docId}/${analysisId}`)
+  }
     
     return (
       <>
@@ -47,8 +52,8 @@ export default function MostrarHistorial() {
             <div className="w-full grid lg:grid-cols-2">
               {historyDocs.map((doc, index) => (
                 <div key={index} className='pb-4 w-full flex justify-center items-center text-center text-white'>
-                  <Link href={`/Analisis/${doc.id}/${doc.analysis_id}`}>
-                    <Fade className='w-72 lg:w-96 h-56 rounded-2xl p-4 bg-favsnhistory-500 transition-colors shadow-md hover:border-blue-200 hover:bg-blue-400'>
+                  <Fade className='w-72 lg:w-96 h-56 rounded-2xl p-4 bg-favsnhistory-500 transition-colors shadow-md hover:border-blue-200 hover:bg-blue-400'>
+                    <button onClick={() => handleClick(doc.id, doc.analysis_id)}>
                       <div>
                         <h1 className='font-bold'>{doc.title}</h1>
                         <p className='font-bold'>{doc.createdAt}</p>
@@ -61,8 +66,8 @@ export default function MostrarHistorial() {
                           />
                         </div>
                       </div>
-                    </Fade>
-                  </Link>
+                    </button>
+                  </Fade>
                 </div>
               ))}
             </div>
