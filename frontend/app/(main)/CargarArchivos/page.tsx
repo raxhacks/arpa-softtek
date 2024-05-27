@@ -220,9 +220,10 @@ function FileStateMessage(fileState: any) {
       const formData = new FormData();
       formData.append("file", fileState.file);
       formData.append("extension", fileState.type);
-      const res = await createDocument(formData);
-      const docId = res.document_id;
-      const analysisId = res.analysis_id;
+      const res = await axios.post("/api/document",formData);
+      console.log(res.data);
+      const docId = res.data.document_id;
+      const analysisId = res.data.analysis_id;
       router.push(`/Analisis/${docId}/${analysisId}`);
     } catch (error) {
       console.error(error);
