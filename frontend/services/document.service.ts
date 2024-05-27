@@ -73,7 +73,7 @@ export const getDocument = async (document_id: string): Promise<Document> => {
             analysis_id: response.data.analysis,
             favorite: response.data.favorite
         };
-        console.log(document);
+        // console.log(document);
 
         return document;
     } catch (error) {

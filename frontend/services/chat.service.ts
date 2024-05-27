@@ -31,7 +31,7 @@ export const getChat = async (document_id: string | undefined): Promise<MessageS
     }
 };
 
-export const sendMessage = async (document_id: string | undefined, message: string) => {
+export const sendMessage = async (document_id: string, message: string) => {
     try {
         const token = cookies().get('session')?.value
         const config = { 

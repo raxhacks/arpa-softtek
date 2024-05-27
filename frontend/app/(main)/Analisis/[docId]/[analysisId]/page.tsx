@@ -80,13 +80,9 @@ const Content: React.FC<ContentProps> = (props: ContentProps) => {
 
   useEffect(() => {
     const sections = props.sections;
-    // console.log('dsd',sections);
     setSection(sections)
   },[props.sections])
 
-  // useEffect(() => {
-  //   console.log('wew',section); 
-  // },[])
 
   if(props.currentTab === "Resumen"){
     return(
@@ -170,7 +166,7 @@ const Content: React.FC<ContentProps> = (props: ContentProps) => {
 
 function PieLabel(data: any){
   return(
-    <div className="flex inline justify-end items-center py-[1vh] pl-[2vw]">
+    <div className="inline justify-end items-center py-[1vh] pl-[2vw]">
       <div>{data.name}</div>
       <div className="h-[3vh] w-[3vh] rounded-[3px] bg-[#7951e8] mr-[1vw]" style={{backgroundColor: data.color}}/>
     </div>
@@ -179,8 +175,8 @@ function PieLabel(data: any){
 
 function KeywordButton(data: any){
   return(
-    <div className="flex inline justify-center">
-      <button className="flex inline justify-between items-center w-[80%] px-[2vw] py-[0.5vh] my-[1vh] rounded-[10px] hover:bg-[#3E4051]" onClick={() => data.setTarget(data.name)}>
+    <div className="inline justify-center">
+      <button className="inline justify-between items-center w-[80%] px-[2vw] py-[0.5vh] my-[1vh] rounded-[10px] hover:bg-[#3E4051]" onClick={() => data.setTarget(data.name)}>
         <div className="font-semibold rounded-[10px] py-[1vh] px-[1.5vh] bg-[#5456F5]">{data.count}</div>
         <div className="font-semibold text-[2.5vh]">:{data.name}</div>  
       </button>
@@ -233,7 +229,7 @@ function QuantitativeSection(prop: any) {
   
   return(
     <div className="flex justify-center">
-      <button className="flex inline text-start items-center border-[2px] border-[#5456F5] w-[80%] px-[1vw] py-[1vh] my-[1vh]
+      <button className="inline text-start items-center border-[2px] border-[#5456F5] w-[80%] px-[1vw] py-[1vh] my-[1vh]
       rounded-[10px] hover:bg-[#5456F5]" onClick={() => prop.setTarget(prop.sentence)}>
         <div className="font-semibold text-[2.5vh]">
           {prop.sentence.includes(prop.data)?
@@ -375,12 +371,6 @@ function MostrarAnalisis({
       localStorage.setItem(`favorite-${params.docId}`, (!newFavoriteState).toString());
     }
   };
-
-  useEffect(() => {
-    console.log('',analysis?.Keywords)
-    console.log('',analysis?.QuantitativeData)
-    console.log('',analysis?.Sections)
-  },[])
 
   return (
     <div className="flex items-top justify-center">

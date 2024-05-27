@@ -14,7 +14,7 @@ function ARPAHeader() {
 }
 
 function SectionsHeader() {
-  const [activeButton, setActiveButton] = useState<string | null>(null);
+  const [activeButton, setActiveButton] = useState<string | null>('CargarArchivos');
   const router = useRouter();
 
   useEffect(() => {
