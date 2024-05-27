@@ -72,7 +72,11 @@ def addAnalysisToDocument(user_id, document_id, text, keywords, keywords_str_arr
         time.sleep(1)
 
         retreiver = vectorstore.as_retriever()
-
+        num_docs = vectorstore.query_collection.count(None)
+        print(f"Number of documents in the vector store: {num_docs}")
+        total_tokens = sum(len(doc.pageContent.split()) for doc in vectorstore.query_collection.fetch())
+        print(f"Total number of tokens in the vector store: {total_tokens}")
+        
         ### Contextualize question ###
         contextualize_q_system_prompt = """Given a chat history and the latest user question \
         which might reference context in the chat history, formulate a standalone question \
