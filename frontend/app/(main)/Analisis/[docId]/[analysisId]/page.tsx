@@ -226,6 +226,7 @@ const LeftBarContent: React.FC<LeftProps> = (props: LeftProps) => {
 
 function QuantitativeSection(prop: any) {
   let target = prop.sentence.indexOf(prop.data);
+  console.log("al riel", prop)
   
   return(
     <div className="flex justify-center">
@@ -251,7 +252,7 @@ const RightBarContent: React.FC<RightProps> = (props: RightProps) => {
     <div>
       <div className="text-center font-bold text-[3vh] mb-[2vh]">Datos cuantitativos encontrados en el documento</div>
       {props.propData?.map((content: any, index: number) =>
-        <QuantitativeSection data={content.data} sentence={content.sentence} setTarget={props.setTarget} />
+        <QuantitativeSection data={content.datum} sentence={content.sentence} setTarget={props.setTarget} />
       )}
     </div>
   );
