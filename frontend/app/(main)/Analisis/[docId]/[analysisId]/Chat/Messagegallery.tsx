@@ -16,14 +16,15 @@ type MessageGalleryProps = {
 }
 
 const MessageGallery: React.FC<MessageGalleryProps> = ({newMessage, docId}) => {
-  const prop_messages = [
-    {
-      prompt: "En el artículo se menciona la concentración de ozono, pero, ¿Cómo se mide?",
-    }, {
-      response: 'Las concentraciones de ozono en la atmósfera se suelen medir en términos de "ppmv" (partes por millón en volumen). La concentración de ozono estratosférico (en la capa de ozono) es mucho menor que la de la troposfera (la capa más baja de la atmósfera, donde ocurre la mayor parte del clima). En la estratosfera, el ozono suele medirse en "DU" (unidades Dobson), que es una medida de la cantidad total de ozono en una columna vertical de la atmósfera que se extiende desde la superficie terrestre hasta el límite superior de la atmósfera.'
-    }
-  ]
-  const [messages, setMessages] = useState(prop_messages);
+  // const prop_messages = [
+  //   {
+  //     prompt: "En el artículo se menciona la concentración de ozono, pero, ¿Cómo se mide?",
+  //   }, 
+  //   {
+  //     response: 'Las concentraciones de ozono en la atmósfera se suelen medir en términos de "ppmv" (partes por millón en volumen). La concentración de ozono estratosférico (en la capa de ozono) es mucho menor que la de la troposfera (la capa más baja de la atmósfera, donde ocurre la mayor parte del clima). En la estratosfera, el ozono suele medirse en "DU" (unidades Dobson), que es una medida de la cantidad total de ozono en una columna vertical de la atmósfera que se extiende desde la superficie terrestre hasta el límite superior de la atmósfera.'
+  //   }
+  // ]
+  const [messages, setMessages] = useState<any[]>([]);
   const url = window.location.href;
   // Parsear el query
   const parsedURL = queryString.parseUrl(url);
@@ -36,15 +37,13 @@ const MessageGallery: React.FC<MessageGalleryProps> = ({newMessage, docId}) => {
   },[docId])
   useEffect(() => {
     if (newMessage && docId) {
+      setMessages((prevMessages:any) => [...prevMessages, { prompt: newMessage }]);
       (async () => {
         const response = await sendMessage(docId, newMessage)
         console.log(response);
         if (response){
-          setMessages((prevMessages) => [
+          setMessages((prevMessages:any) => [
             ...prevMessages,
-            {
-              prompt: newMessage,
-            },
             {
               response: response
             }
@@ -52,9 +51,6 @@ const MessageGallery: React.FC<MessageGalleryProps> = ({newMessage, docId}) => {
         } else {
           setMessages((prevMessages) => [
             ...prevMessages,
-            {
-              prompt: newMessage,
-            },
             {
               response: 'Ha ocurrido un error, por favor contacte al administrador'
             }
