@@ -1,5 +1,5 @@
 type MessageProps = { 
-    message: string;
+    message: string | undefined;
     isUser: boolean;
   }
   const Message: React.FC<MessageProps> = ({

@@ -1,83 +1,108 @@
 "use client"
 
-import { MessageStruct } from "@/model/message";
 import Message from "./Message";
 import { useEffect, useState, useRef } from "react";
 import { Bounce } from "react-awesome-reveal";
 import { getChat } from "@/services/chat.service";
 import { sendMessage } from "@/services/chat.service";
-import queryString from 'query-string';
 
 
 
 type MessageGalleryProps = {
   newMessage: string;
-  docId: string | (string | null)[];
+  docId: string | undefined;
 }
 
 const MessageGallery: React.FC<MessageGalleryProps> = ({newMessage, docId}) => {
-  const prop_messages = [
-    {
-      prompt: "En el artículo se menciona la concentración de ozono, pero, ¿Cómo se mide?",
-      response: 'Las concentraciones de ozono en la atmósfera se suelen medir en términos de "ppmv" (partes por millón en volumen). La concentración de ozono estratosférico (en la capa de ozono) es mucho menor que la de la troposfera (la capa más baja de la atmósfera, donde ocurre la mayor parte del clima). En la estratosfera, el ozono suele medirse en "DU" (unidades Dobson), que es una medida de la cantidad total de ozono en una columna vertical de la atmósfera que se extiende desde la superficie terrestre hasta el límite superior de la atmósfera.'
-    }
-  ]
-  const [messages, setMessages] = useState<MessageStruct[]>(prop_messages);
-  const url = window.location.href;
-  // Parsear el query
-  const parsedURL = queryString.parseUrl(url);
-  // Obtener el valor del parámetro "id"
-  const scroller = useRef(null);
-  
+  const [messages, setMessages] = useState<any[]>([]);
+  const scroller = useRef<HTMLDivElement>(null);
+  const [loading, setloading] = useState(true);
+  useEffect(() => {
+    (async () =>{
+      const response = await getChat(docId);
+      setloading(false);
+      setMessages(response);
+    })()
+  },[docId])
+
   useEffect(() => {
     if (newMessage && docId) {
+      setMessages((prevMessages:any) => [...prevMessages, { prompt: newMessage }]);
       (async () => {
+        const loadingmessage = setMessages((prevMessages:any) => [
+          ...prevMessages,
+          {
+            response: "..."
+          }
+        ]);
+
         const response = await sendMessage(docId, newMessage)
-//        await getChat(docId)
         if (response){
-          setMessages((prevMessages) => [
-            ...prevMessages,
-            {
-              prompt: newMessage,
-              response: response
+
+          setMessages((prevMessages) => {
+            if (prevMessages.length === 0) {
+              // Si no hay mensajes, simplemente agregamos el nuevo mensaje
+              return [{ response }];
+            } else {
+              // Crear una copia del array de mensajes
+              const updatedMessages = [...prevMessages];
+      
+              // Reemplazar el último mensaje
+              updatedMessages[updatedMessages.length - 1] = { response };
+      
+              return updatedMessages;
             }
-          ]);
+          });
         } else {
           setMessages((prevMessages) => [
             ...prevMessages,
             {
-              prompt: newMessage,
-              response: 'Ha ocurido un error'
+              response: 'Ha ocurrido un error, por favor contacte al administrador'
             }
           ]);
         }
-        
       })();
     }
   }, [newMessage]);
 
-  // useEffect(() => {
-  //   if(scroller) {
-  //     scroller.current.addEventListener('DOMNodeInserted', (event: { currentTarget: any; }) => {
-  //       const { currentTarget: target } = event;
-  //       target.scroll({ top: target.scrollHeight, behavior: 'smooth' });
-  //     });
-  //   }
-  // }, [])
+  useEffect(() => {
+    if(scroller.current != null && scroller) {
+      scroller.current.addEventListener('DOMNodeInserted', (event: { currentTarget: any; }) => {
+        const { currentTarget: target } = event;
+        target.scroll({ top: target.scrollHeight, behavior: 'smooth' });
+      });
+    }
+  }, [])
 
   return (
     <div className="w-full h-[55vh] pr-[1vw] overflow-y-scroll overflow-x-hidden md:h-[55vh]" ref={scroller}>
-      {/*<h1>MessageGallery</h1>*/}
-      {messages.map((message, index) => (
-        <>
-          <Bounce duration={300} triggerOnce={true}>
-            <Message key={index} message={message.prompt} isUser={true}/>
-          </Bounce>
-          <Bounce duration={300} triggerOnce={true}>
-            <Message key={100+index} message={message.response} isUser={false}/>
-          </Bounce>
-        </>
-      ))}
+      {loading ? (
+        <div className='flex justify-center items-center pt-44'>
+          <div>
+            <svg className="animate-spin h-16 w-16" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+              <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+              <path className="opacity-75" fill="currentColor"
+                d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z">
+              </path>
+            </svg>
+          </div>
+        </div>
+      ) : messages.length == 0 ? (
+        <div></div>
+      ) : (
+        <div>
+          {messages.map((message, index) => (
+            <>
+              <Bounce duration={300} triggerOnce={true}>
+                {message.prompt && <Message key={index} message={message.prompt} isUser={true} />}
+              </Bounce>
+              <Bounce duration={300} triggerOnce={true}>
+                  {message.response && <Message key={100 + index} message={message.response} isUser={false} />}
+              </Bounce>
+            </>
+          ))}
+        </div>
+      )}
     </div>
   );
 };

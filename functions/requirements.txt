@@ -25,3 +25,4 @@ langchain-core
 google-auth
 google-cloud-firestore
 sentence-transformers
+babel

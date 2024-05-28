@@ -2,8 +2,8 @@ import random
 import string
 from langchain_community.document_loaders import PyPDFLoader
 from langchain.chains.combine_documents import create_stuff_documents_chain
-from langchain.chains import create_history_aware_retriever
-from langchain.chains import create_retrieval_chain
+from langchain.chains.history_aware_retriever import create_history_aware_retriever
+from langchain.chains.retrieval import create_retrieval_chain
 from langchain_core.runnables.history import RunnableWithMessageHistory
 from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
 from langchain.text_splitter import RecursiveCharacterTextSplitter
@@ -103,7 +103,7 @@ def chatQA(document_id, user_id, prompt, session_id: str):
         question_answer_chain = create_stuff_documents_chain(llm, qa_prompt)
         rag_chain = create_retrieval_chain(history_aware_retreiver, question_answer_chain)
         get_session_history_lambda = lambda session_id: get_session_history(session_id, user_id, db)
-        chat_history = FirestoreChatMessageHistory(session_id=session_id, collection=f"users/{user_id}/documents/{session_id}/chat", client=db)
+        chat_history = FirestoreChatMessageHistory(session_id=session_id, collection=f"users/{user_id}/documents/{document_id}/chat", client=db)
         converational_rag_chain = RunnableWithMessageHistory(
             rag_chain, 
             get_session_history_lambda,
@@ -125,4 +125,13 @@ def chatQA(document_id, user_id, prompt, session_id: str):
     
     except Exception as e:
         print("Error at chat script:", e)
+        return "Error"
+    
+def getChat(document_id, user_id, session_id): 
+    try: 
+        db = firestore.client()
+        chat_history = FirestoreChatMessageHistory(session_id=document_id, collection=f"users/{user_id}/documents/{document_id}/chat", client=db)
+        return chat_history.get_messages()
+    except Exception as e: 
+        print("Error at getChat script:", e)
         return "Error"

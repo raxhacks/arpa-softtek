@@ -2,7 +2,8 @@ import flask
 from firebase_admin import firestore
 from langchain_pinecone import PineconeVectorStore
 from langchain_openai import OpenAIEmbeddings
-from .helpers.chat import chatQA
+from .helpers.chat import chatQA, getChat
+import json
 
 chatBlueprint = flask.Blueprint('chat', __name__, url_prefix="/chat")
 
@@ -110,3 +111,47 @@ def send_message():
     except Exception as e:
         print("Error at endpoint:", e)
         return flask.jsonify({"message": "Failed to send message"}), 500
+    
+@chatBlueprint.route("/getMessages", methods=["GET"])
+def getChatHistory():
+    try: 
+        user_id = flask.g.get('user_id')
+        document_id = flask.request.args.get('document_id')
+        session_id = document_id.lower()
+        db = firestore.client()
+        chat_history = db.collection('users').document(user_id).collection('documents').document(document_id).collection('chat').document(session_id)
+        chat = chat_history.get()
+        decoded_content = []
+
+        if chat.exists: 
+            chat = chat.to_dict()
+            text_messages = chat.get('messages', {})
+
+            for byte_str in text_messages: 
+                try:
+                    decoded_str = byte_str.decode('utf-8')                    
+                    data = json.loads(decoded_str)
+                    content = data["content"]
+                    tipo = data["type"] 
+                    # print(f"Content: {content}")
+
+                    if tipo == "human":
+                        decoded_content.append({"prompt": content})
+                    elif tipo == "ai":
+                        decoded_content.append({"response": content})
+
+                except json.JSONDecodeError as e:
+                    print(f"Error decoding JSON: {e}")
+                    return flask.jsonify({"message": "Error decoding message content"}), 500
+            
+            print(decoded_content)
+
+            return flask.jsonify(
+                {"message": "Message sent successfully", 
+                 "response": decoded_content
+                 }),200
+        else: 
+            return flask.jsonify({"message":"Document not found"}), 404        
+    except Exception as e: 
+        print("Error at getChatHistory script:", e)
+        return flask.jsonify({"message":"Failed to get chat history"}), 500
