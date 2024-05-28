@@ -123,7 +123,7 @@ def create_document():
         content = flask.request.form.get('content')
 
         # Extract keywords
-        kw_extractor = yake.KeywordExtractor()
+        kw_extractor = yake.KeywordExtractor(top=10)
         keywords_tuple = kw_extractor.extract_keywords(text)
         keywords = [keyword[0] for keyword in keywords_tuple]
         # Get frequency of each keyword
