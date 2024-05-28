@@ -135,7 +135,6 @@ function Main(currentState: any) {
     );
   }
   else if(currentState.type === "URL"){
-
     return(
       <>
         <div className="flex justify-center items-center mt-[12vh] mb-[10vh] flex-col md:flex-row">
@@ -158,7 +157,6 @@ function Main(currentState: any) {
     );
   }
   else if(currentState.type === "PDF"){
-    console.log(currentState.file)
     return(
       <div {...getRootProps({className: 'dropzone'})}>
         <label htmlFor="PDFUpload" className="bg-transparent text-[#5756F5] mx-auto w-[70vw] max-w-[300px] h-[70vh] max-h-[300px] flex items-center justify-center text-center">
@@ -222,12 +220,10 @@ function FileStateMessage(fileState: any) {
       const formData = new FormData();
       formData.append("file", fileState.file);
       formData.append("extension", fileState.type);
-      const res = await createDocument(formData);
-      const docId = res.document_id;
-      const analysisId = res.analysis_id;
-      console.log(`/Analisis/${docId}/${analysisId}`);
-      const text = res.text;
-      localStorage.setItem("text", text);
+      const res = await axios.post("/api/document",formData);
+      console.log(res.data);
+      const docId = res.data.document_id;
+      const analysisId = res.data.analysis_id;
       router.push(`/Analisis/${docId}/${analysisId}`);
     } catch (error) {
       console.error(error);
@@ -296,7 +292,6 @@ function CargaArchivos() {
     else{
       setFile(null)
       setFState("WrongFormat")
-      console.log(file.type)
     }
   }
 
