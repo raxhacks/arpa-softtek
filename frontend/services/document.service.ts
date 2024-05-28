@@ -10,11 +10,11 @@ const baseUrl = process.env.NEXT_PUBLIC_API_URL + '/document';
 export const createDocument = async (data: FormData, tokenSSR?: string) => {
     try {
         const token = tokenSSR || cookies().get('session')?.value
-        const config = { 
-            headers: { 
+        const config = {
+            headers: {
                 'Authorization': `Bearer ${token}`,
                 'Content-Type': 'multipart/form-data'
-            } 
+            }
         };
         console.log('Uploading document...');
         const response = await axios.post('https://arpa-2mgft7cefq-uc.a.run.app/document', data, config);
@@ -29,10 +29,10 @@ export const createDocument = async (data: FormData, tokenSSR?: string) => {
 export const getHistory = async (): Promise<Document[]> => {
     try {
         const token = cookies().get('session')?.value
-        const config = { 
-            headers: { 
+        const config = {
+            headers: {
                 'Authorization': `Bearer ${token}`
-            } 
+            }
         };
         console.log('Fetching documents history...');
         const response = await axios.get('https://arpa-2mgft7cefq-uc.a.run.app/document/history', config);
@@ -56,10 +56,10 @@ export const getHistory = async (): Promise<Document[]> => {
 export const getDocument = async (document_id: string): Promise<Document> => {
     try {
         const token = cookies().get('session')?.value
-        const config = { 
-            headers: { 
+        const config = {
+            headers: {
                 'Authorization': `Bearer ${token}`
-            } 
+            }
         };
         console.log('Fetching document...');
         const response = await axios.get(`https://arpa-2mgft7cefq-uc.a.run.app/document?document_id=${document_id}`, config);

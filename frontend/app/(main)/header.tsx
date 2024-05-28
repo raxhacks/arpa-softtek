@@ -14,7 +14,7 @@ function ARPAHeader() {
 }
 
 function SectionsHeader() {
-  const [activeButton, setActiveButton] = useState<string | null>('CargarArchivos');
+  const [activeButton, setActiveButton] = useState('CargarArchivos');
   const router = useRouter();
 
   useEffect(() => {
@@ -65,7 +65,7 @@ function SectionsHeader() {
         </button>
 
         {/* Boton 4 */}
-        <button className="md:mr-10" onClick={() =>logout()} title='Cerrar sesión'>
+        <button className="md:mr-10" onClick={() =>{  localStorage.removeItem('button'), logout()}} title='Cerrar sesión'>
           <svg xmlns="http://www.w3.org/2000/svg" className="icon-tabler icon-tabler-logout-2 stroke-[#ffffff] hover:stroke-[#BBA778]" width="42" height="42" viewBox="0 0 24 24" strokeWidth="1.5" stroke="#FCFAF5" fill="none" strokeLinecap="round" strokeLinejoin="round">
             <path stroke="none" d="M0 0h24v24H0z" fill="none" />
             <path d="M10 8v-2a2 2 0 0 1 2 -2h7a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-7a2 2 0 0 1 -2 -2v-2" />
