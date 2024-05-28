@@ -17,7 +17,7 @@ export const createDocument = async (data: FormData, tokenSSR?: string) => {
             }
         };
         console.log('Uploading document...');
-        const response = await axios.post('http://127.0.0.1:5001/arpa-softtek/us-central1/arpa/document', data, config);
+        const response = await axios.post('http://127.0.0.1:5001/arpa-softtek/us-central1/arpa/document/text?document_id=OUACc8gbdlrK2giYjar9', data, config);
         // const response = await axios.post('https://arpa-2mgft7cefq-uc.a.run.app/document', data, config);
         console.log(`Doument uploaded`)
         return response.data;
@@ -89,3 +89,23 @@ export const getDocument = async (document_id: string): Promise<Document> => {
         throw document;
     }
 };
+
+export const getText = async (document_id: string) => {
+    try {
+        const token = cookies().get('session')?.value
+        const config = {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        };
+        const response = await axios.get(`http://127.0.0.1:5001/arpa-softtek/us-central1/arpa/document/text?document_id=${document_id}}`, config);
+        // const response = await axios.get(`https://arpa-2mgft7cefq-uc.a.run.app/document?document_id=${document_id}`, config);
+
+        const texto = response.data.text;
+        return texto;
+
+    } catch (error) {
+        console.error('Could not fetch text:', error);
+        throw error;
+    }
+}

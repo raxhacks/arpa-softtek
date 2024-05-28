@@ -10,7 +10,7 @@ import cx from "classnames";
 import Collapsible from 'react-collapsible';
 import Header from '../../../header';
 import { Analysis, Section, Keyword, QuantitativeDatum } from '@/model/analysis';
-import { getDocument } from '@/services/document.service';
+import { getDocument, getText } from '@/services/document.service';
 import { Document } from '../../../../../model/document';
 import { toggleFavorite } from '@/services/favorites.service';
 import { getAnalysis } from '@/services/analysis.service';
@@ -62,6 +62,14 @@ function SectionCollapsible(section: Section){
   );
 }
 
+function TextoPlano(props: {contenido: string}){
+  return(
+      <div className="pl-[2vw] mb-[4vh] md:pl-[4vw]">
+        {props.contenido}
+      </div>
+  );
+}
+
 
 interface ContentProps{
   currentTab: string;
@@ -70,14 +78,13 @@ interface ContentProps{
   docId: string;
   docUrl: string | undefined;
   searchTarget: string;
-
+  texto: string;
 }
 
 const Content: React.FC<ContentProps> = (props: ContentProps) => {
   const encodedUrl = encodeURIComponent("https://storage.googleapis.com/arpa-softtek.appspot.com/users/hNb7IaKYx7bRUWEWB9cn575nATF2/Raymundo_Guzman_Mata_English_CV%20%281%29.pdf");
   const viewerURL = `https://docs.google.com/viewer?url=${encodedUrl}&embedded=true`;
   const [section, setSection] =useState<Section[] | undefined>([]);
-
   useEffect(() => {
     const sections = props.sections;
     setSection(sections)
@@ -121,6 +128,13 @@ const Content: React.FC<ContentProps> = (props: ContentProps) => {
     return(
       <div className="text-[#FCFAF5] text-[3vh] mx-[8vw] mt-[3vh] md:mx-[10vw] md:mt-[5vh]">
         <Chat docId={props.docId}/>
+      </div>
+    );
+  }
+  else if(props.currentTab === "Texto Plano"){
+    return(
+      <div className="text-[#FCFAF5] text-[3vh] mx-[8vw] mt-[8vh] md:mx-[10vw]">
+        <TextoPlano contenido={props.texto} />
       </div>
     );
   }
@@ -328,6 +342,13 @@ function MostrarAnalisis({
   const [documentInfo, setDocumentInfo] = useState<Document>();
   const [analysis, setAnalysis] = useState<Analysis>();  
   const [searchTarget, setTarget] = useState("");
+  const [texto, setTexto] = useState<string>("");
+
+  // useEffect(() => {
+  //   (async () => {
+  //     setTexto(await getText(params.docId));
+  //   })();
+  // }, []);
 
   useEffect(() => {
     (async () => {
@@ -399,7 +420,7 @@ function MostrarAnalisis({
         <div className="flex items-center justify-center">
           <BotonHome />
           <div className="w-[10vw] md:w-0"/>
-          <Segmented options={["Resumen", "Texto Original", "Chatbot"]} onChange={(value) => handleTabChange(value)} />
+          <Segmented options={["Resumen", "Texto Original", "Chatbot", "Texto Plano"]} onChange={(value) => handleTabChange(value)} />
           <div className="w-[10vw] md:w-0"/>
           <button className="fixed top-[1.5vh] right-[2vw] z-30 md:relative md:top-auto md:right-auto md:z-auto md:ml-[2vw]" onClick={toggleFav}>
             <BotonFavorito state={isFavorito} setFavorito={setFavorito} docId={params.docId}/>
@@ -407,7 +428,7 @@ function MostrarAnalisis({
           <div/>
         </div>
         {/* <Content currentTab={currentTab} sections={analysis?.Sections} analysisId={params.analysisId} docId={documentInfo?.id} docUrl={documentInfo?.publicURL} /> */}
-        <Content currentTab={currentTab} sections={analysis?.Sections} analysisId={params.analysisId} docId={params.docId} docUrl={documentInfo?.publicURL} searchTarget={searchTarget}/>
+        <Content currentTab={currentTab} sections={analysis?.Sections} analysisId={params.analysisId} docId={params.docId} docUrl={documentInfo?.publicURL} searchTarget={searchTarget} texto={texto}/>
       </div>
       <div className="flex items-center h-screen">
         <button onClick={() => {setRightBar(!rightBarOpen), setLeftBar(false)}}
