@@ -17,8 +17,7 @@ export const createDocument = async (data: FormData, tokenSSR?: string) => {
             }
         };
         console.log('Uploading document...');
-        const response = await axios.post('http://127.0.0.1:5001/arpa-softtek/us-central1/arpa/document', data, config);
-        // const response = await axios.post('https://arpa-2mgft7cefq-uc.a.run.app/document', data, config);
+        const response = await axios.post('https://arpa-2mgft7cefq-uc.a.run.app/document', data, config);
         console.log(`Doument uploaded`)
         return response.data;
     } catch (error) {

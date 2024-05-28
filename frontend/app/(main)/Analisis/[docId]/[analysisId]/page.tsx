@@ -70,39 +70,46 @@ interface ContentProps{
   docId: string;
   docUrl: string | undefined;
   searchTarget: string;
-
+  loading: Boolean;
 }
 
 const Content: React.FC<ContentProps> = (props: ContentProps) => {
-  const encodedUrl = encodeURIComponent("https://storage.googleapis.com/arpa-softtek.appspot.com/users/hNb7IaKYx7bRUWEWB9cn575nATF2/Raymundo_Guzman_Mata_English_CV%20%281%29.pdf");
-  const viewerURL = `https://docs.google.com/viewer?url=${encodedUrl}&embedded=true`;
-  const [section, setSection] =useState<Section[] | undefined>([]);
-
-  useEffect(() => {
-    const sections = props.sections;
-    setSection(sections)
-  },[props.sections])
-
-
   if(props.currentTab === "Resumen"){
     return(
-      <div className="text-[#FCFAF5] text-[3vh] mx-[8vw] mt-[8vh] md:mx-[10vw]">
-        {props.sections?.map((section, index) => (
-          props.searchTarget !== "" && section.content.includes(props.searchTarget)?
-          <Collapsible trigger={SectionTitle(section.title)} triggerWhenOpen={SectionTitleOpen(section.title)} transitionTime={150} className="mb-[4vh]" open >
-            <div className="pl-[2vw] mb-[4vh] md:pl-[4vw]">
-              <p> {section.content.substring(0,section.content.indexOf(props.searchTarget))}
-              <span style={{fontWeight: 'bold', backgroundColor: '#5456F5'}}> {props.searchTarget} </span>
-              {section.content.substring(section.content.indexOf(props.searchTarget) + props.searchTarget.length, section.content.length)} </p>
+     <div className="text-[#FCFAF5] text-[3vh] mx-[8vw] mt-[8vh] md:mx-[10vw]">
+        {props.loading ? (
+          <div className='flex justify-center items-center pt-44'>
+            <div>
+              <svg className="animate-spin h-16 w-16" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                <path className="opacity-75" fill="currentColor"
+                  d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z">
+                </path>
+              </svg>
             </div>
-          </Collapsible>
-          :
-          <Collapsible trigger={SectionTitle(section.title)} triggerWhenOpen={SectionTitleOpen(section.title)} transitionTime={150} className="mb-[4vh]" >
-            <div className="pl-[2vw] mb-[4vh] md:pl-[4vw]">
-              {section.content}
-            </div>
-          </Collapsible>
-        ))}
+          </div>
+        ) : props.sections?.length == 0 ? (
+          <p>Error</p>
+        ) : (
+          <div>
+            {props.sections?.map((section, index) => (
+            props.searchTarget !== "" && section.content.includes(props.searchTarget)?
+            <Collapsible trigger={SectionTitle(section.title)} triggerWhenOpen={SectionTitleOpen(section.title)} transitionTime={150} className="mb-[4vh]" open >
+              <div className="pl-[2vw] mb-[4vh] md:pl-[4vw]">
+                <p> {section.content.substring(0,section.content.indexOf(props.searchTarget))}
+                <span style={{fontWeight: 'bold', backgroundColor: '#5456F5'}}> {props.searchTarget} </span>
+                {section.content.substring(section.content.indexOf(props.searchTarget) + props.searchTarget.length, section.content.length)} </p>
+              </div>
+            </Collapsible>
+            :
+            <Collapsible trigger={SectionTitle(section.title)} triggerWhenOpen={SectionTitleOpen(section.title)} transitionTime={150} className="mb-[4vh]" >
+              <div className="pl-[2vw] mb-[4vh] md:pl-[4vw]">
+                {section.content}
+              </div>
+            </Collapsible>
+            ))}
+          </div>
+        )}
       </div>
     );
   }
@@ -125,44 +132,6 @@ const Content: React.FC<ContentProps> = (props: ContentProps) => {
     );
   }
 }
-
-// interface ContentPropsLeftBar{
-//   keywords: Keyword[] | undefined
-// }
-// const LeftBarContent: React.FC<ContentPropsLeftBar> = (props: ContentPropsLeftBar) => {
-//   const [keywords, setKeywords] = useState<Keyword[]>()
-//   useEffect(() => {
-//     setKeywords(props.keywords)
-//   },[props.keywords])
-//   return(
-//     <>
-//       {keywords?.map((keywords, index) => (
-//         <div className="pl-[2vw] mb-[4vh] md:pl-[4vw]">
-//           <p className='m-10'>{keywords.keyword}</p>
-//           <p className='m-10'>{keywords.count}</p>
-//         </div> 
-//       ))}
-//     </>
-//   );
-// }
-
-// interface ContentPropsRightBar{
-//   quantitative: QuantitativeDatum[] | undefined;
-// }
-// const RightBarContent: React.FC<ContentPropsRightBar> = (props: ContentPropsRightBar) => {
-//   const [quantitativeDatum, setQuantitativeDatum] = useState<QuantitativeDatum[]>()
-//   useEffect(() => {
-//     setQuantitativeDatum(props.quantitative)
-//   },[props.quantitative])
-//   return(
-//     <>
-//        {quantitativeDatum?.map((quantitativeDatum, index) => (
-//         <div className="pl-[2vw] mb-[4vh] md:pl-[4vw]">
-//           <p className='m-10'>{quantitativeDatum.sentence}</p>
-//           <p className='m-10'>{quantitativeDatum.datum}</p>
-//         </div> 
-//       ))}
-//     </>
 
 function PieLabel(data: any){
   return(
@@ -328,6 +297,8 @@ function MostrarAnalisis({
   const [documentInfo, setDocumentInfo] = useState<Document>();
   const [analysis, setAnalysis] = useState<Analysis>();  
   const [searchTarget, setTarget] = useState("");
+  const [loading, setloading] = useState(true);
+
 
   useEffect(() => {
     (async () => {
@@ -339,6 +310,7 @@ function MostrarAnalisis({
     (async () => {
       const analysisResponse = await getAnalysis(params.docId, params.analysisId)
       setAnalysis(analysisResponse);
+      setloading(false)
     })();
   }, []);
 
@@ -407,7 +379,7 @@ function MostrarAnalisis({
           <div/>
         </div>
         {/* <Content currentTab={currentTab} sections={analysis?.Sections} analysisId={params.analysisId} docId={documentInfo?.id} docUrl={documentInfo?.publicURL} /> */}
-        <Content currentTab={currentTab} sections={analysis?.Sections} analysisId={params.analysisId} docId={params.docId} docUrl={documentInfo?.publicURL} searchTarget={searchTarget}/>
+        <Content currentTab={currentTab} sections={analysis?.Sections} analysisId={params.analysisId} docId={params.docId} docUrl={documentInfo?.publicURL} searchTarget={searchTarget} loading={loading}/>
       </div>
       <div className="flex items-center h-screen">
         <button onClick={() => {setRightBar(!rightBarOpen), setLeftBar(false)}}
