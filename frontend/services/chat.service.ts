@@ -40,6 +40,7 @@ export const sendMessage = async (document_id: string, message: string) => {
             } 
         };
         const response = await axios.post(`https://arpa-2mgft7cefq-uc.a.run.app/chat/sendMessage?document_id=${document_id}`, { message }, config);
+        console.log(response.data.response);
         return response.data.response;
 
     } catch (error) {
