@@ -226,7 +226,6 @@ const LeftBarContent: React.FC<LeftProps> = (props: LeftProps) => {
 
 function QuantitativeSection(prop: any) {
   let target = prop.sentence.indexOf(prop.data);
-  console.log("al riel", prop)
   
   return(
     <div className="flex justify-center">
