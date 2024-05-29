@@ -74,6 +74,7 @@ interface ContentProps{
 }
 
 const Content: React.FC<ContentProps> = (props: ContentProps) => {
+  console.log(props.docUrl);
   if(props.currentTab === "Resumen"){
     return(
      <div className="text-[#FCFAF5] text-[3vh] mx-[8vw] mt-[8vh] md:mx-[10vw]">

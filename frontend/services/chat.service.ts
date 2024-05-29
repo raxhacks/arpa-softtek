@@ -16,11 +16,11 @@ export const getChat = async (document_id: string | undefined) => {
         };
         console.log('Fetching chat...', document_id);
         const response = await axios.get(`https://arpa-2mgft7cefq-uc.a.run.app/chat/getMessages?document_id=${document_id}`, config);
-        
+
         return response.data.response;
     } catch (error) {
         console.error('Could not fetch chat:', error);
-        throw error;
+        return null;
     }
 };
 
@@ -33,7 +33,6 @@ export const sendMessage = async (document_id: string, message: string) => {
             } 
         };
         const response = await axios.post(`https://arpa-2mgft7cefq-uc.a.run.app/chat/sendMessage?document_id=${document_id}`, { message }, config);
-        console.log(response.data.response);
         return response.data.response;
 
     } catch (error) {
