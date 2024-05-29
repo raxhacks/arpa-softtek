@@ -221,12 +221,14 @@ function FileStateMessage(fileState: any) {
       formData.append("file", fileState.file);
       formData.append("extension", fileState.type);
       const res = await axios.post("/api/document",formData);
-      console.log(res.data);
+      console.log(res.data, 'adasd');
       const docId = res.data.document_id;
       const analysisId = res.data.analysis_id;
       router.push(`/Analisis/${docId}/${analysisId}`);
     } catch (error) {
       console.error(error);
+      setLoading(false);
+
     }
   }
   if(fileState.state === "None"){
