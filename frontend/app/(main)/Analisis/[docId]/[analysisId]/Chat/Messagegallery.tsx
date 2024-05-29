@@ -87,6 +87,8 @@ const MessageGallery: React.FC<MessageGalleryProps> = ({newMessage, docId}) => {
             </svg>
           </div>
         </div>
+      ) : messages == null? (
+        <div></div>
       ) : messages.length == 0 ? (
         <div></div>
       ) : (
