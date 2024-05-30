@@ -116,7 +116,6 @@ function Main(currentState: any) {
       setFState("Correct")
       router.push(`/Analisis`);
     } catch (error) {
-      console.error(error);
       setFState("ErrorUploading")
     }
     setLoading(false);
@@ -142,14 +141,19 @@ function Main(currentState: any) {
           md:text-[4vh] md:ml-[5vw] md:mb-[0vh]" value={url} onChange={handleUrlChange} />
           <button className="bg-[#5456F5] text-[#30323D] w-[40vw] rounded-[2vh] mx-[3vw] relative md:w-[4.5vw] md:h-[4.5vw] md:ml-[1vw]
           md:mr-[5vw] md:inline hover:bg-[#4345AF] active:bg-[#FCFAF5]" onClick={(e)=>getPdfBlob(e,url,currentState.setfileState)}>
-            <i className="material-icons" style={{fontSize: "50px"}}>{loading ? 
-            <svg className="animate-spin mt-1 h-10 w-10" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+            {loading ? 
+            <svg className="animate-spin m-1" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
             <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
             <path className="opacity-75" fill="currentColor"
             d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z">
             </path>
             </svg> :
-            'search' }</i>
+            <svg xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler icon-tabler-arrow-big-right-lines" viewBox="0 0 24 24" stroke-width="1.5" stroke="#2c3e50" fill="none" stroke-linecap="round" stroke-linejoin="round">
+            <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+            <path d="M12 9v-3.586a1 1 0 0 1 1.707 -.707l6.586 6.586a1 1 0 0 1 0 1.414l-6.586 6.586a1 1 0 0 1 -1.707 -.707v-3.586h-3v-6h3z" />
+            <path d="M3 9v6" />
+            <path d="M6 9v6" />
+          </svg> }
           </button>
         </div>
         <FileStateMessage state={currentState.fileState} file={currentState.file} type={currentState.type}/>

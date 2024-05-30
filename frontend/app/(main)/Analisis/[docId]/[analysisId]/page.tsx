@@ -74,7 +74,6 @@ interface ContentProps{
 }
 
 const Content: React.FC<ContentProps> = (props: ContentProps) => {
-  console.log(props.docUrl);
   if(props.currentTab === "Resumen"){
     return(
      <div className="text-[#FCFAF5] text-[3vh] mx-[8vw] mt-[8vh] md:mx-[10vw]">
@@ -157,6 +156,7 @@ function KeywordButton(data: any){
 interface LeftProps{
   propWords: Keyword[] | undefined;
   setTarget: (target:string) => void;
+  loading: Boolean;
 }
 
 const LeftBarContent: React.FC<LeftProps> = (props: LeftProps) => {
@@ -169,27 +169,45 @@ const LeftBarContent: React.FC<LeftProps> = (props: LeftProps) => {
   }, [[props.propWords]])
   return(
     <div>
-      <div className="text-center font-bold text-[3vh]">Frecuencia de palabras clave</div>
-      <PieChart
-        data={keywords.map((content: any, index: number) => ({title: content.keyword, value: content.count, color: pieColors[index]}))}
-        label={({ dataEntry }) => `${Math.round(dataEntry.percentage)} %`}
-        labelStyle={(index) => ({fill: "#FCFAF5", fontSize: "0.75vh", fontFamily: "sans-serif", fontWeight: "600"})}
-        labelPosition={70}
-        radius={35}
-      />
-      <div>
-        {keywords.map((content: any, index: number) => (
-          <PieLabel name={content.keyword} color={pieColors[index]}/>
-        ))}
-      </div>
-      <br/> <br/>
-      <div className="text-center font-bold text-[3vh]">Cantidad de palabras clave</div>
-      <br/>
-      <div>
-        {keywords.map((content: any, index: number) => (
-          <KeywordButton name={content.keyword} count={content.count} setTarget={props.setTarget} />
-        ))}
-      </div>
+      {props.loading ? (
+        <div className='flex justify-center items-center pt-44'>
+          <div>
+            <svg className="animate-spin h-16 w-16" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+              <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+              <path className="opacity-75" fill="currentColor"
+                d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z">
+              </path>
+            </svg>
+          </div>
+        </div>
+      ): props.propWords?.length == 0 ? (
+        <div>
+          error
+        </div>
+      ): (
+        <div>
+          <div className="text-center font-bold text-[3vh]">Frecuencia de palabras clave</div>
+            <PieChart
+              data={keywords.map((content: any, index: number) => ({title: content.keyword, value: content.count, color: pieColors[index]}))}
+              label={({ dataEntry }) => `${Math.round(dataEntry.percentage)} %`}
+              labelStyle={(index) => ({fill: "#FCFAF5", fontSize: "0.75vh", fontFamily: "sans-serif", fontWeight: "600"})}
+              labelPosition={70}
+              radius={35}
+            />
+            <div>
+              {keywords.map((content: any, index: number) => (
+                <PieLabel name={content.keyword} color={pieColors[index]}/>
+              ))}
+            </div>
+            <br/> <br/>
+            <div className="text-center font-bold text-[3vh]">Cantidad de palabras clave</div>
+            <br/>
+            <div>
+              {keywords.map((content: any, index: number) => (
+                <KeywordButton name={content.keyword} count={content.count} setTarget={props.setTarget} />
+              ))}
+          </div>
+        </div>)}
     </div>
   );
 }
@@ -214,15 +232,33 @@ function QuantitativeSection(prop: any) {
 interface RightProps{
   propData: QuantitativeDatum[] | undefined;
   setTarget: (target:string) => void;
+  loading: Boolean;
 }
 
 const RightBarContent: React.FC<RightProps> = (props: RightProps) => {
   return (
     <div>
-      <div className="text-center font-bold text-[3vh] mb-[2vh]">Datos cuantitativos encontrados en el documento</div>
-      {props.propData?.map((content: any, index: number) =>
-        <QuantitativeSection data={content.datum} sentence={content.sentence} setTarget={props.setTarget} />
-      )}
+      {props.loading ? (
+        <div className='flex justify-center items-center pt-44'>
+          <div>
+            <svg className="animate-spin h-16 w-16" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+              <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+              <path className="opacity-75" fill="currentColor"
+                d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z">
+              </path>
+            </svg>
+          </div>
+        </div>
+      ) : props.propData?.length == 0 ? (
+        <div>error</div>
+      ) : (
+        <div>
+          <div className="text-center font-bold text-[3vh] mb-[2vh]">Datos cuantitativos encontrados en el documento</div>
+          {props.propData?.map((content: any, index: number) =>
+            <QuantitativeSection data={content.datum} sentence={content.sentence} setTarget={props.setTarget} />
+          )}
+        </div>
+      )} 
     </div>
   );
 }
@@ -355,7 +391,7 @@ function MostrarAnalisis({
               Análisis cualitativo
             </div>
             {/* <LeftBarContent keywords={analysis?.Keywords} /> */}
-            <LeftBarContent propWords={analysis?.Keywords} setTarget={setTarget} />
+            <LeftBarContent propWords={analysis?.Keywords} setTarget={setTarget} loading={loading}/>
           </div>
         </div>
         <div className={cx("sideBarLeftSpace", {"sideBarLeftSpace-closed":!leftBarOpen})} />
@@ -397,8 +433,7 @@ function MostrarAnalisis({
             <div className="text-center text-[4vh] font-semibold pb-[3vh] md:text-[0vw] md:pb-[0vh]">
               Análisis cuantitativo
             </div>
-            {/* <RightBarContent quantitative={analysis?.QuantitativeData} /> */}
-            <RightBarContent propData={analysis?.QuantitativeData} setTarget={setTarget}/>
+            <RightBarContent propData={analysis?.QuantitativeData} setTarget={setTarget} loading={loading} />
           </div>
         </div>
       </div>
