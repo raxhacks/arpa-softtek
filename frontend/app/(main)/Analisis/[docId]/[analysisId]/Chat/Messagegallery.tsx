@@ -27,18 +27,28 @@ const MessageGallery: React.FC<MessageGalleryProps> = ({newMessage, docId}) => {
 
   useEffect(() => {
     if (newMessage && docId) {
-      setMessages((prevMessages:any) => [...prevMessages, { prompt: newMessage }]);
+      setMessages((prevMessages) => {
+        // Ensure prevMessages is an array
+        if (!Array.isArray(prevMessages)) {
+          return [{ prompt: newMessage }];
+        }
+        return [...prevMessages, { prompt: newMessage }];
+      });
       (async () => {
         const loadingmessage = setMessages((prevMessages:any) => [
           ...prevMessages,
           {
-            response: "..."
+            response: 
+            <div className="flex gap-2 h-8">
+                <div className="w-5 h-5 rounded-full animate-pulse bg-blue-600"></div>
+                <div className="w-5 h-5 rounded-full animate-pulse bg-blue-600"></div>
+                <div className="w-5 h-5 rounded-full animate-pulse bg-blue-600"></div>
+            </div>
           }
         ]);
 
         const response = await sendMessage(docId, newMessage)
         if (response){
-
           setMessages((prevMessages) => {
             if (prevMessages.length === 0) {
               // Si no hay mensajes, simplemente agregamos el nuevo mensaje

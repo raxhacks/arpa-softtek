@@ -89,7 +89,7 @@ const Content: React.FC<ContentProps> = (props: ContentProps) => {
             </div>
           </div>
         ) : props.sections?.length == 0 ? (
-          <p>Error</p>
+          <p></p>
         ) : (
           <div>
             {props.sections?.map((section, index) => (
@@ -250,7 +250,7 @@ const RightBarContent: React.FC<RightProps> = (props: RightProps) => {
           </div>
         </div>
       ) : props.propData?.length == 0 ? (
-        <div>error</div>
+        <div></div>
       ) : (
         <div>
           <div className="text-center font-bold text-[3vh] mb-[2vh]">Datos cuantitativos encontrados en el documento</div>
@@ -264,23 +264,10 @@ const RightBarContent: React.FC<RightProps> = (props: RightProps) => {
 }
 
 function BotonFavorito(favorito: any, {
-  params,
+  params
 }:{ 
   params: { docId: string };
 }){
-  const [isFavorito, setFavorito] = useState(false);
-  const toggleFav = async () => {
-    const newFavoriteState = !isFavorito;
-    setFavorito(newFavoriteState);
-    localStorage.setItem(`favorite-${params.docId}`, newFavoriteState.toString());
-  
-    const response = await toggleFavorite(params.docId, newFavoriteState.toString());
-    if (!response) {
-      console.log('error al marcar como favorito');
-      setFavorito(!newFavoriteState);
-      localStorage.setItem(`favorite-${params.docId}`, (!newFavoriteState).toString());
-    }
-  };
   if(favorito.state == true){    
     return(
         <svg xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler icon-tabler-star hover:stroke-[#BCBAB5] hover:fill-[#BCBAB5] md:stroke-[#5756F5] md:fill-[#5756F5] md:hover:stroke-[#2F31AB] md:hover:fill-[#2F31AB]"
@@ -335,6 +322,7 @@ function MostrarAnalisis({
   const [analysis, setAnalysis] = useState<Analysis>();  
   const [searchTarget, setTarget] = useState("");
   const [loading, setloading] = useState(true);
+  const [togglingToFav, setLoadingFav] = useState(false);
 
 
   useEffect(() => {
@@ -370,10 +358,11 @@ function MostrarAnalisis({
   
   const toggleFav = async () => {
     const newFavoriteState = !isFavorito;
+    setLoadingFav(true);
+    const response = await toggleFavorite(params.docId, newFavoriteState.toString());
+    setLoadingFav(false);
     setFavorito(newFavoriteState);
     localStorage.setItem(`favorite-${params.docId}`, newFavoriteState.toString());
-  
-    const response = await toggleFavorite(params.docId, newFavoriteState.toString());
     if (!response) {
       console.log('error al marcar como favorito');
       setFavorito(!newFavoriteState);
@@ -411,7 +400,16 @@ function MostrarAnalisis({
           <Segmented options={["Resumen", "Texto Original", "Chatbot"]} onChange={(value) => handleTabChange(value)} />
           <div className="w-[10vw] md:w-0"/>
           <button className="fixed top-[1.5vh] right-[2vw] z-30 md:relative md:top-auto md:right-auto md:z-auto md:ml-[2vw]" onClick={toggleFav}>
-            <BotonFavorito state={isFavorito} setFavorito={setFavorito} docId={params.docId}/>
+            {togglingToFav ? (
+                <svg className="animate-spin h-10 w-10" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                  <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                  <path className="opacity-75" fill="blue"
+                    d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z">
+                  </path>
+                </svg>
+            ) : (            
+              <BotonFavorito state={isFavorito} setFavorito={setFavorito} docId={params.docId}/>
+            )}
           </button>
           <div/>
         </div>
