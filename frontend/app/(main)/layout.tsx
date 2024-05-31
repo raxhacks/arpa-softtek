@@ -4,9 +4,8 @@ export default function FileUploadLayout({
     children: React.ReactNode
   }) {
     return <section>
-        {children}
-      <div className="area">
-			  <ul className="circles">
+		<div className="z-0">
+		<ul className="circles">
 				<li></li>
 				<li></li>
 				<li></li>
@@ -16,7 +15,10 @@ export default function FileUploadLayout({
 				<li></li>
 				<li></li>
 				<li></li>
-			  </ul>
+			</ul>
 		</div>
-      </section>
+		<div className="z-10">
+			{children}
+		</div>
+	</section>
   }
