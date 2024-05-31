@@ -5,5 +5,18 @@ export default function FileUploadLayout({
   }) {
     return <section>
         {children}
+      <div className="area">
+			  <ul className="circles">
+				<li></li>
+				<li></li>
+				<li></li>
+				<li></li>
+				<li></li>
+				<li></li>
+				<li></li>
+				<li></li>
+				<li></li>
+			  </ul>
+		</div>
       </section>
   }

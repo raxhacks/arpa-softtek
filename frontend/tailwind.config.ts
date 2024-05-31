@@ -23,6 +23,10 @@ const config: Config = {
         coloHeader: {
           500: "#BBA778"
         }
+      },
+      darkMode: 'class',
+      theme: {
+        extend: {}
       }
     },
   },
