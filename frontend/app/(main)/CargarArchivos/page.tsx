@@ -7,11 +7,12 @@ import { useEffect } from 'react';
 import axios from 'axios';
 import cx from "classnames";
 import { Fade } from "react-awesome-reveal";
-import { createDocument } from '@/services/document.service';
+import { precreateDocument } from '@/services/document.service';
 import { useRouter } from 'next/navigation';
 import Header from '../header';
 import { useFormStatus } from 'react-dom';
 import { useDropzone } from 'react-dropzone';
+import PalabrasClave from '../PalabrasClave/page';
   
 function Arrow(back: any) {
   if(back.selected){
@@ -158,7 +159,7 @@ function Main(currentState: any) {
           </svg> }
           </button>
         </div>
-        <FileStateMessage state={currentState.fileState} file={currentState.file} type={currentState.type}/>
+        <FileStateMessage setPrecreationObject={currentState.setPrecreationObject}  setPalabrasClaveView={currentState.setPalabrasClaveView} state={currentState.fileState} file={currentState.file} type={currentState.type}/>
       </>
     );
   }
@@ -186,7 +187,7 @@ function Main(currentState: any) {
           </div>}
         </label>
         <input {...getInputProps()} id="PDFUpload" accept=".pdf" style={{opacity: "0", position: "absolute", zIndex: "-1"}} />
-        <FileStateMessage state={currentState.fileState} file={currentState.file} type={currentState.type}/>
+        <FileStateMessage setPrecreationObject={currentState.setPrecreationObject}  setPalabrasClaveView={currentState.setPalabrasClaveView}  state={currentState.fileState} file={currentState.file} type={currentState.type}/>
       </div>
     );
   }
@@ -211,7 +212,7 @@ function Main(currentState: any) {
           </div>}
         </label>
         <input {...getInputProps()} id="DOCXUpload" accept=".docx" style={{opacity: "0", position: "absolute", zIndex: "-1"}} />
-        <FileStateMessage state={currentState.fileState} file={currentState.file} type={currentState.type}/>
+        <FileStateMessage setPrecreationObject={currentState.setPrecreationObject} setPalabrasClaveView={currentState.setPalabrasClaveView}  state={currentState.fileState} file={currentState.file} type={currentState.type}/>
       </div>
     );
   }
@@ -221,23 +222,38 @@ function Main(currentState: any) {
 function FileStateMessage(fileState: any) {
   const router = useRouter();
   const [loading, setLoading] = useState(false)
-  const handleSubmitDocument = async (e:any) => {
-    try {
-      setLoading(true);
-      e.preventDefault();
-      const formData = new FormData();
-      formData.append("file", fileState.file);
-      formData.append("extension", fileState.type);
-      const res = await axios.post("/api/document",formData);
-      console.log(res.data, 'adasd');
-      const docId = res.data.document_id;
-      const analysisId = res.data.analysis_id;
-      router.push(`/Analisis/${docId}/${analysisId}`);
-    } catch (error) {
+  // const handleSubmitDocument = async (e:any) => {
+  //   try {
+  //     setLoading(true);
+  //     e.preventDefault();
+  //     const formData = new FormData();
+  //     formData.append("file", fileState.file);
+  //     formData.append("extension", fileState.type);
+  //     const res = await axios.post("/api/document",formData);
+  //     console.log(res.data, 'adasd');
+  //     const docId = res.data.document_id;
+  //     const analysisId = res.data.analysis_id;
+  //     router.push(`/Analisis/${docId}/${analysisId}`);
+  //   } catch (error) {
+  //     console.error(error);
+  //     setLoading(false);
+
+  //   }
+  // }
+  const handleSubmitDocument = () =>  {
+    const formData = new FormData();
+    formData.append("file", fileState.file);
+    formData.append("extension", fileState.type);
+    setLoading(true);
+    axios.post('/api/document', formData).then((res) => {
+      fileState.setPrecreationObject(res.data);
+      fileState.setPalabrasClaveView();
+      setLoading(false);
+    })
+    .catch((error) => {
       console.error(error);
       setLoading(false);
-
-    }
+    });
   }
   if(fileState.state === "None"){
     return(<></>);
@@ -251,7 +267,7 @@ function FileStateMessage(fileState: any) {
   else if(fileState.state === "Correct"){
     return(
       <div className="flex justify-center">
-        <button onClick={handleSubmitDocument} disabled={loading} className="bg-transparent text-[#FCFAF5] border-solid border-[#FCFAF5]
+        <button onClick={handleSubmitDocument} disabled={loading || !fileState.file} className="bg-transparent text-[#FCFAF5] border-solid border-[#FCFAF5]
         border-[0.5vh] rounded-[2vh] mx-auto mt-[5vh] md:mt-[7vh] mb-[1vh] w-[70vw] max-w-[325px] h-[12vh] max-h-[80px] flex items-center
         justify-center text-[4vh] hover:bg-[#282933] active:bg-[#FCFAF5] active:border-[#30323D] active:text-[#30323D]">
             {loading ? 
@@ -274,8 +290,10 @@ function CargaArchivos() {
   const [centerText, setTitle] = useState("Selecciona el formato del artículo");
   const [currentFormat, setFormat] = useState("None");
   const [formatSelected, setSelected] = useState(false);
-  const [file, setFile] = useState<File | null>(null);;
+  const [file, setFile] = useState<File | null>(null);
   const [fileState, setFState] = useState("None");
+  const [palabrasClaveView, setPalabrasClaveView] = useState(false);
+  const [precreationObject, setPrecreationObject] = useState<any>(null);
 
   const setType = (text: any, type: any) => {
     setTitle(text)
@@ -313,6 +331,16 @@ function CargaArchivos() {
     setFState("None")
   }
 
+  const handleSetPalabrasClaveView = () => {
+    setPalabrasClaveView(prev=>!prev);
+  }
+
+  if (palabrasClaveView) {
+    return(
+      <PalabrasClave precreationObject={precreationObject} setPalabrasClaveView={handleSetPalabrasClaveView}/>
+    );
+  }
+
   return (
     <>
       <div className="bg-[#30323D] pt-[15vh] pb-[20vh] font-semibold md:pt-[15vh] md:pb-[0vh]">
@@ -321,7 +349,7 @@ function CargaArchivos() {
         <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons"></link>
         <Arrow selected={formatSelected} goBack={goBack} />
         <CenterHeader text={centerText} type={currentFormat} />
-        <Main type={currentFormat} setType={setType} file={file} fileState={fileState} handleChangePDF={handleChangePDF} handleChangeDOCX={handleChangeDOCX} setfileState={setFState} />
+        <Main setPrecreationObject={setPrecreationObject}  setPalabrasClaveView={handleSetPalabrasClaveView} type={currentFormat} setType={setType} file={file} fileState={fileState} handleChangePDF={handleChangePDF} handleChangeDOCX={handleChangeDOCX} setfileState={setFState} />
       </div>
     </>
   );

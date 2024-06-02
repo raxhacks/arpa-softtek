@@ -4,6 +4,8 @@ import './PalabrasClave.css';
 import { useState, useRef } from 'react';
 import Header from '../header';
 import Segmented from 'rc-segmented';
+import { createAnalysis } from '@/services/analysis.service';
+import { useRouter } from 'next/navigation';
 
 function Arrow() {
     return(
@@ -128,6 +130,9 @@ function PalabraPropia(data: any){
 }
 
 function Palabras(data: any) {
+    const handleConfirm = () => {
+        data.handleConfirm();
+    }
     if(data.tab === "Palabras clave del autor"){
         return(
             <div className="flex flex-col md:flex-row justify-center items-center mt-[2vh] h-auto md:h-[60vh]">
@@ -148,7 +153,8 @@ function Palabras(data: any) {
                     </div>
                 </div>
                 <button className="h-[8vh] w-[12vw] self-center border-[5px] border-[#FCFAF5] text-[#FCFAF5] rounded-[10px] bg-transparent ml-0
-                md:ml-[4vw] text-[3vh] mt-[5vh] md:mt-0 min-w-[150px] hover:bg-[#FCFAF5] hover:text-[#24252E]">Confirmar</button>
+                md:ml-[4vw] text-[3vh] mt-[5vh] md:mt-0 min-w-[150px] hover:bg-[#FCFAF5] hover:text-[#24252E]"
+                onClick={handleConfirm}>Confirmar</button>
             </div>
         );
     }
@@ -171,35 +177,48 @@ function Palabras(data: any) {
                         <PalabraPropia wordList={data.propias} id={10} setArray={data.setArray}/>
                     </div>
                 </div>
-                <button className="h-[8vh] w-[12vw] self-center border-[5px] border-[#FCFAF5] text-[#FCFAF5] rounded-[10px] bg-transparent ml-0
+                <button onClick={handleConfirm} className="h-[8vh] w-[12vw] self-center border-[5px] border-[#FCFAF5] text-[#FCFAF5] rounded-[10px] bg-transparent ml-0
                 md:ml-[4vw] text-[3vh] mt-[5vh] md:mt-0 min-w-[150px] hover:bg-[#FCFAF5] hover:text-[#24252E]">Confirmar</button>
             </div>
         );
     }
 }
 
-function Main(){
+function PalabrasClave(props:any){
     const [currentTab, setTab] = useState("Palabras clave del autor");
     const [palabrasPropias, setPropias] = useState<string[]>([]);
-    const [palabrasAutor, setAutor] = useState<string[]>(["Palabra clave de prueba 1", "Palabra clave de prueba 2", "Palabra clave de prueba 3",
-    "Palabra clave de prueba 4", "Palabra clave de prueba 5", "Palabra clave de prueba 6", "Palabra clave de prueba 7", "Palabra clave de prueba 8",
-    "Palabra clave de prueba 9", "Palabra clave de prueba 10"]);
+    const [palabrasAutor, setAutor] = useState<string[]>(!props.precreationObject.keywords ? [] : props.precreationObject.keywords);
 
+    const router = useRouter();
     function handleTabChange(value: any){
         setTab(value)
+    }
+
+    const handleConfirm = () => {
+        if (palabrasPropias.length > 0) {
+            props.precreationObject["keywords"] = palabrasPropias;
+            props.precreationObject["userOwnKeywords"]=true;
+        }
+        createAnalysis(props.precreationObject).then((response) => {
+            const docId = response.document_id;
+            const analysisId = response.analysis_id;
+            router.push(`/Analisis/${docId}/${analysisId}`);
+        });
     }
 
     return(
         <div className="bg-[#30323D] pt-[15vh] pb-[15vh] font-semibold md:pt-[15vh] md:pb-[0vh]">
             <Header/>
-            <Arrow />
+            <button onClick={()=>props.setPalabrasClaveView()}>
+                <Arrow />
+            </button>
             <div className="flex flex-col items-center justify-center">
                 <h1 className="text-[#FCFAF5] text-center w-auto mb-[5vh] mx-[8vw] text-[5vh] md:text-[5vh] md:w-[70vw]">¿Cómo le gustaría realizar el análisis?</h1>
                 <Segmented className="mx-[7vw] md:mx-auto" options={["Palabras clave del autor", "Mis propias palabras clave"]} onChange={(value) => handleTabChange(value)} />
             </div>
-            <Palabras tab={currentTab} autor={palabrasAutor} propias={palabrasPropias} setArray={setPropias} />
+            <Palabras handleConfirm={handleConfirm} tab={currentTab} autor={palabrasAutor} propias={palabrasPropias} setArray={setPropias} />
         </div>
     );
 }
 
-export default Main;
+export default PalabrasClave;
