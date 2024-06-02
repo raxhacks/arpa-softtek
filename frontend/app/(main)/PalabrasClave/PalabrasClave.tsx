@@ -198,6 +198,8 @@ function PalabrasClave(props:any){
         if (palabrasPropias.length > 0) {
             props.precreationObject["keywords"] = palabrasPropias;
             props.precreationObject["userOwnKeywords"]=true;
+        } else {
+            props.precreationObject["userOwnKeywords"]=false;
         }
         createAnalysis(props.precreationObject).then((response) => {
             const docId = response.document_id;
