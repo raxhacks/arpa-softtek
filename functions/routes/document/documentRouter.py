@@ -173,6 +173,113 @@ def create_document():
         print("Error:",e)
         return flask.jsonify({"message":"Failed to create new document"}), 500
 
+@documentBlueprint.route("/precreation", methods=["POST"])
+def precreate_document():
+    try:
+        user_id = flask.g.get('user_id')
+
+        # Get other form data
+        extension = flask.request.form.get('extension')
+
+        url = flask.request.form.get('url')
+        public_url = ""
+        if url == None:
+            # Check if file is present in request
+            if 'file' not in flask.request.files:
+                print("No file part in the request")
+                return flask.jsonify({"message": "No file part in the request"}), 400
+
+            file = flask.request.files['file']
+            
+            print("File",file.filename)
+            # Check if file is allowed
+            allowed_extensions = {'pdf', 'docx'}
+            if '.' in file.filename and file.filename.rsplit('.', 1)[1].lower() not in allowed_extensions:
+                return flask.jsonify({"message": "Invalid file extension"}), 400
+            print("File extension:", extension)
+            
+             # Calculate file size
+            # file_size_mb = os.path.getsize(file) / (1024 * 1024)  # Size in MB
+            # if file_size_mb > MAX_FILE_SIZE_MB:
+            #     return flask.jsonify({"message": "File size exceeds the limit of 3MB"}), 400
+            
+            # Configure bucket
+            bucket = storage.bucket()
+            blob = bucket.blob(f"users/{user_id}/{file.filename}")
+            blob.upload_from_file(file)
+
+            blob.make_public()
+            public_url = blob.public_url
+
+            title = os.path.splitext(file.filename)[0]
+
+            # Parse PDF if the file is a PDF
+            if extension == 'PDF':
+                reader = PyPDF2.PdfReader(file)
+                text = ''
+                for page in range(len(reader.pages)):
+                    text += reader.pages[page].extract_text()
+            elif extension == 'DOCX':
+                text = docx2txt.process(file)
+            else:
+                text = ''  # Placeholder for content extraction for other file types
+        else:
+            text = pdf_from_url_to_txt(url, user_id)[0]
+            public_url = pdf_from_url_to_txt(url, user_id)[1]
+        # Save other data to Firestore
+        db = firestore.client()
+        user_doc_ref = db.collection('users').document(user_id)
+        document_doc_ref = user_doc_ref.collection('documents').document()
+
+        content = flask.request.form.get('content')
+
+        # Extract keywords
+        kw_extractor = yake.KeywordExtractor(top=10)
+        keywords_tuple = kw_extractor.extract_keywords(text)
+        keywords = [keyword[0] for keyword in keywords_tuple]
+        # Get frequency of each keyword
+        analysis_keywords = []
+        for keyword in keywords:
+            count = text.lower().count(keyword.lower())
+            analysis_keywords.append({"keyword": keyword, "count": count})
+
+        new_document = {
+            'title': title,
+            'content': text if extension == 'PDF' or extension == 'DOCX' else content,
+            'url': url,
+            'public_url': public_url,
+            'extension': extension,
+            'created_at': firestore.SERVER_TIMESTAMP,
+            'favorite': False,
+            'chat': {},
+        }
+
+        # Create the document
+        document_doc_ref.set(new_document)
+
+        # Set the id attribute
+        document_doc_ref.update({"document_id": document_doc_ref.id})
+
+        # Add the doc reference to the user's document collection
+        user_doc_ref.update({"documents": firestore.ArrayUnion([document_doc_ref.id])})
+
+        # Create chat collection for the document
+        chat_doc_ref = document_doc_ref.collection('chat').document()
+        
+        new_chat = {}
+        new_chat['messages'] = []
+        
+        chat_doc_ref.set(new_chat)
+        
+        chat_doc_ref.update({"chat_id":chat_doc_ref.id})
+        
+        document_doc_ref.update({"chat":firestore.ArrayUnion([chat_doc_ref.id])})
+        
+        return flask.jsonify({"message": "New document created successfully", "document_id": document_doc_ref.id, "text":text, "analysis_keywords":analysis_keywords, "keywords":keywords}), 201
+    except Exception as e:
+        print("Error:",e)
+        return flask.jsonify({"message":"Failed to create new document"}), 500
+
 @documentBlueprint.route("", methods=["GET"])
 def get_document():
     try:

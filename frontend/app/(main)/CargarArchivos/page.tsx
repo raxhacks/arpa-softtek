@@ -7,11 +7,12 @@ import { useEffect } from 'react';
 import axios from 'axios';
 import cx from "classnames";
 import { Fade } from "react-awesome-reveal";
-import { createDocument } from '@/services/document.service';
+import { precreateDocument } from '@/services/document.service';
 import { useRouter } from 'next/navigation';
 import Header from '../header';
 import { useFormStatus } from 'react-dom';
 import { useDropzone } from 'react-dropzone';
+import PalabrasClave from '../PalabrasClave/PalabrasClave';
   
 function Arrow(back: any) {
   if(back.selected){
@@ -117,7 +118,6 @@ function Main(currentState: any) {
       setFState("Correct")
       router.push(`/Analisis`);
     } catch (error) {
-      console.error(error);
       setFState("ErrorUploading")
     }
     setLoading(false);
@@ -143,18 +143,23 @@ function Main(currentState: any) {
           md:text-[4vh] md:ml-[5vw] md:mb-[0vh]" value={url} onChange={handleUrlChange} />
           <button className="bg-[#5456F5] text-[#30323D] w-[40vw] rounded-[2vh] mx-[3vw] relative md:w-[4.5vw] md:h-[4.5vw] md:ml-[1vw]
           md:mr-[5vw] md:inline hover:bg-[#4345AF] active:bg-[#FCFAF5]" onClick={(e)=>getPdfBlob(e,url,currentState.setfileState)}>
-            <i className="material-icons" style={{fontSize: "50px"}}>{loading ? 
-            <svg className="animate-spin mt-1 h-10 w-10" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+            {loading ? 
+            <svg className="animate-spin m-1" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
             <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
             <path className="opacity-75" fill="currentColor"
             d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z">
             </path>
             </svg>
             :
-            'search' }</i>
+            <svg xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler icon-tabler-arrow-big-right-lines" viewBox="0 0 24 24" stroke-width="1.5" stroke="#2c3e50" fill="none" stroke-linecap="round" stroke-linejoin="round">
+            <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+            <path d="M12 9v-3.586a1 1 0 0 1 1.707 -.707l6.586 6.586a1 1 0 0 1 0 1.414l-6.586 6.586a1 1 0 0 1 -1.707 -.707v-3.586h-3v-6h3z" />
+            <path d="M3 9v6" />
+            <path d="M6 9v6" />
+          </svg> }
           </button>
         </div>
-        <FileStateMessage state={currentState.fileState} file={currentState.file} type={currentState.type}/>
+        <FileStateMessage setPrecreationObject={currentState.setPrecreationObject}  setPalabrasClaveView={currentState.setPalabrasClaveView} state={currentState.fileState} file={currentState.file} type={currentState.type}/>
       </>
     );
   }
@@ -182,7 +187,7 @@ function Main(currentState: any) {
           </div>}
         </label>
         <input {...getInputProps()} id="PDFUpload" accept=".pdf" style={{opacity: "0", position: "absolute", zIndex: "-1"}} />
-        <FileStateMessage state={currentState.fileState} file={currentState.file} type={currentState.type}/>
+        <FileStateMessage setPrecreationObject={currentState.setPrecreationObject}  setPalabrasClaveView={currentState.setPalabrasClaveView}  state={currentState.fileState} file={currentState.file} type={currentState.type}/>
       </div>
     );
   }
@@ -207,7 +212,7 @@ function Main(currentState: any) {
           </div>}
         </label>
         <input {...getInputProps()} id="DOCXUpload" accept=".docx" style={{opacity: "0", position: "absolute", zIndex: "-1"}} />
-        <FileStateMessage state={currentState.fileState} file={currentState.file} type={currentState.type}/>
+        <FileStateMessage setPrecreationObject={currentState.setPrecreationObject} setPalabrasClaveView={currentState.setPalabrasClaveView}  state={currentState.fileState} file={currentState.file} type={currentState.type}/>
       </div>
     );
   }
@@ -217,23 +222,38 @@ function Main(currentState: any) {
 function FileStateMessage(fileState: any) {
   const router = useRouter();
   const [loading, setLoading] = useState(false)
-  const handleSubmitDocument = async (e:any) => {
-    try {
-      setLoading(true);
-      e.preventDefault();
-      const formData = new FormData();
-      formData.append("file", fileState.file);
-      formData.append("extension", fileState.type);
-      const res = await axios.post("/api/document",formData);
-      console.log(res.data, 'adasd');
-      const docId = res.data.document_id;
-      const analysisId = res.data.analysis_id;
-      router.push(`/Analisis/${docId}/${analysisId}`);
-    } catch (error) {
+  // const handleSubmitDocument = async (e:any) => {
+  //   try {
+  //     setLoading(true);
+  //     e.preventDefault();
+  //     const formData = new FormData();
+  //     formData.append("file", fileState.file);
+  //     formData.append("extension", fileState.type);
+  //     const res = await axios.post("/api/document",formData);
+  //     console.log(res.data, 'adasd');
+  //     const docId = res.data.document_id;
+  //     const analysisId = res.data.analysis_id;
+  //     router.push(`/Analisis/${docId}/${analysisId}`);
+  //   } catch (error) {
+  //     console.error(error);
+  //     setLoading(false);
+
+  //   }
+  // }
+  const handleSubmitDocument = () =>  {
+    const formData = new FormData();
+    formData.append("file", fileState.file);
+    formData.append("extension", fileState.type);
+    setLoading(true);
+    axios.post('/api/document', formData).then((res) => {
+      fileState.setPrecreationObject(res.data);
+      fileState.setPalabrasClaveView();
+      setLoading(false);
+    })
+    .catch((error) => {
       console.error(error);
       setLoading(false);
-
-    }
+    });
   }
   if(fileState.state === "None"){
     return(<></>);
@@ -247,7 +267,7 @@ function FileStateMessage(fileState: any) {
   else if(fileState.state === "Correct"){
     return(
       <div className="flex justify-center">
-        <button onClick={handleSubmitDocument} disabled={loading} className="bg-transparent text-[#FCFAF5] border-solid border-[#FCFAF5]
+        <button onClick={handleSubmitDocument} disabled={loading || !fileState.file} className="bg-transparent text-[#FCFAF5] border-solid border-[#FCFAF5]
         border-[0.5vh] rounded-[2vh] mx-auto mt-[5vh] md:mt-[7vh] mb-[1vh] w-[70vw] max-w-[325px] h-[12vh] max-h-[80px] flex items-center
         justify-center text-[4vh] hover:bg-[#282933] active:bg-[#FCFAF5] active:border-[#30323D] active:text-[#30323D]">
             {loading ? 
@@ -270,8 +290,10 @@ function CargaArchivos() {
   const [centerText, setTitle] = useState("Selecciona el formato del artículo");
   const [currentFormat, setFormat] = useState("None");
   const [formatSelected, setSelected] = useState(false);
-  const [file, setFile] = useState<File | null>(null);;
+  const [file, setFile] = useState<File | null>(null);
   const [fileState, setFState] = useState("None");
+  const [palabrasClaveView, setPalabrasClaveView] = useState(false);
+  const [precreationObject, setPrecreationObject] = useState<any>(null);
 
   const setType = (text: any, type: any) => {
     setTitle(text)
@@ -309,6 +331,16 @@ function CargaArchivos() {
     setFState("None")
   }
 
+  const handleSetPalabrasClaveView = () => {
+    setPalabrasClaveView(prev=>!prev);
+  }
+
+  if (palabrasClaveView) {
+    return(
+      <PalabrasClave precreationObject={precreationObject} setPalabrasClaveView={handleSetPalabrasClaveView}/>
+    );
+  }
+
   return (
     <>
       <div className="bg-[#30323D] pt-[15vh] pb-[20vh] font-semibold md:pt-[15vh] md:pb-[0vh]">
@@ -317,7 +349,7 @@ function CargaArchivos() {
         <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons"></link>
         <Arrow selected={formatSelected} goBack={goBack} />
         <CenterHeader text={centerText} type={currentFormat} />
-        <Main type={currentFormat} setType={setType} file={file} fileState={fileState} handleChangePDF={handleChangePDF} handleChangeDOCX={handleChangeDOCX} setfileState={setFState} />
+        <Main setPrecreationObject={setPrecreationObject}  setPalabrasClaveView={handleSetPalabrasClaveView} type={currentFormat} setType={setType} file={file} fileState={fileState} handleChangePDF={handleChangePDF} handleChangeDOCX={handleChangeDOCX} setfileState={setFState} />
       </div>
     </>
   );
