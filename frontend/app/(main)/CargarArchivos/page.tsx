@@ -12,7 +12,7 @@ import { useRouter } from 'next/navigation';
 import Header from '../header';
 import { useFormStatus } from 'react-dom';
 import { useDropzone } from 'react-dropzone';
-import PalabrasClave from '../PalabrasClave/page';
+import PalabrasClave from '../PalabrasClave/PalabrasClave';
   
 function Arrow(back: any) {
   if(back.selected){
