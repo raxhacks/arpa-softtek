@@ -73,7 +73,6 @@ function SectionsHeader() {
             <path d="M6 15l-3 -3" />
           </svg>
         </button>
-
       </div>
     </div>
   );

@@ -1,0 +1,93 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+
+/* COSAS DE RC-SEGMENTED */
+
+.rc-segmented {
+    display: inline-block;
+    background-color: rgba(29, 31, 40, 0.5);
+  }
+  .rc-segmented-group {
+    position: relative;
+    display: flex;
+    align-items: stretch;
+    justify-items: flex-start;
+    width: 100%;
+    border-radius: 2px;
+  }
+  .rc-segmented-item {
+    position: relative;
+    height: 8vh;
+    max-height: 80px;
+    padding-left: 3vw;
+    padding-right: 3vw;
+    color: rgba(84, 86, 245, 0.85);
+    text-align: center;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    font-size: 2.5vh;
+  }
+  @media(min-width: 768px){
+    .rc-segmented-item{
+      max-height: 40px;
+      font-size: 3vh;
+    }
+  }
+  .rc-segmented-item-selected {
+    background-color: rgb(84, 86, 245);
+    color: rgb(252, 250, 245);
+  }
+  .rc-segmented-item:hover,
+  .rc-segmented-item:focus {
+    color: rgb(252, 250, 245);
+  }
+  .rc-segmented-item-disabled,
+  .rc-segmented-item-disabled:hover,
+  .rc-segmented-item-disabled:focus {
+    color: rgba(0, 0, 0, 0.25);
+    cursor: not-allowed;
+  }
+  .rc-segmented-item-label {
+    z-index: 1;
+    line-height: 24px;
+  }
+  .rc-segmented-item-input {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 0;
+    height: 0;
+    opacity: 0;
+    pointer-events: none;
+  }
+  .rc-segmented-disabled .rc-segmented-item,
+  .rc-segmented-disabled .rc-segmented-item:hover,
+  .rc-segmented-disabled .rc-segmented-item:focus,
+  .rc-segmented-disabled .rc-segmented-item:hover,
+  .rc-segmented-disabled .rc-segmented-item:hover:hover,
+  .rc-segmented-disabled .rc-segmented-item:focus:hover,
+  .rc-segmented-disabled .rc-segmented-item:focus,
+  .rc-segmented-disabled .rc-segmented-item:hover:focus,
+  .rc-segmented-disabled .rc-segmented-item:focus:focus {
+    color: rgba(0, 0, 0, 0.25);
+    cursor: not-allowed;
+  }
+  .rc-segmented-thumb {
+    background-color: rgb(84, 86, 245);
+    position: absolute;
+    width: 0;
+    height: 100%;
+    padding: 4px 0;
+  }
+  .rc-segmented-thumb-motion-appear-active,
+  .rc-segmented-thumb-motion-enter-active {
+    transition: transform 0.3s cubic-bezier(0.645, 0.045, 0.355, 1), width 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
+    will-change: transform, width;
+  }
+  .rc-segmented-rtl {
+    direction: rtl;
+  }
