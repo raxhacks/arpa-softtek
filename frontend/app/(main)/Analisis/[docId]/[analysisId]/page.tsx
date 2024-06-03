@@ -17,6 +17,7 @@ import { getAnalysis } from '@/services/analysis.service';
 import { error } from 'console';
 import { useRouter } from 'next/navigation';
 import { PieChart } from 'react-minimal-pie-chart';
+import PdfViewer from './PdfViewer';
 import { DndContext, closestCenter, KeyboardSensor, PointerSensor, useSensor, useSensors} from '@dnd-kit/core';
 import { useSortable, arrayMove, SortableContext, sortableKeyboardCoordinates, verticalListSortingStrategy } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
@@ -114,6 +115,13 @@ const Content: React.FC<ContentProps> = (props: ContentProps) => {
     );
   }
   else if(props.currentTab === "Texto Original"){
+    return(
+      <div>
+        <PdfViewer url={`https://docs.google.com/viewer?url=${props.docUrl}&embedded=true`} />
+      </div>
+    );
+  }
+  else if(props.currentTab === "Archivo Original"){
     return(
       <div className="text h-screen">
          <iframe
@@ -397,7 +405,7 @@ function MostrarAnalisis({
         <div className="flex items-center justify-center">
           <BotonHome />
           <div className="w-[10vw] md:w-0"/>
-          <Segmented options={["Resumen", "Texto Original", "Chatbot"]} onChange={(value) => handleTabChange(value)} />
+          <Segmented options={["Resumen", "Texto Original", "Archivo Original", "Chatbot"]} onChange={(value) => handleTabChange(value)} />
           <div className="w-[10vw] md:w-0"/>
           <button className="fixed top-[1.5vh] right-[2vw] z-30 md:relative md:top-auto md:right-auto md:z-auto md:ml-[2vw]" onClick={toggleFav}>
             {togglingToFav ? (
