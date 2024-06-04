@@ -130,7 +130,6 @@ function MyTabs() {
           
           {/* form para registro */}
           <form action={action} 
-          // onSubmit={registerSubmit} 
             className="flex flex-col items-center justify-center mx-auto max-w-sm mt-4 lg:mt-40">
             {state?.message && 
               <div className='pl-2 pr-2 rounded-2xl border border-red-500 mb-3' style={{ display: 'flex', alignItems: 'center' }}>
@@ -208,7 +207,7 @@ export function SignupButton() {
   const { pending } = useFormStatus()
 
   return (
-    <button disabled={pending} type="submit" className="rounded-lg border border-transparent py-4 w-full text-center mt-4 font-semibold text-2xl text-black bg-yellow-300 transition-colors hover:border-yellow-300 hover:bg-yellow-100 hover:dark:bg-neutral-800/20 hover:text-white">
+    <button disabled={pending} type="submit" className="rounded-lg border border-transparent py-2 px-9 w-mid text-center mt-6 font-semibold text-2xl text-black bg-yellow-300 transition-colors hover:border-yellow-300 hover:bg-yellow-100 hover:dark:bg-neutral-800/20 hover:text-white">
       {pending ? 'Registrando...' : 'Registrarse'}
     </button>
   )

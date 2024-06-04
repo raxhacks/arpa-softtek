@@ -1,5 +1,7 @@
 import flask
+from collections import Counter
 from firebase_admin import firestore
+from .helpers.AnalysisAndChatCreation import addAnalysisToDocument
 
 analysisBlueprint = flask.Blueprint('analysis', __name__, url_prefix="/analysis")
 
@@ -8,31 +10,29 @@ def create_analysis():
     try:
         # Logica de OpenAI para analizar el texto
         user_id = flask.g.get('user_id')
-        document_id = flask.request.args.get('document_id')
-        new_analysis = flask.request.json
+        body = flask.request.json
+        document_id = body['document_id']
+        text = body['text']
+        analysis_keywords = body['analysis_keywords']
+        keywords = body['keywords']
+        userOwnKeywords = body['userOwnKeywords']
+
+        if userOwnKeywords:
+            # Count the occurrences of each keyword in the text
+            keyword_counts = Counter(word.lower() for word in text.split() if word.lower() in keywords)
+
+            # Update the analysis_keywords array
+            analysis_keywords = [{'keyword': keyword, 'count': count} for keyword, count in keyword_counts.items()]
         
         db = firestore.client()
         user_doc_ref = db.collection('users').document(user_id)
         document_doc_ref = user_doc_ref.collection('documents').document(document_id)
-        analysis_doc_ref = document_doc_ref.collection('analysis').document()
         
-        # add sections, cuant data, and apa reference to analysis object
-        new_analysis["sections"] = []
-        new_analysis["cuantitative_data"] = {}
-        new_analysis["apa"] = ""
-        if not new_analysis["keywords"]:
-            new_analysis["keywords"] = []
-
-        #create the analysis
-        analysis_doc_ref.set(new_analysis)
+        analysis_id = addAnalysisToDocument(user_id, document_doc_ref.id, text, analysis_keywords, keywords)
+        document_doc_ref.update({"analysis":  analysis_id})
         
-        #set the id attribute
-        analysis_doc_ref.update({"analysis_id":analysis_doc_ref.id})
-        
-        # Add the doc refence to the user's analysis collection
-        document_doc_ref.update({"analysis":firestore.ArrayUnion([analysis_doc_ref.id])})
-        
-        return flask.jsonify({"message":"New analysis created successfully","analysis_id":analysis_doc_ref.id}), 201
+        return flask.jsonify({"message": "New document created successfully", "document_id": document_doc_ref.id, "text":text, "analysis_id":analysis_id}), 201
+       
     except Exception as e:
         print("Error:",e)
         return flask.jsonify({"message":"Failed to create new analysis"}), 500

@@ -26,6 +26,25 @@ export const createDocument = async (data: FormData, tokenSSR?: string) => {
     }
 };
 
+export const precreateDocument = async (data: FormData, tokenSSR?: string) => {
+    try {
+        const token = tokenSSR || cookies().get('session')?.value
+        const config = {
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'multipart/form-data'
+            }
+        };
+        console.log('Uploading document...');
+        const response = await axios.post('https://arpa-2mgft7cefq-uc.a.run.app/document/precreation', data, config);
+        console.log(`Doument uploaded`)
+        return response.data;
+    } catch (error) {
+        console.error('Could not upload the document:', error);
+        return null
+    }
+};
+
 export const getHistory = async (): Promise<Document[]> => {
     try {
         const token = cookies().get('session')?.value

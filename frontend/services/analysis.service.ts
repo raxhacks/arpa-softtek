@@ -45,3 +45,22 @@ export const getAnalysis = async (document_id: string, analysis_id: string): Pro
         throw error;
     }
 };
+
+export const createAnalysis = async (body: any, tokenSSR?: string) => {
+    try {
+        const token = tokenSSR || cookies().get('session')?.value
+        const config = {
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json'
+            }
+        };
+        console.log('Uploading document...');
+        const response = await axios.post('https://arpa-2mgft7cefq-uc.a.run.app/analysis', body, config);
+        console.log(`Doument uploaded`)
+        return response.data;
+    } catch (error) {
+        console.error('Could not upload the document:', error);
+        return null
+    }
+};
