@@ -1,6 +1,9 @@
 describe('My first test', () => {
-  it('Visits the kitchen sink', () => {
-    cy.visit('https://arpa-softtek.vercel.app/')
+  it('Visits my page', () => {
+    cy.visit('')
+
+    cy.contains('Iniciar sesión')
+    cy.contains('Registrarse')
     
     /*cy.contains('type').click()
 
