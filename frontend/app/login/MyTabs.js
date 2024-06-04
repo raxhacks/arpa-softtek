@@ -26,13 +26,13 @@ function MyTabs() {
         <Tab.Panel className={`w-full lg:pr-32 pr-20 pl-20 mb-10`}>
           <Tab></Tab>
           {/* Inicio de Sesion Button */}
-          <Tab className={`rounded-lg border border-transparent py-4 w-full text-center font-semibold text-2xl bg-blue-600 transition-colors hover:border-blue-300 hover:bg-yellow-100 hover:dark:bg-neutral-800/20`} >
+          <Tab className={`rounded-lg border border-transparent py-4 w-full text-center font-semibold text-2xl bg-blue-600 transition-colors hover:border-blue-300 hover:bg-yellow-100 hover:dark:bg-neutral-800/20`} data-cy='iniciar-sesion' >
             <div 
             // onClick={resetStates}
             >Iniciar sesión</div>
           </Tab>
           {/* Registro Button */}
-          <Tab className={`rounded-lg border border-transparent py-4 w-full text-center mt-8 font-semibold text-2xl text-black bg-yellow-300 transition-colors hover:border-yellow-300 hover:bg-yellow-100 hover:dark:bg-neutral-800/20 hover:text-white`} >
+          <Tab className={`rounded-lg border border-transparent py-4 w-full text-center mt-8 font-semibold text-2xl text-black bg-yellow-300 transition-colors hover:border-yellow-300 hover:bg-yellow-100 hover:dark:bg-neutral-800/20 hover:text-white`} data-cy='registrarse' >
             <div 
             // onClick={resetStates}
             >Registrarse</div>
@@ -130,7 +130,8 @@ function MyTabs() {
           
           {/* form para registro */}
           <form action={action} 
-            className="flex flex-col items-center justify-center mx-auto max-w-sm mt-4 lg:mt-40">
+            className="flex flex-col items-center justify-center mx-auto max-w-sm mt-4 lg:mt-40"
+            data-cy="registro-tab">
             {state?.message && 
               <div className='pl-2 pr-2 rounded-2xl border border-red-500 mb-3' style={{ display: 'flex', alignItems: 'center' }}>
                 <svg xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler icon-tabler-exclamation-circle mr-1" width="15" height="15" viewBox="0 0 24 24" strokeWidth="1.5" stroke="#ffffff" fill="none" strokeLinecap="round" strokeLinejoin="round" style={{ marginLeft: '5px' }}>
@@ -143,7 +144,7 @@ function MyTabs() {
               </div>
             }
 
-            {state?.errors?.email && <p>{state.errors.email}</p>}
+            {state?.errors?.email && <p data-cy="error-correo" >{state.errors.email}</p>}
             <div className='w-full'>
               <input 
                 name="email" 
@@ -151,7 +152,8 @@ function MyTabs() {
                 id="email"
                 placeholder = "Correo electrónico"
                 autoComplete = 'off'
-                className="w-full mb-4 border border-yellow-500 rounded-3xl px-4 py-3 mt-1 focus:outline-none bg-slate-600 text-white" 
+                className="w-full mb-4 border border-yellow-500 rounded-3xl px-4 py-3 mt-1 focus:outline-none bg-slate-600 text-white"
+                data-cy="registro-correo" 
               />
             </div>
 
@@ -162,7 +164,8 @@ function MyTabs() {
                 id="password"
                 placeholder = "Contraseña"
                 autoComplete='off'
-                className="w-full mb-1 border border-yellow-500 rounded-3xl px-4 py-3 mt-1 focus:outline-none bg-slate-600 text-white" 
+                className="w-full mb-1 border border-yellow-500 rounded-3xl px-4 py-3 mt-1 focus:outline-none bg-slate-600 text-white"
+                data-cy="registro-contrasena"  
               />
               <button 
                 type="button" 
@@ -187,7 +190,7 @@ function MyTabs() {
             {state?.errors?.password && (
               <div>
                 <p>La contraseña debe:</p>
-                <ul>
+                <ul data-cy="errores-contrasena">
                   {state.errors.password.map((error) => (
                     <li key={error}>- {error}</li>
                   ))}
@@ -207,7 +210,7 @@ export function SignupButton() {
   const { pending } = useFormStatus()
 
   return (
-    <button disabled={pending} type="submit" className="rounded-lg border border-transparent py-2 px-9 w-mid text-center mt-6 font-semibold text-2xl text-black bg-yellow-300 transition-colors hover:border-yellow-300 hover:bg-yellow-100 hover:dark:bg-neutral-800/20 hover:text-white">
+    <button disabled={pending} type="submit" className="rounded-lg border border-transparent py-2 px-9 w-mid text-center mt-6 font-semibold text-2xl text-black bg-yellow-300 transition-colors hover:border-yellow-300 hover:bg-yellow-100 hover:dark:bg-neutral-800/20 hover:text-white" data-cy="registro-boton" >
       {pending ? 'Registrando...' : 'Registrarse'}
     </button>
   )
