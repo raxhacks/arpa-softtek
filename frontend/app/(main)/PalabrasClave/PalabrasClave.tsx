@@ -6,6 +6,7 @@ import Header from '../header';
 import Segmented from 'rc-segmented';
 import { createAnalysis } from '@/services/analysis.service';
 import { useRouter } from 'next/navigation';
+import axios from 'axios';
 
 function Arrow() {
     return(
@@ -201,9 +202,9 @@ function PalabrasClave(props:any){
         } else {
             props.precreationObject["userOwnKeywords"]=false;
         }
-        createAnalysis(props.precreationObject).then((response) => {
-            const docId = response.document_id;
-            const analysisId = response.analysis_id;
+        axios.post("/api/analysis",props.precreationObject).then((response) => {
+            const docId = response.data.document_id;
+            const analysisId = response.data.analysis_id;
             router.push(`/Analisis/${docId}/${analysisId}`);
         });
     }
