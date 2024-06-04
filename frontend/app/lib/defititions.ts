@@ -1,7 +1,7 @@
 import { z } from 'zod'
  
 export const SignupFormSchema = z.object({
-  email: z.string().email({ message: 'Por favor ingrese un correo electrónico válido' }).trim(),
+  email: z.string().email({ message: 'Por favor ingrese un correo electrónico válido.' }).trim(),
   password: z
     .string()
     .min(7, { message: 'Ser más larga de 7 caracteres.' })

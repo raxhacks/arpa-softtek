@@ -130,7 +130,8 @@ function MyTabs() {
           
           {/* form para registro */}
           <form action={action} 
-            className="flex flex-col items-center justify-center mx-auto max-w-sm mt-4 lg:mt-40">
+            className="flex flex-col items-center justify-center mx-auto max-w-sm mt-4 lg:mt-40"
+            data-cy="registro-tab">
             {state?.message && 
               <div className='pl-2 pr-2 rounded-2xl border border-red-500 mb-3' style={{ display: 'flex', alignItems: 'center' }}>
                 <svg xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler icon-tabler-exclamation-circle mr-1" width="15" height="15" viewBox="0 0 24 24" strokeWidth="1.5" stroke="#ffffff" fill="none" strokeLinecap="round" strokeLinejoin="round" style={{ marginLeft: '5px' }}>
@@ -143,7 +144,7 @@ function MyTabs() {
               </div>
             }
 
-            {state?.errors?.email && <p>{state.errors.email}</p>}
+            {state?.errors?.email && <p data-cy="error-correo" >{state.errors.email}</p>}
             <div className='w-full'>
               <input 
                 name="email" 
@@ -189,7 +190,7 @@ function MyTabs() {
             {state?.errors?.password && (
               <div>
                 <p>La contraseña debe:</p>
-                <ul>
+                <ul data-cy="errores-contrasena">
                   {state.errors.password.map((error) => (
                     <li key={error}>- {error}</li>
                   ))}

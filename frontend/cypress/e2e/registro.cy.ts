@@ -13,6 +13,7 @@ describe('Probar el registro', () => {
     cy.visit('')
     
     cy.get('[data-cy="registrarse"]').click()
+
     cy.get('[data-cy="registro-correo"]').type('testemail@gmail.com')
     cy.get('[data-cy="registro-contrasena"]').type('contrasena-123')
 
@@ -20,66 +21,229 @@ describe('Probar el registro', () => {
     cy.get('[data-cy="registro-contrasena"]').should('have.value', 'contrasena-123')
   })
 
-  it('Escribe un correo incorrecto', () => {
+  it('Deja los campos en blanco', () => {
     cy.visit('')
     
     cy.get('[data-cy="registrarse"]').click()
-    cy.get('[data-cy="registro-contrasena"]').type('contrasena-123')
+
+    cy.get('[data-cy="registro-boton"]').click()
+
+    cy.get('[data-cy="registro-correo"]').should('have.value', '')
+    cy.get('[data-cy="registro-contrasena"]').should('have.value', '')
+
+    cy.get('[data-cy="error-correo"]').should('contain', 'Por favor ingrese un correo electrónico válido.')
+
+    cy.get('[data-cy="errores-contrasena"]').should('contain', '- Ser más larga de 7 caracteres.')
+    cy.get('[data-cy="errores-contrasena"]').should('contain', '- Contener al menos una letra.')
+    cy.get('[data-cy="errores-contrasena"]').should('contain', '- Contener al menos un numero.')
+    cy.get('[data-cy="errores-contrasena"]').should('contain', '- Contener al menos un caracter especial.')
+  })
+
+  it('Escribe un correo incorrecto, pero contraseña correcta', () => {
+    cy.visit('')
+    
+    cy.get('[data-cy="registrarse"]').click()
 
     cy.get('[data-cy="registro-correo"]').type(' ')
+    cy.get('[data-cy="registro-contrasena"]').type('contrasena-123')
     cy.get('[data-cy="registro-boton"]').click()
-    cy.contains('Por favor ingrese un correo electrónico válido').should('contain', 'Por favor ingrese un correo electrónico válido')
+    cy.get('[data-cy="error-correo"]').should('contain', 'Por favor ingrese un correo electrónico válido.')
+    cy.get('[data-cy="registro-tab"]').should('not.contain', '- Ser más larga de 7 caracteres.')
+    cy.get('[data-cy="registro-tab"]').should('not.contain', '- Contener al menos una letra.')
+    cy.get('[data-cy="registro-tab"]').should('not.contain', '- Contener al menos un numero.')
+    cy.get('[data-cy="registro-tab"]').should('not.contain', '- Contener al menos un caracter especial.')
     
     cy.get('[data-cy="registro-correo"]').clear()
     cy.get('[data-cy="registro-correo"]').type('bademail')
     cy.get('[data-cy="registro-boton"]').click()
-    cy.contains('Por favor ingrese un correo electrónico válido').should('contain', 'Por favor ingrese un correo electrónico válido')
+    cy.get('[data-cy="error-correo"]').should('contain', 'Por favor ingrese un correo electrónico válido.')
 
     cy.get('[data-cy="registro-correo"]').clear()
     cy.get('[data-cy="registro-correo"]').type('bademail@gmail')
     cy.get('[data-cy="registro-boton"]').click()
-    cy.contains('Por favor ingrese un correo electrónico válido').should('contain', 'Por favor ingrese un correo electrónico válido')
+    cy.get('[data-cy="error-correo"]').should('contain', 'Por favor ingrese un correo electrónico válido.')
 
     cy.get('[data-cy="registro-correo"]').clear()
     cy.get('[data-cy="registro-correo"]').type('@gmail.com')
     cy.get('[data-cy="registro-boton"]').click()
-    cy.contains('Por favor ingrese un correo electrónico válido').should('contain', 'Por favor ingrese un correo electrónico válido')
+    cy.get('[data-cy="error-correo"]').should('contain', 'Por favor ingrese un correo electrónico válido.')
 
     cy.get('[data-cy="registro-correo"]').clear()
     cy.get('[data-cy="registro-correo"]').type(' bademail@gmail.com')
     cy.get('[data-cy="registro-boton"]').click()
-    cy.contains('Por favor ingrese un correo electrónico válido').should('contain', 'Por favor ingrese un correo electrónico válido')
+    cy.get('[data-cy="error-correo"]').should('contain', 'Por favor ingrese un correo electrónico válido.')
 
     cy.get('[data-cy="registro-correo"]').clear()
     cy.get('[data-cy="registro-correo"]').type('bademail@gmail.com ')
     cy.get('[data-cy="registro-boton"]').click()
-    cy.contains('Por favor ingrese un correo electrónico válido').should('contain', 'Por favor ingrese un correo electrónico válido')
+    cy.get('[data-cy="error-correo"]').should('contain', 'Por favor ingrese un correo electrónico válido.')
 
     cy.get('[data-cy="registro-correo"]').clear()
     cy.get('[data-cy="registro-correo"]').type('bademail@gmail. com')
     cy.get('[data-cy="registro-boton"]').click()
-    cy.contains('Por favor ingrese un correo electrónico válido').should('contain', 'Por favor ingrese un correo electrónico válido')
+    cy.get('[data-cy="error-correo"]').should('contain', 'Por favor ingrese un correo electrónico válido.')
   })
 
-  it('Escribe una contraseña incorrecta', () => {
+  it('Escribe una contraseña incorrecta, pero correo correcto', () => {
     cy.visit('')
     
     cy.get('[data-cy="registrarse"]').click()
-    cy.get('[data-cy="registro-correo"]').type('correo@gmail.com')
 
+    cy.get('[data-cy="registro-correo"]').type('correo@gmail.com')
     cy.get('[data-cy="registro-contrasena"]').type(' ')
     cy.get('[data-cy="registro-boton"]').click()
-    cy.contains('- Ser más larga de 7 caracteres.').should('contain', '- Ser más larga de 7 caracteres.')
-    cy.contains('- Contener al menos una letra.').should('contain', '- Contener al menos una letra.')
-    cy.contains('- Contener al menos un numero.').should('contain', '- Contener al menos un numero.')
-    cy.contains('- Contener al menos un caracter especial.').should('contain', '- Contener al menos un caracter especial.')
+    cy.get('[data-cy="registro-tab"]').should('not.contain', 'Por favor ingrese un correo electrónico válido.')
+    cy.get('[data-cy="errores-contrasena"]').should('contain', '- Ser más larga de 7 caracteres.')
+    cy.get('[data-cy="errores-contrasena"]').should('contain', '- Contener al menos una letra.')
+    cy.get('[data-cy="errores-contrasena"]').should('contain', '- Contener al menos un numero.')
+    //cy.get('[data-cy="errores-contrasena"]').should('contain', '- Contener al menos un caracter especial.')
     
+    cy.get('[data-cy="registro-contrasena"]').clear()
+    cy.get('[data-cy="registro-contrasena"]').type('       ')
+    cy.get('[data-cy="registro-boton"]').click()
+    cy.get('[data-cy="errores-contrasena"]').should('not.contain', '- Ser más larga de 7 caracteres.')
+    cy.get('[data-cy="errores-contrasena"]').should('contain', '- Contener al menos una letra.')
+    cy.get('[data-cy="errores-contrasena"]').should('contain', '- Contener al menos un numero.')
+    //cy.get('[data-cy="errores-contrasena"]').should('contain', '- Contener al menos un caracter especial.')
+
     cy.get('[data-cy="registro-contrasena"]').clear()
     cy.get('[data-cy="registro-contrasena"]').type('bad')
     cy.get('[data-cy="registro-boton"]').click()
-    cy.contains('- Ser más larga de 7 caracteres.').should('contain', '- Ser más larga de 7 caracteres.')
-    cy.contains('- Contener al menos una letra.').should('contain', '- Contener al menos una letra.')
-    cy.contains('- Contener al menos un numero.').should('contain', '- Contener al menos un numero.')
-    cy.contains('- Contener al menos un caracter especial.').should('contain', '- Contener al menos un caracter especial.')
+    cy.get('[data-cy="errores-contrasena"]').should('contain', '- Ser más larga de 7 caracteres.')
+    cy.get('[data-cy="errores-contrasena"]').should('not.contain', '- Contener al menos una letra.')
+    cy.get('[data-cy="errores-contrasena"]').should('contain', '- Contener al menos un numero.')
+    cy.get('[data-cy="errores-contrasena"]').should('contain', '- Contener al menos un caracter especial.')
+
+    cy.get('[data-cy="registro-contrasena"]').clear()
+    cy.get('[data-cy="registro-contrasena"]').type('123')
+    cy.get('[data-cy="registro-boton"]').click()
+    cy.get('[data-cy="errores-contrasena"]').should('contain', '- Ser más larga de 7 caracteres.')
+    cy.get('[data-cy="errores-contrasena"]').should('contain', '- Contener al menos una letra.')
+    cy.get('[data-cy="errores-contrasena"]').should('not.contain', '- Contener al menos un numero.')
+    cy.get('[data-cy="errores-contrasena"]').should('contain', '- Contener al menos un caracter especial.')
+
+    cy.get('[data-cy="registro-contrasena"]').clear()
+    cy.get('[data-cy="registro-contrasena"]').type('---')
+    cy.get('[data-cy="registro-boton"]').click()
+    cy.get('[data-cy="errores-contrasena"]').should('contain', '- Ser más larga de 7 caracteres.')
+    cy.get('[data-cy="errores-contrasena"]').should('contain', '- Contener al menos una letra.')
+    cy.get('[data-cy="errores-contrasena"]').should('contain', '- Contener al menos un numero.')
+    cy.get('[data-cy="errores-contrasena"]').should('not.contain', '- Contener al menos un caracter especial.')
+
+    cy.get('[data-cy="registro-contrasena"]').clear()
+    cy.get('[data-cy="registro-contrasena"]').type('badPassword')
+    cy.get('[data-cy="registro-boton"]').click()
+    cy.get('[data-cy="errores-contrasena"]').should('not.contain', '- Ser más larga de 7 caracteres.')
+    cy.get('[data-cy="errores-contrasena"]').should('not.contain', '- Contener al menos una letra.')
+    cy.get('[data-cy="errores-contrasena"]').should('contain', '- Contener al menos un numero.')
+    cy.get('[data-cy="errores-contrasena"]').should('contain', '- Contener al menos un caracter especial.')
+
+    cy.get('[data-cy="registro-contrasena"]').clear()
+    cy.get('[data-cy="registro-contrasena"]').type('bad123')
+    cy.get('[data-cy="registro-boton"]').click()
+    cy.get('[data-cy="errores-contrasena"]').should('contain', '- Ser más larga de 7 caracteres.')
+    cy.get('[data-cy="errores-contrasena"]').should('not.contain', '- Contener al menos una letra.')
+    cy.get('[data-cy="errores-contrasena"]').should('not.contain', '- Contener al menos un numero.')
+    cy.get('[data-cy="errores-contrasena"]').should('contain', '- Contener al menos un caracter especial.')
+
+    cy.get('[data-cy="registro-contrasena"]').clear()
+    cy.get('[data-cy="registro-contrasena"]').type('12-34')
+    cy.get('[data-cy="registro-boton"]').click()
+    cy.get('[data-cy="errores-contrasena"]').should('contain', '- Ser más larga de 7 caracteres.')
+    cy.get('[data-cy="errores-contrasena"]').should('contain', '- Contener al menos una letra.')
+    cy.get('[data-cy="errores-contrasena"]').should('not.contain', '- Contener al menos un numero.')
+    cy.get('[data-cy="errores-contrasena"]').should('not.contain', '- Contener al menos un caracter especial.')
+
+    cy.get('[data-cy="registro-contrasena"]').clear()
+    cy.get('[data-cy="registro-contrasena"]').type('-_-_-_-')
+    cy.get('[data-cy="registro-boton"]').click()
+    cy.get('[data-cy="errores-contrasena"]').should('not.contain', '- Ser más larga de 7 caracteres.')
+    cy.get('[data-cy="errores-contrasena"]').should('contain', '- Contener al menos una letra.')
+    cy.get('[data-cy="errores-contrasena"]').should('contain', '- Contener al menos un numero.')
+    cy.get('[data-cy="errores-contrasena"]').should('not.contain', '- Contener al menos un caracter especial.')
+
+    cy.get('[data-cy="registro-contrasena"]').clear()
+    cy.get('[data-cy="registro-contrasena"]').type('1234567')
+    cy.get('[data-cy="registro-boton"]').click()
+    cy.get('[data-cy="errores-contrasena"]').should('not.contain', '- Ser más larga de 7 caracteres.')
+    cy.get('[data-cy="errores-contrasena"]').should('contain', '- Contener al menos una letra.')
+    cy.get('[data-cy="errores-contrasena"]').should('not.contain', '- Contener al menos un numero.')
+    cy.get('[data-cy="errores-contrasena"]').should('contain', '- Contener al menos un caracter especial.')
+
+    cy.get('[data-cy="registro-contrasena"]').clear()
+    cy.get('[data-cy="registro-contrasena"]').type('bad-p')
+    cy.get('[data-cy="registro-boton"]').click()
+    cy.get('[data-cy="errores-contrasena"]').should('contain', '- Ser más larga de 7 caracteres.')
+    cy.get('[data-cy="errores-contrasena"]').should('not.contain', '- Contener al menos una letra.')
+    cy.get('[data-cy="errores-contrasena"]').should('contain', '- Contener al menos un numero.')
+    cy.get('[data-cy="errores-contrasena"]').should('not.contain', '- Contener al menos un caracter especial.')
+
+    cy.get('[data-cy="registro-contrasena"]').clear()
+    cy.get('[data-cy="registro-contrasena"]').type('badPassword2')
+    cy.get('[data-cy="registro-boton"]').click()
+    cy.get('[data-cy="errores-contrasena"]').should('not.contain', '- Ser más larga de 7 caracteres.')
+    cy.get('[data-cy="errores-contrasena"]').should('not.contain', '- Contener al menos una letra.')
+    cy.get('[data-cy="errores-contrasena"]').should('not.contain', '- Contener al menos un numero.')
+    cy.get('[data-cy="errores-contrasena"]').should('contain', '- Contener al menos un caracter especial.')
+
+    cy.get('[data-cy="registro-contrasena"]').clear()
+    cy.get('[data-cy="registro-contrasena"]').type('bad-Password')
+    cy.get('[data-cy="registro-boton"]').click()
+    cy.get('[data-cy="errores-contrasena"]').should('not.contain', '- Ser más larga de 7 caracteres.')
+    cy.get('[data-cy="errores-contrasena"]').should('not.contain', '- Contener al menos una letra.')
+    cy.get('[data-cy="errores-contrasena"]').should('contain', '- Contener al menos un numero.')
+    cy.get('[data-cy="errores-contrasena"]').should('not.contain', '- Contener al menos un caracter especial.')
+
+    cy.get('[data-cy="registro-contrasena"]').clear()
+    cy.get('[data-cy="registro-contrasena"]').type('123-456')
+    cy.get('[data-cy="registro-boton"]').click()
+    cy.get('[data-cy="errores-contrasena"]').should('not.contain', '- Ser más larga de 7 caracteres.')
+    cy.get('[data-cy="errores-contrasena"]').should('contain', '- Contener al menos una letra.')
+    cy.get('[data-cy="errores-contrasena"]').should('not.contain', '- Contener al menos un numero.')
+    cy.get('[data-cy="errores-contrasena"]').should('not.contain', '- Contener al menos un caracter especial.')
+
+    cy.get('[data-cy="registro-contrasena"]').clear()
+    cy.get('[data-cy="registro-contrasena"]').type('bad-12')
+    cy.get('[data-cy="registro-boton"]').click()
+    cy.get('[data-cy="errores-contrasena"]').should('contain', '- Ser más larga de 7 caracteres.')
+    cy.get('[data-cy="errores-contrasena"]').should('not.contain', '- Contener al menos una letra.')
+    cy.get('[data-cy="errores-contrasena"]').should('not.contain', '- Contener al menos un numero.')
+    cy.get('[data-cy="errores-contrasena"]').should('not.contain', '- Contener al menos un caracter especial.')
   })
+
+  it('Trata de registrar un correo y una contraseña que ya existen', () => {
+    cy.visit('')
+    
+    cy.get('[data-cy="registrarse"]').click()
+
+    cy.get('[data-cy="registro-correo"]').type('correoExistente@gmail.com')
+    cy.get('[data-cy="registro-contrasena"]').type('contrasena-123')
+    cy.get('[data-cy="registro-boton"]').click()
+
+    cy.get('[data-cy="registro-tab"]').should('contain', 'Esta cuenta ya se encuentra registrada.')
+    cy.get('[data-cy="registro-tab"]').should('not.contain', 'Por favor ingrese un correo electrónico válido.')
+    cy.get('[data-cy="registro-tab"]').should('not.contain', '- Ser más larga de 7 caracteres.')
+    cy.get('[data-cy="registro-tab"]').should('not.contain', '- Contener al menos una letra.')
+    cy.get('[data-cy="registro-tab"]').should('not.contain', '- Contener al menos un numero.')
+    cy.get('[data-cy="registro-tab"]').should('not.contain', '- Contener al menos un caracter especial.')
+  })
+
+  /*it('Registra un usuario con correo y contraseña correctos', () => {
+    cy.visit('')
+    
+    cy.get('[data-cy="registrarse"]').click()
+
+    cy.get('[data-cy="registro-correo"]').type('correoValido@gmail.com')
+    cy.get('[data-cy="registro-contrasena"]').type('contrasena-123')
+    cy.get('[data-cy="registro-boton"]').click()
+
+    cy.get('[data-cy="registro-tab"]').should('not.contain', 'Esta cuenta ya se encuentra registrada.')
+    cy.get('[data-cy="registro-tab"]').should('not.contain', 'Por favor ingrese un correo electrónico válido.')
+    cy.get('[data-cy="registro-tab"]').should('not.contain', '- Ser más larga de 7 caracteres.')
+    cy.get('[data-cy="registro-tab"]').should('not.contain', '- Contener al menos una letra.')
+    cy.get('[data-cy="registro-tab"]').should('not.contain', '- Contener al menos un numero.')
+    cy.get('[data-cy="registro-tab"]').should('not.contain', '- Contener al menos un caracter especial.')
+
+    cy.url().should('include', '/CargarArchivos')
+  })*/
 })
