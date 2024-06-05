@@ -358,7 +358,7 @@ def get_history():
         user_id = flask.g.get('user_id')
         
         db = firestore.client()
-        documents_ref = db.collection('users').document(user_id).collection('documents').stream()
+        documents_ref = db.collection('users').document(user_id).collection('documents').order_by('created_at', direction=firestore.Query.DESCENDING).stream()
         
         documents_list = []
         for doc in documents_ref:
@@ -392,8 +392,8 @@ def get_favorites():
         user_id = flask.g.get('user_id')
         
         db = firestore.client()
-        documents_ref = db.collection('users').document(user_id).collection('documents').where("favorite", "==", True).stream()
-        
+        documents_ref = db.collection('users').document(user_id).collection('documents').where("favorite", "==", True).order_by('created_at', direction=firestore.Query.DESCENDING).stream()
+
         documents_list = []
         for doc in documents_ref:
             document_data = doc.to_dict()
