@@ -221,7 +221,7 @@ function QuantitativeSection(prop: any) {
   return(
     <div className="flex justify-center">
       <button className="inline text-start items-center border-[2px] border-[#5456F5] w-[80%] px-[1vw] py-[1vh] my-[1vh]
-      rounded-[10px] hover:bg-[#5456F5]" onClick={() => prop.setTarget(prop.sentence)}>
+      rounded-[10px]" onClick={() => prop.setTarget(prop.sentence)}>
         <div className="font-semibold text-[2.5vh]">
           {prop.sentence.includes(prop.data)?
           <p> {prop.sentence.substring(0,target)} <span style={{fontWeight: 'bold', backgroundColor: '#5456F5'}}> {prop.data} </span> {prop.sentence.substring(target + prop.data.length, prop.sentence.length)} </p> 
