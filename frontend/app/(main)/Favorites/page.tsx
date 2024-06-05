@@ -61,7 +61,7 @@ export default function MostrarFavoritos() {
                     <button onClick={() => handleClick(doc.id, doc.analysis_id)}>
 
                       <div>
-                        <h1 className='font-bold'>{doc.title}</h1>
+                        <h1 className='font-bold w-[90%] mx-auto whitespace-nowrap overflow-hidden text-ellipsis'>{doc.title}</h1>
                         <p className='font-bold'>{doc.createdAt}</p>
                         <hr></hr>
                         <div className='flex justify-center items-center'>
