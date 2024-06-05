@@ -397,6 +397,7 @@ function MostrarAnalisis({
         </button>
       </div>
       <div className="bg-[#30323D] pt-[25vh] mb-[15vh] bottom-0 font-semibold basis-[93vw] md:pt-[125px] md:mb-auto">
+        <div className="text-center font-bold text-white text-[4vh] mt-[-5vh] mb-[2vh]">{documentInfo?.title}</div>
         <div className="flex items-center justify-center">
           <BotonHome />
           <div className="w-[10vw] md:w-0"/>
