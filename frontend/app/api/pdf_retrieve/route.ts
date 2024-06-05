@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { createDocument } from '@/services/document.service';
+import { precreateDocument } from '@/services/document.service';
 import { getCookie, getCookies } from 'cookies-next';
 import { cookies } from 'next/headers';
 
@@ -11,8 +11,8 @@ export async function POST(req: Request, res: Response) {
         formData.append('extension', "PDF");
         const userCookies = getCookies({cookies});
         const token = userCookies.token;
-        const res = await createDocument(formData, token);
-        return new Response(JSON.stringify({ text: res.text }), {
+        const res = await precreateDocument(formData, token);
+        return new Response(JSON.stringify(res), {
             status: 200,
         });
     } catch (error:any) {

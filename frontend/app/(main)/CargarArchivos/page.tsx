@@ -116,7 +116,8 @@ function Main(currentState: any) {
       const response = await axios.post('http://localhost:3000/api/pdf_retrieve', body);
       localStorage.setItem("text", response.data.text);
       setFState("Correct")
-      router.push(`/Analisis`);
+      currentState.setPrecreationObject(response.data);
+      currentState.setPalabrasClaveView()
     } catch (error) {
       setFState("ErrorUploading")
     }
