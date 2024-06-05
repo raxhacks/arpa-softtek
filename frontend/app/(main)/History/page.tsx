@@ -55,7 +55,7 @@ export default function MostrarHistorial() {
                   <Fade className='w-72 lg:w-96 h-56 rounded-2xl p-4 bg-favsnhistory-500 transition-colors shadow-md hover:border-blue-200 hover:bg-blue-400'>
                     <button onClick={() => handleClick(doc.id, doc.analysis_id)}>
                       <div>
-                        <h1 className='font-bold'>{doc.title}</h1>
+                        <h1 className='font-bold w-[90%] mx-auto whitespace-nowrap overflow-hidden text-ellipsis'>{doc.title}</h1>
                         <p className='font-bold'>{doc.createdAt}</p>
                         <hr></hr>
                         <div className='flex justify-center items-center'>

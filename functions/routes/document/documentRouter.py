@@ -14,6 +14,7 @@ import yake
 from .helpers.AnalysisAndChatCreation import addAnalysisToDocument
 from datetime import datetime
 from babel.dates import format_date
+from langdetect import detect
 
 MAX_FILE_SIZE_MB = 3 
 
@@ -130,6 +131,7 @@ def create_document():
         kw_extractor = yake.KeywordExtractor(top=10)
         keywords_tuple = kw_extractor.extract_keywords(text)
         keywords = [keyword[0] for keyword in keywords_tuple]
+
         # Get frequency of each keyword
         analysis_keywords = []
         for keyword in keywords:
@@ -240,9 +242,14 @@ def precreate_document():
         content = flask.request.form.get('content')
 
         # Extract keywords
-        kw_extractor = yake.KeywordExtractor(top=10)
-        keywords_tuple = kw_extractor.extract_keywords(text)
-        keywords = [keyword[0] for keyword in keywords_tuple]
+        lang = detect(text)
+        language = lang 
+        max_word_size = 2
+        deduplication_thresold = 0.9
+        custom_kw_extractor = yake.KeywordExtractor(lan=language, n=max_word_size, dedupLim=deduplication_thresold, top=10, features=None)
+        keywordsYAKE = custom_kw_extractor.extract_keywords(text)
+        keywords = [keyword[0] for keyword in keywordsYAKE]
+
         # Get frequency of each keyword
         analysis_keywords = []
         for keyword in keywords:
