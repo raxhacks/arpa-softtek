@@ -62,7 +62,7 @@ def pdf_from_url_to_txt(url, user_id):
     str = retstr.getvalue()
     retstr.close()
     print(public_url)
-    return [str, decoded_filename, public_url]
+    return [str, public_url, decoded_filename]
 
 documentBlueprint = flask.Blueprint('document', __name__, url_prefix="/document")
 
