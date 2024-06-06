@@ -15,6 +15,7 @@ from .helpers.AnalysisAndChatCreation import addAnalysisToDocument
 from datetime import datetime
 from babel.dates import format_date
 from langdetect import detect
+import json
 
 MAX_FILE_SIZE_MB = 3 
 
@@ -268,10 +269,12 @@ def precreate_document():
             'chat': {},
         }
 
+        parsed = json.dumps(new_document)
+
         # Create the document
         
         
-        return flask.jsonify({"message": "New document precreated successfully", "document_object": new_document, "text":text, "analysis_keywords":analysis_keywords, "keywords":keywords}), 201
+        return flask.jsonify({"message": "New document precreated successfully", "document_object": parsed, "text":text, "analysis_keywords":analysis_keywords, "keywords":keywords}), 201
     except Exception as e:
         print("Error:",e)
         return flask.jsonify({"message":"Failed to create new document"}), 500
