@@ -28,7 +28,7 @@ describe('Probar la carga de archivos PDF', () => {
     cy.get('[data-cy="cargar-header"]').should('contain', 'Selecciona el formato del artículo')
   })
 
-  it('Carga un archivo invalido', () => {
+  it('Carga un archivo inválido', () => {
     cy.get('[data-cy="format-button"]').eq(0).click()
     cy.get('[data-cy="cargar-header"]').should('contain', 'Sube el artículo en formato PDF')
 
@@ -50,7 +50,7 @@ describe('Probar la carga de archivos PDF', () => {
     cy.get('[data-cy="error-format"]').should('exist')*/
   })
 
-  it('Carga un archivo valido', () => {
+  it('Carga un archivo válido', () => {
     cy.get('[data-cy="format-button"]').eq(0).click()
     cy.get('[data-cy="cargar-header"]').should('contain', 'Sube el artículo en formato PDF')
 
@@ -62,7 +62,8 @@ describe('Probar la carga de archivos PDF', () => {
     cy.get('[data-cy="cargar-main"]').should('contain', 'testPDF.pdf')
     cy.get('[data-cy="cargar-main"]').should('not.contain', 'Error')
 
-    //Probar cargar archivo
-    /*cy.get('[data-cy="confirm"]').click()*/
+    cy.get('[data-cy="confirm"]').click()
+    cy.url().should('include', '/CargarArchivos')
+    cy.get('[data-cy="palabras-main"]').should('contain', '¿Cómo le gustaría realizar el análisis?')
   })
 })
