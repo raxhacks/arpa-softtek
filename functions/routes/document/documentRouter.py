@@ -14,12 +14,15 @@ import yake
 from .helpers.AnalysisAndChatCreation import addAnalysisToDocument
 from datetime import datetime
 from babel.dates import format_date
+from langdetect import detect
 
 MAX_FILE_SIZE_MB = 3 
 
 def pdf_from_url_to_txt(url, user_id):
     # Parse the filename from the URL
     filename = os.path.basename(urllib.parse.urlparse(url).path)
+    decoded_filename = urllib.parse.unquote(filename)
+    print("Filename:", decoded_filename)
 
     rsrcmgr = PDFResourceManager()
     retstr = StringIO()
@@ -33,6 +36,7 @@ def pdf_from_url_to_txt(url, user_id):
     if file_size_mb > MAX_FILE_SIZE_MB:
         return None, "File size exceeds the limit of 3MB"
     
+    print("File extension:", file_size_mb)
     # Configure bucket
     bucket = storage.bucket()
     blob = bucket.blob(f"users/{user_id}/{filename}")
@@ -58,7 +62,8 @@ def pdf_from_url_to_txt(url, user_id):
     device.close()
     str = retstr.getvalue()
     retstr.close()
-    return [str, public_url]
+    print(public_url)
+    return [str, public_url, decoded_filename]
 
 documentBlueprint = flask.Blueprint('document', __name__, url_prefix="/document")
 
@@ -126,6 +131,7 @@ def create_document():
         kw_extractor = yake.KeywordExtractor(top=10)
         keywords_tuple = kw_extractor.extract_keywords(text)
         keywords = [keyword[0] for keyword in keywords_tuple]
+
         # Get frequency of each keyword
         analysis_keywords = []
         for keyword in keywords:
@@ -224,8 +230,10 @@ def precreate_document():
             else:
                 text = ''  # Placeholder for content extraction for other file types
         else:
-            text = pdf_from_url_to_txt(url, user_id)[0]
-            public_url = pdf_from_url_to_txt(url, user_id)[1]
+            url_parser = pdf_from_url_to_txt(url, user_id)
+            text = url_parser[0]
+            public_url = url_parser[1]
+            title = url_parser[2]
         # Save other data to Firestore
         db = firestore.client()
         user_doc_ref = db.collection('users').document(user_id)
@@ -234,9 +242,14 @@ def precreate_document():
         content = flask.request.form.get('content')
 
         # Extract keywords
-        kw_extractor = yake.KeywordExtractor(top=10)
-        keywords_tuple = kw_extractor.extract_keywords(text)
-        keywords = [keyword[0] for keyword in keywords_tuple]
+        lang = detect(text)
+        language = lang 
+        max_word_size = 2
+        deduplication_thresold = 0.9
+        custom_kw_extractor = yake.KeywordExtractor(lan=language, n=max_word_size, dedupLim=deduplication_thresold, top=10, features=None)
+        keywordsYAKE = custom_kw_extractor.extract_keywords(text)
+        keywords = [keyword[0] for keyword in keywordsYAKE]
+
         # Get frequency of each keyword
         analysis_keywords = []
         for keyword in keywords:
@@ -358,7 +371,7 @@ def get_history():
         user_id = flask.g.get('user_id')
         
         db = firestore.client()
-        documents_ref = db.collection('users').document(user_id).collection('documents').stream()
+        documents_ref = db.collection('users').document(user_id).collection('documents').order_by('created_at', direction=firestore.Query.DESCENDING).stream()
         
         documents_list = []
         for doc in documents_ref:
@@ -393,7 +406,7 @@ def get_favorites():
         
         db = firestore.client()
         documents_ref = db.collection('users').document(user_id).collection('documents').where("favorite", "==", True).stream()
-        
+
         documents_list = []
         for doc in documents_ref:
             document_data = doc.to_dict()
