@@ -221,7 +221,7 @@ function QuantitativeSection(prop: any) {
   return(
     <div className="flex justify-center">
       <button className="inline text-start items-center border-[2px] border-[#5456F5] w-[80%] px-[1vw] py-[1vh] my-[1vh]
-      rounded-[10px] hover:bg-[#5456F5]" onClick={() => prop.setTarget(prop.sentence)}>
+      rounded-[10px]" onClick={() => prop.setTarget(prop.sentence)}>
         <div className="font-semibold text-[2.5vh]">
           {prop.sentence.includes(prop.data)?
           <p> {prop.sentence.substring(0,target)} <span style={{fontWeight: 'bold', backgroundColor: '#5456F5'}}> {prop.data} </span> {prop.sentence.substring(target + prop.data.length, prop.sentence.length)} </p> 
@@ -397,6 +397,7 @@ function MostrarAnalisis({
         </button>
       </div>
       <div className="bg-[#30323D] pt-[25vh] mb-[15vh] bottom-0 font-semibold basis-[93vw] md:pt-[125px] md:mb-auto">
+        <div className="w-[50%] mx-auto text-center font-bold text-white text-[3vh] mt-[-5vh] mb-[2vh] text-ellipsis overflow-hidden">{documentInfo?.title}</div>
         <div className="flex items-center justify-center">
           <BotonHome />
           <div className="w-[10vw] md:w-0"/>
