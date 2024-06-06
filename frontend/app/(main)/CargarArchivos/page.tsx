@@ -113,7 +113,7 @@ function Main(currentState: any) {
     try {
       e.preventDefault();
       const body = {url: url};
-      const response = await axios.post('http://localhost:3000/api/pdf_retrieve', body);
+      const response = await axios.post('/api/pdf_retrieve', body);
       localStorage.setItem("text", response.data.text);
       setFState("Correct")
       currentState.setPrecreationObject(response.data);
