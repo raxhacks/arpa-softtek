@@ -9,6 +9,18 @@ describe('Probar el registro', () => {
     cy.get('[data-cy="registro-boton"]').should('exist')
   })
 
+  it('Se regresa a la tab principal', () => {
+    cy.visit('')
+
+    cy.get('[data-cy="registrarse"]').click()
+
+    cy.get('[data-cy="registro-atras"]').click()
+
+    cy.get('[data-cy="registro-correo"]').should('not.exist')
+    cy.get('[data-cy="registro-contrasena"]').should('not.exist')
+    cy.get('[data-cy="registro-boton"]').should('not.exist')
+  })
+
   it('Escribe datos en los campos', () => {
     cy.visit('')
     
@@ -211,7 +223,7 @@ describe('Probar el registro', () => {
     cy.get('[data-cy="errores-contrasena"]').should('not.contain', '- Contener al menos un caracter especial.')
   })
 
-  it('Trata de registrar un correo y una contraseña que ya existen', () => {
+  it('Trata de registrar un correo que ya existe', () => {
     cy.visit('')
     
     cy.get('[data-cy="registrarse"]').click()

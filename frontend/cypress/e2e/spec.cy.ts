@@ -1,16 +1,12 @@
 describe('My first test', () => {
   it('Visits my page', () => {
     cy.visit('')
-
-    cy.contains('Iniciar sesión')
-    cy.contains('Registrarse')
     
-    /*cy.contains('type').click()
-
-    cy.url().should('include', '/commands/actions')
-
-    cy.get('.action-email').type('fake@email.com')
-
-    cy.get('.action-email').should('have.value', 'fake@email.com')*/
+    cy.request('POST', 'https://arpa-2mgft7cefq-uc.a.run.app/login', { email: 'correoValido@gmail.com', password: 'valido-123' }).then(
+      (response) => {
+        // response.body is automatically serialized into JSON
+        expect(response.body).to.have.property('message', 'Login successful') // true
+      }
+    )
   })
 })

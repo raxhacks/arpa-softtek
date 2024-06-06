@@ -42,7 +42,7 @@ function MyTabs() {
         {/* Inicio de Sesion tab */}
         <Tab.Panel className={`w-full lg:static rounded-lg flex-grow fixed h-screen p-12 pt-6 bg-gray-600 overflow-y-auto`}>
           {/* Boton de atras  */}
-          <Tab className={`rounded-lg border w-16 border-transparent py-2 text-white`}>
+          <Tab className={`rounded-lg border w-16 border-transparent py-2 text-white`} data-cy='login-atras' >
             <svg
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 20 20"
@@ -59,7 +59,8 @@ function MyTabs() {
 
           {/* form para login */}
           <form action={loginAction} 
-            className="flex flex-col items-center justify-center mx-auto max-w-sm mt-10 lg:mt-40">
+            className="flex flex-col items-center justify-center mx-auto max-w-sm mt-10 lg:mt-40"
+            data-cy="login-tab" >
             {loginstate?.message && 
               <div className='pl-2 pr-2 rounded-2xl border border-red-500 mb-3' style={{ display: 'flex', alignItems: 'center' }}>
                 <svg xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler icon-tabler-exclamation-circle mr-1" width="15" height="15" viewBox="0 0 24 24" strokeWidth="1.5" stroke="#ffffff" fill="none" strokeLinecap="round" strokeLinejoin="round" style={{ marginLeft: '5px' }}>
@@ -76,7 +77,9 @@ function MyTabs() {
                 id="email" 
                 name="email" 
                 placeholder = "Correo electrónico" 
-                className="w-full mb-4 border border-blue-500 rounded-3xl px-4 py-3 mt-1 focus:outline-none bg-slate-600 text-white"/> 
+                className="w-full mb-4 border border-blue-500 rounded-3xl px-4 py-3 mt-1 focus:outline-none bg-slate-600 text-white"
+                data-cy="login-correo"
+              /> 
             </div>
             <div className="w-full relative">
               <input 
@@ -84,7 +87,8 @@ function MyTabs() {
                 type={showPassword ? "text" : "password"}
                 placeholder="Contraseña"
                 autoComplete='on'
-                className="w-full mb-1 border border-blue-500 rounded-3xl px-4 py-3 mt-1 focus:outline-none bg-slate-600 text-white" 
+                className="w-full mb-1 border border-blue-500 rounded-3xl px-4 py-3 mt-1 focus:outline-none bg-slate-600 text-white"
+                data-cy="login-contrasena" 
               />
               <button 
                 type="button" 
@@ -113,7 +117,7 @@ function MyTabs() {
         {/* Registro tab */}
         <Tab.Panel className={`w-full lg:static rounded-lg flex-grow fixed h-screen p-12 pt-6 bg-gray-600 overflow-y-auto`}>   
           {/* Boton de atras */}
-          <Tab className={`rounded-lg border w-16 border-transparent text-white`}>
+          <Tab className={`rounded-lg border w-16 border-transparent text-white`} data-cy='registro-atras' >
             <svg
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 20 20"
@@ -220,7 +224,7 @@ export function LoginButton() {
     const { pending } = useFormStatus()
   
     return (
-      <button disabled={pending} type="submit" className="rounded-lg border border-transparent py-2 px-9 w-mid text-center mt-6 font-semibold text-2xl text-white bg-blue-500 transition-colors hover:border-blue-300 hover:bg-blue-100 hover:dark:bg-neutral-800/20 hover:text-white">
+      <button disabled={pending} type="submit" className="rounded-lg border border-transparent py-2 px-9 w-mid text-center mt-6 font-semibold text-2xl text-white bg-blue-500 transition-colors hover:border-blue-300 hover:bg-blue-100 hover:dark:bg-neutral-800/20 hover:text-white" data-cy="login-boton" >
         {pending ? 'Iniciando sesion...' : 'Iniciar sesión'}
       </button>
     )
