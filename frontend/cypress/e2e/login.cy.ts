@@ -161,7 +161,7 @@ describe('Probar el inicio de sesión', () => {
 
   it('Ingresa un correo y una contraseña correctos', () => {
     cy.visit('')
-    cy.intercept('**').as('allRequests');
+    //cy.intercept('**').as('allRequests');
     
     cy.get('[data-cy="iniciar-sesion"]').click()
 
@@ -184,7 +184,7 @@ describe('Probar el inicio de sesión', () => {
 
     cy.get('[data-cy="login-boton"]').click()
 
-    cy.wait('@allRequests').then((interception) => {
+    /*cy.wait('@allRequests').then((interception) => {
       const requestUrl = interception.request.url;
       const requestMethod = interception.request.method;
       const requestBody = interception.request.body;
@@ -199,10 +199,27 @@ describe('Probar el inicio de sesión', () => {
       } else {
         cy.log('La solicitud no tiene respuesta.');
       }
-    });
+    });*/
 
     cy.get('[data-cy="login-tab"]').should('not.contain', 'Credenciales incorrectas')
 
     cy.url().should('include', '/CargarArchivos')
+  })
+
+  it('Cierra sesión', () => {
+    cy.visit('')
+    
+    cy.get('[data-cy="iniciar-sesion"]').click()
+
+    cy.get('[data-cy="login-correo"]').eq(0).type('correoValido@gmail.com')
+    cy.get('[data-cy="login-contrasena"]').eq(0).type('valido-123')
+
+    cy.get('[data-cy="login-boton"]').click()
+
+    cy.url().should('include', '/CargarArchivos')
+    cy.get('[data-cy="header-cerrar-sesion"]').should('exist')
+    cy.get('[data-cy="header-cerrar-sesion"]').click()
+
+    cy.url().should('not.include', '/CargarArchivos')
   })
 })

@@ -262,7 +262,7 @@ function FileStateMessage(fileState: any) {
       <div className="grid grid-cols-1">
         <button onClick={handleSubmitDocument} disabled={loading || !fileState.file} className="bg-transparent text-[#FCFAF5] border-solid border-[#FCFAF5]
         border-[0.5vh] rounded-[2vh] mx-auto mt-[5vh] md:mt-[7vh] mb-[1vh] w-[70vw] max-w-[325px] h-[12vh] max-h-[80px] flex items-center
-        justify-center text-[4vh] hover:bg-[#282933] active:bg-[#FCFAF5] active:border-[#30323D] active:text-[#30323D]">
+        justify-center text-[4vh] hover:bg-[#282933] active:bg-[#FCFAF5] active:border-[#30323D] active:text-[#30323D]" data-cy="confirm">
             {loading ? 
             <svg className="animate-spin h-10 w-10" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
             <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
@@ -272,7 +272,7 @@ function FileStateMessage(fileState: any) {
             </svg> :
             'Siguiente'}
           {/* <label htmlFor="siguiente" >Siguiente</label> */}
-          <input type="submit" id="siguiente" style={{opacity: "0", position: "absolute", zIndex: "-1"}} data-cy="confirm" />
+          <input type="submit" id="siguiente" style={{opacity: "0", position: "absolute", zIndex: "-1"}} />
         </button>
         {errorMesage ?
         <Bounce duration={300} triggerOnce={true}>
