@@ -1,6 +1,6 @@
 'use client';
 
-import Link from 'next/link';
+import { Bounce } from "react-awesome-reveal";
 import './CargarArchivos.css';
 import { useState } from 'react';
 import { useEffect } from 'react';
@@ -96,7 +96,7 @@ function Main(currentState: any) {
   const {acceptedFiles, getRootProps, getInputProps} = useDropzone({noClick: true});
 
   useEffect(() => {
-    if(currentState.type === "PDF" && acceptedFiles[0] != null){
+    if(currentState.type === "PDF" && acceptedFiles[0] != null){  
       currentState.handleChangePDF(acceptedFiles[0])
     }
     else if(currentState.type === "DOCX" && acceptedFiles[0] != null){
@@ -113,10 +113,11 @@ function Main(currentState: any) {
     try {
       e.preventDefault();
       const body = {url: url};
-      const response = await axios.post('http://localhost:3000/api/pdf_retrieve', body);
+      const response = await axios.post('/api/pdf_retrieve', body);
       localStorage.setItem("text", response.data.text);
       setFState("Correct")
-      router.push(`/Analisis`);
+      currentState.setPrecreationObject(response.data);
+      currentState.setPalabrasClaveView()
     } catch (error) {
       setFState("ErrorUploading")
     }
@@ -220,30 +221,22 @@ function Main(currentState: any) {
 
 
 function FileStateMessage(fileState: any) {
-  const router = useRouter();
-  const [loading, setLoading] = useState(false)
-  // const handleSubmitDocument = async (e:any) => {
-  //   try {
-  //     setLoading(true);
-  //     e.preventDefault();
-  //     const formData = new FormData();
-  //     formData.append("file", fileState.file);
-  //     formData.append("extension", fileState.type);
-  //     const res = await axios.post("/api/document",formData);
-  //     console.log(res.data, 'adasd');
-  //     const docId = res.data.document_id;
-  //     const analysisId = res.data.analysis_id;
-  //     router.push(`/Analisis/${docId}/${analysisId}`);
-  //   } catch (error) {
-  //     console.error(error);
-  //     setLoading(false);
+  const [loading, setLoading] = useState(false);
+  const [errorMesage, setErrorMessage] = useState('')
 
-  //   }
-  // }
   const handleSubmitDocument = () =>  {
     const formData = new FormData();
     formData.append("file", fileState.file);
     formData.append("extension", fileState.type);
+  
+    const fileSize = fileState.file.size; 
+
+    const maxSizeInBytes = 3 * 1024 * 1024; // 3 MB
+    if (fileSize > maxSizeInBytes) {
+      setErrorMessage('El archivo pesa más de 3 MB')
+      return; 
+    }
+
     setLoading(true);
     axios.post('/api/document', formData).then((res) => {
       fileState.setPrecreationObject(res.data);
@@ -266,7 +259,7 @@ function FileStateMessage(fileState: any) {
   }
   else if(fileState.state === "Correct"){
     return(
-      <div className="flex justify-center">
+      <div className="grid grid-cols-1">
         <button onClick={handleSubmitDocument} disabled={loading || !fileState.file} className="bg-transparent text-[#FCFAF5] border-solid border-[#FCFAF5]
         border-[0.5vh] rounded-[2vh] mx-auto mt-[5vh] md:mt-[7vh] mb-[1vh] w-[70vw] max-w-[325px] h-[12vh] max-h-[80px] flex items-center
         justify-center text-[4vh] hover:bg-[#282933] active:bg-[#FCFAF5] active:border-[#30323D] active:text-[#30323D]" data-cy="confirm">
@@ -281,6 +274,11 @@ function FileStateMessage(fileState: any) {
           {/* <label htmlFor="siguiente" >Siguiente</label> */}
           <input type="submit" id="siguiente" style={{opacity: "0", position: "absolute", zIndex: "-1"}} />
         </button>
+        {errorMesage ?
+        <Bounce duration={300} triggerOnce={true}>
+          <div className='text-red-500 text-center h-0'>El archivo pesa más de 3 MB</div>
+        </Bounce>
+        : <div></div>}
       </div>
     );
   }
