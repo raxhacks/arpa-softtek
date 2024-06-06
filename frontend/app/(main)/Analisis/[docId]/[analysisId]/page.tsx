@@ -135,17 +135,19 @@ const Content: React.FC<ContentProps> = (props: ContentProps) => {
 
 function PieLabel(data: any){
   return(
-    <div className="inline justify-end items-center py-[1vh] pl-[2vw]">
-      <div>{data.name}</div>
-      <div className="h-[3vh] w-[3vh] rounded-[3px] bg-[#7951e8] mr-[1vw]" style={{backgroundColor: data.color}}/>
+    <div className="flex justify-center w-full">
+      <div className="flex justify-between w-[90%] items-center py-[1vh] pl-[2vw]">
+        <div className="h-[3vh] w-[3vh] rounded-[3px] bg-[#7951e8] mr-[1vw]" style={{backgroundColor: data.color}}/>
+        <div>{data.name}</div>
+      </div> 
     </div>
   );
 }
 
 function KeywordButton(data: any){
   return(
-    <div className="inline justify-center">
-      <button className="inline justify-between items-center w-[80%] px-[2vw] py-[0.5vh] my-[1vh] rounded-[10px] hover:bg-[#3E4051]" onClick={() => data.setTarget(data.name)}>
+    <div className="flex justify-center w-full">
+      <button className="flex justify-between items-center w-full px-[2vw] py-[0.5vh] my-[1vh] rounded-[10px] hover:bg-[#3E4051]" onClick={() => data.setTarget(data.name)}>
         <div className="font-semibold rounded-[10px] py-[1vh] px-[1.5vh] bg-[#5456F5]">{data.count}</div>
         <div className="font-semibold text-[2.5vh]">:{data.name}</div>  
       </button>
@@ -188,6 +190,7 @@ const LeftBarContent: React.FC<LeftProps> = (props: LeftProps) => {
         <div>
           <div className="text-center font-bold text-[3vh]">Frecuencia de palabras clave</div>
             <PieChart
+              className="my-[-5vh]"
               data={keywords.map((content: any, index: number) => ({title: content.keyword, value: content.count, color: pieColors[index]}))}
               label={({ dataEntry }) => `${Math.round(dataEntry.percentage)} %`}
               labelStyle={(index) => ({fill: "#FCFAF5", fontSize: "0.75vh", fontFamily: "sans-serif", fontWeight: "600"})}
