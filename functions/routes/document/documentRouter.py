@@ -260,11 +260,11 @@ def precreate_document():
 
         new_document = {
             'title': title,
-            'content': text if extension == 'PDF' or extension == 'DOCX' else content,
+            # 'content': text if extension == 'PDF' or extension == 'DOCX' else content,
             'url': url,
             'public_url': public_url,
             'extension': extension,
-            'created_at': firestore.SERVER_TIMESTAMP,
+            # 'created_at': firestore.SERVER_TIMESTAMP,
             'favorite': False,
             'chat': {},
         }

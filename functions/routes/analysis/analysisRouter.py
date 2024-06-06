@@ -12,11 +12,12 @@ def create_analysis():
         user_id = flask.g.get('user_id')
         body = flask.request.json
         document_object = body['document_object']
+        print("Document object:", document_object)
         text = body['text']
         analysis_keywords = body['analysis_keywords']
         keywords = body['keywords']
         userOwnKeywords = body['userOwnKeywords']
-
+        document_object['content'] = text
         if userOwnKeywords:
             # Count the occurrences of each keyword in the text
             keyword_counts = Counter(word.lower() for word in text.split() if word.lower() in keywords)
