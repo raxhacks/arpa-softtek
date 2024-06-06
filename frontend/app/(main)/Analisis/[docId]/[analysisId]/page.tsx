@@ -253,7 +253,7 @@ const RightBarContent: React.FC<RightProps> = (props: RightProps) => {
           </div>
         </div>
       ) : props.propData?.length == 0 ? (
-        <div></div>
+        <div>No hay datos cuantitativos relevantes por mostrar</div>
       ) : (
         <div>
           <div className="text-center font-bold text-[3vh] mb-[2vh]">Datos cuantitativos encontrados en el documento</div>
