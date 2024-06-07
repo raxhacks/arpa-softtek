@@ -19,6 +19,7 @@ def create_analysis():
         keywords = body['keywords']
         userOwnKeywords = body['userOwnKeywords']
         document_object_parsed['content'] = text
+        document_object_parsed['created_at'] = firestore.SERVER_TIMESTAMP
         if userOwnKeywords:
             # Count the occurrences of each keyword in the text
             keyword_counts = Counter(word.lower() for word in text.split() if word.lower() in keywords)
