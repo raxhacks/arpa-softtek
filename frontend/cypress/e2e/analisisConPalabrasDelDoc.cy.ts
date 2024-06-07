@@ -44,6 +44,9 @@ describe('template spec', () => {
 
     cy.contains('Mis propias palabras clave').click()
     cy.get('[data-cy="palabras-main"]').should('not.contain', 'CAMBIO CLIMÁTICO')
+
+    cy.contains('Palabras clave del documento').click()
+    cy.get('[data-cy="palabras-main"]').should('contain', 'CAMBIO CLIMÁTICO')
   })
 
   it('Ejecuta el analisis con las palabras clave del documento', () => {

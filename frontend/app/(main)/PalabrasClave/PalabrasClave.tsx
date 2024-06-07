@@ -10,14 +10,14 @@ import axios from 'axios';
 
 function Arrow() {
     return(
-        <button className="border-0 bg-transparent align-middle ml-[2vw] fixed top-[1.5vh] z-30 md:top-[14vh] md:z-auto" onClick={() => {}} data-cy="palabras-atras" >
+        <div className="border-0 bg-transparent align-middle ml-[2vw] fixed top-[1.5vh] z-30 md:top-[14vh] md:z-auto" >
           <svg xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler icon-tabler-arrow-left hover:stroke-[#BCBAB5] active:stroke-[#565553]" width="56" height="56" viewBox="0 0 24 24" stroke-width="3" stroke="#FCFAF5" fill="none" stroke-linecap="round" stroke-linejoin="round">
             <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
             <path d="M5 12l14 0" />
             <path d="M5 12l6 6" />
             <path d="M5 12l6 -6" />
           </svg>
-        </button>
+        </div>
     );
 }
 
@@ -56,7 +56,7 @@ function PalabraPropia(data: any){
     };
 
     const handleClickConfirm = () => {
-        if(inputWord !== "" && inputWord.match(/\S(.*\S)?/)){
+        if(inputWord !== "" && inputWord.match(/\S(.*\S)?/) && inputWord.match(/^[a-zA-Z][\w\s.-]*$/)){
             data.setArray((oldArray: string[]) => [...oldArray, inputWord])
             setActive(true);
         }
@@ -136,7 +136,7 @@ function Palabras(data: any) {
         setLoading(true);
         data.handleConfirm();
     }
-    if(data.tab === "Palabras clave del autor"){
+    if(data.tab === "Palabras clave del documento"){
         return(
             <div className="flex flex-col md:flex-row justify-center items-center mt-[2vh] h-auto md:h-[60vh]">
                 <div className="flex flex-col md:flex-row mr-0 md:mr-[4vw]">
@@ -213,7 +213,7 @@ function Palabras(data: any) {
 }
 
 function PalabrasClave(props:any){
-    const [currentTab, setTab] = useState("Palabras clave del autor");
+    const [currentTab, setTab] = useState("Palabras clave del documento");
     const [palabrasPropias, setPropias] = useState<string[]>([]);
     const [palabrasAutor, setAutor] = useState<string[]>(!props.precreationObject.keywords ? [] : props.precreationObject.keywords);
 
@@ -239,7 +239,7 @@ function PalabrasClave(props:any){
     return(
         <div className="bg-[#30323D] pt-[15vh] pb-[15vh] font-semibold md:pt-[15vh] md:pb-[0vh]" data-cy="palabras-main">
             <Header/>
-            <button onClick={()=>props.setPalabrasClaveView()}>
+            <button onClick={()=>props.setPalabrasClaveView()} data-cy="palabras-atras">
                 <Arrow />
             </button>
             <div className="flex flex-col items-center justify-center">
