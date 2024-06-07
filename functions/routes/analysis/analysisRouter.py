@@ -2,6 +2,7 @@ import flask
 from collections import Counter
 from firebase_admin import firestore
 from .helpers.AnalysisAndChatCreation import addAnalysisToDocument
+import json
 
 analysisBlueprint = flask.Blueprint('analysis', __name__, url_prefix="/analysis")
 
@@ -12,12 +13,12 @@ def create_analysis():
         user_id = flask.g.get('user_id')
         body = flask.request.json
         document_object = body['document_object']
-        print("Document object:", document_object)
+        document_object_parsed = json.loads(document_object)
         text = body['text']
         analysis_keywords = body['analysis_keywords']
         keywords = body['keywords']
         userOwnKeywords = body['userOwnKeywords']
-        document_object['content'] = text
+        document_object_parsed['content'] = text
         if userOwnKeywords:
             # Count the occurrences of each keyword in the text
             keyword_counts = Counter(word.lower() for word in text.split() if word.lower() in keywords)
@@ -29,7 +30,7 @@ def create_analysis():
         user_doc_ref = db.collection('users').document(user_id)
         document_doc_ref = user_doc_ref.collection('documents').document()
 
-        document_doc_ref.set(document_object)
+        document_doc_ref.set(document_object_parsed)
 
         # Set the id attribute
         document_doc_ref.update({"document_id": document_doc_ref.id})
