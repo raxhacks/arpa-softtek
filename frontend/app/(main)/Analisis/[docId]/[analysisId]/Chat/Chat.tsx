@@ -3,7 +3,7 @@
 import { useState } from "react";
 import ChatInput from "./ChatInput";
 import MessageGallery from "./Messagegallery";
-import { Document } from "@/model/document";
+import { Doc } from "@/model/document";
 
 type ChatProps = { docId: string | undefined };
 

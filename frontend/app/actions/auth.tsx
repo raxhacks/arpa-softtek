@@ -23,15 +23,6 @@ export async function signup(state: FormState, formData: FormData) {
         password: password
     };
 
-    // Check if the user's email already exists
-    // const existingUser = await axios.post('')
-
-    // if (existingUser) {
-    //     return {
-    //       message: 'Email already exists, please login or use a different email.',
-    //     }
-    //   }
-
     // 3. Insert the user into the database or call an Auth Library's API 
     const token = await createUser(body);
 

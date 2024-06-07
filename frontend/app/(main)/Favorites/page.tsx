@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { Fade } from "react-awesome-reveal";
-import { Document } from '../../../model/document';
+import { Doc } from '../../../model/document';
 import './Favorites.css';
 import Header from '../header';
 import { useRouter } from 'next/navigation';
@@ -57,7 +57,7 @@ const MenuSortingButtonFav: React.FC<ButtonPropsfav> = (props: ButtonPropsfav) =
 }
 
 export default function MostrarFavoritos() {
-  const [favoriteDocs, setFavoriteDocs] = useState<Document[]>([]);
+  const [favoriteDocs, setFavoriteDocs] = useState<Doc[]>([]);
   const [loading, setLoading] = useState(true);
   const router = useRouter();
   const [search, setSearch] = useState('')
@@ -183,7 +183,7 @@ export default function MostrarFavoritos() {
                 <MenuItem>
                   {orderfav == 'acending' ? (
                     <button className="group flex w-full items-center gap-2 rounded-lg py-1.5 px-3 bg-gray-700/50" onClick={() => {handleOrder('acending'), sortItemsAscending()}}>
-                      <svg xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler icon-tabler-sort-ascending w-2/12 h-1/5" viewBox="0 0 24 24" stroke-width="1.5" stroke="#2c3e50" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                      <svg xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler icon-tabler-sort-ascending w-2/12 h-1/5" viewBox="0 0 24 24" stroke-width="1.5" stroke="#FFFFFF" fill="none" stroke-linecap="round" stroke-linejoin="round">
                         <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
                         <path d="M4 6l7 0" />
                         <path d="M4 12l7 0" />
@@ -211,7 +211,7 @@ export default function MostrarFavoritos() {
                 <MenuItem>
                   {orderfav == 'decending' ?(
                     <button className="group flex w-full items-center gap-2 rounded-lg py-1.5 px-3 bg-gray-700/50" onClick={() => {handleOrder('decending'), sortItemsDescending()}}>
-                    <svg xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler icon-tabler-sort-descending w-2/12 h-1/5" viewBox="0 0 24 24" stroke-width="1.5" stroke="#2c3e50" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                    <svg xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler icon-tabler-sort-descending w-2/12 h-1/5" viewBox="0 0 24 24" stroke-width="1.5" stroke="#FFFFFF" fill="none" stroke-linecap="round" stroke-linejoin="round">
                       <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
                       <path d="M4 6l9 0" />
                       <path d="M4 12l7 0" />
@@ -223,7 +223,7 @@ export default function MostrarFavoritos() {
                   </button>
                   ): (
                     <button className="group flex w-full items-center gap-2 rounded-lg py-1.5 px-3 data-[focus]:bg-white/10" onClick={() => {handleOrder('decending'), sortItemsDescending()}}>
-                    <svg xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler icon-tabler-sort-descending w-2/12 h-1/5" viewBox="0 0 24 24" stroke-width="1.5" stroke="#2c3e50" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                    <svg xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler icon-tabler-sort-descending w-2/12 h-1/5" viewBox="0 0 24 24" stroke-width="1.5" stroke="#FFFFFF" fill="none" stroke-linecap="round" stroke-linejoin="round">
                       <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
                       <path d="M4 6l9 0" />
                       <path d="M4 12l7 0" />
@@ -295,9 +295,9 @@ export default function MostrarFavoritos() {
               }).map((item) => (
                   <div key={item.id} className='pb-4 w-full flex justify-center items-center text-center text-white'>
                   <Fade >
-                    <button className='w-72 lg:w-96 h-56 rounded-2xl p-4 bg-favsnhistory-500 transition-colors shadow-md hover:border-blue-200 hover:bg-blue-400' onClick={() => handleClick(item.id, item.analysis_id)}>
+                    <button className='w-72 lg:w-96 rounded-2xl p-4 bg-favsnhistory-500 transition-colors shadow-md hover:border-blue-200 hover:bg-blue-400' onClick={() => handleClick(item.id, item.analysis_id)}>
                             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                              <h1 className='font-bold'>{item.title}</h1>
+                              <h1 className='font-bold'>{item.title}<p className=' text-emerald-300 '>.{item.extension}</p></h1>
                               {item.favorite === true ? (
                                 <div>
                                   <svg xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler ml-2 icon-tabler-star md:stroke-[#FFFF00] md:fill-[#FFFF00]"
@@ -317,21 +317,41 @@ export default function MostrarFavoritos() {
                               )}  
                             </div>        
                             <p className='font-bold'>{item.createdAt}</p>
-                            <div className='flex justify-center'>
-                              <iframe
+                            {item.extension.toLowerCase() === 'docx' ? (
+                                // <DocViewer
+                                // documents={[
+                                //   { 
+                                //     // uri: `https://rua.ua.es/dspace/bitstream/10045/16004/18/Tema%205.%20La%20modernidad%2C%20concepto%20y%20características.pdf`,
+                                //     uri: `${item.publicURL}`,
+                                //     // fileType: `pdf`,
+                                //     fileType: `${(item.extension).toLowerCase()}`,
+                                //   },
+                                // ]} 
+                                // theme={{
+                                //   primary: "#5296d8",
+                                //   secondary: "#ffffff",
+                                //   tertiary: "#5296d899",
+                                //   textPrimary: "#ffffff",
+                                //   textSecondary: "#5296d8",
+                                //   textTertiary: "#00000099",
+                                //   disableThemeScrollbar: false,
+                                // }}
+                                // />
+                                <iframe
                                   src={`https://docs.google.com/viewer?url=${encodeURIComponent(item.publicURL)}&embedded=true`}
                                   width="100%"
                                   height="100%"
-                              />
-                              {/* <DocViewer documents={[
-                                { 
-                                  uri: `${item.publicURL}`,
-                                  fileType: "pdf",
-                                },
-                              ]} 
-                              pluginRenderers={DocViewerRenderers} 
-                              /> */}
-                            </div>
+                                />  
+                            ) : item.extension.toLowerCase() === 'pdf' ? (
+                              <iframe
+                              src={`https://docs.google.com/viewer?url=${encodeURIComponent(item.publicURL)}&embedded=true`}
+                              width="100%"
+                              height="100%"
+                            />                                
+                            ): (
+                              <div></div>
+                            )
+                            }
                         </button>
                   </Fade>
                   </div>

@@ -11,7 +11,7 @@ import Collapsible from 'react-collapsible';
 import Header from '../../../header';
 import { Analysis, Section, Keyword, QuantitativeDatum } from '@/model/analysis';
 import { getDocument } from '@/services/document.service';
-import { Document } from '../../../../../model/document';
+import { Doc } from '../../../../../model/document';
 import { toggleFavorite } from '@/services/favorites.service';
 import { getAnalysis } from '@/services/analysis.service';
 import { error } from 'console';
@@ -321,7 +321,7 @@ function MostrarAnalisis({
   const [leftBarOpen, setLeftBar] = useState(false);
   const [rightBarOpen, setRightBar] = useState(false);
   const [isFavorito, setFavorito] = useState(false);
-  const [documentInfo, setDocumentInfo] = useState<Document>();
+  const [documentInfo, setDocumentInfo] = useState<Doc>();
   const [analysis, setAnalysis] = useState<Analysis>();  
   const [searchTarget, setTarget] = useState("");
   const [loading, setloading] = useState(true);

@@ -5,9 +5,9 @@ import { Fade } from "react-awesome-reveal";
 import {useRouter } from 'next/navigation';
 import { useState, useEffect, use } from 'react';
 import { getHistory } from '@/services/document.service'
-import { Document } from '../../../model/document';
+import { Doc } from '../../../model/document';
 import { Menu, MenuButton, MenuItem, MenuItems, Transition } from '@headlessui/react'
-import DocViewer, { DocViewerRenderers } from "@cyntler/react-doc-viewer";
+import DocViewer, { DocViewerRenderers, PDFRenderer, PNGRenderer } from "@cyntler/react-doc-viewer";
 import { toggleFavorite } from '@/services/favorites.service';
 
 
@@ -58,7 +58,7 @@ const MenuSortingButton: React.FC<ButtonProps> = (props: ButtonProps) => {
 }
 
 const MostrarHistorial = () => {
-  const [historyDocs, setHistoryDocs] = useState<Document[]>([]);
+  const [historyDocs, setHistoryDocs] = useState<Doc[]>([]);
   const [loading, setLoading] = useState(true);
   const router = useRouter();
   const [search, setSearch] = useState('')
@@ -75,12 +75,11 @@ const MostrarHistorial = () => {
   useEffect(() => {
     (async () => {
       const docs = await getHistory();
+      console.log(docs);
       setHistoryDocs(docs);
       setLoading(false);
     })();
   }, []); 
-
-  const docs = historyDocs.map(item => item.publicURL);
   
   useEffect(() => {
     const orderType = localStorage.getItem('orderType');
@@ -321,11 +320,11 @@ return (
                              item.createdAt.toString().toLowerCase().includes(searchTerm);
                     }
                 }).map((item) => (
-                    <div key={item.id} className='pb-4 w-full flex justify-center items-center text-center text-white'>
+                    <div key={item.id} className='pb-4 w-full flex justify-center text-center text-white'>
                     <Fade >
-                        <button className='w-72 lg:w-96 h-56 rounded-2xl p-4 bg-favsnhistory-500 transition-colors shadow-md hover:border-blue-200 hover:bg-blue-400' onClick={() => handleClick(item.id, item.analysis_id)}>
-                            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                              <h1 className='font-bold'>{item.title}</h1>
+                        <button className='w-72 lg:w-96 rounded-2xl p-4 bg-favsnhistory-500 transition-colors shadow-md hover:border-blue-200 hover:bg-blue-400' onClick={() => handleClick(item.id, item.analysis_id)}>
+                            <div style={{ display: 'flex', justifyContent: 'center' }}>
+                              <h1 className='font-bold'>{item.title}<p className=' text-emerald-300 '>.{item.extension}</p></h1>
                               {item.favorite === true ? (
                                 <div>
                                   <svg xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler ml-2 icon-tabler-star md:stroke-[#FFFF00] md:fill-[#FFFF00]"
@@ -343,23 +342,44 @@ return (
                                   </svg>
                                 </div>
                               )}  
-                            </div>        
+                            </div> 
                             <p className='font-bold'>{item.createdAt}</p>
-                            <div className='flex justify-center'>
-                              <iframe
+                            {item.extension.toLowerCase() === 'docx' ? (
+                                // <DocViewer
+                                // documents={[
+                                //   { 
+                                //     // uri: `https://rua.ua.es/dspace/bitstream/10045/16004/18/Tema%205.%20La%20modernidad%2C%20concepto%20y%20características.pdf`,
+                                //     uri: `${item.publicURL}`,
+                                //     // fileType: `pdf`,
+                                //     fileType: `${(item.extension).toLowerCase()}`,
+                                //   },
+                                // ]} 
+                                // theme={{
+                                //   primary: "#5296d8",
+                                //   secondary: "#ffffff",
+                                //   tertiary: "#5296d899",
+                                //   textPrimary: "#ffffff",
+                                //   textSecondary: "#5296d8",
+                                //   textTertiary: "#00000099",
+                                //   disableThemeScrollbar: false,
+                                // }}
+                                // />
+                                <iframe
                                   src={`https://docs.google.com/viewer?url=${encodeURIComponent(item.publicURL)}&embedded=true`}
                                   width="100%"
                                   height="100%"
-                              />
-                              {/* <DocViewer documents={[
-                                { 
-                                  uri: `${item.publicURL}`,
-                                  fileType: "pdf",
-                                },
-                              ]} 
-                              pluginRenderers={DocViewerRenderers} 
-                              /> */}
-                            </div>
+                                />                                
+                            ) : item.extension.toLowerCase() === 'pdf' ? (
+                              <iframe
+                                src={`https://docs.google.com/viewer?url=${encodeURIComponent(item.publicURL)}&embedded=true`}
+                                width="100%"
+                                height="100%"
+                              />                                
+                            ): (
+                              <div></div>
+                            )
+                            }
+
                         </button>
                     </Fade>
                     </div>
