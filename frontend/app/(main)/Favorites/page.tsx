@@ -297,7 +297,7 @@ export default function MostrarFavoritos() {
                   <Fade >
                     <button className='w-72 lg:w-96 rounded-2xl p-4 bg-favsnhistory-500 transition-colors shadow-md hover:border-blue-200 hover:bg-blue-400' onClick={() => handleClick(item.id, item.analysis_id)}>
                             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                              <h1 className='font-bold'>{item.title}</h1>
+                              <h1 className='font-bold'>{item.title}<p className=' text-emerald-300 '>.{item.extension}</p></h1>
                               {item.favorite === true ? (
                                 <div>
                                   <svg xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler ml-2 icon-tabler-star md:stroke-[#FFFF00] md:fill-[#FFFF00]"
@@ -317,28 +317,32 @@ export default function MostrarFavoritos() {
                               )}  
                             </div>        
                             <p className='font-bold'>{item.createdAt}</p>
-                            <div className='flex justify-center'>
-                            {item.extension === 'docx' ? (
-                                <DocViewer
-                                documents={[
-                                  { 
-                                    // uri: `https://rua.ua.es/dspace/bitstream/10045/16004/18/Tema%205.%20La%20modernidad%2C%20concepto%20y%20características.pdf`,
-                                    uri: `${item.publicURL}`,
-                                    // fileType: `pdf`,
-                                    fileType: `${(item.extension).toLowerCase()}`,
-                                  },
-                                ]} 
-                                theme={{
-                                  primary: "#5296d8",
-                                  secondary: "#ffffff",
-                                  tertiary: "#5296d899",
-                                  textPrimary: "#ffffff",
-                                  textSecondary: "#5296d8",
-                                  textTertiary: "#00000099",
-                                  disableThemeScrollbar: false,
-                                }}
-                                />
-                            ) : item.extension === 'pdf' ? (
+                            {item.extension.toLowerCase() === 'docx' ? (
+                                // <DocViewer
+                                // documents={[
+                                //   { 
+                                //     // uri: `https://rua.ua.es/dspace/bitstream/10045/16004/18/Tema%205.%20La%20modernidad%2C%20concepto%20y%20características.pdf`,
+                                //     uri: `${item.publicURL}`,
+                                //     // fileType: `pdf`,
+                                //     fileType: `${(item.extension).toLowerCase()}`,
+                                //   },
+                                // ]} 
+                                // theme={{
+                                //   primary: "#5296d8",
+                                //   secondary: "#ffffff",
+                                //   tertiary: "#5296d899",
+                                //   textPrimary: "#ffffff",
+                                //   textSecondary: "#5296d8",
+                                //   textTertiary: "#00000099",
+                                //   disableThemeScrollbar: false,
+                                // }}
+                                // />
+                                <iframe
+                                  src={`https://docs.google.com/viewer?url=${encodeURIComponent(item.publicURL)}&embedded=true`}
+                                  width="100%"
+                                  height="100%"
+                                />  
+                            ) : item.extension.toLowerCase() === 'pdf' ? (
                               <iframe
                               src={`https://docs.google.com/viewer?url=${encodeURIComponent(item.publicURL)}&embedded=true`}
                               width="100%"
@@ -348,7 +352,6 @@ export default function MostrarFavoritos() {
                               <div></div>
                             )
                             }
-                            </div>
                         </button>
                   </Fade>
                   </div>
