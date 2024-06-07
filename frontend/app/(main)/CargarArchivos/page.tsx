@@ -17,7 +17,7 @@ import PalabrasClave from '../PalabrasClave/PalabrasClave';
 function Arrow(back: any) {
   if(back.selected){
     return(
-      <button className="border-0 bg-transparent align-middle ml-[2vw] fixed top-[1.5vh] z-30 md:top-[15vh] md:z-auto" onClick={() => {back.goBack()}}>
+      <button className="border-0 bg-transparent align-middle ml-[2vw] fixed top-[1.5vh] z-30 md:top-[15vh] md:z-auto" onClick={() => {back.goBack()}} data-cy="cargar-atras" >
         <svg xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler icon-tabler-arrow-left hover:stroke-[#BCBAB5] active:stroke-[#565553]" width="56" height="56" viewBox="0 0 24 24" stroke-width="3" stroke="#FCFAF5" fill="none" stroke-linecap="round" stroke-linejoin="round">
           <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
           <path d="M5 12l14 0" />
@@ -34,7 +34,7 @@ function Arrow(back: any) {
   
 function CenterHeader(title: any) {
   return(
-    <h1 className={cx("header", {"header-higher":title.type == "PDF" || title.type == "DOCX"})}>{title.text}</h1>
+    <h1 className={cx("header", {"header-higher":title.type == "PDF" || title.type == "DOCX"})} data-cy="cargar-header" >{title.text}</h1>
   );
 }
 
@@ -81,7 +81,7 @@ function FormatButton(main: any) {
   }
 
   return (
-    <button className="bg-transparent mt-[5vh] mx-auto block relative md:mt-[10vh] md:mx-[5vw] md:inline" onClick={() => {main.setType(main.title, main.type)}}>
+    <button className="bg-transparent mt-[5vh] mx-auto block relative md:mt-[10vh] md:mx-[5vw] md:inline" onClick={() => {main.setType(main.title, main.type)}} data-cy="format-button">
       {svg}
     </button>
   );
@@ -130,8 +130,8 @@ function Main(currentState: any) {
       <div className="text-center md:flex md:justify-center">
         <Fade cascade direction="up" damping={0.1} triggerOnce fraction={1}>
           <FormatButton type="PDF" title="Sube el artículo en formato PDF" setType={currentState.setType} />
-          <FormatButton type="URL" title="Ingresa la URL del artículo" setType={currentState.setType}/>
-          <FormatButton type="DOCX" title="Sube el artículo en formato DOCX" setType={currentState.setType}/>
+          <FormatButton type="URL" title="Ingresa la URL del artículo" setType={currentState.setType} />
+          <FormatButton type="DOCX" title="Sube el artículo en formato DOCX" setType={currentState.setType} />
         </Fade>
       </div>
     );
@@ -141,23 +141,23 @@ function Main(currentState: any) {
       <>
         <div className="flex justify-center items-center mt-[12vh] mb-[10vh] flex-col md:flex-row">
           <input type="text" className="h-[10vh] max-h-[60px] w-[90vw] text-[5vh] mb-[6vh] md:max-h-[50px] md:w-[70vw] md:max-w-[700px]
-          md:text-[4vh] md:ml-[5vw] md:mb-[0vh]" value={url} onChange={handleUrlChange} />
+          md:text-[4vh] md:ml-[5vw] md:mb-[0vh]" value={url} onChange={handleUrlChange} data-cy="input-URL" />
           <button className="bg-[#5456F5] text-[#30323D] w-[40vw] rounded-[2vh] mx-[3vw] relative md:w-[4.5vw] md:h-[4.5vw] md:ml-[1vw]
-          md:mr-[5vw] md:inline hover:bg-[#4345AF] active:bg-[#FCFAF5]" onClick={(e)=>getPdfBlob(e,url,currentState.setfileState)}>
+          md:mr-[5vw] md:inline hover:bg-[#4345AF] active:bg-[#FCFAF5]" onClick={(e)=>getPdfBlob(e,url,currentState.setfileState)} data-cy="confirm-URL">
             {loading ? 
             <svg className="animate-spin m-1" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-            <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-            <path className="opacity-75" fill="currentColor"
-            d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z">
-            </path>
-            </svg>
-            :
-            <svg xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler icon-tabler-arrow-big-right-lines" viewBox="0 0 24 24" stroke-width="1.5" stroke="#2c3e50" fill="none" stroke-linecap="round" stroke-linejoin="round">
-            <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-            <path d="M12 9v-3.586a1 1 0 0 1 1.707 -.707l6.586 6.586a1 1 0 0 1 0 1.414l-6.586 6.586a1 1 0 0 1 -1.707 -.707v-3.586h-3v-6h3z" />
-            <path d="M3 9v6" />
-            <path d="M6 9v6" />
-          </svg> }
+              <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+              <path className="opacity-75" fill="currentColor"
+              d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z">
+              </path>
+              </svg>
+              :
+              <svg xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler icon-tabler-arrow-big-right-lines" viewBox="0 0 24 24" stroke-width="1.5" stroke="#2c3e50" fill="none" stroke-linecap="round" stroke-linejoin="round">
+              <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+              <path d="M12 9v-3.586a1 1 0 0 1 1.707 -.707l6.586 6.586a1 1 0 0 1 0 1.414l-6.586 6.586a1 1 0 0 1 -1.707 -.707v-3.586h-3v-6h3z" />
+              <path d="M3 9v6" />
+              <path d="M6 9v6" />
+            </svg> }
           </button>
         </div>
         <FileStateMessage setPrecreationObject={currentState.setPrecreationObject}  setPalabrasClaveView={currentState.setPalabrasClaveView} state={currentState.fileState} file={currentState.file} type={currentState.type}/>
@@ -166,7 +166,7 @@ function Main(currentState: any) {
   }
   else if(currentState.type === "PDF"){
     return(
-      <div {...getRootProps({className: 'dropzone'})}>
+      <div {...getRootProps({className: 'dropzone'})} >
         <label htmlFor="PDFUpload" className="bg-transparent text-[#5756F5] mx-auto w-[70vw] max-w-[300px] h-[70vh] max-h-[300px]
         flex items-center justify-center text-center">
           {acceptedFiles.length === 0 ?
@@ -187,7 +187,7 @@ function Main(currentState: any) {
             {acceptedFiles[0].name}
           </div>}
         </label>
-        <input {...getInputProps()} id="PDFUpload" accept=".pdf" style={{opacity: "0", position: "absolute", zIndex: "-1"}} />
+        <input {...getInputProps()} id="PDFUpload" accept=".pdf" style={{opacity: "0", position: "absolute", zIndex: "-1"}} data-cy="input-PDF" />
         <FileStateMessage setPrecreationObject={currentState.setPrecreationObject}  setPalabrasClaveView={currentState.setPalabrasClaveView}  state={currentState.fileState} file={currentState.file} type={currentState.type}/>
       </div>
     );
@@ -212,7 +212,7 @@ function Main(currentState: any) {
             {acceptedFiles[0].name}
           </div>}
         </label>
-        <input {...getInputProps()} id="DOCXUpload" accept=".docx" style={{opacity: "0", position: "absolute", zIndex: "-1"}} />
+        <input {...getInputProps()} id="DOCXUpload" accept=".docx" style={{opacity: "0", position: "absolute", zIndex: "-1"}} data-cy="input-DOCX" />
         <FileStateMessage setPrecreationObject={currentState.setPrecreationObject} setPalabrasClaveView={currentState.setPalabrasClaveView}  state={currentState.fileState} file={currentState.file} type={currentState.type}/>
       </div>
     );
@@ -252,17 +252,17 @@ function FileStateMessage(fileState: any) {
     return(<></>);
   }
   else if(fileState.state === "WrongFormat"){
-    return(<p className="text-[#F5C556] flex justify-center text-center mx-[5vw] mt-[5vh] text-[3vh] md:mx-[25vw]">Error: El formato del archivo es incorrecto</p>);
+    return(<p className="text-[#F5C556] flex justify-center text-center mx-[5vw] mt-[5vh] text-[3vh] md:mx-[25vw]" data-cy="error-format">Error: El formato del archivo es incorrecto</p>);
   }
   else if(fileState.state === "ErrorUploading"){
-    return(<p className="text-[#F5C556] flex justify-center text-center mx-[5vw] mt-[5vh] text-[3vh] md:mx-[25vw]">Error: No se ha podido cargar el archivo</p>);
+    return(<p className="text-[#F5C556] flex justify-center text-center mx-[5vw] mt-[5vh] text-[3vh] md:mx-[25vw]" data-cy="error-upload">Error: No se ha podido cargar el archivo</p>);
   }
   else if(fileState.state === "Correct"){
     return(
       <div className="grid grid-cols-1">
         <button onClick={handleSubmitDocument} disabled={loading || !fileState.file} className="bg-transparent text-[#FCFAF5] border-solid border-[#FCFAF5]
         border-[0.5vh] rounded-[2vh] mx-auto mt-[5vh] md:mt-[7vh] mb-[1vh] w-[70vw] max-w-[325px] h-[12vh] max-h-[80px] flex items-center
-        justify-center text-[4vh] hover:bg-[#282933] active:bg-[#FCFAF5] active:border-[#30323D] active:text-[#30323D]">
+        justify-center text-[4vh] hover:bg-[#282933] active:bg-[#FCFAF5] active:border-[#30323D] active:text-[#30323D]" data-cy="confirm">
             {loading ? 
             <svg className="animate-spin h-10 w-10" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
             <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
@@ -341,7 +341,7 @@ function CargaArchivos() {
 
   return (
     <>
-      <div className="bg-[#30323D] pt-[15vh] pb-[20vh] font-semibold md:pt-[15vh] md:pb-[0vh]">
+      <div className="bg-[#30323D] pt-[15vh] pb-[20vh] font-semibold md:pt-[15vh] md:pb-[0vh]" data-cy="cargar-main" >
         <Header/>
         <meta name="viewport" content="width=device-width, initial-scale=1.0"></meta>
         <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons"></link>

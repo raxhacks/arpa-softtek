@@ -10,7 +10,7 @@ import axios from 'axios';
 
 function Arrow() {
     return(
-        <button className="border-0 bg-transparent align-middle ml-[2vw] fixed top-[1.5vh] z-30 md:top-[14vh] md:z-auto" onClick={() => {}}>
+        <button className="border-0 bg-transparent align-middle ml-[2vw] fixed top-[1.5vh] z-30 md:top-[14vh] md:z-auto" onClick={() => {}} data-cy="palabras-atras" >
           <svg xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler icon-tabler-arrow-left hover:stroke-[#BCBAB5] active:stroke-[#565553]" width="56" height="56" viewBox="0 0 24 24" stroke-width="3" stroke="#FCFAF5" fill="none" stroke-linecap="round" stroke-linejoin="round">
             <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
             <path d="M5 12l14 0" />
@@ -36,7 +36,7 @@ function PalabraAutor(data: any){
     else{
         return(
             <button className="flex flex-inline w-[70vw] md:w-[27vw] h-[8vh] md:h-[7vh] items-center border-[2px] border-[#5756F5] rounded-[10px] bg-transparent
-            text-left text-[3.5vw] md:text-[1.2vw] my-[2vh] py-[1vh] px-[2vw] md:px-[1vw] text-[#FCFAF5] hover:bg-[#5756F5]" onClick={handleClick}>
+            text-left text-[3.5vw] md:text-[1.2vw] my-[2vh] py-[1vh] px-[2vw] md:px-[1vw] text-[#FCFAF5] hover:bg-[#5756F5]" onClick={handleClick} data-cy="palabra-autor">
                 <svg xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler icon-tabler-point-filled mr-[1vw]" width="25" height="25" viewBox="0 0 24 24" stroke-width="1" stroke="#2c3e50" fill="none" stroke-linecap="round" stroke-linejoin="round">
                     <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
                     <path d="M12 7a5 5 0 1 1 -4.995 5.217l-.005 -.217l.005 -.217a5 5 0 0 1 4.995 -4.783z" stroke-width="0" fill="currentColor" />
@@ -89,10 +89,10 @@ function PalabraPropia(data: any){
                     </svg>
                     <input className="bg-transparent border-[2px] border-[#5756F5] rounded-[10px] py-[1vh] px-[1vw] hover:bg-[#5756F5] w-[55vw]
                     md:w-[20vw] h-[6vh] md:h-auto active:rounded-[#5756F5]" type="text" id="palabraPropia" value={inputWord} onChange={handleInputChange} maxLength={30}
-                    autoComplete="off" />
+                    autoComplete="off" data-cy="input-propia" />
                 </div>
                 <div className="flex items-center">
-                    <button onClick={handleClickConfirm}>
+                    <button onClick={handleClickConfirm} data-cy="add-propia" >
                         <svg xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler icon-tabler-plus ml-[2vw] md:ml-[1vw] hover:stroke-[#5756F5]" width="30" height="30" viewBox="0 0 24 24" stroke-width="3" stroke="#FCFAF5" fill="none" stroke-linecap="round" stroke-linejoin="round">
                             <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
                             <path d="M12 5l0 14" />
@@ -105,7 +105,7 @@ function PalabraPropia(data: any){
     }
     else{
         return(
-            <div className="flex flex-inline justify-between items-center my-[2vh] w-[70vw] md:w-[27vw] h-[8vh] md:h-[7vh]">
+            <div className="flex flex-inline justify-between items-center my-[2vh] w-[70vw] md:w-[27vw] h-[8vh] md:h-[7vh]" data-cy="palabra-propia" >
                 <div className="flex flex-inline items-center text-left text-[3.5vw] md:text-[1.2vw] text-[#FCFAF5]">
                     <svg xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler icon-tabler-point-filled mr-[2vw] md:mr-[1vw]" width="30" height="30" viewBox="0 0 24 24" stroke-width="1" stroke="#2c3e50" fill="none" stroke-linecap="round" stroke-linejoin="round">
                         <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
@@ -114,7 +114,7 @@ function PalabraPropia(data: any){
                     {data.wordList[data.id-1]}
                 </div>
                 <div className="flex items-center">
-                    <button onClick={handleClickDelete}>
+                    <button onClick={handleClickDelete} data-cy="delete-propia">
                         <svg xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler icon-tabler-trash ml-[2vw] md:ml-[1vw] hover:stroke-[#5756F5]" width="34" height="38" viewBox="0 0 24 24" stroke-width="1.5" stroke="#FCFAF5" fill="none" stroke-linecap="round" stroke-linejoin="round">
                             <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
                             <path d="M4 7l16 0" />
@@ -168,9 +168,8 @@ function Palabras(data: any) {
                      :
                     <button className="h-[8vh] w-[12vw] self-center border-[5px] border-[#FCFAF5] text-[#FCFAF5] rounded-[10px] bg-transparent ml-0
                     md:ml-[4vw] text-[3vh] mt-[5vh] md:mt-0 min-w-[150px] hover:bg-[#FCFAF5] hover:text-[#24252E]"
-                    onClick={handleConfirm}>Confirmar</button>
+                    onClick={handleConfirm} data-cy="palabras-confirm" >Confirmar</button>
                 }
-
             </div>
         );
     }
@@ -193,8 +192,9 @@ function Palabras(data: any) {
                         <PalabraPropia wordList={data.propias} id={10} setArray={data.setArray}/>
                     </div>
                 </div>
-                <button onClick={handleConfirm} className="h-[8vh] w-[12vw] self-center border-[5px] border-[#FCFAF5] text-[#FCFAF5] rounded-[10px] bg-transparent ml-0
-                md:ml-[4vw] text-[3vh] mt-[5vh] md:mt-0 min-w-[150px] hover:bg-[#FCFAF5] hover:text-[#24252E]">Confirmar</button>
+                <button className="h-[8vh] w-[12vw] self-center border-[5px] border-[#FCFAF5] text-[#FCFAF5] rounded-[10px] bg-transparent ml-0
+                md:ml-[4vw] text-[3vh] mt-[5vh] md:mt-0 min-w-[150px] hover:bg-[#FCFAF5] hover:text-[#24252E]"
+                onClick={handleConfirm} data-cy="palabras-confirm">Confirmar</button>
             </div>
         );
     }
@@ -225,7 +225,7 @@ function PalabrasClave(props:any){
     }
 
     return(
-        <div className="bg-[#30323D] pt-[15vh] pb-[15vh] font-semibold md:pt-[15vh] md:pb-[0vh]">
+        <div className="bg-[#30323D] pt-[15vh] pb-[15vh] font-semibold md:pt-[15vh] md:pb-[0vh]" data-cy="palabras-main">
             <Header/>
             <button onClick={()=>props.setPalabrasClaveView()}>
                 <Arrow />
