@@ -79,8 +79,6 @@ const MostrarHistorial = () => {
       setLoading(false);
     })();
   }, []); 
-
-  const docs = historyDocs.map(item => item.publicURL);
   
   useEffect(() => {
     const orderType = localStorage.getItem('orderType');
@@ -321,10 +319,10 @@ return (
                              item.createdAt.toString().toLowerCase().includes(searchTerm);
                     }
                 }).map((item) => (
-                    <div key={item.id} className='pb-4 w-full flex justify-center items-center text-center text-white'>
+                    <div key={item.id} className='pb-4 w-full flex justify-center text-center text-white'>
                     <Fade >
-                        <button className='w-72 lg:w-96 h-56 rounded-2xl p-4 bg-favsnhistory-500 transition-colors shadow-md hover:border-blue-200 hover:bg-blue-400' onClick={() => handleClick(item.id, item.analysis_id)}>
-                            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                        <button className='w-72 lg:w-96 rounded-2xl p-4 bg-favsnhistory-500 transition-colors shadow-md hover:border-blue-200 hover:bg-blue-400' onClick={() => handleClick(item.id, item.analysis_id)}>
+                            <div style={{ display: 'flex', justifyContent: 'center' }}>
                               <h1 className='font-bold'>{item.title}</h1>
                               {item.favorite === true ? (
                                 <div>
@@ -343,23 +341,32 @@ return (
                                   </svg>
                                 </div>
                               )}  
-                            </div>        
+                            </div> 
                             <p className='font-bold'>{item.createdAt}</p>
-                            <div className='flex justify-center'>
-                              <iframe
-                                  src={`https://docs.google.com/viewer?url=${encodeURIComponent(item.publicURL)}&embedded=true`}
-                                  width="100%"
-                                  height="100%"
-                              />
-                              {/* <DocViewer documents={[
-                                { 
-                                  uri: `${item.publicURL}`,
-                                  fileType: "pdf",
-                                },
-                              ]} 
-                              pluginRenderers={DocViewerRenderers} 
-                              /> */}
-                            </div>
+                            {/* <iframe
+                                src={`https://docs.google.com/viewer?url=${encodeURIComponent(item.publicURL)}&embedded=true`}
+                                width="100%"
+                                height="100%"
+                            /> */}
+                            <DocViewer
+                            documents={[
+                              { 
+                                // uri: `https://storage.googleapis.com/arpa-softtek.appspot.com/users/EScWN1dxDMcCg5Q6q7GA86ga7P63/Raymundo_Guzman_Mata_English_CV.docx`,
+                                uri: `${item.publicURL}`,
+                                fileType: "pdf",
+                              },
+                            ]} 
+                            theme={{
+                              primary: "#5296d8",
+                              secondary: "#ffffff",
+                              tertiary: "#5296d899",
+                              textPrimary: "#ffffff",
+                              textSecondary: "#5296d8",
+                              textTertiary: "#00000099",
+                              disableThemeScrollbar: false,
+                            }}
+                            
+                            />
                         </button>
                     </Fade>
                     </div>

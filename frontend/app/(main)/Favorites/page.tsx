@@ -183,7 +183,7 @@ export default function MostrarFavoritos() {
                 <MenuItem>
                   {orderfav == 'acending' ? (
                     <button className="group flex w-full items-center gap-2 rounded-lg py-1.5 px-3 bg-gray-700/50" onClick={() => {handleOrder('acending'), sortItemsAscending()}}>
-                      <svg xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler icon-tabler-sort-ascending w-2/12 h-1/5" viewBox="0 0 24 24" stroke-width="1.5" stroke="#2c3e50" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                      <svg xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler icon-tabler-sort-ascending w-2/12 h-1/5" viewBox="0 0 24 24" stroke-width="1.5" stroke="#FFFFFF" fill="none" stroke-linecap="round" stroke-linejoin="round">
                         <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
                         <path d="M4 6l7 0" />
                         <path d="M4 12l7 0" />
@@ -211,7 +211,7 @@ export default function MostrarFavoritos() {
                 <MenuItem>
                   {orderfav == 'decending' ?(
                     <button className="group flex w-full items-center gap-2 rounded-lg py-1.5 px-3 bg-gray-700/50" onClick={() => {handleOrder('decending'), sortItemsDescending()}}>
-                    <svg xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler icon-tabler-sort-descending w-2/12 h-1/5" viewBox="0 0 24 24" stroke-width="1.5" stroke="#2c3e50" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                    <svg xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler icon-tabler-sort-descending w-2/12 h-1/5" viewBox="0 0 24 24" stroke-width="1.5" stroke="#FFFFFF" fill="none" stroke-linecap="round" stroke-linejoin="round">
                       <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
                       <path d="M4 6l9 0" />
                       <path d="M4 12l7 0" />
@@ -223,7 +223,7 @@ export default function MostrarFavoritos() {
                   </button>
                   ): (
                     <button className="group flex w-full items-center gap-2 rounded-lg py-1.5 px-3 data-[focus]:bg-white/10" onClick={() => {handleOrder('decending'), sortItemsDescending()}}>
-                    <svg xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler icon-tabler-sort-descending w-2/12 h-1/5" viewBox="0 0 24 24" stroke-width="1.5" stroke="#2c3e50" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                    <svg xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler icon-tabler-sort-descending w-2/12 h-1/5" viewBox="0 0 24 24" stroke-width="1.5" stroke="#FFFFFF" fill="none" stroke-linecap="round" stroke-linejoin="round">
                       <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
                       <path d="M4 6l9 0" />
                       <path d="M4 12l7 0" />
