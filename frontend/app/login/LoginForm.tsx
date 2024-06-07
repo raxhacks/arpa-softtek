@@ -9,7 +9,7 @@ export function LoginButton() {
 
     return (
       <button disabled={pending} type="submit" className="rounded-lg border border-transparent py-2 px-9 w-mid text-center mt-6 font-semibold text-2xl text-white bg-blue-500 transition-colors hover:border-blue-300 hover:bg-blue-100 hover:dark:bg-neutral-800/20 hover:text-white">
-        {pending ? 'Iniciando sesion...' : 'Iniciar sesión'}
+        {pending ? 'Iniciando sesión...' : 'Iniciar sesión'}
       </button>
     )
   }
