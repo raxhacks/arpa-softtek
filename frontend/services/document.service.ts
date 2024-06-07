@@ -2,7 +2,7 @@
 
 import axios from 'axios';
 import { cookies } from 'next/headers';
-import { Document } from '../model/document';
+import { Doc } from '../model/document';
 
 const baseUrl = process.env.NEXT_PUBLIC_API_URL + '/document';
 
@@ -45,7 +45,7 @@ export const precreateDocument = async (data: FormData, tokenSSR?: string) => {
     }
 };
 
-export const getHistory = async (): Promise<Document[]> => {
+export const getHistory = async (): Promise<Doc[]> => {
     try {
         const token = cookies().get('session')?.value
         const config = {
@@ -56,13 +56,14 @@ export const getHistory = async (): Promise<Document[]> => {
         console.log('Fetching documents history...');
         const response = await axios.get('https://arpa-2mgft7cefq-uc.a.run.app/document/history', config);
 
-        const history: Document[] = response.data.map((item: any) => ({
+        const history: Doc[] = response.data.map((item: any) => ({
             id: item.document_id,
             title: item.title,
             createdAt: item.created_at,
             publicURL: item.public_url,
             analysis_id: item.analysis_id,
-            favorite: item.favorite
+            favorite: item.favorite,
+            extension: item.extension
         }));
         // console.log(history);
         return history;
@@ -72,7 +73,7 @@ export const getHistory = async (): Promise<Document[]> => {
     }
 };
 
-export const getDocument = async (document_id: string): Promise<Document> => {
+export const getDocument = async (document_id: string): Promise<Doc> => {
     try {
         const token = cookies().get('session')?.value
         const config = {
@@ -83,26 +84,28 @@ export const getDocument = async (document_id: string): Promise<Document> => {
         console.log('Fetching document...');
         const response = await axios.get(`https://arpa-2mgft7cefq-uc.a.run.app/document?document_id=${document_id}`, config);
         console.log('Document fetch');
-        const document: Document = {
+        const document: Doc = {
             id: response.data.document_id,
             title: response.data.title,
             createdAt: response.data.created_at,
             publicURL: response.data.public_url,
             analysis_id: response.data.analysis,
-            favorite: response.data.favorite
+            favorite: response.data.favorite,
+            extension: response.data.extension
         };
         // console.log(document);
 
         return document;
     } catch (error) {
         console.error('Could not fetch document:', error);
-        const document: Document = {
+        const document: Doc = {
             id: '',
             title: '',
             createdAt: '',
             publicURL: '',
             analysis_id: '',
-            favorite: false
+            favorite: false,
+            extension: ''
         };
         throw document;
     }

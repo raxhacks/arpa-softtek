@@ -5,9 +5,9 @@ import { Fade } from "react-awesome-reveal";
 import {useRouter } from 'next/navigation';
 import { useState, useEffect, use } from 'react';
 import { getHistory } from '@/services/document.service'
-import { Document } from '../../../model/document';
+import { Doc } from '../../../model/document';
 import { Menu, MenuButton, MenuItem, MenuItems, Transition } from '@headlessui/react'
-import DocViewer, { DocViewerRenderers } from "@cyntler/react-doc-viewer";
+import DocViewer, { DocViewerRenderers, PDFRenderer, PNGRenderer } from "@cyntler/react-doc-viewer";
 import { toggleFavorite } from '@/services/favorites.service';
 
 
@@ -58,7 +58,7 @@ const MenuSortingButton: React.FC<ButtonProps> = (props: ButtonProps) => {
 }
 
 const MostrarHistorial = () => {
-  const [historyDocs, setHistoryDocs] = useState<Document[]>([]);
+  const [historyDocs, setHistoryDocs] = useState<Doc[]>([]);
   const [loading, setLoading] = useState(true);
   const router = useRouter();
   const [search, setSearch] = useState('')
@@ -75,6 +75,7 @@ const MostrarHistorial = () => {
   useEffect(() => {
     (async () => {
       const docs = await getHistory();
+      console.log(docs);
       setHistoryDocs(docs);
       setLoading(false);
     })();
@@ -343,30 +344,37 @@ return (
                               )}  
                             </div> 
                             <p className='font-bold'>{item.createdAt}</p>
-                            {/* <iframe
-                                src={`https://docs.google.com/viewer?url=${encodeURIComponent(item.publicURL)}&embedded=true`}
-                                width="100%"
-                                height="100%"
-                            /> */}
-                            <DocViewer
-                            documents={[
-                              { 
-                                // uri: `https://storage.googleapis.com/arpa-softtek.appspot.com/users/EScWN1dxDMcCg5Q6q7GA86ga7P63/Raymundo_Guzman_Mata_English_CV.docx`,
-                                uri: `${item.publicURL}`,
-                                fileType: "pdf",
-                              },
-                            ]} 
-                            theme={{
-                              primary: "#5296d8",
-                              secondary: "#ffffff",
-                              tertiary: "#5296d899",
-                              textPrimary: "#ffffff",
-                              textSecondary: "#5296d8",
-                              textTertiary: "#00000099",
-                              disableThemeScrollbar: false,
-                            }}
-                            
-                            />
+                            {item.extension === 'docx' ? (
+                                <DocViewer
+                                documents={[
+                                  { 
+                                    // uri: `https://rua.ua.es/dspace/bitstream/10045/16004/18/Tema%205.%20La%20modernidad%2C%20concepto%20y%20características.pdf`,
+                                    uri: `${item.publicURL}`,
+                                    // fileType: `pdf`,
+                                    fileType: `${(item.extension).toLowerCase()}`,
+                                  },
+                                ]} 
+                                theme={{
+                                  primary: "#5296d8",
+                                  secondary: "#ffffff",
+                                  tertiary: "#5296d899",
+                                  textPrimary: "#ffffff",
+                                  textSecondary: "#5296d8",
+                                  textTertiary: "#00000099",
+                                  disableThemeScrollbar: false,
+                                }}
+                                />
+                            ) : item.extension === 'pdf' ? (
+                              <iframe
+                              src={`https://docs.google.com/viewer?url=${encodeURIComponent(item.publicURL)}&embedded=true`}
+                              width="100%"
+                              height="100%"
+                            />                                
+                            ): (
+                              <div></div>
+                            )
+                            }
+
                         </button>
                     </Fade>
                     </div>
