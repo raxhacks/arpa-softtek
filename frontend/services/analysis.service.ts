@@ -56,8 +56,7 @@ export const createAnalysis = async (body: any, tokenSSR?: string) => {
             }
         };
         console.log('Uploading document...');
-        const response = await axios.post('http://127.0.0.1:5001/arpa-softtek/us-central1/arpa/analysis', body, config);
-        // const response = await axios.post('https://arpa-2mgft7cefq-uc.a.run.app/analysis', body, config);
+        const response = await axios.post('https://arpa-2mgft7cefq-uc.a.run.app/analysis', body, config);
         console.log(`Doument uploaded`)
         return response.data;
     } catch (error) {
