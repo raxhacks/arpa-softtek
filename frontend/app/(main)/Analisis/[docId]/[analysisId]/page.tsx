@@ -65,12 +65,14 @@ function SectionCollapsible(section: Section){
 
 interface ContentProps{
   currentTab: string;
+  originalDocTab: string;
   sections: Section[] | undefined;
   analysisId: string;
   docId: string;
   docUrl: string | undefined;
   searchTarget: string;
   loading: Boolean;
+  setOriginalDocTab: any;
 }
 
 const Content: React.FC<ContentProps> = (props: ContentProps) => {
@@ -115,12 +117,25 @@ const Content: React.FC<ContentProps> = (props: ContentProps) => {
   }
   else if(props.currentTab === "Texto Original"){
     return(
-      <div className="text h-screen">
-         <iframe
-         src={`https://docs.google.com/viewer?url=${props.docUrl}&embedded=true`}
-         width="100%"
-         height="100%"
-         />    
+      <div className="flex flex-col items-center justify-center mt-[2vh]">
+        <Segmented options={["Texto plano", "Vista completa"]} onChange={(value) => props.setOriginalDocTab(value)} />
+        {props.originalDocTab === "Texto plano" ? (
+          <div className="flex items-center justify-start text-[#FCFAF5] w-[70vw] mt-[2vh]">
+            Texto plano
+            <br/> <br/>
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. 
+            Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure 
+            dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non 
+            proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+          </div>
+        ) : (
+          <div className="flex items-center justify-center h-[60vh] w-[70vw] mt-[2vh]">
+            <iframe
+            src={`https://docs.google.com/viewer?url=${props.docUrl}&embedded=true`}
+            width="70%"
+            height="100%" />
+          </div>
+        )}
       </div>
     );
   }
@@ -318,6 +333,7 @@ function MostrarAnalisis({
   params: { docId: string, analysisId: string };
 }) {
   const [currentTab, setTab] = useState("Resumen");
+  const [originalDocTab, setOriginalDocTab] = useState("Texto plano");
   const [leftBarOpen, setLeftBar] = useState(false);
   const [rightBarOpen, setRightBar] = useState(false);
   const [isFavorito, setFavorito] = useState(false);
@@ -326,7 +342,6 @@ function MostrarAnalisis({
   const [searchTarget, setTarget] = useState("");
   const [loading, setloading] = useState(true);
   const [togglingToFav, setLoadingFav] = useState(false);
-
 
   useEffect(() => {
     (async () => {
@@ -418,7 +433,8 @@ function MostrarAnalisis({
           <div/>
         </div>
         {/* <Content currentTab={currentTab} sections={analysis?.Sections} analysisId={params.analysisId} docId={documentInfo?.id} docUrl={documentInfo?.publicURL} /> */}
-        <Content currentTab={currentTab} sections={analysis?.Sections} analysisId={params.analysisId} docId={params.docId} docUrl={documentInfo?.publicURL} searchTarget={searchTarget} loading={loading}/>
+        <Content currentTab={currentTab} originalDocTab={originalDocTab} sections={analysis?.Sections} analysisId={params.analysisId}
+        docId={params.docId} docUrl={documentInfo?.publicURL} searchTarget={searchTarget} loading={loading} setOriginalDocTab={setOriginalDocTab} />
       </div>
       <div className="flex items-center h-screen">
         <button onClick={() => {setRightBar(!rightBarOpen), setLeftBar(false)}}

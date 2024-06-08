@@ -10,14 +10,14 @@ import axios from 'axios';
 
 function Arrow() {
     return(
-        <button className="border-0 bg-transparent align-middle ml-[2vw] fixed top-[1.5vh] z-30 md:top-[14vh] md:z-auto" onClick={() => {}} data-cy="palabras-atras" >
+        <div className="border-0 bg-transparent align-middle ml-[2vw] fixed top-[1.5vh] z-30 md:top-[14vh] md:z-auto" >
           <svg xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler icon-tabler-arrow-left hover:stroke-[#BCBAB5] active:stroke-[#565553]" width="56" height="56" viewBox="0 0 24 24" stroke-width="3" stroke="#FCFAF5" fill="none" stroke-linecap="round" stroke-linejoin="round">
             <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
             <path d="M5 12l14 0" />
             <path d="M5 12l6 6" />
             <path d="M5 12l6 -6" />
           </svg>
-        </button>
+        </div>
     );
 }
 
@@ -56,7 +56,7 @@ function PalabraPropia(data: any){
     };
 
     const handleClickConfirm = () => {
-        if(inputWord !== "" && inputWord.match(/\S(.*\S)?/)){
+        if(inputWord !== "" && inputWord.match(/\S(.*\S)?/) && inputWord.match(/^[a-zA-Z][\w\s.-]*$/)){
             data.setArray((oldArray: string[]) => [...oldArray, inputWord])
             setActive(true);
         }
@@ -136,7 +136,7 @@ function Palabras(data: any) {
         setLoading(true);
         data.handleConfirm();
     }
-    if(data.tab === "Palabras clave del autor"){
+    if(data.tab === "Palabras clave del documento"){
         return(
             <div className="flex flex-col md:flex-row justify-center items-center mt-[2vh] h-auto md:h-[60vh]">
                 <div className="flex flex-col md:flex-row mr-0 md:mr-[4vw]">
@@ -192,16 +192,28 @@ function Palabras(data: any) {
                         <PalabraPropia wordList={data.propias} id={10} setArray={data.setArray}/>
                     </div>
                 </div>
-                <button className="h-[8vh] w-[12vw] self-center border-[5px] border-[#FCFAF5] text-[#FCFAF5] rounded-[10px] bg-transparent ml-0
-                md:ml-[4vw] text-[3vh] mt-[5vh] md:mt-0 min-w-[150px] hover:bg-[#FCFAF5] hover:text-[#24252E]"
-                onClick={handleConfirm} data-cy="palabras-confirm">Confirmar</button>
+                {loading ? 
+                    <button className="h-[8vh] w-[12vw] self-center border-[5px] border-[#FCFAF5] text-[#FCFAF5] rounded-[10px] bg-transparent ml-0
+                    md:ml-[4vw] text-[3vh] mt-[5vh] md:mt-0 min-w-[150px] hover:bg-[#FCFAF5] hover:text-[#24252E] flex justify-center">
+                        <svg className="animate-spin h-10 w-10" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                            <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                            <path className="opacity-75" fill="currentColor"
+                            d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z">
+                            </path>
+                        </svg>
+                    </button>
+                     :
+                    <button className="h-[8vh] w-[12vw] self-center border-[5px] border-[#FCFAF5] text-[#FCFAF5] rounded-[10px] bg-transparent ml-0
+                    md:ml-[4vw] text-[3vh] mt-[5vh] md:mt-0 min-w-[150px] hover:bg-[#FCFAF5] hover:text-[#24252E]"
+                    onClick={handleConfirm} data-cy="palabras-confirm" >Confirmar</button>
+                }
             </div>
         );
     }
 }
 
 function PalabrasClave(props:any){
-    const [currentTab, setTab] = useState("Palabras clave del autor");
+    const [currentTab, setTab] = useState("Palabras clave del documento");
     const [palabrasPropias, setPropias] = useState<string[]>([]);
     const [palabrasAutor, setAutor] = useState<string[]>(!props.precreationObject.keywords ? [] : props.precreationObject.keywords);
 
@@ -227,12 +239,12 @@ function PalabrasClave(props:any){
     return(
         <div className="bg-[#30323D] pt-[15vh] pb-[15vh] font-semibold md:pt-[15vh] md:pb-[0vh]" data-cy="palabras-main">
             <Header/>
-            <button onClick={()=>props.setPalabrasClaveView()}>
+            <button onClick={()=>props.setPalabrasClaveView()} data-cy="palabras-atras">
                 <Arrow />
             </button>
             <div className="flex flex-col items-center justify-center">
                 <h1 className="text-[#FCFAF5] text-center w-auto mb-[5vh] mx-[8vw] text-[5vh] md:text-[5vh] md:w-[70vw]">¿Cómo le gustaría realizar el análisis?</h1>
-                <Segmented className="mx-[7vw] md:mx-auto" options={["Palabras clave del autor", "Mis propias palabras clave"]} onChange={(value) => handleTabChange(value)} />
+                <Segmented className="mx-[7vw] md:mx-auto" options={["Palabras clave del documento", "Mis propias palabras clave"]} onChange={(value) => handleTabChange(value)} />
             </div>
             <Palabras handleConfirm={handleConfirm} tab={currentTab} autor={palabrasAutor} propias={palabrasPropias} setArray={setPropias} />
         </div>

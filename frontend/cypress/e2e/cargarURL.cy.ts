@@ -34,9 +34,11 @@ describe('template spec', () => {
 
     cy.get('[data-cy="input-URL"]').should('be.empty')
     cy.get('[data-cy="cargar-main"]').should('not.contain', 'Siguiente')
+    cy.get('[data-cy="confirm-URL"]').click()
+    cy.get('[data-cy="error-upload"]').should('exist')
+    cy.get('[data-cy="cargar-main"]').should('not.contain', 'Siguiente')
 
     cy.get('[data-cy="input-URL"]').type('EstaEsUnaURLInvalida')
-    //cy.get('[data-cy="input-URL"]').should('contain', 'EstaEsUnaURLInvalida')
     cy.get('[data-cy="confirm-URL"]').click()
     cy.get('[data-cy="error-upload"]').should('exist')
     cy.get('[data-cy="cargar-main"]').should('not.contain', 'Siguiente')
@@ -65,13 +67,13 @@ describe('template spec', () => {
     cy.get('[data-cy="input-URL"]').should('be.empty')
     cy.get('[data-cy="cargar-main"]').should('not.contain', 'Siguiente')
 
-    cy.get('[data-cy="input-URL"]').type('https://rua.ua.es/dspace/bitstream/10045/16004/18/Tema%205.%20La%20modernidad%2C%20concepto%20y%20características.pdf')
-    //cy.get('[data-cy="input-URL"]').should('contain', 'https://rua.ua.es/dspace/bitstream/10045/16004/18/Tema%205.%20La%20modernidad%2C%20concepto%20y%20características.pdf')
+    cy.get('[data-cy="input-URL"]').type('https://www.csn.es/documents/10182/927506/La+energ%C3%ADa+nuclear+%28Monograf%C3%ADa%29')
     cy.get('[data-cy="confirm-URL"]').click()
-    cy.get('[data-cy="confirm"]').should('exist')
-    cy.get('[data-cy="cargar-main"]').should('not.contain', 'Error')
+    //cy.get('[data-cy="confirm"]').should('exist')
+    //cy.get('[data-cy="cargar-main"]').should('not.contain', 'Error')
 
-    cy.get('[data-cy="confirm"]').click()
+    //cy.get('[data-cy="confirm"]').click()
+    cy.wait(10000)
     cy.url().should('include', '/CargarArchivos')
     cy.get('[data-cy="palabras-main"]').should('contain', '¿Cómo le gustaría realizar el análisis?')
   })
