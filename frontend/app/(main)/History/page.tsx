@@ -322,65 +322,40 @@ return (
                 }).map((item) => (
                     <div key={item.id} className='pb-4 w-full flex justify-center text-center text-white'>
                     <Fade >
-                        <button className='w-72 lg:w-96 rounded-2xl p-4 bg-favsnhistory-500 transition-colors shadow-md hover:border-blue-200 hover:bg-blue-400' onClick={() => handleClick(item.id, item.analysis_id)}>
-                            <div style={{ display: 'flex', justifyContent: 'center' }}>
-                              <h1 className='font-bold'>{item.title}<p className=' text-emerald-300 '>.{item.extension}</p></h1>
-                              {item.favorite === true ? (
-                                <div>
-                                  <svg xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler ml-2 icon-tabler-star md:stroke-[#FFFF00] md:fill-[#FFFF00]"
-                                    width="30" height="30" viewBox="0 0 24 24" stroke-width="1.5" stroke="#FCFAF5" fill="#FCFAF5" stroke-linecap="round" stroke-linejoin="round">
-                                    <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-                                    <path d="M12 17.75l-6.172 3.245l1.179 -6.873l-5 -4.867l6.9 -1l3.086 -6.253l3.086 6.253l6.9 1l-5 4.867l1.179 6.873z" />
-                                  </svg>
-                                </div>
-                              ):(
-                                <div>
-                                  <svg xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler ml-2 icon-tabler-star hover:stroke-[#BCBAB5] md:stroke-[#FFFF00] md:hover:stroke-[#FFFF00]"
-                                    width="30" height="30" viewBox="0 0 24 24" stroke-width="1.5" stroke="#FCFAF5" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                                    <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-                                    <path d="M12 17.75l-6.172 3.245l1.179 -6.873l-5 -4.867l6.9 -1l3.086 -6.253l3.086 6.253l6.9 1l-5 4.867l1.179 6.873z" />
-                                  </svg>
-                                </div>
-                              )}  
-                            </div> 
-                            <p className='font-bold'>{item.createdAt}</p>
-                            {item.extension.toLowerCase() === 'docx' ? (
-                                // <DocViewer
-                                // documents={[
-                                //   { 
-                                //     // uri: `https://rua.ua.es/dspace/bitstream/10045/16004/18/Tema%205.%20La%20modernidad%2C%20concepto%20y%20características.pdf`,
-                                //     uri: `${item.publicURL}`,
-                                //     // fileType: `pdf`,
-                                //     fileType: `${(item.extension).toLowerCase()}`,
-                                //   },
-                                // ]} 
-                                // theme={{
-                                //   primary: "#5296d8",
-                                //   secondary: "#ffffff",
-                                //   tertiary: "#5296d899",
-                                //   textPrimary: "#ffffff",
-                                //   textSecondary: "#5296d8",
-                                //   textTertiary: "#00000099",
-                                //   disableThemeScrollbar: false,
-                                // }}
-                                // />
-                                <iframe
-                                  src={`https://docs.google.com/viewer?url=${encodeURIComponent(item.publicURL)}&embedded=true`}
-                                  width="100%"
-                                  height="100%"
-                                />                                
-                            ) : item.extension.toLowerCase() === 'pdf' ? (
-                              <iframe
+                      <button className='w-72 lg:w-96 rounded-2xl p-4 bg-favsnhistory-500 transition-colors shadow-md hover:border-blue-200 hover:bg-blue-400' onClick={() => handleClick(item.id, item.analysis_id)}>
+                        <div className='flex flex-col justify-between'>
+                        <div className='flex self-end z-30' id='menu'>
+                                {item.favorite === true ? (
+                                    <div>
+                                        <svg xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler ml-2 icon-tabler-star md:stroke-[#FFFF00] md:fill-[#FFFF00]"
+                                            width="30" height="30" viewBox="0 0 24 24" stroke-width="1.5" stroke="#FCFAF5" fill="#FCFAF5" stroke-linecap="round" stroke-linejoin="round">
+                                            <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                                            <path d="M12 17.75l-6.172 3.245l1.179 -6.873l-5 -4.867l6.9 -1l3.086 -6.253l3.086 6.253l6.9 1l-5 4.867l1.179 6.873z" />
+                                        </svg>
+                                    </div>
+                                ) : (
+                                    <div>
+                                        <svg xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler ml-2 icon-tabler-star hover:stroke-[#BCBAB5] md:stroke-[#FFFF00] md:hover:stroke-[#FFFF00]"
+                                            width="30" height="30" viewBox="0 0 24 24" stroke-width="1.5" stroke="#FCFAF5" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                            <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                                            <path d="M12 17.75l-6.172 3.245l1.179 -6.873l-5 -4.867l6.9 -1l3.086 -6.253l3.086 6.253l6.9 1l-5 4.867l1.179 6.873z" />
+                                        </svg>
+                                    </div>
+                                )}
+                            </div>
+                            <div className='flex justify-center items-center'>
+                                <p className='font-semibold'>{item.title}</p>
+                                <p className='font-semibold text-emerald-300'>.{item.extension}</p>
+                            </div>
+
+                            <p className='text-sm'>{item.createdAt}</p>
+                            <iframe
                                 src={`https://docs.google.com/viewer?url=${encodeURIComponent(item.publicURL)}&embedded=true`}
                                 width="100%"
                                 height="100%"
-                              />                                
-                            ): (
-                              <div></div>
-                            )
-                            }
-
-                        </button>
+                            />
+                        </div>
+                      </button>
                     </Fade>
                     </div>
                 ))}
