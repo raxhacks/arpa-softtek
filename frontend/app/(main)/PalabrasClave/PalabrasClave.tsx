@@ -130,47 +130,6 @@ function PalabraPropia(data: any){
     }
 }
 
-function PalabrasRecomendadas(data: any) {
-    return(
-        <div>
-            Palabras del documento recomendadas
-            <PalabraAutor wordList={data.autor} id={1} propias={data.propias} setArray={data.setArray}/>
-            <PalabraAutor wordList={data.autor} id={2} propias={data.propias} setArray={data.setArray}/>
-            <PalabraAutor wordList={data.autor} id={3} propias={data.propias} setArray={data.setArray}/>
-            <PalabraAutor wordList={data.autor} id={4} propias={data.propias} setArray={data.setArray}/>
-            <PalabraAutor wordList={data.autor} id={5} propias={data.propias} setArray={data.setArray}/>
-            <PalabraAutor wordList={data.autor} id={6} propias={data.propias} setArray={data.setArray}/>
-            <PalabraAutor wordList={data.autor} id={7} propias={data.propias} setArray={data.setArray}/>
-            <PalabraAutor wordList={data.autor} id={8} propias={data.propias} setArray={data.setArray}/>
-            <PalabraAutor wordList={data.autor} id={9} propias={data.propias} setArray={data.setArray}/>
-            <PalabraAutor wordList={data.autor} id={10} propias={data.propias} setArray={data.setArray}/>
-        </div>
-    );
-}
-
-function ListaDePalabras(data: any) {
-    return(
-        <div className="flex flex-col md:flex-row justify-center items-center mt-[2vh] h-auto md:h-[60vh]">
-            <div className="flex flex-col md:flex-row mr-0 md:mr-[4vw]">
-                <div className="flex flex-col mr-0 md:mr-[2vw]">
-                    <PalabraPropia wordList={data.propias} id={1} setArray={data.setArray}/>
-                    <PalabraPropia wordList={data.propias} id={2} setArray={data.setArray}/>
-                    <PalabraPropia wordList={data.propias} id={3} setArray={data.setArray}/>
-                    <PalabraPropia wordList={data.propias} id={4} setArray={data.setArray}/>
-                    <PalabraPropia wordList={data.propias} id={5} setArray={data.setArray}/>
-                </div>
-                <div className="flex flex-col ml-0 md:ml-[2vw]">
-                    <PalabraPropia wordList={data.propias} id={6} setArray={data.setArray}/>
-                    <PalabraPropia wordList={data.propias} id={7} setArray={data.setArray}/>
-                    <PalabraPropia wordList={data.propias} id={8} setArray={data.setArray}/>
-                    <PalabraPropia wordList={data.propias} id={9} setArray={data.setArray}/>
-                    <PalabraPropia wordList={data.propias} id={10} setArray={data.setArray}/>
-                </div>
-            </div>
-        </div>
-    );
-}
-
 function Palabras(data: any) {
     const [loading, setLoading] = useState(false)
     const handleConfirm = () => {
@@ -278,20 +237,16 @@ function PalabrasClave(props:any){
     }
 
     return(
-        <div className="bg-[#30323D] pt-[15vh] pb-[15vh] font-semibold md:pt-[12vh] md:pb-[0vh]" data-cy="palabras-main">
+        <div className="bg-[#30323D] pt-[15vh] pb-[15vh] font-semibold md:pt-[15vh] md:pb-[0vh]" data-cy="palabras-main">
             <Header/>
             <button onClick={()=>props.setPalabrasClaveView()} data-cy="palabras-atras">
                 <Arrow />
             </button>
             <div className="flex flex-col items-center justify-center">
-                <h1 className="text-[#FCFAF5] text-center w-auto mb-[5vh] mx-[8vw] text-[5vh] md:text-[5vh] md:w-[70vw]">Seleccione las palabras clave para realizar su análisis</h1>
+                <h1 className="text-[#FCFAF5] text-center w-auto mb-[5vh] mx-[8vw] text-[5vh] md:text-[5vh] md:w-[70vw]">¿Cómo le gustaría realizar el análisis?</h1>
                 <Segmented className="mx-[7vw] md:mx-auto" options={["Palabras clave del documento", "Mis propias palabras clave"]} onChange={(value) => handleTabChange(value)} />
-                <div className="flex">
-                    <PalabrasRecomendadas />
-                    <ListaDePalabras />
-                </div>
             </div>
-            {/*<Palabras handleConfirm={handleConfirm} tab={currentTab} autor={palabrasAutor} propias={palabrasPropias} setArray={setPropias} />*/}
+            <Palabras handleConfirm={handleConfirm} tab={currentTab} autor={palabrasAutor} propias={palabrasPropias} setArray={setPropias} />
         </div>
     );
 }
