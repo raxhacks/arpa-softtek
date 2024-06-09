@@ -324,7 +324,7 @@ return (
                     <Fade >
                       <button className='w-72 lg:w-96 rounded-2xl p-4 bg-favsnhistory-500 transition-colors shadow-md hover:border-blue-200 hover:bg-blue-400' onClick={() => handleClick(item.id, item.analysis_id)}>
                         <div className='flex flex-col justify-between'>
-                        <div className='flex self-end z-30' id='menu'>
+                          <button className='flex self-end z-30' id='menu'>
                                 {item.favorite === true ? (
                                     <div>
                                         <svg xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler ml-2 icon-tabler-star md:stroke-[#FFFF00] md:fill-[#FFFF00]"
@@ -342,7 +342,7 @@ return (
                                         </svg>
                                     </div>
                                 )}
-                            </div>
+                            </button>
                             <div className='flex justify-center items-center'>
                                 <p className='font-semibold'>{item.title}</p>
                                 <p className='font-semibold text-emerald-300'>.{item.extension}</p>
