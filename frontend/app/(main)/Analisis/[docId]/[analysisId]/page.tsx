@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import './Analisis.css';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import Chat from './Chat/Chat';
 import Segmented from 'rc-segmented';
 import cx from "classnames";
@@ -19,6 +19,8 @@ import { useRouter } from 'next/navigation';
 import { PieChart } from 'react-minimal-pie-chart';
 import Modal from 'react-modal';
 import { updateTitle } from '@/services/document.service';
+import { Bounce } from "react-awesome-reveal";
+import { Fade } from "react-awesome-reveal";
 import { DndContext, closestCenter, KeyboardSensor, PointerSensor, useSensor, useSensors} from '@dnd-kit/core';
 import { useSortable, arrayMove, SortableContext, sortableKeyboardCoordinates, verticalListSortingStrategy } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
@@ -334,6 +336,8 @@ function MostrarAnalisis({
   const router = useRouter();
   const [isEditing, setIsEditing] = useState(false);
   const [title, setTitle] = useState(documentInfo?.title);
+  const inputRef = useRef<HTMLInputElement>(null);
+  const buttonRef = useRef<HTMLButtonElement>(null);
   const [isInputVisible, setIsInputVisible] = useState(false);
   const[errorMessage, setErrorMessage] = useState<string | null>(null)
 
@@ -433,6 +437,27 @@ function MostrarAnalisis({
     )
   };
 
+  const handleClickOutside = (event: any) => {
+    if (
+      inputRef.current && !inputRef.current.contains(event.target) &&
+      buttonRef.current && !buttonRef.current.contains(event.target)
+    ) {
+      setIsEditing(false);
+    }
+  };
+
+  useEffect(() => {
+    if (isEditing) {
+      document.addEventListener('click', handleClickOutside);
+    } else {
+      document.removeEventListener('click', handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener('click', handleClickOutside);
+    };
+  }, [isEditing]);
+
   return (
     <div className="flex items-top justify-center">
       <Modal
@@ -442,24 +467,26 @@ function MostrarAnalisis({
         className="z-50 fixed inset-0 flex items-center justify-center"
         overlayClassName="fixed inset-0 bg-black bg-opacity-50 z-40"
       >
-        <div className="bg-white p-8 rounded-lg shadow-lg w-3/5 max-w-2xl">
-          <h2 className="text-xl font-bold mb-4">Confirmar eliminación</h2>
-          <p>¿Estás seguro de que quieres eliminar este documento?</p>
-          <div className="flex justify-end mt-4">
-            <button
-              onClick={closeModal}
-              className="mr-2 bg-gray-300 text-black px-4 py-2 rounded hover:bg-gray-400"
-            >
-              Cancelar
-            </button>
-            <button
-              onClick={deleteDoc}
-              className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-700"
-            >
-              Eliminar
-            </button>
+        <Bounce className="bg-[#4D5061] p-8 rounded-lg shadow-lg w-3/5 max-w-2xl">
+          <div>
+            <h2 className="text-xl font-bold mb-4 text-white">Confirmar eliminación</h2>
+            <p className='text-white'>¿Estás seguro de que quieres eliminar este documento?</p>
+            <div className="flex justify-end mt-4">
+              <button
+                onClick={closeModal}
+                className="mr-2 bg-gray-300 text-black px-4 py-2 rounded hover:bg-gray-400"
+              >
+                Cancelar
+              </button>
+              <button
+                onClick={deleteDoc}
+                className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-700"
+              >
+                Eliminar
+              </button>
+            </div>
           </div>
-        </div>
+        </Bounce>
       </Modal>
       <Header />
       <div className="flex items-center h-screen left-[-100vw] md:left-auto">
@@ -489,12 +516,15 @@ function MostrarAnalisis({
             type="text"
             value={title}
             onChange={handleInputChange}
-            className={`text-white p-2 h-8 bg-slate-600 border-b-white transition-opacity duration-500 ease-in-out ${isInputVisible ? 'opacity-100' : 'opacity-0'}`}
+            onKeyDown={(e) => e.key === 'Enter' && handleSaveClick(params.docId, title)}
+            className={`text-white p-2 rounded-md h-8 bg-slate-600 border-b-white`}
+            placeholder='...'
+            ref={inputRef}
             />
           ): (
-            <span>{title}</span>
+            <button className='hover:bg-slate-600 transition-all' onClick={handleEditClick}>{title}</button>
           )}
-          <button className='ml-1' onClick={isEditing ? () => handleSaveClick(params.docId, title) : handleEditClick}>
+          <button className='ml-2' onClick={isEditing ? () => handleSaveClick(params.docId, title) : handleEditClick} ref={buttonRef}>
             <svg xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler icon-tabler-edit" width="22" height="22" viewBox="0 0 24 24" stroke-width="1.5" stroke="#FFFFFF" fill="none" stroke-linecap="round" stroke-linejoin="round">
               <path stroke="none" d="M0 0h24h24H0z" fill="none"/>
               <path d="M7 7h-1a2 2 0 0 0 -2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2 -2v-1" />
