@@ -180,32 +180,32 @@ const MostrarHistorial = () => {
 return (
       <>
       <div className='pt-12 pb-20'>
-      <Modal
-        isOpen={modalIsOpen}
-        onRequestClose={closeModal}
-        contentLabel="Confirmar eliminación"
-        className="z-50 fixed inset-0 flex items-center justify-center"
-        overlayClassName="fixed inset-0 bg-black bg-opacity-50 z-40"
-      >
-        <div className="bg-white p-8 rounded-lg shadow-lg w-3/5 max-w-2xl">
-          <h2 className="text-xl font-bold mb-4">Confirmar eliminación</h2>
-          <p>¿Estás seguro de que quieres eliminar este documento?</p>
-          <div className="flex justify-end mt-4">
-            <button
-              onClick={closeModal}
-              className="mr-2 bg-gray-300 text-black px-4 py-2 rounded hover:bg-gray-400"
-            >
-              Cancelar
-            </button>
-            <button
-              onClick={deleteDoc}
-              className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-700"
-            >
-              Eliminar
-            </button>
+        <Modal
+          isOpen={modalIsOpen}
+          onRequestClose={closeModal}
+          contentLabel="Confirmar eliminación"
+          className="z-50 fixed inset-0 flex items-center justify-center"
+          overlayClassName="fixed inset-0 bg-black bg-opacity-50 z-40"
+        >
+          <div className="bg-white p-8 rounded-lg shadow-lg w-3/5 max-w-2xl">
+            <h2 className="text-xl font-bold mb-4">Confirmar eliminación</h2>
+            <p>¿Estás seguro de que quieres eliminar este documento?</p>
+            <div className="flex justify-end mt-4">
+              <button
+                onClick={closeModal}
+                className="mr-2 bg-gray-300 text-black px-4 py-2 rounded hover:bg-gray-400"
+              >
+                Cancelar
+              </button>
+              <button
+                onClick={deleteDoc}
+                className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-700"
+              >
+                Eliminar
+              </button>
+            </div>
           </div>
-        </div>
-      </Modal>
+        </Modal>
         <Header/>
         <div className='grid grid-cols-3 p-4 lg:pt-16 lg:pb-6 z-20 fixed pt-10 pb-4 w-full items-center justify-around bg-background-500 ml-10'>
               <p className='font-semibold lg:text-5xl text-3xl text-white flex justify-end'>
