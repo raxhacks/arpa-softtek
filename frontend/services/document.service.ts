@@ -110,3 +110,23 @@ export const getDocument = async (document_id: string): Promise<Doc> => {
         throw document;
     }
 };
+
+export const deleteDocument = async (document_id: string) => {
+    try {
+        const token = cookies().get('session')?.value
+        const config = {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        };
+
+        console.log('Deleting document...');
+        const response = await axios.delete(`https://arpa-2mgft7cefq-uc.a.run.app/document?document_id=${document_id}`, config);
+        console.log(`Document deleted`)
+
+        return response.data;
+    } catch (error) {
+        console.error('Could not delete the document:', error);
+        throw error;
+    }
+}
