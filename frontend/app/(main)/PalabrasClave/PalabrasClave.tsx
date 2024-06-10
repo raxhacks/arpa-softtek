@@ -156,8 +156,8 @@ function Palabras(data: any) {
                     </div>
                 </div>
                 {loading ? 
-                    <button className="h-[8vh] w-[12vw] self-center border-[5px] border-[#FCFAF5] text-[#FCFAF5] rounded-[10px] bg-transparent ml-0
-                    md:ml-[4vw] text-[3vh] mt-[5vh] md:mt-0 min-w-[150px] hover:bg-[#FCFAF5] hover:text-[#24252E] flex justify-center">
+                    <button className="h-[8vh] w-[12vw] self-center justify-self-center border-[5px] border-[#FCFAF5] text-[#FCFAF5] rounded-[10px] bg-transparent ml-0
+                        md:ml-[4vw] text-[3vh] mt-[5vh] md:mt-0 min-w-[150px] hover:bg-[#FCFAF5] hover:text-[#24252E] flex items-center justify-center">
                         <svg className="animate-spin h-10 w-10" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
                             <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
                             <path className="opacity-75" fill="currentColor"
@@ -192,9 +192,21 @@ function Palabras(data: any) {
                         <PalabraPropia wordList={data.propias} id={10} setArray={data.setArray}/>
                     </div>
                 </div>
+                {loading ?
+                    <button className="h-[8vh] w-[12vw] self-center justify-self-center border-[5px] border-[#FCFAF5] text-[#FCFAF5] rounded-[10px] bg-transparent ml-0
+                    md:ml-[4vw] text-[3vh] mt-[5vh] md:mt-0 min-w-[150px] hover:bg-[#FCFAF5] hover:text-[#24252E] flex items-center justify-center">
+                    <svg className="animate-spin h-10 w-10" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                        <path className="opacity-75" fill="currentColor"
+                        d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z">
+                        </path>
+                    </svg>
+                    </button>
+                :
                 <button className="h-[8vh] w-[12vw] self-center border-[5px] border-[#FCFAF5] text-[#FCFAF5] rounded-[10px] bg-transparent ml-0
                 md:ml-[4vw] text-[3vh] mt-[5vh] md:mt-0 min-w-[150px] hover:bg-[#FCFAF5] hover:text-[#24252E]"
                 onClick={handleConfirm} data-cy="palabras-confirm">Confirmar</button>
+                }
             </div>
         );
     }
