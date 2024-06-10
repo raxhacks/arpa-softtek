@@ -97,7 +97,7 @@ const Content: React.FC<ContentProps> = (props: ContentProps) => {
             {props.sections?.map((section, index) => (
             props.searchTarget !== "" && section.content.includes(props.searchTarget)?
             <Collapsible trigger={SectionTitle(section.title)} triggerWhenOpen={SectionTitleOpen(section.title)} transitionTime={150} className="mb-[4vh]" open >
-              <div className="pl-[2vw] mb-[4vh] md:pl-[4vw]">
+              <div className="pl-[2vw] mb-[4vh] md:pl-[4vw]" data-cy="section-with-word">
                 <p> {section.content.substring(0,section.content.indexOf(props.searchTarget))}
                 <span style={{fontWeight: 'bold', backgroundColor: '#5456F5'}}> {props.searchTarget} </span>
                 {section.content.substring(section.content.indexOf(props.searchTarget) + props.searchTarget.length, section.content.length)} </p>
