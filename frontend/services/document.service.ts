@@ -3,8 +3,6 @@
 import axios from 'axios';
 import { cookies } from 'next/headers';
 import { Doc } from '../model/document';
-import { documentId } from 'firebase/firestore';
-import { threadId } from 'worker_threads';
 
 const baseUrl = process.env.NEXT_PUBLIC_API_URL + '/document';
 
@@ -113,23 +111,25 @@ export const getDocument = async (document_id: string): Promise<Doc> => {
     }
 };
 
-export const deleteDocument = async (document_Id: string): Promise<boolean> => {
+export const deleteDocument = async (document_id: string) => {
     try {
-      const token = cookies().get('session')?.value;
-      const config = {
-        headers: {
-          'Authorization': `Bearer ${token}`
-        }
-      };
-      console.log("Deleting document");
-      await axios.delete(`https://arpa-2mgft7cefq-uc.a.run.app/document?document_id=${document_Id}`, config);
-      console.log("Document deleted");
-      return true; 
+        const token = cookies().get('session')?.value
+        const config = {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        };
+
+        console.log('Deleting document...');
+        const response = await axios.delete(`https://arpa-2mgft7cefq-uc.a.run.app/document?document_id=${document_id}`, config);
+        console.log('Document deleted')
+
+        return response.data;
     } catch (error) {
-      console.error('Could not delete document:', error);
-      return false;
+        console.error('Could not delete the document:', error);
+        throw error;
     }
-  } 
+};
 
 export const updateTitle = async (document_id: string, title: string) => {
     try {
@@ -149,5 +149,4 @@ export const updateTitle = async (document_id: string, title: string) => {
         console.error('Could not update the title:', error);
         throw error;
     }
-}
-
+};
