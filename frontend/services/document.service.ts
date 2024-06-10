@@ -151,3 +151,22 @@ export const updateTitle = async (document_id: string, title: string) => {
     }
 }
 
+export const getText = async (document_id: string) => {
+    try {
+        const token = cookies().get('session')?.value
+        const config = {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        };
+        const response = await axios.get(`http://127.0.0.1:5001/arpa-softtek/us-central1/arpa/document/text?document_id=${document_id}}`, config);
+        // const response = await axios.get(`https://arpa-2mgft7cefq-uc.a.run.app/document?document_id=${document_id}`, config);
+        console.log(response.data.text);
+        const texto = response.data.text;
+        return texto;
+
+    } catch (error) {
+        console.error('Could not fetch text:', error);
+        throw error;
+    }
+}
