@@ -17,6 +17,7 @@ import { getAnalysis } from '@/services/analysis.service';
 import { error } from 'console';
 import { useRouter } from 'next/navigation';
 import { PieChart } from 'react-minimal-pie-chart';
+import Modal from 'react-modal';
 import { DndContext, closestCenter, KeyboardSensor, PointerSensor, useSensor, useSensors} from '@dnd-kit/core';
 import { useSortable, arrayMove, SortableContext, sortableKeyboardCoordinates, verticalListSortingStrategy } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
@@ -326,7 +327,10 @@ function MostrarAnalisis({
   const [searchTarget, setTarget] = useState("");
   const [loading, setloading] = useState(true);
   const [togglingToFav, setLoadingFav] = useState(false);
+  const [modalIsOpen, setModalIsOpen] = useState(false);
+  const [selectedDocId, setSelectedDocId] = useState<string | null>(null);
   const router = useRouter();
+  
 
   useEffect(() => {
     (async () => {
@@ -372,25 +376,56 @@ function MostrarAnalisis({
       localStorage.setItem(`favorite-${params.docId}`, (!newFavoriteState).toString());
     }
   };
+  const openModal = (docId: string) => {
+    setSelectedDocId(docId);
+    setModalIsOpen(true);
+  };
+
+  const closeModal = () => {
+    setModalIsOpen(false);
+    setSelectedDocId(null);
+  };
 
   const deleteDoc = async () => {
-    const isConfirmed = window.confirm("¿Estás seguro de que deseas eliminar este análisis?");
-    
-    if (isConfirmed) {
-      const response = await deleteDocument(params.docId);
-      if (response) {
-        router.push('/CargarArchivos');
-        localStorage.setItem("button", 'CargarArchivos')
-      }
-      else {
-        console.log('Error al borrar el análisis');
-      }
+    if (!selectedDocId) return;
 
+    const response = await deleteDocument(selectedDocId);
+    if (!response) {
+      console.log('Error al eliminar el documento');
+      return;
     }
+    router.push('/CargarArchivos');
+    localStorage.setItem("button", 'CargarArchivos')
   };
 
   return (
     <div className="flex items-top justify-center">
+      <Modal
+        isOpen={modalIsOpen}
+        onRequestClose={closeModal}
+        contentLabel="Confirmar eliminación"
+        className="z-50 fixed inset-0 flex items-center justify-center"
+        overlayClassName="fixed inset-0 bg-black bg-opacity-50 z-40"
+      >
+        <div className="bg-white p-8 rounded-lg shadow-lg w-3/5 max-w-2xl">
+          <h2 className="text-xl font-bold mb-4">Confirmar eliminación</h2>
+          <p>¿Estás seguro de que quieres eliminar este documento?</p>
+          <div className="flex justify-end mt-4">
+            <button
+              onClick={closeModal}
+              className="mr-2 bg-gray-300 text-black px-4 py-2 rounded hover:bg-gray-400"
+            >
+              Cancelar
+            </button>
+            <button
+              onClick={deleteDoc}
+              className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-700"
+            >
+              Eliminar
+            </button>
+          </div>
+        </div>
+      </Modal>
       <Header />
       <div className="flex items-center h-screen left-[-100vw] md:left-auto">
         <div className={cx("sideBarLeft", {"sideBarLeft-closed":!leftBarOpen})}>
@@ -431,7 +466,7 @@ function MostrarAnalisis({
               <BotonFavorito state={isFavorito} setFavorito={setFavorito} docId={params.docId}/>
             )}
           </button>
-          <button className="fixed top-[1.5vh] right-[2vw] z-30 md:relative md:top-auto md:right-auto md:z-auto md:ml-[2vw]" onClick={deleteDoc}>
+          <button className="fixed top-[1.5vh] right-[2vw] z-30 md:relative md:top-auto md:right-auto md:z-auto md:ml-[2vw]" onClick={() => openModal(params.docId)}>
             <svg xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler icon-tabler-trash hover:stroke-[#BCBAB5] md:stroke-[#5756F5] md:hover:stroke-[#2F31AB]"
               width="50" height="50" viewBox="0 0 24 24" stroke-width="1.5" stroke="#FCFAF5" fill="none" stroke-linecap="round" stroke-linejoin="round">
               <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
