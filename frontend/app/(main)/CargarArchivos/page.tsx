@@ -238,7 +238,7 @@ function FileStateMessage(fileState: any) {
       return; 
     }
 
-    setLoading(true);
+    /*setLoading(true);
     axios.post('/api/document', formData).then((res) => {
       fileState.setPrecreationObject(res.data);
       fileState.setPalabrasClaveView();
@@ -247,7 +247,8 @@ function FileStateMessage(fileState: any) {
     .catch((error) => {
       console.error(error);
       setLoading(false);
-    });
+    });*/
+    fileState.setPalabrasClaveView();
   }
   if(fileState.state === "None"){
     return(<></>);
