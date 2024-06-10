@@ -332,7 +332,6 @@ function CargaArchivos() {
 
   const handleSetPalabrasClaveView = () => {
     setPalabrasClaveView(prev=>!prev);
-    console.log(palabrasClaveView);
     if(palabrasClaveView == false){
       setFile(null)
       setFState("None")
@@ -353,7 +352,9 @@ function CargaArchivos() {
         <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons"></link>
         <Arrow selected={formatSelected} goBack={goBack} />
         <CenterHeader text={centerText} type={currentFormat} />
-        <Main setPrecreationObject={setPrecreationObject}  setPalabrasClaveView={handleSetPalabrasClaveView} type={currentFormat} setType={setType} file={file} fileState={fileState} handleChangePDF={handleChangePDF} handleChangeDOCX={handleChangeDOCX} setfileState={setFState} />
+        <Main setPrecreationObject={setPrecreationObject}  setPalabrasClaveView={handleSetPalabrasClaveView} type={currentFormat}
+        setType={setType} file={file} fileState={fileState} handleChangePDF={handleChangePDF} handleChangeDOCX={handleChangeDOCX}
+        setfileState={setFState} />
       </div>
     </>
   );
