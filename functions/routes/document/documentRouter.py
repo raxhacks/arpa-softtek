@@ -350,6 +350,23 @@ def toggle_favorite():
     except Exception as e:
         print("Error:",e)
         return flask.jsonify({"message":"Failed to update favorite status"}), 500
+    
+@documentBlueprint.route("/updateTitle", methods=["PUT"])
+def update_title():
+    try:
+        user_id = flask.g.get('user_id')
+        document_id = flask.request.args.get('document_id')
+        title = flask.request.args.get('title')
+
+        db = firestore.client()
+        document_doc_ref = db.collection('users').document(user_id).collection('documents').document(document_id)
+
+        document_doc_ref.update({"title": title})
+
+        return flask.jsonify({"message":"Title updated successfully"}), 200
+    except Exception as e:
+        print("Error:",e)
+        return flask.jsonify({"message":"Failed to update title"}), 500
 
 @documentBlueprint.route("/history", methods=["GET"])
 def get_history():

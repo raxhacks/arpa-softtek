@@ -122,11 +122,31 @@ export const deleteDocument = async (document_id: string) => {
 
         console.log('Deleting document...');
         const response = await axios.delete(`https://arpa-2mgft7cefq-uc.a.run.app/document?document_id=${document_id}`, config);
-        console.log(`Document deleted`)
+        console.log('Document deleted')
 
         return response.data;
     } catch (error) {
         console.error('Could not delete the document:', error);
+        throw error;
+    }
+}
+
+export const updateTitle = async (document_id: string, title: string) => {
+    try {
+        const token = cookies().get('session')?.value
+        const config = {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        };
+
+        console.log('Updating title...');
+        const response = await axios.put(`https://arpa-2mgft7cefq-uc.a.run.app/document/updateTitle?document_id=${document_id}&title=${encodeURIComponent(title)}`, {}, config);
+        console.log('Title updated')
+
+        return response.data;
+    } catch (error) {
+        console.error('Could not update the title:', error);
         throw error;
     }
 }
