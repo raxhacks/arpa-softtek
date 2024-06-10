@@ -369,7 +369,7 @@ return (
                             
                               <div className='m-1 flex justify-center items-center'>
                                   <p className='font-semibold text-sm lg:text-lg'>{item.title}</p>
-                                  <p className='font-semibold text-emerald-300'>.{item.extension}</p>
+                                  <p className='font-semibold text-sm lg:text-lg text-emerald-300'>.{item.extension}</p>
                               </div>
 
                               <p className='text-xs lg:text-sm'>{item.createdAt}</p>
