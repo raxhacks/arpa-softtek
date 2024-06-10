@@ -20,6 +20,7 @@ import { PieChart } from 'react-minimal-pie-chart';
 import Modal from 'react-modal';
 import { updateTitle } from '@/services/document.service';
 import { Bounce } from "react-awesome-reveal";
+import { getText } from '@/services/document.service';
 import { Fade } from "react-awesome-reveal";
 import { DndContext, closestCenter, KeyboardSensor, PointerSensor, useSensor, useSensors} from '@dnd-kit/core';
 import { useSortable, arrayMove, SortableContext, sortableKeyboardCoordinates, verticalListSortingStrategy } from '@dnd-kit/sortable';
@@ -77,6 +78,7 @@ interface ContentProps{
   searchTarget: string;
   loading: Boolean;
   setOriginalDocTab: any;
+  text: string | undefined;
 }
 
 const Content: React.FC<ContentProps> = (props: ContentProps) => {
@@ -125,12 +127,8 @@ const Content: React.FC<ContentProps> = (props: ContentProps) => {
         <Segmented options={["Texto plano", "Vista completa"]} onChange={(value) => props.setOriginalDocTab(value)} />
         {props.originalDocTab === "Texto plano" ? (
           <div className="flex items-center justify-start text-[#FCFAF5] w-[70vw] mt-[2vh]">
-            Texto plano
-            <br/> <br/>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. 
-            Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure 
-            dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non 
-            proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+            <br/><br/>
+            {props.text}
           </div>
         ) : (
           <div className="flex items-center justify-center h-[60vh] w-[70vw] mt-[2vh]">
@@ -351,15 +349,21 @@ function MostrarAnalisis({
   const router = useRouter();
   const [isEditing, setIsEditing] = useState(false);
   const [title, setTitle] = useState(documentInfo?.title);
+  const [text, setText] = useState();
   const inputRef = useRef<HTMLInputElement>(null);
   const buttonRef = useRef<HTMLButtonElement>(null);
-  const [isInputVisible, setIsInputVisible] = useState(false);
   const[errorMessage, setErrorMessage] = useState<string | null>(null)
 
   useEffect(() => {
     (async () => {
       setDocumentInfo(await getDocument(params.docId));
     })();
+  }, []);
+
+  useEffect(() => {
+    (async () => {
+      setText(await getText(params.docId));
+    })
   }, []);
 
   useEffect(() => {
@@ -428,7 +432,6 @@ function MostrarAnalisis({
 
   const handleEditClick = () => {
     setIsEditing(true);
-    setIsInputVisible(true);
   };
 
   const handleInputChange = (event: any) => {
@@ -446,7 +449,7 @@ function MostrarAnalisis({
   const handleSaveClick = async (docId: string, title: string | undefined) => {
     if (docId && title){
       const response = await updateTitle(docId, title);
-      if (response) setIsEditing(false); setIsInputVisible(false); setTitle(title);
+      if (response) setIsEditing(false); setTitle(title);
     } else (
       console.log("Error editando el titulo del documento")
     )
@@ -580,7 +583,7 @@ function MostrarAnalisis({
         </div>
         {/* <Content currentTab={currentTab} sections={analysis?.Sections} analysisId={params.analysisId} docId={documentInfo?.id} docUrl={documentInfo?.publicURL} /> */}
         <Content currentTab={currentTab} originalDocTab={originalDocTab} sections={analysis?.Sections} analysisId={params.analysisId}
-        docId={params.docId} docUrl={documentInfo?.publicURL} searchTarget={searchTarget} loading={loading} setOriginalDocTab={setOriginalDocTab} />
+        docId={params.docId} docUrl={documentInfo?.publicURL} searchTarget={searchTarget} loading={loading} setOriginalDocTab={setOriginalDocTab} text={text}/>
       </div>
       <div className="flex items-center h-screen">
         <button onClick={() => {setRightBar(!rightBarOpen), setLeftBar(false)}}
