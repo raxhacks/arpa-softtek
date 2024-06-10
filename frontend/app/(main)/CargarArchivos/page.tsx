@@ -13,6 +13,7 @@ import Header from '../header';
 import { useFormStatus } from 'react-dom';
 import { useDropzone } from 'react-dropzone';
 import PalabrasClave from '../PalabrasClave/PalabrasClave';
+import { debug } from "console";
   
 function Arrow(back: any) {
   if(back.selected){
@@ -332,6 +333,10 @@ function CargaArchivos() {
 
   const handleSetPalabrasClaveView = () => {
     setPalabrasClaveView(prev=>!prev);
+    if(palabrasClaveView == false){
+      setFile(null)
+      setFState("None")
+    }
   }
 
   if (palabrasClaveView) {
@@ -342,13 +347,15 @@ function CargaArchivos() {
 
   return (
     <>
-      <div className="bg-[#30323D] pt-[15vh] pb-[20vh] font-semibold md:pt-[15vh] md:pb-[0vh]" data-cy="cargar-main" >
+      <div className="bg-[#30323D] pt-[5vh] pb-[20vh] font-semibold md:pt-[15vh] md:pb-[0vh]" data-cy="cargar-main" >
         <Header/>
         <meta name="viewport" content="width=device-width, initial-scale=1.0"></meta>
         <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons"></link>
         <Arrow selected={formatSelected} goBack={goBack} />
         <CenterHeader text={centerText} type={currentFormat} />
-        <Main setPrecreationObject={setPrecreationObject}  setPalabrasClaveView={handleSetPalabrasClaveView} type={currentFormat} setType={setType} file={file} fileState={fileState} handleChangePDF={handleChangePDF} handleChangeDOCX={handleChangeDOCX} setfileState={setFState} />
+        <Main setPrecreationObject={setPrecreationObject}  setPalabrasClaveView={handleSetPalabrasClaveView} type={currentFormat}
+        setType={setType} file={file} fileState={fileState} handleChangePDF={handleChangePDF} handleChangeDOCX={handleChangeDOCX}
+        setfileState={setFState} />
       </div>
     </>
   );
