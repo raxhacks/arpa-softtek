@@ -10,7 +10,7 @@ import cx from "classnames";
 import Collapsible from 'react-collapsible';
 import Header from '../../../header';
 import { Analysis, Section, Keyword, QuantitativeDatum } from '@/model/analysis';
-import { getDocument } from '@/services/document.service';
+import { getDocument, deleteDocument } from '@/services/document.service';
 import { Doc } from '../../../../../model/document';
 import { toggleFavorite } from '@/services/favorites.service';
 import { getAnalysis } from '@/services/analysis.service';
@@ -326,7 +326,7 @@ function MostrarAnalisis({
   const [searchTarget, setTarget] = useState("");
   const [loading, setloading] = useState(true);
   const [togglingToFav, setLoadingFav] = useState(false);
-
+  const router = useRouter();
 
   useEffect(() => {
     (async () => {
@@ -373,6 +373,22 @@ function MostrarAnalisis({
     }
   };
 
+  const deleteDoc = async () => {
+    const isConfirmed = window.confirm("¿Estás seguro de que deseas eliminar este análisis?");
+    
+    if (isConfirmed) {
+      const response = await deleteDocument(params.docId);
+      if (response) {
+        router.push('/CargarArchivos');
+        localStorage.setItem("button", 'CargarArchivos')
+      }
+      else {
+        console.log('Error al borrar el análisis');
+      }
+
+    }
+  };
+
   return (
     <div className="flex items-top justify-center">
       <Header />
@@ -414,6 +430,17 @@ function MostrarAnalisis({
             ) : (            
               <BotonFavorito state={isFavorito} setFavorito={setFavorito} docId={params.docId}/>
             )}
+          </button>
+          <button className="fixed top-[1.5vh] right-[2vw] z-30 md:relative md:top-auto md:right-auto md:z-auto md:ml-[2vw]" onClick={deleteDoc}>
+            <svg xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler icon-tabler-trash hover:stroke-[#BCBAB5] md:stroke-[#5756F5] md:hover:stroke-[#2F31AB]"
+              width="50" height="50" viewBox="0 0 24 24" stroke-width="1.5" stroke="#FCFAF5" fill="none" stroke-linecap="round" stroke-linejoin="round">
+              <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+              <path d="M4 7l16 0" />
+              <path d="M10 11l0 6" />
+              <path d="M14 11l0 6" />
+              <path d="M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2 -2l1 -12" />
+              <path d="M9 7v-3a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3" />
+            </svg>
           </button>
           <div/>
         </div>

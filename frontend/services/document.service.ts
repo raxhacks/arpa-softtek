@@ -124,9 +124,30 @@ export const deleteDocument = async (document_Id: string): Promise<boolean> => {
       console.log("Deleting document");
       await axios.delete(`https://arpa-2mgft7cefq-uc.a.run.app/document?document_id=${document_Id}`, config);
       console.log("Document deleted");
-      return true; // Indica éxito
+      return true; 
     } catch (error) {
       console.error('Could not delete document:', error);
-      return false; // Indica fracaso
+      return false;
     }
   } 
+
+export const updateTitle = async (document_id: string, title: string) => {
+    try {
+        const token = cookies().get('session')?.value
+        const config = {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        };
+
+        console.log('Updating title...');
+        const response = await axios.put(`https://arpa-2mgft7cefq-uc.a.run.app/document/updateTitle?document_id=${document_id}&title=${encodeURIComponent(title)}`, {}, config);
+        console.log('Title updated')
+
+        return response.data;
+    } catch (error) {
+        console.error('Could not update the title:', error);
+        throw error;
+    }
+}
+
