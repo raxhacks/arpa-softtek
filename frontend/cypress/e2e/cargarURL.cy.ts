@@ -1,4 +1,4 @@
-describe('template spec', () => {
+describe('Probar la carga de archivos a través de URL', () => {
   beforeEach(function () {
     cy.visit('')
 

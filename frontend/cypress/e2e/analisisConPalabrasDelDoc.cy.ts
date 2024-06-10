@@ -1,4 +1,4 @@
-describe('template spec', () => {
+describe('Probar el análisis de un documento usando palabras clave encontradas en el mismo', () => {
   beforeEach(function () {
     cy.visit('')
 
