@@ -10,6 +10,7 @@ import { Menu, MenuButton, MenuItem, MenuItems, Transition } from '@headlessui/r
 import { toggleFavorite } from '@/services/favorites.service';
 import { deleteDocument } from '@/services/document.service';
 import Modal from 'react-modal';
+import { Bounce } from "react-awesome-reveal";
 import DocViewer, { DocViewerRenderers, PDFRenderer, PNGRenderer } from "@cyntler/react-doc-viewer";
 
 
@@ -187,24 +188,26 @@ return (
           className="z-50 fixed inset-0 flex items-center justify-center"
           overlayClassName="fixed inset-0 bg-black bg-opacity-50 z-40"
         >
-          <div className="bg-white p-8 rounded-lg shadow-lg w-3/5 max-w-2xl">
-            <h2 className="text-xl font-bold mb-4">Confirmar eliminación</h2>
-            <p>¿Estás seguro de que quieres eliminar este documento?</p>
-            <div className="flex justify-end mt-4">
-              <button
-                onClick={closeModal}
-                className="mr-2 bg-gray-300 text-black px-4 py-2 rounded hover:bg-gray-400"
-              >
-                Cancelar
-              </button>
-              <button
-                onClick={deleteDoc}
-                className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-700"
-              >
-                Eliminar
-              </button>
+          <Bounce className="bg-[#4D5061] p-8 rounded-lg shadow-lg w-3/5 max-w-2xl">
+            <div>
+              <h2 className="text-xl font-bold mb-4 text-white">Confirmar eliminación</h2>
+              <p className='text-white'>¿Estás seguro de que quieres eliminar este documento?</p>
+              <div className="flex justify-end mt-4">
+                <button
+                  onClick={closeModal}
+                  className="mr-2 bg-gray-300 text-black px-4 py-2 rounded hover:bg-gray-400"
+                >
+                  Cancelar
+                </button>
+                <button
+                  onClick={deleteDoc}
+                  className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-700"
+                >
+                  Eliminar
+                </button>
+              </div>
             </div>
-          </div>
+          </Bounce>
         </Modal>
         <Header/>
         <div className='grid grid-cols-3 p-4 lg:pt-16 lg:pb-6 z-20 fixed pt-10 pb-4 w-full items-center justify-around bg-background-500 ml-10'>
