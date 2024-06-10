@@ -173,7 +173,7 @@ function BotonConfirmar(data: any) {
     const [loading, setLoading] = useState(false)
     const handleConfirm = () => {
         setLoading(true);
-        data.handleConfirm();
+        data.handleClickConfirm();
     }
     
     if(data.wordList.length <= 0){
