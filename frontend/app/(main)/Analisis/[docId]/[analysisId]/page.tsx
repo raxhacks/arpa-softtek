@@ -97,7 +97,7 @@ const Content: React.FC<ContentProps> = (props: ContentProps) => {
             {props.sections?.map((section, index) => (
             props.searchTarget !== "" && section.content.includes(props.searchTarget)?
             <Collapsible trigger={SectionTitle(section.title)} triggerWhenOpen={SectionTitleOpen(section.title)} transitionTime={150} className="mb-[4vh]" open >
-              <div className="pl-[2vw] mb-[4vh] md:pl-[4vw]">
+              <div className="pl-[2vw] mb-[4vh] md:pl-[4vw]" data-cy="section-with-word">
                 <p> {section.content.substring(0,section.content.indexOf(props.searchTarget))}
                 <span style={{fontWeight: 'bold', backgroundColor: '#5456F5'}}> {props.searchTarget} </span>
                 {section.content.substring(section.content.indexOf(props.searchTarget) + props.searchTarget.length, section.content.length)} </p>
@@ -153,7 +153,7 @@ function PieLabel(data: any){
     <div className="flex justify-center w-full">
       <div className="flex justify-between w-[90%] items-center py-[1vh] pl-[2vw]">
         <div className="h-[3vh] w-[3vh] rounded-[3px] bg-[#7951e8] mr-[1vw]" style={{backgroundColor: data.color}}/>
-        <div>{data.name}</div>
+        <div data-cy="etiqueta-palabra-clave">{data.name}</div>
       </div> 
     </div>
   );
@@ -162,7 +162,8 @@ function PieLabel(data: any){
 function KeywordButton(data: any){
   return(
     <div className="flex justify-center w-full">
-      <button className="flex justify-between items-center w-full px-[2vw] py-[0.5vh] my-[1vh] rounded-[10px] hover:bg-[#3E4051]" onClick={() => data.setTarget(data.name)}>
+      <button className="flex justify-between items-center w-full px-[2vw] py-[0.5vh] my-[1vh] rounded-[10px] hover:bg-[#3E4051]"
+      onClick={() => data.setTarget(data.name)} data-cy="elemento-palabra-clave">
         <div className="font-semibold rounded-[10px] py-[1vh] px-[1.5vh] bg-[#5456F5]">{data.count}</div>
         <div className="font-semibold text-[2.5vh]">:{data.name}</div>  
       </button>
@@ -211,6 +212,7 @@ const LeftBarContent: React.FC<LeftProps> = (props: LeftProps) => {
               labelStyle={(index) => ({fill: "#FCFAF5", fontSize: "0.75vh", fontFamily: "sans-serif", fontWeight: "600"})}
               labelPosition={70}
               radius={35}
+              data-cy="grafica-palabras-clave"
             />
             <div>
               {keywords.map((content: any, index: number) => (
@@ -236,7 +238,7 @@ function QuantitativeSection(prop: any) {
   return(
     <div className="flex justify-center">
       <button className="inline text-start items-center border-[2px] border-[#5456F5] w-[80%] px-[1vw] py-[1vh] my-[1vh]
-      rounded-[10px]" onClick={() => prop.setTarget(prop.sentence)}>
+      rounded-[10px]" onClick={() => prop.setTarget(prop.sentence)} data-cy="elemento-cuantitativo">
         <div className="font-semibold text-[2.5vh]">
           {prop.sentence.includes(prop.data)?
           <p> {prop.sentence.substring(0,target)} <span style={{fontWeight: 'bold', backgroundColor: '#5456F5'}}> {prop.data} </span> {prop.sentence.substring(target + prop.data.length, prop.sentence.length)} </p> 
@@ -389,7 +391,7 @@ function MostrarAnalisis({
   };
 
   return (
-    <div className="flex items-top justify-center">
+    <div className="flex items-top justify-center" data-cy="analisis-main">
       <Header />
       <div className="flex items-center h-screen left-[-100vw] md:left-auto">
         <div className={cx("sideBarLeft", {"sideBarLeft-closed":!leftBarOpen})}>
@@ -403,11 +405,13 @@ function MostrarAnalisis({
         </div>
         <div className={cx("sideBarLeftSpace", {"sideBarLeftSpace-closed":!leftBarOpen})} />
         <button onClick={() => {setLeftBar(!leftBarOpen), setRightBar(false)}}
-        className={cx("sideBarLeftButton hover:bg-[#F5C556] hover:text-[#24252E]", {"sideBarLeftButton-closed":!leftBarOpen})}>
+        className={cx("sideBarLeftButton hover:bg-[#F5C556] hover:text-[#24252E]", {"sideBarLeftButton-closed":!leftBarOpen})}
+        data-cy="boton-cualitativo-large">
           Palabras clave
         </button>
         <button onClick={() => {setLeftBar(!leftBarOpen), setRightBar(false)}}
-        className={cx("sideBarLeftButton2 hover:bg-[#F5C556] hover:text-[#24252E]", {"sideBarLeftButton2-closed":!leftBarOpen})}>
+        className={cx("sideBarLeftButton2 hover:bg-[#F5C556] hover:text-[#24252E]", {"sideBarLeftButton2-closed":!leftBarOpen})}
+        data-cy="boton-cualitativo-small">
           +
         </button>
       </div>
@@ -438,11 +442,13 @@ function MostrarAnalisis({
       </div>
       <div className="flex items-center h-screen">
         <button onClick={() => {setRightBar(!rightBarOpen), setLeftBar(false)}}
-        className={cx("sideBarRightButton hover:bg-[#F5C556] hover:text-[#24252E]", {"sideBarRightButton-closed":!rightBarOpen})}>
+        className={cx("sideBarRightButton hover:bg-[#F5C556] hover:text-[#24252E]", {"sideBarRightButton-closed":!rightBarOpen})}
+        data-cy="boton-cuantitativo-large">
           Datos cuantitativos
         </button>
         <button onClick={() => {setRightBar(!rightBarOpen), setLeftBar(false)}}
-        className={cx("sideBarRightButton2 hover:bg-[#F5C556] hover:text-[#24252E]", {"sideBarRightButton2-closed":!rightBarOpen})}>
+        className={cx("sideBarRightButton2 hover:bg-[#F5C556] hover:text-[#24252E]", {"sideBarRightButton2-closed":!rightBarOpen})}
+        data-cy="boton-cuantitativo-small">
           +
         </button>
         <div className={cx("sideBarRightSpace", {"sideBarRightSpace-closed":!rightBarOpen})} />

@@ -57,7 +57,7 @@ function PalabraPropia(data: any){
     };
 
     const handleClickConfirm = () => {
-        if(inputWord !== "" && inputWord.match(/\S(.*\S)?/) && inputWord.match(/^[a-zA-Z][\w\s.-]*$/)){
+        if(inputWord !== "" && inputWord.match(/\S(.*\S)?/) && inputWord.match(/^[A-Za-zÀ-ÖØ-öø-ÿ][À-ÖØ-öø-ÿ\w\s.-]*$/)){
             data.setArray((oldArray: string[]) => [...oldArray, inputWord])
             setActive(true);
         }
@@ -105,7 +105,8 @@ function PalabraPropia(data: any){
         return(
             <div className="flex flex-inline justify-between items-start w-[60vw] md:w-[15vw] h-[14vh]">
                 <div className="text-[#FCFAF5]">{data.id}.</div>
-                <div className="text-left text-wrap text-[3.5vw] md:text-[1vw] text-[#FCFAF5] w-auto md:w-[12vw] h-auto mx-[0.5vw]">
+                <div className="text-left text-wrap text-[3.5vw] md:text-[1vw] text-[#FCFAF5] w-auto md:w-[12vw] h-auto mx-[0.5vw]"
+                data-cy="palabra-propia">
                     {data.wordList[data.id-1]}
                 </div>
                 <div>
@@ -128,7 +129,9 @@ function PalabraPropia(data: any){
 function PalabrasRecomendadas(data: any) {
     return(
         <div className="block w-[30vw] h-[50vh] mr-[1vw]">
-            <div className="flex justify-center w-auto text-[#FCFAF5] text-[1.5vw] h-[5vh] mb-[2vh]">Palabras del documento recomendadas</div>
+            <div className="flex justify-center w-auto text-[#FCFAF5] text-[1.5vw] h-[5vh] mb-[2vh]">
+                Palabras del documento recomendadas
+            </div>
             <div className="h-[42vh] overflow-y-auto">
                 <PalabraAutor wordList={data.autor} id={1} propias={data.propias} setArray={data.setArray}/>
                 <PalabraAutor wordList={data.autor} id={2} propias={data.propias} setArray={data.setArray}/>
