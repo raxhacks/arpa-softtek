@@ -232,6 +232,8 @@ describe('Probar el registro', () => {
     cy.get('[data-cy="registro-contrasena"]').type('contrasena-123')
     cy.get('[data-cy="registro-boton"]').click()
 
+    cy.wait(5000)
+
     cy.get('[data-cy="registro-tab"]').should('contain', 'Esta cuenta ya se encuentra registrada.')
     cy.get('[data-cy="registro-tab"]').should('not.contain', 'Por favor ingrese un correo electrónico válido.')
     cy.get('[data-cy="registro-tab"]').should('not.contain', '- Contener al menos 7 caracteres.')

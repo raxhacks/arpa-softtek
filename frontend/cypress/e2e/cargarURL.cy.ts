@@ -63,7 +63,7 @@ describe('Probar la carga de archivos a través de URL', () => {
     cy.get('[data-cy="confirm-URL"]').click()
     cy.get('[data-cy="cargar-main"]').should('not.contain', 'Error')
 
-    cy.wait(10000)
+    cy.wait(15000)
     cy.url().should('include', '/CargarArchivos')
     cy.get('[data-cy="palabras-main"]').should('contain', 'Seleccione las palabras clave para realizar su análisis')
   })

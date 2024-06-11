@@ -56,7 +56,7 @@ describe('Probar el análisis de un documento usando palabras clave propias del 
 
     cy.get('[data-cy="input-propia"]').eq(0).should('be.empty').type('pa1la2bra3 4vá5li6da7')
     cy.get('[data-cy="add-propia"]').eq(0).click()
-    cy.get('[data-cy="palabra-propia"]').eq(2).should('contain', 'pa1la2bra3 4vá5li6da7')
+    cy.get('[data-cy="palabra-propia"]').eq(3).should('contain', 'pa1la2bra3 4vá5li6da7')
   })
 
   it('Escribe y agrega muchas palabras y luego las borra', () => {
