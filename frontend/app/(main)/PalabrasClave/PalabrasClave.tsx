@@ -57,7 +57,7 @@ function PalabraPropia(data: any){
     };
 
     const handleClickConfirm = () => {
-        if(inputWord !== "" && inputWord.match(/\S(.*\S)?/) && inputWord.match(/^[a-zA-Z][\w\s.-]*$/)){
+        if(inputWord !== "" && inputWord.match(/\S(.*\S)?/) && inputWord.match(/^[A-Za-zÀ-ÖØ-öø-ÿ][À-ÖØ-öø-ÿ\w\s.-]*$/)){
             data.setArray((oldArray: string[]) => [...oldArray, inputWord])
             setActive(true);
         }

@@ -7,14 +7,6 @@ describe('Probar la carga de archivos DOCX', () => {
     cy.get('[data-cy="login-correo"]').eq(0).type('correoValido@gmail.com')
     cy.get('[data-cy="login-contrasena"]').eq(0).type('valido-123')
     cy.get('[data-cy="login-boton"]').click()
-
-    /*cy.get('[data-cy="login-correo"]').eq(0).type('user@gmail.com')
-    cy.get('[data-cy="login-contrasena"]').eq(0).type('password1.')
-    cy.get('[data-cy="login-boton"]').click()*/
-
-    /*cy.get('[data-cy="login-correo"]').eq(0).type('angel@gmail.com')
-    cy.get('[data-cy="login-contrasena"]').eq(0).type('angel-123')
-    cy.get('[data-cy="login-boton"]').click()*/
   })
 
   it('Accede a la pantalla de "cargar DOCX" y se devuelve a la pantalla principal', () => {
@@ -64,6 +56,6 @@ describe('Probar la carga de archivos DOCX', () => {
 
     cy.get('[data-cy="confirm"]').click()
     cy.url().should('include', '/CargarArchivos')
-    cy.get('[data-cy="palabras-main"]').should('contain', '¿Cómo le gustaría realizar el análisis?')
+    cy.get('[data-cy="palabras-main"]').should('contain', 'Seleccione las palabras clave para realizar su análisis')
   })
 })
