@@ -169,7 +169,7 @@ const MostrarHistorial = () => {
   };
 return (
       <>
-        <div className="pt-12 pb-20">
+        <div className="pt-12 pb-20" data-cy="lista-historial-main">
         <Header/>
         <div className='grid grid-cols-3 p-4 lg:pt-16 lg:pb-6 z-20 fixed pt-10 pb-4 w-full items-center justify-around bg-background-500 ml-10'>
               <p className='font-semibold lg:text-5xl text-3xl text-white flex justify-end'>
