@@ -1,4 +1,10 @@
 describe('Ver un análisis favorito', () => {
+  
+  /* NOTA IMPORTANTE */
+
+  /* Este analisis NO se debe ejecutar en cypress para no gastar tokens en la IA */
+  /* Favor de ejecutarlo de manera manual */
+  
   beforeEach(function () {
     cy.visit('')
   

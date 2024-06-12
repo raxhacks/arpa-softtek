@@ -141,7 +141,7 @@ const Content: React.FC<ContentProps> = (props: ContentProps) => {
   }
   else if(props.currentTab === "Chatbot"){
     return(
-      <div className="text-[#FCFAF5] text-[3vh] mx-[8vw] mt-[3vh] lg:mx-[10vw] lg:mt-[5vh]">
+      <div className="text-[#FCFAF5] text-[3vh] mx-[8vw] mt-[3vh] lg:mx-[10vw] lg:mt-[5vh]" data-cy="chatbot-main">
         <Chat docId={props.docId}/>
       </div>
     );

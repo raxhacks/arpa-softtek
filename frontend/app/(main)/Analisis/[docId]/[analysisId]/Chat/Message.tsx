@@ -7,7 +7,7 @@ type MessageProps = {
     isUser,
   }) => {
     return (
-      <div className={`w-full inline-flex ${isUser && "justify-end"}`}>
+      <div className={`w-full inline-flex ${isUser && "justify-end"}`} data-cy="chatbot-mensaje">
         <div className={`w-5/6 text-[#FCFAF5] text-[20px] px-6 py-4 rounded-[20px] my-3 break-words lg:w-2/3 lg:text-[24px] ${isUser ? "bg-[#5756F5]" : "bg-[#24252E]"}`}>
           {!isUser && 
             <div className="text-[32px] mb-2 flex">
