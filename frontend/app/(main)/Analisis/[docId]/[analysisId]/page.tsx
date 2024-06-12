@@ -159,7 +159,7 @@ const Content: React.FC<ContentProps> = (props: ContentProps) => {
   else if(props.currentTab === "Texto Plano"){
     return(
       <div className="text-[#FCFAF5] text-[3vh] mx-[8vw] mt-[8vh] md:mx-[10vw]">
-        <TextoPlano contenido={props.texto} />
+        <TextoPlano contenido={props.text || ""} />
       </div>
     );
   }
