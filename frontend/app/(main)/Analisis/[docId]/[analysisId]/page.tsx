@@ -110,7 +110,7 @@ const Content: React.FC<ContentProps> = (props: ContentProps) => {
           <div>
             {props.sections?.map((section, index) => (
             props.searchTarget !== "" && section.content.includes(props.searchTarget)?
-            <Collapsible trigger={SectionTitle(section.title)} triggerWhenOpen={SectionTitleOpen(section.title)} transitionTime={150} className="mb-[4vh]" open >
+            <Collapsible key={index} trigger={SectionTitle(section.title)} triggerWhenOpen={SectionTitleOpen(section.title)} transitionTime={150} className="mb-[4vh]" open >
               <div className="pl-[2vw] mb-[4vh] lg:pl-[4vw]" data-cy="section-with-word">
                 <p> {section.content.substring(0,section.content.indexOf(props.searchTarget))}
                 <span style={{fontWeight: 'bold', backgroundColor: '#5456F5'}}> {props.searchTarget} </span>
@@ -118,7 +118,7 @@ const Content: React.FC<ContentProps> = (props: ContentProps) => {
               </div>
             </Collapsible>
             :
-            <Collapsible trigger={SectionTitle(section.title)} triggerWhenOpen={SectionTitleOpen(section.title)} transitionTime={150} className="mb-[4vh]" data-cy="section-title" >
+            <Collapsible key={index} trigger={SectionTitle(section.title)} triggerWhenOpen={SectionTitleOpen(section.title)} transitionTime={150} className="mb-[4vh]" data-cy="section-title" >
               <div className="pl-[2vw] mb-[4vh] lg:pl-[4vw]" data-cy="section-open">
                 {section.content}
               </div>
@@ -233,7 +233,7 @@ const LeftBarContent: React.FC<LeftProps> = (props: LeftProps) => {
             />
             <div>
               {keywords.map((content: any, index: number) => (
-                <PieLabel name={content.keyword} color={pieColors[index]}/>
+                <PieLabel key={index} name={content.keyword} color={pieColors[index]}/>
               ))}
             </div>
             <br/> <br/>
@@ -241,7 +241,7 @@ const LeftBarContent: React.FC<LeftProps> = (props: LeftProps) => {
             <br/>
             <div>
               {keywords.map((content: any, index: number) => (
-                <KeywordButton name={content.keyword} count={content.count} setTarget={props.setTarget} />
+                <KeywordButton key={index} name={content.keyword} count={content.count} setTarget={props.setTarget} />
               ))}
           </div>
         </div>)}
@@ -292,7 +292,7 @@ const RightBarContent: React.FC<RightProps> = (props: RightProps) => {
         <div>
           <div className="text-center font-bold text-[3vh] mb-[2vh]">Datos cuantitativos encontrados en el documento</div>
           {props.propData?.map((content: any, index: number) =>
-            <QuantitativeSection data={content.datum} sentence={content.sentence} setTarget={props.setTarget} />
+            <QuantitativeSection key={index} data={content.datum} sentence={content.sentence} setTarget={props.setTarget} />
           )}
         </div>
       )} 
@@ -381,6 +381,7 @@ function MostrarAnalisis({
 
   useEffect(() => {
     (async () => {
+      console.log("Getting text")
       setText(await getText(params.docId));
     })
   }, []);
