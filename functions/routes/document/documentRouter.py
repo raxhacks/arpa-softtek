@@ -14,12 +14,16 @@ import yake
 from .helpers.AnalysisAndChatCreation import addAnalysisToDocument
 from datetime import datetime
 from babel.dates import format_date
+from langdetect import detect
+import json
 
 MAX_FILE_SIZE_MB = 3 
 
 def pdf_from_url_to_txt(url, user_id):
     # Parse the filename from the URL
     filename = os.path.basename(urllib.parse.urlparse(url).path)
+    decoded_filename = urllib.parse.unquote(filename)
+    print("Filename:", decoded_filename)
 
     rsrcmgr = PDFResourceManager()
     retstr = StringIO()
@@ -33,6 +37,7 @@ def pdf_from_url_to_txt(url, user_id):
     if file_size_mb > MAX_FILE_SIZE_MB:
         return None, "File size exceeds the limit of 3MB"
     
+    print("File extension:", file_size_mb)
     # Configure bucket
     bucket = storage.bucket()
     blob = bucket.blob(f"users/{user_id}/{filename}")
@@ -58,7 +63,8 @@ def pdf_from_url_to_txt(url, user_id):
     device.close()
     str = retstr.getvalue()
     retstr.close()
-    return [str, public_url]
+    print(public_url)
+    return [str, public_url, decoded_filename]
 
 documentBlueprint = flask.Blueprint('document', __name__, url_prefix="/document")
 
@@ -126,6 +132,7 @@ def create_document():
         kw_extractor = yake.KeywordExtractor(top=10)
         keywords_tuple = kw_extractor.extract_keywords(text)
         keywords = [keyword[0] for keyword in keywords_tuple]
+
         # Get frequency of each keyword
         analysis_keywords = []
         for keyword in keywords:
@@ -169,6 +176,105 @@ def create_document():
         document_doc_ref.update({"analysis":  analysis_id})
         
         return flask.jsonify({"message": "New document created successfully", "document_id": document_doc_ref.id, "text":text, "analysis_id":analysis_id}), 201
+    except Exception as e:
+        print("Error:",e)
+        return flask.jsonify({"message":"Failed to create new document"}), 500
+
+@documentBlueprint.route("/precreation", methods=["POST"])
+def precreate_document():
+    try:
+        print("Precreating document")
+        user_id = flask.g.get('user_id')
+
+        # Get other form data
+        extension = flask.request.form.get('extension')
+
+        url = flask.request.form.get('url')
+        public_url = ""
+        if url == None:
+            # Check if file is present in request
+            if 'file' not in flask.request.files:
+                print("No file part in the request")
+                return flask.jsonify({"message": "No file part in the request"}), 400
+
+            file = flask.request.files['file']
+            
+            print("File",file.filename)
+            # Check if file is allowed
+            allowed_extensions = {'pdf', 'docx'}
+            if '.' in file.filename and file.filename.rsplit('.', 1)[1].lower() not in allowed_extensions:
+                return flask.jsonify({"message": "Invalid file extension"}), 400
+            print("File extension:", extension)
+            
+             # Calculate file size
+            # file_size_mb = os.path.getsize(file) / (1024 * 1024)  # Size in MB
+            # if file_size_mb > MAX_FILE_SIZE_MB:
+            #     return flask.jsonify({"message": "File size exceeds the limit of 3MB"}), 400
+            
+            # Configure bucket
+            bucket = storage.bucket()
+            blob = bucket.blob(f"users/{user_id}/{file.filename}")
+            blob.upload_from_file(file)
+
+            blob.make_public()
+            public_url = blob.public_url
+
+            title = os.path.splitext(file.filename)[0]
+
+            # Parse PDF if the file is a PDF
+            if extension == 'PDF':
+                reader = PyPDF2.PdfReader(file)
+                text = ''
+                for page in range(len(reader.pages)):
+                    text += reader.pages[page].extract_text()
+            elif extension == 'DOCX':
+                text = docx2txt.process(file)
+            else:
+                text = ''  # Placeholder for content extraction for other file types
+        else:
+            url_parser = pdf_from_url_to_txt(url, user_id)
+            text = url_parser[0]
+            public_url = url_parser[1]
+            title = url_parser[2]
+        # Save other data to Firestore
+        # db = firestore.client()
+        # user_doc_ref = db.collection('users').document(user_id)
+        # document_doc_ref = user_doc_ref.collection('documents').document()
+
+        content = flask.request.form.get('content')
+
+        # Extract keywords
+        lang = detect(text)
+        language = lang 
+        max_word_size = 2
+        deduplication_thresold = 0.9
+        custom_kw_extractor = yake.KeywordExtractor(lan=language, n=max_word_size, dedupLim=deduplication_thresold, top=10, features=None)
+        keywordsYAKE = custom_kw_extractor.extract_keywords(text)
+        keywords = [keyword[0] for keyword in keywordsYAKE]
+
+        # Get frequency of each keyword
+        analysis_keywords = []
+        for keyword in keywords:
+            count = text.lower().count(keyword.lower())
+            analysis_keywords.append({"keyword": keyword, "count": count})
+
+        new_document = {
+            'title': title,
+            # 'content': text if extension == 'PDF' or extension == 'DOCX' else content,
+            'url': url,
+            'public_url': public_url,
+            'extension': extension,
+            # 'created_at': firestore.SERVER_TIMESTAMP,
+            'favorite': False,
+            'chat': {},
+        }
+
+        parsed = json.dumps(new_document)
+
+        # Create the document
+        
+        
+        return flask.jsonify({"message": "New document precreated successfully", "document_object": parsed, "text":text, "analysis_keywords":analysis_keywords, "keywords":keywords}), 201
     except Exception as e:
         print("Error:",e)
         return flask.jsonify({"message":"Failed to create new document"}), 500
@@ -244,6 +350,23 @@ def toggle_favorite():
     except Exception as e:
         print("Error:",e)
         return flask.jsonify({"message":"Failed to update favorite status"}), 500
+    
+@documentBlueprint.route("/updateTitle", methods=["PUT"])
+def update_title():
+    try:
+        user_id = flask.g.get('user_id')
+        document_id = flask.request.args.get('document_id')
+        title = flask.request.args.get('title')
+
+        db = firestore.client()
+        document_doc_ref = db.collection('users').document(user_id).collection('documents').document(document_id)
+
+        document_doc_ref.update({"title": title})
+
+        return flask.jsonify({"message":"Title updated successfully"}), 200
+    except Exception as e:
+        print("Error:",e)
+        return flask.jsonify({"message":"Failed to update title"}), 500
 
 @documentBlueprint.route("/history", methods=["GET"])
 def get_history():
@@ -251,7 +374,7 @@ def get_history():
         user_id = flask.g.get('user_id')
         
         db = firestore.client()
-        documents_ref = db.collection('users').document(user_id).collection('documents').stream()
+        documents_ref = db.collection('users').document(user_id).collection('documents').order_by('created_at', direction=firestore.Query.DESCENDING).stream()
         
         documents_list = []
         for doc in documents_ref:
@@ -270,7 +393,8 @@ def get_history():
                 "created_at": created_at_formatted,
                 "public_url": document_data.get("public_url", ""),
                 "analysis_id": document_data.get('analysis', ""),
-                "favorite": document_data.get("favorite", False)
+                "favorite": document_data.get("favorite", False),
+                "extension": document_data.get("extension", "")
             }
             documents_list.append(document_info)
         
@@ -286,7 +410,7 @@ def get_favorites():
         
         db = firestore.client()
         documents_ref = db.collection('users').document(user_id).collection('documents').where("favorite", "==", True).stream()
-        
+
         documents_list = []
         for doc in documents_ref:
             document_data = doc.to_dict()
@@ -304,7 +428,8 @@ def get_favorites():
                 "created_at": created_at_formatted,
                 "public_url": document_data.get("public_url", ""),
                 "analysis_id": document_data.get('analysis', ""),
-                "favorite": document_data.get("favorite", False)
+                "favorite": document_data.get("favorite", False),
+                "extension": document_data.get("extension", "")
             }
             documents_list.append(document_info)
         

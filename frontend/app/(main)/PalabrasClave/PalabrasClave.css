@@ -1,0 +1,16 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* /COSAS DEL SCROLLBAR/ */
+::-webkit-scrollbar{
+  width: 1vw;
+}
+::-webkit-scrollbar-track {
+  background: rgb(36, 37, 46);
+  border-radius: 10px;
+}
+::-webkit-scrollbar-thumb {
+  background: rgb(77, 80, 97);
+  border-radius: 10px;
+}

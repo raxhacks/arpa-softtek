@@ -7,10 +7,10 @@ import { Analysis, Section, Keyword, QuantitativeDatum } from '../model/analysis
 export const getAnalysis = async (document_id: string, analysis_id: string): Promise<Analysis> => {
     try {
         const token = cookies().get('session')?.value
-        const config = { 
-            headers: { 
+        const config = {
+            headers: {
                 'Authorization': `Bearer ${token}`
-            } 
+            }
         };
         console.log('Fetching analysis sections...');
         const response = await axios.get(`https://arpa-2mgft7cefq-uc.a.run.app/analysis?document_id=${document_id}&analysis_id=${analysis_id}`, config);
@@ -36,12 +36,31 @@ export const getAnalysis = async (document_id: string, analysis_id: string): Pro
             Keywords: keywords,
             QuantitativeData: quantitativeData
         };
-        
+
         // console.log(analysis);
-        
+
         return analysis;
     } catch (error) {
         console.error('Could not fetch analysis sections:', error);
         throw error;
+    }
+};
+
+export const createAnalysis = async (body: any, tokenSSR?: string) => {
+    try {
+        const token = tokenSSR || cookies().get('session')?.value
+        const config = {
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json'
+            }
+        };
+        console.log('Uploading document...');
+        const response = await axios.post('https://arpa-2mgft7cefq-uc.a.run.app/analysis', body, config);
+        console.log(`Doument uploaded`)
+        return response.data;
+    } catch (error) {
+        console.error('Could not upload the document:', error);
+        return null
     }
 };

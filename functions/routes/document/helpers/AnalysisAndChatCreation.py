@@ -72,18 +72,17 @@ def addAnalysisToDocument(user_id, document_id, text, keywords, keywords_str_arr
         time.sleep(1)
 
         retreiver = vectorstore.as_retriever()
-        num_vectors = len(vectorstore.index.vector_count)
-        print(f"Number of vectors in the vector store: {num_vectors}")
+        # num_vectors = len(vectorstore.index.vector_count)
+        # print(f"Number of vectors in the vector store: {num_vectors}")
         
         # print(f"Number of documents in the vector store: {num_docs}")
-        total_tokens = sum(len(doc.pageContent.split()) for doc in vectorstore.query_collection.fetch())
-        print(f"Total number of tokens in the vector store: {total_tokens}")
+        # total_tokens = sum(len(doc.pageContent.split()) for doc in vectorstore.query_collection.fetch())
+        # print(f"Total number of tokens in the vector store: {total_tokens}")
         
         ### Contextualize question ###
-        contextualize_q_system_prompt = """Given a chat history and the latest user question \
-        which might reference context in the chat history, formulate a standalone question \
-        which can be understood without the chat history. Do NOT answer the question, \
-        just reformulate it if needed and otherwise return it as is."""
+        contextualize_q_system_prompt = """Given a document text which can be in english or spanish \
+        process it to formulate the following summary analisis it its respective language whether english or spanish. \
+        """
 
         contextualize_q_prompt = ChatPromptTemplate.from_messages(
             [
@@ -101,7 +100,11 @@ def addAnalysisToDocument(user_id, document_id, text, keywords, keywords_str_arr
         qa_system_prompt = f"""
         You are an assistant for question-answering tasks related to scientific papers, articles and investigations. 
         Use the following pieces of retrieved context (the document text) to answer the question. 
-        If we ask this specific prompt "Analyze this paper", you must return a stringified JSON's array. Each index represents a summarized section of the paper and the object has 2 attributes, the title of the section and the content. Make sure that in the content of each section, if there's a keyword contained in the following list, be sure to include it: [{keywords_str}]. Just the stringified json, no other format (don't use backticks to tell you are using json).
+        If we ask this specific prompt "Analyze this paper", you must return a stringified JSON's array. 
+        Each index represents a summarized section of the paper and the object has 2 attributes, 
+        the title of the section and the content. MAKE SURE TO INCLUDE the following list of keywords: [{keywords_str}] within the summary by naturally incorporating them into the text.
+        Just the stringified json, no other format (don't use backticks to tell you are using json).
+        Give the answer in the respective language of the document.
         {{context}}
         """
         qa_prompt = ChatPromptTemplate.from_messages(
