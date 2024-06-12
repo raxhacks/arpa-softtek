@@ -3,7 +3,6 @@
 import axios from 'axios';
 import { cookies } from 'next/headers';
 import { Doc } from '../model/document';
-import { documentId } from 'firebase/firestore';
 import { threadId } from 'worker_threads';
 
 const baseUrl = process.env.NEXT_PUBLIC_API_URL + '/document';
