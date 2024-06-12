@@ -34,7 +34,7 @@
     font-weight: 600;
     
   }
-  @media only screen and (min-width: 768px){
+  @media only screen and (min-width: 1024px){
     .main{
       background-color: rgb(48, 50, 61);
       padding-top: 125px;
@@ -47,7 +47,7 @@
   .text{
     color: rgb(252, 250, 245);
   }
-  @media only screen and (min-width: 768px){
+  @media only screen and (min-width: 1024px){
     .text{
       color: rgb(252, 250, 245);
       margin-left: 10vw;

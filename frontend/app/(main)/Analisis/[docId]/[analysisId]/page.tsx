@@ -60,7 +60,7 @@ function SectionTitleOpen(title: string){
 function SectionCollapsible(section: Section){
   return(
     <Collapsible trigger={SectionTitle(section.title)} triggerWhenOpen={SectionTitleOpen(section.title)} transitionTime={150} className="mb-[4vh]">
-      <div className="pl-[2vw] mb-[4vh] md:pl-[4vw]">
+      <div className="pl-[2vw] mb-[4vh] lg:pl-[4vw]">
         {section.content}
       </div>
     </Collapsible>
@@ -84,7 +84,7 @@ interface ContentProps{
 const Content: React.FC<ContentProps> = (props: ContentProps) => {
   if(props.currentTab === "Resumen"){
     return(
-     <div className="text-[#FCFAF5] text-[3vh] mx-[8vw] mt-[8vh] md:mx-[10vw]">
+     <div className="text-[#FCFAF5] text-[3vh] mx-[8vw] mt-[8vh] lg:mx-[10vw]">
         {props.loading ? (
           <div className='flex justify-center items-center pt-44'>
             <div>
@@ -103,15 +103,15 @@ const Content: React.FC<ContentProps> = (props: ContentProps) => {
             {props.sections?.map((section, index) => (
             props.searchTarget !== "" && section.content.includes(props.searchTarget)?
             <Collapsible trigger={SectionTitle(section.title)} triggerWhenOpen={SectionTitleOpen(section.title)} transitionTime={150} className="mb-[4vh]" open >
-              <div className="pl-[2vw] mb-[4vh] md:pl-[4vw]" data-cy="section-with-word">
+              <div className="pl-[2vw] mb-[4vh] lg:pl-[4vw]" data-cy="section-with-word">
                 <p> {section.content.substring(0,section.content.indexOf(props.searchTarget))}
                 <span style={{fontWeight: 'bold', backgroundColor: '#5456F5'}}> {props.searchTarget} </span>
                 {section.content.substring(section.content.indexOf(props.searchTarget) + props.searchTarget.length, section.content.length)} </p>
               </div>
             </Collapsible>
             :
-            <Collapsible trigger={SectionTitle(section.title)} triggerWhenOpen={SectionTitleOpen(section.title)} transitionTime={150} className="mb-[4vh]" >
-              <div className="pl-[2vw] mb-[4vh] md:pl-[4vw]">
+            <Collapsible trigger={SectionTitle(section.title)} triggerWhenOpen={SectionTitleOpen(section.title)} transitionTime={150} className="mb-[4vh]" data-cy="section-title" >
+              <div className="pl-[2vw] mb-[4vh] lg:pl-[4vw]" data-cy="section-open">
                 {section.content}
               </div>
             </Collapsible>
@@ -143,7 +143,7 @@ const Content: React.FC<ContentProps> = (props: ContentProps) => {
   }
   else if(props.currentTab === "Chatbot"){
     return(
-      <div className="text-[#FCFAF5] text-[3vh] mx-[8vw] mt-[3vh] md:mx-[10vw] md:mt-[5vh]">
+      <div className="text-[#FCFAF5] text-[3vh] mx-[8vw] mt-[3vh] lg:mx-[10vw] lg:mt-[5vh]" data-cy="chatbot-main">
         <Chat docId={props.docId}/>
       </div>
     );
@@ -292,8 +292,9 @@ function BotonFavorito(favorito: any, {
 }){
   if(favorito.state == true){    
     return(
-        <svg xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler icon-tabler-star hover:stroke-[#BCBAB5] hover:fill-[#BCBAB5] md:stroke-[#5756F5] md:fill-[#5756F5] md:hover:stroke-[#2F31AB] md:hover:fill-[#2F31AB]"
-          width="50" height="50" viewBox="0 0 24 24" stroke-width="1.5" stroke="#FCFAF5" fill="#FCFAF5" stroke-linecap="round" stroke-linejoin="round">
+        <svg xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler icon-tabler-star hover:stroke-[#BCBAB5] hover:fill-[#BCBAB5]
+        lg:stroke-[#5756F5] lg:fill-[#5756F5] lg:hover:stroke-[#2F31AB] lg:hover:fill-[#2F31AB]" width="50" height="50"
+        viewBox="0 0 24 24" stroke-width="1.5" stroke="#FCFAF5" fill="#FCFAF5" stroke-linecap="round" stroke-linejoin="round">
           <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
           <path d="M12 17.75l-6.172 3.245l1.179 -6.873l-5 -4.867l6.9 -1l3.086 -6.253l3.086 6.253l6.9 1l-5 4.867l1.179 6.873z" />
         </svg>
@@ -301,7 +302,7 @@ function BotonFavorito(favorito: any, {
   }
   else{
     return(
-      <svg xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler icon-tabler-star hover:stroke-[#BCBAB5] md:stroke-[#5756F5] md:hover:stroke-[#2F31AB]"
+      <svg xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler icon-tabler-star hover:stroke-[#BCBAB5] lg:stroke-[#5756F5] lg:hover:stroke-[#2F31AB]"
       width="50" height="50" viewBox="0 0 24 24" stroke-width="1.5" stroke="#FCFAF5" fill="none" stroke-linecap="round" stroke-linejoin="round">
         <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
         <path d="M12 17.75l-6.172 3.245l1.179 -6.873l-5 -4.867l6.9 -1l3.086 -6.253l3.086 6.253l6.9 1l-5 4.867l1.179 6.873z" />
@@ -317,15 +318,16 @@ function BotonHome(){
       router.push('/CargarArchivos');
       localStorage.setItem("button", 'CargarArchivos')
     }}
-    className="fixed top-[1.5vh] left-[2vw] z-30 md:relative md:top-auto md:left-auto md:z-auto md:mr-[2vw]"
-    >
-    <svg xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler icon-tabler-home-2 hover:stroke-[#BCBAB5] active:fill-[#BCBAB5] md:stroke-[#5756F5] md:hover:stroke-[#2F31AB] md:active:fill-[#2F31AB]"
-    width="50" height="50" viewBox="0 0 24 24" stroke-width="1.5" stroke="#FCFAF5" fill="none" stroke-linecap="round" stroke-linejoin="round">
-      <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-      <path d="M5 12l-2 0l9 -9l9 9l-2 0" />
-      <path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-7" />
-      <path d="M10 12h4v4h-4z" />
-    </svg>
+    className="fixed top-[1.5vh] left-[2vw] z-30 lg:relative lg:top-auto lg:left-auto lg:z-auto lg:mr-[2vw]"
+    data-cy="boton-home">
+      <svg xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler icon-tabler-home-2 hover:stroke-[#BCBAB5] active:fill-[#BCBAB5]
+      lg:stroke-[#5756F5] lg:hover:stroke-[#2F31AB] lg:active:fill-[#2F31AB]" width="50" height="50" viewBox="0 0 24 24"
+      stroke-width="1.5" stroke="#FCFAF5" fill="none" stroke-linecap="round" stroke-linejoin="round">
+        <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+        <path d="M5 12l-2 0l9 -9l9 9l-2 0" />
+        <path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-7" />
+        <path d="M10 12h4v4h-4z" />
+      </svg>
     </button>
 
   );
@@ -509,10 +511,10 @@ function MostrarAnalisis({
         </Bounce>
       </Modal>
       <Header />
-      <div className="flex items-center h-screen left-[-100vw] md:left-auto">
+      <div className="flex items-center h-screen left-[-100vw] lg:left-auto">
         <div className={cx("sideBarLeft", {"sideBarLeft-closed":!leftBarOpen})}>
           <div className={cx("sideBarLeftText", {"sideBarLeftText-closed":!leftBarOpen})}>
-            <div className="text-center text-[4vh] font-semibold pb-[3vh] md:text-[0vw] md:pb-[0vh]">
+            <div className="text-center text-[4vh] font-semibold pb-[3vh] lg:text-[0vw] lg:pb-[0vh]">
               Análisis cualitativo
             </div>
             {/* <LeftBarContent keywords={analysis?.Keywords} /> */}
@@ -557,10 +559,11 @@ function MostrarAnalisis({
         </div>
         <div className="flex items-center justify-center">
           <BotonHome />
-          <div className="w-[10vw] md:w-0"/>
+          <div className="w-[10vw] lg:w-0"/>
           <Segmented options={["Resumen", "Texto Original", "Chatbot"]} onChange={(value) => handleTabChange(value)} />
-          <div className="w-[10vw] md:w-0"/>
-          <button className="fixed top-[1.5vh] right-[2vw] z-30 md:relative md:top-auto md:right-auto md:z-auto md:ml-[2vw]" onClick={toggleFav}>
+          <div className="w-[10vw] lg:w-0"/>
+          <button className="fixed top-[1.5vh] right-[2vw] z-30 lg:relative lg:top-auto lg:right-auto lg:z-auto lg:ml-[2vw]"
+          onClick={toggleFav} data-cy="boton-favorito">
             {togglingToFav ? (
                 <svg className="animate-spin h-10 w-10" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
                   <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
@@ -603,7 +606,7 @@ function MostrarAnalisis({
         <div className={cx("sideBarRightSpace", {"sideBarRightSpace-closed":!rightBarOpen})} />
         <div className={cx("sideBarRight", {"sideBarRight-closed":!rightBarOpen})}>
           <div className={cx("sideBarRightText", {"sideBarRightText-closed":!rightBarOpen})}>
-            <div className="text-center text-[4vh] font-semibold pb-[3vh] md:text-[0vw] md:pb-[0vh]">
+            <div className="text-center text-[4vh] font-semibold pb-[3vh] lg:text-[0vw] lg:pb-[0vh]">
               Análisis cuantitativo
             </div>
             <RightBarContent propData={analysis?.QuantitativeData} setTarget={setTarget} loading={loading} />

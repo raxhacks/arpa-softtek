@@ -180,8 +180,7 @@ export default function MostrarFavoritos() {
 
   return (
     <>
-        <>
-      <div className='pt-12 pb-20'>
+      <div className='pt-12 pb-20' data-cy="lista-favoritos-main">
         <Modal
           isOpen={modalIsOpen}
           onRequestClose={closeModal}
@@ -333,7 +332,6 @@ export default function MostrarFavoritos() {
                       )}
                     
                     </MenuItem>
-
                   </MenuItems>
                 </Transition>
               </Menu>
@@ -435,8 +433,7 @@ export default function MostrarFavoritos() {
               </div>
             )} 
 
-      </div>  
-      </>
+      </div>
     </>
   );
 }

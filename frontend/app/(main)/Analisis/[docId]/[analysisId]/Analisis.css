@@ -14,7 +14,7 @@
     z-index: 20;
     transition: 0.4s ease-in;
   }
-  @media(min-width: 768px){
+  @media(min-width: 1024px){
     .sideBarLeft{
       width: 30vw;
     }
@@ -41,7 +41,7 @@
     transition: 0.4s ease-in;
     direction: rtl;
   }
-  @media(min-width: 768px){
+  @media(min-width: 1024px){
     .sideBarLeftText{
       width: 29.8vw;
       padding-right: 1vw;
@@ -52,7 +52,7 @@
   .sideBarLeftText-closed{
     left: -70vw;
   }
-  @media(min-width: 768px){
+  @media(min-width: 1024px){
     .sideBarLeftText-closed{
       left: -30vw;
     }
@@ -65,7 +65,7 @@
     padding-top: 125px;
     transition: 0.4s ease-in;
   }
-  @media(min-width: 768px){
+  @media(min-width: 1024px){
     .sideBarLeftSpace{
       width: 30vw;
     }
@@ -93,7 +93,7 @@
     z-index: 10;
     transition: 0.4s ease-in;
   }
-  @media(min-width: 768px){
+  @media(min-width: 1024px){
     .sideBarLeftButton{
       left: 30vw;
       background-color: #5756F5;
@@ -102,7 +102,7 @@
   .sideBarLeftButton-closed{
     left: -100vw;
   }
-  @media(min-width: 768px){
+  @media(min-width: 1024px){
     .sideBarLeftButton-closed{
       left: 0;
       background-color: #24252E;
@@ -127,7 +127,7 @@
     transform: translateX(-10%);
     transition: 0.4s ease-in;
   }
-  @media(min-width: 768px){
+  @media(min-width: 1024px){
     .sideBarLeftButton2{
       left: -100vw;
     }
@@ -135,7 +135,7 @@
   .sideBarLeftButton2-closed{
     left: 0vw;
   }
-  @media(min-width: 768px){
+  @media(min-width: 1024px){
     .sideBarLeftButton2-closed{
       left: -100vw;
     }
@@ -154,7 +154,7 @@
     z-index: 20;
     transition: 0.4s ease-in;
   }
-  @media(min-width: 768px){
+  @media(min-width: 1024px){
     .sideBarRight{
       width: 30vw;
     }
@@ -180,7 +180,7 @@
     z-index: 20;
     transition: 0.4s ease-in;
   }
-  @media(min-width: 768px){
+  @media(min-width: 1024px){
     .sideBarRightText{
       width: 29.8vw;
       padding-left: 1vw;
@@ -191,7 +191,7 @@
   .sideBarRightText-closed{
     right: -70vw;
   }
-  @media(min-width: 768px){
+  @media(min-width: 1024px){
     .sideBarRightText-closed{
       right: -30vw;
     }
@@ -204,7 +204,7 @@
     padding-top: 125px;
     transition: 0.4s ease-in;
   }
-  @media(min-width: 768px){
+  @media(min-width: 1024px){
     .sideBarRightSpace{
       width: 30vw;
     }
@@ -232,7 +232,7 @@
     z-index: 10;
     transition: 0.4s ease-in;
   }
-  @media(min-width: 768px){
+  @media(min-width: 1024px){
     .sideBarRightButton{
       right: 30vw;
       background-color: #5756F5;
@@ -241,7 +241,7 @@
   .sideBarRightButton-closed{
     right: -100vw;
   }
-  @media(min-width: 768px){
+  @media(min-width: 1024px){
     .sideBarRightButton-closed{
       right: 0;
       background-color: #24252E;
@@ -266,7 +266,7 @@
     transform: translateX(10%);
     transition: 0.4s ease-in;
   }
-  @media(min-width: 768px){
+  @media(min-width: 1024px){
     .sideBarRightButton2{
       right: -100vw;
     }
@@ -275,7 +275,7 @@
     right: 0;
     background-color: #24252E;
   }
-  @media(min-width: 768px){
+  @media(min-width: 1024px){
     .sideBarRightButton2-closed{
       right: -100vw;
     }
@@ -320,7 +320,7 @@
     align-items: center;
     font-size: 2.5vh;
   }
-  @media(min-width: 768px){
+  @media(min-width: 1024px){
     .rc-segmented-item{
       max-height: 40px;
       font-size: 3vh;

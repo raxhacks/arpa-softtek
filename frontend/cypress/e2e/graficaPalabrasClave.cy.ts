@@ -1,5 +1,11 @@
 describe('Probar la visualización de una gráfica de pastel con las palabras clave en el documento', () => {
-    beforeEach(function () {
+  
+  /* NOTA IMPORTANTE */
+
+  /* Este analisis NO se debe ejecutar en cypress para no gastar tokens en la IA */
+  /* Favor de ejecutarlo de manera manual */
+  
+  beforeEach(function () {
       cy.visit('')
   
       cy.get('[data-cy="iniciar-sesion"]').click()
