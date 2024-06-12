@@ -10,7 +10,7 @@ import axios from 'axios';
 
 function Arrow() {
     return(
-        <div className="border-0 bg-transparent align-middle ml-[2vw] fixed top-[1.5vh] z-30 md:top-[14vh] md:z-auto" >
+        <div className="border-0 bg-transparent align-middle ml-[2vw] fixed top-[1.5vh] z-30 lg:top-[14vh] lg:z-auto" >
           <svg xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler icon-tabler-arrow-left hover:stroke-[#BCBAB5] active:stroke-[#565553]" width="56" height="56" viewBox="0 0 24 24" stroke-width="3" stroke="#FCFAF5" fill="none" stroke-linecap="round" stroke-linejoin="round">
             <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
             <path d="M5 12l14 0" />
@@ -35,10 +35,12 @@ function PalabraAutor(data: any){
     }
     else{
         return(
-            <button className="inline bg-[#24252E] h-[8vh] md:h-[7vh] rounded-[10px] text-[3.5vw] md:text-[1.2vw] my-[1vh] mx-[0.5vw]
-            py-[1vh] px-[2vw] md:px-[1vw] text-[#FCFAF5] hover:bg-[#5756F5]" onClick={handleClick} data-cy="palabra-autor">
-                {data.wordList[data.id-1]}
-                <svg xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler icon-tabler-plus float-right ml-[1vw]" width="30" height="30" viewBox="0 0 24 24" stroke-width="3" stroke="#FCFAF5" fill="none" stroke-linecap="round" stroke-linejoin="round">
+            <button className="flex lg:inline bg-[#24252E] h-auto lg:h-[7vh] rounded-[10px] text-[3.5vw] lg:text-[1.2vw] my-[1vh] mx-[0.5vw]
+            py-[2vh] lg:py-[1vh] px-[2vw] lg:px-[1vw] text-[#FCFAF5] hover:bg-[#5756F5] align-middle" onClick={handleClick} data-cy="palabra-autor">
+                <div className="lg:float-left">
+                    {data.wordList[data.id-1]}
+                </div>
+                <svg xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler icon-tabler-plus lg:float-right ml-[1vw] w-0 lg:w-[2vw] h-0 lg:h-[2vw]" width="30" height="30" viewBox="0 0 24 24" stroke-width="3" stroke="#FCFAF5" fill="none" stroke-linecap="round" stroke-linejoin="round">
                     <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
                     <path d="M12 5l0 14" />
                     <path d="M5 12l14 0" />
@@ -57,7 +59,7 @@ function PalabraPropia(data: any){
     };
 
     const handleClickConfirm = () => {
-        if(inputWord !== "" && inputWord.match(/\S(.*\S)?/) && inputWord.match(/^[a-zA-Z][\w\s.-]*$/)){
+        if(inputWord !== "" && inputWord.match(/\S(.*\S)?/) && inputWord.match(/^[A-Za-zÀ-ÖØ-öø-ÿ][À-ÖØ-öø-ÿ\w\s.-]*$/)){
             data.setArray((oldArray: string[]) => [...oldArray, inputWord])
             setActive(true);
         }
@@ -72,7 +74,7 @@ function PalabraPropia(data: any){
             setInputWord("");
         }
         return(
-            <div className="flex flex-inline justify-start items-start w-[60vw] md:w-[15vw] h-[14vh]">
+            <div className="flex flex-inline justify-start items-start w-[50vw] lg:w-[15vw] h-[14vh]">
                 <div className="text-[#FCFAF5]">{data.id}.</div>
             </div>
         );
@@ -83,11 +85,12 @@ function PalabraPropia(data: any){
             setActive(false);
         }
         return(
-            <div className="flex flex-inline justify-between items-start w-[60vw] md:w-[15vw] h-[14vh]">
+            <div className="flex flex-inline justify-between items-start w-[50vw] lg:w-[15vw] h-[14vh]">
                 <div className="text-[#FCFAF5]">{data.id}.</div>
-                <div className="text-left text-[3.5vw] md:text-[1vw] text-[#FCFAF5]">
-                    <input className="bg-transparent w-auto md:w-[12vw] h-auto mx-[0.5vw]" type="text" id="palabraPropia" placeholder="Escriba aquí su palabra"
-                    value={inputWord} onChange={handleInputChange} maxLength={30} autoComplete="off" data-cy="input-propia" />
+                <div className="text-left text-[#FCFAF5]">
+                    <input className="bg-transparent w-[32vw] lg:w-[12vw] h-auto mx-[1.5vw] lg:mx-[0.5vw]" type="text" id="palabraPropia"
+                    placeholder="Escriba aquí su palabra" value={inputWord} onChange={handleInputChange} maxLength={30}
+                    autoComplete="off" data-cy="input-propia" />
                 </div>
                 <div>
                     <button onClick={handleClickConfirm} data-cy="add-propia" >
@@ -103,9 +106,10 @@ function PalabraPropia(data: any){
     }
     else{
         return(
-            <div className="flex flex-inline justify-between items-start w-[60vw] md:w-[15vw] h-[14vh]">
+            <div className="flex flex-inline justify-between items-start w-[50vw] lg:w-[15vw] h-[11vh] lg:h-[14vh]">
                 <div className="text-[#FCFAF5]">{data.id}.</div>
-                <div className="text-left text-wrap text-[3.5vw] md:text-[1vw] text-[#FCFAF5] w-auto md:w-[12vw] h-auto mx-[0.5vw]">
+                <div className="text-left text-wrap break-words text-[#FCFAF5] w-[32vw] lg:w-[12vw] h-auto mx-[1.5vw] lg:mx-[0.5vw]"
+                data-cy="palabra-propia">
                     {data.wordList[data.id-1]}
                 </div>
                 <div>
@@ -127,9 +131,11 @@ function PalabraPropia(data: any){
 
 function PalabrasRecomendadas(data: any) {
     return(
-        <div className="block w-[30vw] h-[50vh] mr-[1vw]">
-            <div className="flex justify-center w-auto text-[#FCFAF5] text-[1.5vw] h-[5vh] mb-[2vh]">Palabras del documento recomendadas</div>
-            <div className="h-[42vh] overflow-y-auto">
+        <div className="block w-[30vw] h-[120vh] lg:h-[50vh] mr-[1vw]">
+            <div className="flex justify-center w-auto text-[#FCFAF5] text-[3.9vw] lg:text-[1.5vw] mb-[2vh]">
+                Palabras del documento recomendadas
+            </div>
+            <div className="h-auto lg:h-[42vh] overflow-y-auto">
                 <PalabraAutor wordList={data.autor} id={1} propias={data.propias} setArray={data.setArray}/>
                 <PalabraAutor wordList={data.autor} id={2} propias={data.propias} setArray={data.setArray}/>
                 <PalabraAutor wordList={data.autor} id={3} propias={data.propias} setArray={data.setArray}/>
@@ -149,7 +155,7 @@ function PalabrasRecomendadas(data: any) {
 
 function ListaDePalabras(data: any) {
     return(
-        <div className="flex flex-col md:flex-row justify-around items-center bg-[#24252E] rounded-[20px] w-[60vw] h-[50vh] ml-[1vw]">
+        <div className="flex flex-col lg:flex-row justify-center lg:justify-around items-center bg-[#24252E] rounded-[20px] w-[60vw] h-[130vh] lg:h-[50vh] ml-[1vw]">
             <div className="flex flex-col">
                 <PalabraPropia wordList={data.propias} id={1} setArray={data.setArray}/>
                 <PalabraPropia wordList={data.propias} id={2} setArray={data.setArray}/>
@@ -226,13 +232,13 @@ function PalabrasClave(props:any){
     }
 
     return(
-        <div className="bg-[#30323D] pt-[15vh] pb-[15vh] font-semibold md:pt-[12vh] md:pb-[0vh]" data-cy="palabras-main">
+        <div className="bg-[#30323D] pt-[10vh] pb-[15vh] font-semibold lg:pt-[12vh] lg:pb-[0vh]" data-cy="palabras-main">
             <Header/>
             <button onClick={()=>props.setPalabrasClaveView()} data-cy="palabras-atras">
                 <Arrow />
             </button>
             <div className="flex flex-col items-center justify-center">
-                <h1 className="text-[#FCFAF5] text-center w-auto mb-[5vh] mx-[8vw] text-[5vh] md:text-[5vh] md:w-[70vw]">Seleccione las palabras clave para realizar su análisis</h1>
+                <h1 className="text-[#FCFAF5] text-center w-auto mb-[5vh] mx-[8vw] text-[4vh] lg:text-[5vh] lg:w-[70vw]">Seleccione las palabras clave para realizar su análisis</h1>
                 <div className="flex">
                     <PalabrasRecomendadas autor={palabrasAutor} propias={palabrasPropias} setArray={setPropias} />
                     <ListaDePalabras propias={palabrasPropias} setArray={setPropias} />

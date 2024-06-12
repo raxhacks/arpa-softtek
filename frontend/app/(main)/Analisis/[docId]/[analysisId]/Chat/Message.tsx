@@ -8,7 +8,7 @@ type MessageProps = {
   }) => {
     return (
       <div className={`w-full inline-flex ${isUser && "justify-end"}`}>
-        <div className={`w-5/6 text-[#FCFAF5] text-[20px] px-6 py-4 rounded-[20px] my-3 break-words md:w-2/3 md:text-[24px] ${isUser ? "bg-[#5756F5]" : "bg-[#24252E]"}`}>
+        <div className={`w-5/6 text-[#FCFAF5] text-[20px] px-6 py-4 rounded-[20px] my-3 break-words lg:w-2/3 lg:text-[24px] ${isUser ? "bg-[#5756F5]" : "bg-[#24252E]"}`}>
           {!isUser && 
             <div className="text-[32px] mb-2 flex">
               <div className="mr-3">ARPA-Bot</div>

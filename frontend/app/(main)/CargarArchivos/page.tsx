@@ -18,7 +18,7 @@ import { debug } from "console";
 function Arrow(back: any) {
   if(back.selected){
     return(
-      <button className="border-0 bg-transparent align-middle ml-[2vw] fixed top-[1.5vh] z-30 md:top-[15vh] md:z-auto" onClick={() => {back.goBack()}} data-cy="cargar-atras" >
+      <button className="border-0 bg-transparent align-middle ml-[2vw] fixed top-[1.5vh] z-30 lg:top-[15vh] lg:z-auto" onClick={() => {back.goBack()}} data-cy="cargar-atras" >
         <svg xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler icon-tabler-arrow-left hover:stroke-[#BCBAB5] active:stroke-[#565553]" width="56" height="56" viewBox="0 0 24 24" stroke-width="3" stroke="#FCFAF5" fill="none" stroke-linecap="round" stroke-linejoin="round">
           <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
           <path d="M5 12l14 0" />
@@ -82,7 +82,7 @@ function FormatButton(main: any) {
   }
 
   return (
-    <button className="bg-transparent mt-[5vh] mx-auto block relative md:mt-[10vh] md:mx-[5vw] md:inline" onClick={() => {main.setType(main.title, main.type)}} data-cy="format-button">
+    <button className="bg-transparent mt-[5vh] mx-auto block relative lg:mt-[10vh] lg:mx-[5vw] lg:inline" onClick={() => {main.setType(main.title, main.type)}} data-cy="format-button">
       {svg}
     </button>
   );
@@ -128,7 +128,7 @@ function Main(currentState: any) {
   if(currentState.type === "None"){
     acceptedFiles.splice(0, 1)
     return(
-      <div className="text-center md:flex md:justify-center">
+      <div className="text-center lg:flex lg:justify-center">
         <Fade cascade direction="up" damping={0.1} triggerOnce fraction={1}>
           <FormatButton type="PDF" title="Sube el artículo en formato PDF" setType={currentState.setType} />
           <FormatButton type="URL" title="Ingresa la URL del artículo" setType={currentState.setType} />
@@ -140,11 +140,11 @@ function Main(currentState: any) {
   else if(currentState.type === "URL"){
     return(
       <>
-        <div className="flex justify-center items-center mt-[12vh] mb-[10vh] flex-col md:flex-row">
-          <input type="text" className="h-[10vh] max-h-[60px] w-[90vw] text-[5vh] mb-[6vh] md:max-h-[50px] md:w-[70vw] md:max-w-[700px]
-          md:text-[4vh] md:ml-[5vw] md:mb-[0vh]" value={url} onChange={handleUrlChange} data-cy="input-URL" />
-          <button className="bg-[#5456F5] text-[#30323D] w-[40vw] rounded-[2vh] mx-[3vw] relative md:w-[4.5vw] md:h-[4.5vw] md:ml-[1vw]
-          md:mr-[5vw] md:inline hover:bg-[#4345AF] active:bg-[#FCFAF5]" onClick={(e)=>getPdfBlob(e,url,currentState.setfileState)} data-cy="confirm-URL">
+        <div className="flex justify-center items-center mt-[12vh] mb-[10vh] flex-col lg:flex-row">
+          <input type="text" className="h-[10vh] max-h-[60px] w-[90vw] text-[5vh] mb-[6vh] lg:max-h-[50px] lg:w-[70vw] lg:max-w-[700px]
+          lg:text-[4vh] lg:ml-[5vw] lg:mb-[0vh]" value={url} onChange={handleUrlChange} data-cy="input-URL" />
+          <button className="bg-[#5456F5] text-[#30323D] w-[40vw] rounded-[2vh] mx-[3vw] relative lg:w-[4.5vw] lg:h-[4.5vw] lg:ml-[1vw]
+          lg:mr-[5vw] lg:inline hover:bg-[#4345AF] active:bg-[#FCFAF5]" onClick={(e)=>getPdfBlob(e,url,currentState.setfileState)} data-cy="confirm-URL">
             {loading ? 
             <svg className="animate-spin m-1" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
               <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
@@ -254,16 +254,16 @@ function FileStateMessage(fileState: any) {
     return(<></>);
   }
   else if(fileState.state === "WrongFormat"){
-    return(<p className="text-[#F5C556] flex justify-center text-center mx-[5vw] mt-[5vh] text-[3vh] md:mx-[25vw]" data-cy="error-format">Error: El formato del archivo es incorrecto</p>);
+    return(<p className="text-[#F5C556] flex justify-center text-center mx-[5vw] mt-[5vh] text-[3vh] lg:mx-[25vw]" data-cy="error-format">Error: El formato del archivo es incorrecto</p>);
   }
   else if(fileState.state === "ErrorUploading"){
-    return(<p className="text-[#F5C556] flex justify-center text-center mx-[5vw] mt-[5vh] text-[3vh] md:mx-[25vw]" data-cy="error-upload">Error: No se ha podido cargar el archivo</p>);
+    return(<p className="text-[#F5C556] flex justify-center text-center mx-[5vw] mt-[5vh] text-[3vh] lg:mx-[25vw]" data-cy="error-upload">Error: No se ha podido cargar el archivo</p>);
   }
   else if(fileState.state === "Correct"){
     return(
       <div className="grid grid-cols-1">
         <button onClick={handleSubmitDocument} disabled={loading || !fileState.file} className="bg-transparent text-[#FCFAF5] border-solid border-[#FCFAF5]
-        border-[0.5vh] rounded-[2vh] mx-auto mt-[5vh] md:mt-[7vh] mb-[1vh] w-[70vw] max-w-[325px] h-[12vh] max-h-[80px] flex items-center
+        border-[0.5vh] rounded-[2vh] mx-auto mt-[5vh] lg:mt-[7vh] mb-[1vh] w-[70vw] max-w-[325px] h-[12vh] max-h-[80px] flex items-center
         justify-center text-[4vh] hover:bg-[#282933] active:bg-[#FCFAF5] active:border-[#30323D] active:text-[#30323D]" data-cy="confirm">
             {loading ? 
             <svg className="animate-spin h-10 w-10" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
@@ -347,7 +347,7 @@ function CargaArchivos() {
 
   return (
     <>
-      <div className="bg-[#30323D] pt-[5vh] pb-[20vh] font-semibold md:pt-[15vh] md:pb-[0vh]" data-cy="cargar-main" >
+      <div className="bg-[#30323D] pt-[5vh] pb-[20vh] font-semibold lg:pt-[15vh] lg:pb-[0vh]" data-cy="cargar-main" >
         <Header/>
         <meta name="viewport" content="width=device-width, initial-scale=1.0"></meta>
         <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons"></link>
