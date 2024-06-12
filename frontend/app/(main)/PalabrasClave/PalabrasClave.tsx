@@ -179,7 +179,7 @@ function BotonConfirmar(data: any) {
     const [loading, setLoading] = useState(false)
     const handleConfirm = () => {
         setLoading(true);
-        data.handleConfirm();
+        data.handleClickConfirm();
     }
     
     if(data.wordList.length <= 0){
@@ -192,7 +192,7 @@ function BotonConfirmar(data: any) {
             <div>
                 {loading ? 
                     <button className="h-[8vh] w-[12vw] border-[5px] border-[#FCFAF5] text-[#FCFAF5] rounded-[10px] bg-transparent
-                    text-[3vh] mt-[5vh] min-w-[150px] max-h-[60px] hover:bg-[#FCFAF5] hover:text-[#24252E] flex justify-center">
+                    text-[3vh] mt-[5vh] min-w-[150px] max-h-[60px] hover:bg-[#FCFAF5] hover:text-[#24252E] flex justify-center items-center">
                         <svg className="animate-spin h-10 w-10" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
                             <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
                             <path className="opacity-75" fill="currentColor"

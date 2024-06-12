@@ -3,20 +3,25 @@
 import Link from 'next/link';
 import './Analisis.css';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import Chat from './Chat/Chat';
 import Segmented from 'rc-segmented';
 import cx from "classnames";
 import Collapsible from 'react-collapsible';
 import Header from '../../../header';
 import { Analysis, Section, Keyword, QuantitativeDatum } from '@/model/analysis';
-import { getDocument } from '@/services/document.service';
-import { Document } from '../../../../../model/document';
+import { getDocument, deleteDocument } from '@/services/document.service';
+import { Doc } from '../../../../../model/document';
 import { toggleFavorite } from '@/services/favorites.service';
 import { getAnalysis } from '@/services/analysis.service';
 import { error } from 'console';
 import { useRouter } from 'next/navigation';
 import { PieChart } from 'react-minimal-pie-chart';
+import Modal from 'react-modal';
+import { updateTitle } from '@/services/document.service';
+import { Bounce } from "react-awesome-reveal";
+import { getText } from '@/services/document.service';
+import { Fade } from "react-awesome-reveal";
 import { DndContext, closestCenter, KeyboardSensor, PointerSensor, useSensor, useSensors} from '@dnd-kit/core';
 import { useSortable, arrayMove, SortableContext, sortableKeyboardCoordinates, verticalListSortingStrategy } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
@@ -73,6 +78,7 @@ interface ContentProps{
   searchTarget: string;
   loading: Boolean;
   setOriginalDocTab: any;
+  text: string | undefined;
 }
 
 const Content: React.FC<ContentProps> = (props: ContentProps) => {
@@ -118,23 +124,19 @@ const Content: React.FC<ContentProps> = (props: ContentProps) => {
   else if(props.currentTab === "Texto Original"){
     return(
       <div className="flex flex-col items-center justify-center mt-[2vh]">
-        <Segmented options={["Texto plano", "Vista completa"]} onChange={(value) => props.setOriginalDocTab(value)} />
-        {props.originalDocTab === "Texto plano" ? (
-          <div className="flex items-center justify-start text-[#FCFAF5] w-[70vw] mt-[2vh]">
-            Texto plano
-            <br/> <br/>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. 
-            Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure 
-            dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non 
-            proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-          </div>
-        ) : (
+        <Segmented options={["Vista completa", "Texto plano"]} onChange={(value) => props.setOriginalDocTab(value)} />
+        {props.originalDocTab === "Vista completa" ? (
           <div className="flex items-center justify-center h-[60vh] w-[70vw] mt-[2vh]">
             <iframe
             src={`https://docs.google.com/viewer?url=${props.docUrl}&embedded=true`}
             width="70%"
             height="100%" />
           </div>
+        ) : (
+          <div className="flex items-center justify-start text-[#FCFAF5] w-[70vw] mt-[2vh]">
+          <br/><br/>
+          {props.text}
+        </div>
         )}
       </div>
     );
@@ -335,20 +337,35 @@ function MostrarAnalisis({
   params: { docId: string, analysisId: string };
 }) {
   const [currentTab, setTab] = useState("Resumen");
-  const [originalDocTab, setOriginalDocTab] = useState("Texto plano");
+  const [originalDocTab, setOriginalDocTab] = useState("Vista completa");
   const [leftBarOpen, setLeftBar] = useState(false);
   const [rightBarOpen, setRightBar] = useState(false);
   const [isFavorito, setFavorito] = useState(false);
-  const [documentInfo, setDocumentInfo] = useState<Document>();
+  const [documentInfo, setDocumentInfo] = useState<Doc>();
   const [analysis, setAnalysis] = useState<Analysis>();  
   const [searchTarget, setTarget] = useState("");
   const [loading, setloading] = useState(true);
   const [togglingToFav, setLoadingFav] = useState(false);
+  const [modalIsOpen, setModalIsOpen] = useState(false);
+  const [selectedDocId, setSelectedDocId] = useState<string | null>(null);
+  const router = useRouter();
+  const [isEditing, setIsEditing] = useState(false);
+  const [title, setTitle] = useState(documentInfo?.title);
+  const [text, setText] = useState();
+  const inputRef = useRef<HTMLInputElement>(null);
+  const buttonRef = useRef<HTMLButtonElement>(null);
+  const[errorMessage, setErrorMessage] = useState<string | null>(null)
 
   useEffect(() => {
     (async () => {
       setDocumentInfo(await getDocument(params.docId));
     })();
+  }, []);
+
+  useEffect(() => {
+    (async () => {
+      setText(await getText(params.docId));
+    })
   }, []);
 
   useEffect(() => {
@@ -389,9 +406,108 @@ function MostrarAnalisis({
       localStorage.setItem(`favorite-${params.docId}`, (!newFavoriteState).toString());
     }
   };
+  const openModal = (docId: string) => {
+    setSelectedDocId(docId);
+    setModalIsOpen(true);
+  };
+
+  const closeModal = () => {
+    setModalIsOpen(false);
+    setSelectedDocId(null);
+  };
+
+  const deleteDoc = async () => {
+    if (!selectedDocId) return;
+
+    const response = await deleteDocument(selectedDocId);
+    if (!response) {
+      console.log('Error al eliminar el documento');
+      return;
+    }
+    router.push('/CargarArchivos');
+    localStorage.setItem("button", 'CargarArchivos')
+  }; 
+
+  useEffect(() => {
+    setTitle(documentInfo?.title)
+  },[documentInfo?.title]);
+
+  const handleEditClick = () => {
+    setIsEditing(true);
+  };
+
+  const handleInputChange = (event: any) => {
+    if (event.length <= 0){
+      setErrorMessage('Ingrese un titulo');
+      return
+    } else if (event.length >= 50){
+      setErrorMessage('El titulo debe ser menor a 50 caracteres');
+      return
+    } else {
+      setTitle(event.target.value);
+    }
+  };
+
+  const handleSaveClick = async (docId: string, title: string | undefined) => {
+    if (docId && title){
+      const response = await updateTitle(docId, title);
+      if (response) setIsEditing(false); setTitle(title);
+    } else (
+      console.log("Error editando el titulo del documento")
+    )
+  };
+
+  const handleClickOutside = (event: any) => {
+    if (
+      inputRef.current && !inputRef.current.contains(event.target) &&
+      buttonRef.current && !buttonRef.current.contains(event.target)
+    ) {
+      setIsEditing(false);
+    }
+  };
+
+  useEffect(() => {
+    if (isEditing) {
+      document.addEventListener('click', handleClickOutside);
+    } else {
+      document.removeEventListener('click', handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener('click', handleClickOutside);
+    };
+  }, [isEditing]);
 
   return (
     <div className="flex items-top justify-center" data-cy="analisis-main">
+      <Modal
+        isOpen={modalIsOpen}
+        onRequestClose={closeModal}
+        contentLabel="Confirmar eliminación"
+        className="z-50 fixed inset-0 flex items-center justify-center"
+        overlayClassName="fixed inset-0 bg-black bg-opacity-50 z-40"
+      >
+        <Bounce className="bg-[#4D5061] p-8 rounded-lg shadow-lg w-3/5 max-w-2xl">
+          <div>
+            <h2 className="text-xl font-bold mb-4 text-white">Confirmar eliminación</h2>
+            <p className='text-white'>¿Estás seguro de que quieres eliminar este documento?</p>
+            <div className="flex justify-end mt-4">
+              <button
+                onClick={closeModal}
+                className="mr-2 bg-gray-300 text-black px-4 py-2 rounded hover:bg-gray-400"
+              >
+                Cancelar
+              </button>
+              <button
+                onClick={deleteDoc}
+                className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-700"
+              >
+                Eliminar
+              </button>
+            </div>
+          </div>
+        </Bounce>
+      </Modal>
       <Header />
       <div className="flex items-center h-screen left-[-100vw] md:left-auto">
         <div className={cx("sideBarLeft", {"sideBarLeft-closed":!leftBarOpen})}>
@@ -416,7 +532,29 @@ function MostrarAnalisis({
         </button>
       </div>
       <div className="bg-[#30323D] pt-[25vh] mb-[15vh] bottom-0 font-semibold basis-[93vw] md:pt-[125px] md:mb-auto">
-        <div className="w-[50%] mx-auto text-center font-bold text-white text-[3vh] mt-[-5vh] mb-[2vh] text-ellipsis overflow-hidden">{documentInfo?.title}</div>
+        <div className="w-[50%] mx-auto text-center font-bold text-white text-[3vh] mt-[-5vh] mb-[2vh] text-ellipsis overflow-hidden">
+          {isEditing ? (
+            <input
+            type="text"
+            value={title}
+            onChange={handleInputChange}
+            onKeyDown={(e) => e.key === 'Enter' && handleSaveClick(params.docId, title)}
+            className={`text-white p-2 rounded-md h-8 bg-slate-600 border-b-white`}
+            placeholder='...'
+            ref={inputRef}
+            />
+          ): (
+            <button className='hover:bg-slate-600 transition-all' onClick={handleEditClick}>{title}</button>
+          )}
+          <button className='ml-2' onClick={isEditing ? () => handleSaveClick(params.docId, title) : handleEditClick} ref={buttonRef}>
+            <svg xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler icon-tabler-edit" width="22" height="22" viewBox="0 0 24 24" stroke-width="1.5" stroke="#FFFFFF" fill="none" stroke-linecap="round" stroke-linejoin="round">
+              <path stroke="none" d="M0 0h24h24H0z" fill="none"/>
+              <path d="M7 7h-1a2 2 0 0 0 -2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2 -2v-1" />
+              <path d="M20.385 6.585a2.1 2.1 0 0 0 -2.97 -2.97l-8.415 8.385v3h3l8.385 -8.415z" />
+              <path d="M16 5l3 3" />
+            </svg>
+          </button>
+        </div>
         <div className="flex items-center justify-center">
           <BotonHome />
           <div className="w-[10vw] md:w-0"/>
@@ -434,11 +572,22 @@ function MostrarAnalisis({
               <BotonFavorito state={isFavorito} setFavorito={setFavorito} docId={params.docId}/>
             )}
           </button>
+          <button className="fixed top-[1.5vh] right-[2vw] z-30 md:relative md:top-auto md:right-auto md:z-auto md:ml-[2vw]" onClick={() => openModal(params.docId)}>
+            <svg xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler icon-tabler-trash hover:stroke-[#BCBAB5] md:stroke-[#5756F5] md:hover:stroke-[#2F31AB]"
+              width="50" height="50" viewBox="0 0 24 24" stroke-width="1.5" stroke="#FCFAF5" fill="none" stroke-linecap="round" stroke-linejoin="round">
+              <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+              <path d="M4 7l16 0" />
+              <path d="M10 11l0 6" />
+              <path d="M14 11l0 6" />
+              <path d="M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2 -2l1 -12" />
+              <path d="M9 7v-3a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3" />
+            </svg>
+          </button>
           <div/>
         </div>
         {/* <Content currentTab={currentTab} sections={analysis?.Sections} analysisId={params.analysisId} docId={documentInfo?.id} docUrl={documentInfo?.publicURL} /> */}
         <Content currentTab={currentTab} originalDocTab={originalDocTab} sections={analysis?.Sections} analysisId={params.analysisId}
-        docId={params.docId} docUrl={documentInfo?.publicURL} searchTarget={searchTarget} loading={loading} setOriginalDocTab={setOriginalDocTab} />
+        docId={params.docId} docUrl={documentInfo?.publicURL} searchTarget={searchTarget} loading={loading} setOriginalDocTab={setOriginalDocTab} text={text}/>
       </div>
       <div className="flex items-center h-screen">
         <button onClick={() => {setRightBar(!rightBarOpen), setLeftBar(false)}}
