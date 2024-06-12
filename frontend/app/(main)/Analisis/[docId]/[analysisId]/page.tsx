@@ -124,19 +124,19 @@ const Content: React.FC<ContentProps> = (props: ContentProps) => {
   else if(props.currentTab === "Texto Original"){
     return(
       <div className="flex flex-col items-center justify-center mt-[2vh]">
-        <Segmented options={["Texto plano", "Vista completa"]} onChange={(value) => props.setOriginalDocTab(value)} />
-        {props.originalDocTab === "Texto plano" ? (
-          <div className="flex items-center justify-start text-[#FCFAF5] w-[70vw] mt-[2vh]">
-            <br/><br/>
-            {props.text}
-          </div>
-        ) : (
+        <Segmented options={["Vista completa", "Texto plano"]} onChange={(value) => props.setOriginalDocTab(value)} />
+        {props.originalDocTab === "Vista completa" ? (
           <div className="flex items-center justify-center h-[60vh] w-[70vw] mt-[2vh]">
             <iframe
             src={`https://docs.google.com/viewer?url=${props.docUrl}&embedded=true`}
             width="70%"
             height="100%" />
           </div>
+        ) : (
+          <div className="flex items-center justify-start text-[#FCFAF5] w-[70vw] mt-[2vh]">
+          <br/><br/>
+          {props.text}
+        </div>
         )}
       </div>
     );
@@ -337,7 +337,7 @@ function MostrarAnalisis({
   params: { docId: string, analysisId: string };
 }) {
   const [currentTab, setTab] = useState("Resumen");
-  const [originalDocTab, setOriginalDocTab] = useState("Texto plano");
+  const [originalDocTab, setOriginalDocTab] = useState("Vista completa");
   const [leftBarOpen, setLeftBar] = useState(false);
   const [rightBarOpen, setRightBar] = useState(false);
   const [isFavorito, setFavorito] = useState(false);
