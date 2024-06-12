@@ -328,7 +328,7 @@ return (
                               <h1 className='font-bold'>{item.title}</h1>
                               {item.favorite === true ? (
                                 <div>
-                                  <svg xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler ml-2 icon-tabler-star md:stroke-[#FFFF00] md:fill-[#FFFF00]"
+                                  <svg xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler ml-2 icon-tabler-star lg:stroke-[#FFFF00] lg:fill-[#FFFF00]"
                                     width="30" height="30" viewBox="0 0 24 24" stroke-width="1.5" stroke="#FCFAF5" fill="#FCFAF5" stroke-linecap="round" stroke-linejoin="round">
                                     <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
                                     <path d="M12 17.75l-6.172 3.245l1.179 -6.873l-5 -4.867l6.9 -1l3.086 -6.253l3.086 6.253l6.9 1l-5 4.867l1.179 6.873z" />
@@ -336,7 +336,7 @@ return (
                                 </div>
                               ):(
                                 <div>
-                                  <svg xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler ml-2 icon-tabler-star hover:stroke-[#BCBAB5] md:stroke-[#FFFF00] md:hover:stroke-[#FFFF00]"
+                                  <svg xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler ml-2 icon-tabler-star hover:stroke-[#BCBAB5] lg:stroke-[#FFFF00] lg:hover:stroke-[#FFFF00]"
                                     width="30" height="30" viewBox="0 0 24 24" stroke-width="1.5" stroke="#FCFAF5" fill="none" stroke-linecap="round" stroke-linejoin="round">
                                     <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
                                     <path d="M12 17.75l-6.172 3.245l1.179 -6.873l-5 -4.867l6.9 -1l3.086 -6.253l3.086 6.253l6.9 1l-5 4.867l1.179 6.873z" />

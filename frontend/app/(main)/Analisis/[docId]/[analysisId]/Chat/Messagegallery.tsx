@@ -85,7 +85,7 @@ const MessageGallery: React.FC<MessageGalleryProps> = ({newMessage, docId}) => {
   }, [])
 
   return (
-    <div className="w-full h-[55vh] pr-[1vw] overflow-y-scroll overflow-x-hidden md:h-[55vh]" ref={scroller}>
+    <div className="w-full h-[55vh] pr-[1vw] overflow-y-scroll overflow-x-hidden lg:h-[55vh]" ref={scroller}>
       {loading ? (
         <div className='flex justify-center items-center pt-44'>
           <div>
