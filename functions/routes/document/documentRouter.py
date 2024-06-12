@@ -15,6 +15,7 @@ from .helpers.AnalysisAndChatCreation import addAnalysisToDocument
 from datetime import datetime
 from babel.dates import format_date
 from langdetect import detect
+import json
 
 MAX_FILE_SIZE_MB = 3 
 
@@ -182,6 +183,7 @@ def create_document():
 @documentBlueprint.route("/precreation", methods=["POST"])
 def precreate_document():
     try:
+        print("Precreating document")
         user_id = flask.g.get('user_id')
 
         # Get other form data
@@ -235,9 +237,9 @@ def precreate_document():
             public_url = url_parser[1]
             title = url_parser[2]
         # Save other data to Firestore
-        db = firestore.client()
-        user_doc_ref = db.collection('users').document(user_id)
-        document_doc_ref = user_doc_ref.collection('documents').document()
+        # db = firestore.client()
+        # user_doc_ref = db.collection('users').document(user_id)
+        # document_doc_ref = user_doc_ref.collection('documents').document()
 
         content = flask.request.form.get('content')
 
@@ -258,37 +260,21 @@ def precreate_document():
 
         new_document = {
             'title': title,
-            'content': text if extension == 'PDF' or extension == 'DOCX' else content,
+            # 'content': text if extension == 'PDF' or extension == 'DOCX' else content,
             'url': url,
             'public_url': public_url,
             'extension': extension,
-            'created_at': firestore.SERVER_TIMESTAMP,
+            # 'created_at': firestore.SERVER_TIMESTAMP,
             'favorite': False,
             'chat': {},
         }
 
+        parsed = json.dumps(new_document)
+
         # Create the document
-        document_doc_ref.set(new_document)
-
-        # Set the id attribute
-        document_doc_ref.update({"document_id": document_doc_ref.id})
-
-        # Add the doc reference to the user's document collection
-        user_doc_ref.update({"documents": firestore.ArrayUnion([document_doc_ref.id])})
-
-        # Create chat collection for the document
-        chat_doc_ref = document_doc_ref.collection('chat').document()
         
-        new_chat = {}
-        new_chat['messages'] = []
         
-        chat_doc_ref.set(new_chat)
-        
-        chat_doc_ref.update({"chat_id":chat_doc_ref.id})
-        
-        document_doc_ref.update({"chat":firestore.ArrayUnion([chat_doc_ref.id])})
-        
-        return flask.jsonify({"message": "New document created successfully", "document_id": document_doc_ref.id, "text":text, "analysis_keywords":analysis_keywords, "keywords":keywords}), 201
+        return flask.jsonify({"message": "New document precreated successfully", "document_object": parsed, "text":text, "analysis_keywords":analysis_keywords, "keywords":keywords}), 201
     except Exception as e:
         print("Error:",e)
         return flask.jsonify({"message":"Failed to create new document"}), 500
@@ -364,6 +350,23 @@ def toggle_favorite():
     except Exception as e:
         print("Error:",e)
         return flask.jsonify({"message":"Failed to update favorite status"}), 500
+    
+@documentBlueprint.route("/updateTitle", methods=["PUT"])
+def update_title():
+    try:
+        user_id = flask.g.get('user_id')
+        document_id = flask.request.args.get('document_id')
+        title = flask.request.args.get('title')
+
+        db = firestore.client()
+        document_doc_ref = db.collection('users').document(user_id).collection('documents').document(document_id)
+
+        document_doc_ref.update({"title": title})
+
+        return flask.jsonify({"message":"Title updated successfully"}), 200
+    except Exception as e:
+        print("Error:",e)
+        return flask.jsonify({"message":"Failed to update title"}), 500
 
 @documentBlueprint.route("/history", methods=["GET"])
 def get_history():
@@ -390,7 +393,8 @@ def get_history():
                 "created_at": created_at_formatted,
                 "public_url": document_data.get("public_url", ""),
                 "analysis_id": document_data.get('analysis', ""),
-                "favorite": document_data.get("favorite", False)
+                "favorite": document_data.get("favorite", False),
+                "extension": document_data.get("extension", "")
             }
             documents_list.append(document_info)
         
@@ -424,7 +428,8 @@ def get_favorites():
                 "created_at": created_at_formatted,
                 "public_url": document_data.get("public_url", ""),
                 "analysis_id": document_data.get('analysis', ""),
-                "favorite": document_data.get("favorite", False)
+                "favorite": document_data.get("favorite", False),
+                "extension": document_data.get("extension", "")
             }
             documents_list.append(document_info)
         

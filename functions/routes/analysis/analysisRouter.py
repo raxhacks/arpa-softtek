@@ -2,6 +2,7 @@ import flask
 from collections import Counter
 from firebase_admin import firestore
 from .helpers.AnalysisAndChatCreation import addAnalysisToDocument
+import json
 
 analysisBlueprint = flask.Blueprint('analysis', __name__, url_prefix="/analysis")
 
@@ -11,12 +12,14 @@ def create_analysis():
         # Logica de OpenAI para analizar el texto
         user_id = flask.g.get('user_id')
         body = flask.request.json
-        document_id = body['document_id']
+        document_object = body['document_object']
+        document_object_parsed = json.loads(document_object)
         text = body['text']
         analysis_keywords = body['analysis_keywords']
         keywords = body['keywords']
         userOwnKeywords = body['userOwnKeywords']
-
+        document_object_parsed['content'] = text
+        document_object_parsed['created_at'] = firestore.SERVER_TIMESTAMP
         if userOwnKeywords:
             # Count the occurrences of each keyword in the text
             keyword_counts = Counter(word.lower() for word in text.split() if word.lower() in keywords)
@@ -26,7 +29,27 @@ def create_analysis():
         
         db = firestore.client()
         user_doc_ref = db.collection('users').document(user_id)
-        document_doc_ref = user_doc_ref.collection('documents').document(document_id)
+        document_doc_ref = user_doc_ref.collection('documents').document()
+
+        document_doc_ref.set(document_object_parsed)
+
+        # Set the id attribute
+        document_doc_ref.update({"document_id": document_doc_ref.id})
+
+        # Add the doc reference to the user's document collection
+        user_doc_ref.update({"documents": firestore.ArrayUnion([document_doc_ref.id])})
+
+        # Create chat collection for the document
+        chat_doc_ref = document_doc_ref.collection('chat').document()
+        
+        new_chat = {}
+        new_chat['messages'] = []
+        
+        chat_doc_ref.set(new_chat)
+        
+        chat_doc_ref.update({"chat_id":chat_doc_ref.id})
+        
+        document_doc_ref.update({"chat":firestore.ArrayUnion([chat_doc_ref.id])})
         
         analysis_id = addAnalysisToDocument(user_id, document_doc_ref.id, text, analysis_keywords, keywords)
         document_doc_ref.update({"analysis":  analysis_id})

@@ -243,6 +243,7 @@ function FileStateMessage(fileState: any) {
       fileState.setPrecreationObject(res.data);
       fileState.setPalabrasClaveView();
       setLoading(false);
+      console.log(res.data);
     })
     .catch((error) => {
       console.error(error);
