@@ -158,9 +158,7 @@ export const getText = async (document_id: string) => {
                 'Authorization': `Bearer ${token}`
             }
         };
-        const response = await axios.get(`http://127.0.0.1:5001/arpa-softtek/us-central1/arpa/document/text?document_id=${document_id}}`, config);
-        // const response = await axios.get(`https://arpa-2mgft7cefq-uc.a.run.app/document?document_id=${document_id}`, config);
-        console.log(response.data.text);
+        const response = await axios.get(`https://arpa-2mgft7cefq-uc.a.run.app/document/text?document_id=${document_id}`, config);
         const texto = response.data.text;
         return texto;
 
