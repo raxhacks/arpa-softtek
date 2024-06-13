@@ -226,7 +226,7 @@ const LeftBarContent: React.FC<LeftProps> = (props: LeftProps) => {
         </div>
       ): props.propWords?.length == 0 ? (
         <div>
-          error
+          No se encontraron las palabras clave para analizar dentro del aticulo
         </div>
       ): (
         <div>
