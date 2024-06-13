@@ -533,7 +533,7 @@ function MostrarAnalisis({
           +
         </button>
       </div>
-      <div className="bg-[#30323D] pt-[25vh] mb-[15vh] bottom-0 font-semibold basis-[93vw] md:pt-[125px] md:mb-auto">
+      <div className="bg-[#30323D] pt-[25vh] mb-[15vh] bottom-0 font-semibold basis-[93vw] lg:pt-[125px] lg:mb-auto">
         <div className="w-[50%] mx-auto text-center font-bold text-white text-[3vh] mt-[-5vh] mb-[2vh] text-ellipsis overflow-hidden">
           {isEditing ? (
             <input
@@ -575,8 +575,8 @@ function MostrarAnalisis({
               <BotonFavorito state={isFavorito} setFavorito={setFavorito} docId={params.docId}/>
             )}
           </button>
-          <button className="fixed top-[1.5vh] right-[2vw] z-30 md:relative md:top-auto md:right-auto md:z-auto md:ml-[2vw]" onClick={() => openModal(params.docId)}>
-            <svg xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler icon-tabler-trash hover:stroke-[#BCBAB5] md:stroke-[#5756F5] md:hover:stroke-[#2F31AB]"
+          <button className="fixed top-[1.5vh] right-[2vw] z-30 lg:relative lg:top-auto lg:right-auto lg:z-auto lg:ml-[2vw]" onClick={() => openModal(params.docId)}>
+            <svg xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler icon-tabler-trash hover:stroke-[#BCBAB5] lg:stroke-[#5756F5] lg:hover:stroke-[#2F31AB]"
               width="50" height="50" viewBox="0 0 24 24" stroke-width="1.5" stroke="#FCFAF5" fill="none" stroke-linecap="round" stroke-linejoin="round">
               <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
               <path d="M4 7l16 0" />
