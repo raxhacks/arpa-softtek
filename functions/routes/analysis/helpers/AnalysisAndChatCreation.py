@@ -97,6 +97,7 @@ def addAnalysisToDocument(user_id, document_id, text, keywords, keywords_str_arr
 
         ### Answer question ###
         keywords_str = ', '.join([f'"{keyword}"' for keyword in keywords_str_array])
+        print("KEYWORDS STRING:",keywords_str)
         qa_system_prompt = f"""
         You are an assistant for question-answering tasks related to scientific papers, articles and investigations. 
         Use the following pieces of retrieved context (the document text) to answer the question. 
@@ -163,7 +164,7 @@ def addAnalysisToDocument(user_id, document_id, text, keywords, keywords_str_arr
         print(promptQuantData)
         print(answerQuantData)
 
-        print(keywords)
+        print("FINAL KEYWORDS:",keywords)
 
         # Save the analysis to the document
         analysis_doc_ref = document_doc_ref.collection('analysis').document()

@@ -3,6 +3,7 @@ from collections import Counter
 from firebase_admin import firestore
 from .helpers.AnalysisAndChatCreation import addAnalysisToDocument
 import json
+import re
 
 analysisBlueprint = flask.Blueprint('analysis', __name__, url_prefix="/analysis")
 
@@ -21,11 +22,33 @@ def create_analysis():
         document_object_parsed['content'] = text
         document_object_parsed['created_at'] = firestore.SERVER_TIMESTAMP
         if userOwnKeywords:
-            # Count the occurrences of each keyword in the text
-            keyword_counts = Counter(word.lower() for word in text.split() if word.lower() in keywords)
+            keywords_lower = [keyword.lower() for keyword in keywords]
 
-            # Update the analysis_keywords array
-            analysis_keywords = [{'keyword': keyword, 'count': count} for keyword, count in keyword_counts.items()]
+            # Convert text to lower case and remove punctuation
+            text_lower_case = text.lower()
+            text_cleaned = re.sub(r'[^\w\s]', '', text_lower_case)
+
+            # Initialize a counter for the keywords
+            keyword_counts = Counter()
+
+            # Split the cleaned text into words
+            words = text_cleaned.split()
+
+            # Recreate the cleaned text without split to handle multi-word keywords
+            cleaned_text = ' '.join(words)
+
+            # Count occurrences of each keyword
+            for keyword in keywords_lower:
+                if ' ' in keyword:  # Multi-word keyword
+                    keyword_counts[keyword] += cleaned_text.count(keyword)
+                else:  # Single-word keyword
+                    keyword_counts[keyword] += words.count(keyword)
+
+            # Update the analysis_keywords array with the original keyword casing
+            analysis_keywords = [{'keyword': keyword, 'count': keyword_counts[keyword.lower()]} for keyword in keywords]
+
+            # Print the analysis_keywords
+            print(analysis_keywords)
         
         db = firestore.client()
         user_doc_ref = db.collection('users').document(user_id)
