@@ -26,6 +26,9 @@ import { DndContext, closestCenter, KeyboardSensor, PointerSensor, useSensor, us
 import { useSortable, arrayMove, SortableContext, sortableKeyboardCoordinates, verticalListSortingStrategy } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 import classNames from 'classnames';
+import { createRoot } from "react-dom/client";
+import Highlighter from "react-highlight-words";
+
 
 function SectionTitle(title: string){
   return(
@@ -67,10 +70,17 @@ function SectionCollapsible(section: Section){
   );
 }
 
-function TextoPlano(props: {contenido: string}){
+function TextoPlano(props: {contenido: string, searchTarget: string}){
+  if(props.contenido.includes(props.searchTarget)){console.log("yes")}
+  else{console.log("no")}
   return(
       <div className="pl-[2vw] mb-[4vh] md:pl-[4vw]">
-        {props.contenido}
+        {props.searchTarget !== "" && props.contenido.includes(props.searchTarget)?
+        <Highlighter highlightClassName="resumen" searchWords={[props.searchTarget]} autoEscape={true}
+        textToHighlight={props.contenido} highlightStyle={{fontWeight: 'bold', backgroundColor: '#5456F5', color: '#FCFAF5'}} />
+        :
+        props.contenido
+        }
       </div>
   );
 }
@@ -112,9 +122,8 @@ const Content: React.FC<ContentProps> = (props: ContentProps) => {
             props.searchTarget !== "" && section.content.includes(props.searchTarget)?
             <Collapsible key={index} trigger={SectionTitle(section.title)} triggerWhenOpen={SectionTitleOpen(section.title)} transitionTime={150} className="mb-[4vh]" open >
               <div className="pl-[2vw] mb-[4vh] lg:pl-[4vw]" data-cy="section-with-word">
-                <p> {section.content.substring(0,section.content.indexOf(props.searchTarget))}
-                <span style={{fontWeight: 'bold', backgroundColor: '#5456F5'}}> {props.searchTarget} </span>
-                {section.content.substring(section.content.indexOf(props.searchTarget) + props.searchTarget.length, section.content.length)} </p>
+                <Highlighter highlightClassName="resumen" searchWords={[props.searchTarget]} autoEscape={true}
+                textToHighlight={section.content} highlightStyle={{fontWeight: 'bold', backgroundColor: '#5456F5', color: '#FCFAF5'}} />
               </div>
             </Collapsible>
             :
@@ -135,7 +144,8 @@ const Content: React.FC<ContentProps> = (props: ContentProps) => {
         <Segmented options={["Texto plano", "Vista completa"]} onChange={(value) => props.setOriginalDocTab(value)} />
         {props.originalDocTab === "Texto plano" ? (
           <div className="flex items-center justify-start text-[#FCFAF5] w-[70vw] mt-[2vh] p-10">
-            {props.text}
+            <Highlighter highlightClassName="original" searchWords={[props.searchTarget]} autoEscape={true}
+            textToHighlight={props.text || ""} highlightStyle={{fontWeight: 'bold', backgroundColor: '#5456F5', color: '#FCFAF5'}} />
           </div> 
         ) : (
           <div className="flex items-center justify-center h-[60vh] w-[70vw] mt-[2vh]">
@@ -158,7 +168,7 @@ const Content: React.FC<ContentProps> = (props: ContentProps) => {
   else if(props.currentTab === "Texto Plano"){
     return(
       <div className="text-[#FCFAF5] text-[3vh] mx-[8vw] mt-[8vh] md:mx-[10vw]">
-        <TextoPlano contenido={props.text || ""} />
+        <TextoPlano contenido={props.text || ""} searchTarget={props.searchTarget} />
       </div>
     );
   }
@@ -254,7 +264,7 @@ function QuantitativeSection(prop: any) {
   return(
     <div className="flex justify-center">
       <button className="inline text-start items-center border-[2px] border-[#5456F5] w-[80%] px-[1vw] py-[1vh] my-[1vh]
-      rounded-[10px]" onClick={() => prop.setTarget(prop.sentence)} data-cy="elemento-cuantitativo">
+      rounded-[10px] hover:bg-[#5456F5]" onClick={() => prop.setTarget(prop.sentence)} data-cy="elemento-cuantitativo">
         <div className="font-semibold text-[2.5vh]">
           {prop.sentence.includes(prop.data)?
           <p> {prop.sentence.substring(0,target)} <span style={{fontWeight: 'bold', backgroundColor: '#5456F5'}}> {prop.data} </span> {prop.sentence.substring(target + prop.data.length, prop.sentence.length)} </p> 
