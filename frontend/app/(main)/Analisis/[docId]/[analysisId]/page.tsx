@@ -134,9 +134,16 @@ const Content: React.FC<ContentProps> = (props: ContentProps) => {
       <div className="flex flex-col items-center justify-center mt-[2vh]">
         <Segmented options={["Texto plano", "Vista completa"]} onChange={(value) => props.setOriginalDocTab(value)} />
         {props.originalDocTab === "Texto plano" ? (
-          <div className="flex items-center justify-start text-[#FCFAF5] w-[70vw] mt-[2vh] p-10">
-            {props.text}
-          </div> 
+            props.searchTarget !== "" && props.text?.includes(props.searchTarget)?
+            <div className="flex items-center justify-start text-[#FCFAF5] w-[70vw] mt-[2vh] p-10">
+              <p>{props.text.substring(0,props.text.indexOf(props.searchTarget))} 
+              <span style={{fontWeight: 'bold', backgroundColor: '#5456F5'}}>{props.searchTarget}</span>
+              {props.text.substring(props.text.indexOf(props.searchTarget)+ props.searchTarget.length, props.text.length)} </p>
+            </div> 
+            : 
+            <div className="flex items-center justify-start text-[#FCFAF5] w-[70vw] mt-[2vh] p-10">
+              {props.text}
+            </div>
         ) : (
           <div className="flex items-center justify-center h-[60vh] w-[70vw] mt-[2vh]">
             <iframe
