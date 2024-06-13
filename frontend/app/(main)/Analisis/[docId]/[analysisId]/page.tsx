@@ -67,6 +67,14 @@ function SectionCollapsible(section: Section){
   );
 }
 
+function TextoPlano(props: {contenido: string}){
+  return(
+      <div className="pl-[2vw] mb-[4vh] md:pl-[4vw]">
+        {props.contenido}
+      </div>
+  );
+}
+
 
 interface ContentProps{
   currentTab: string;
@@ -102,7 +110,7 @@ const Content: React.FC<ContentProps> = (props: ContentProps) => {
           <div>
             {props.sections?.map((section, index) => (
             props.searchTarget !== "" && section.content.includes(props.searchTarget)?
-            <Collapsible trigger={SectionTitle(section.title)} triggerWhenOpen={SectionTitleOpen(section.title)} transitionTime={150} className="mb-[4vh]" open >
+            <Collapsible key={index} trigger={SectionTitle(section.title)} triggerWhenOpen={SectionTitleOpen(section.title)} transitionTime={150} className="mb-[4vh]" open >
               <div className="pl-[2vw] mb-[4vh] lg:pl-[4vw]" data-cy="section-with-word">
                 <p> {section.content.substring(0,section.content.indexOf(props.searchTarget))}
                 <span style={{fontWeight: 'bold', backgroundColor: '#5456F5'}}> {props.searchTarget} </span>
@@ -110,7 +118,7 @@ const Content: React.FC<ContentProps> = (props: ContentProps) => {
               </div>
             </Collapsible>
             :
-            <Collapsible trigger={SectionTitle(section.title)} triggerWhenOpen={SectionTitleOpen(section.title)} transitionTime={150} className="mb-[4vh]" data-cy="section-title" >
+            <Collapsible key={index} trigger={SectionTitle(section.title)} triggerWhenOpen={SectionTitleOpen(section.title)} transitionTime={150} className="mb-[4vh]" data-cy="section-title" >
               <div className="pl-[2vw] mb-[4vh] lg:pl-[4vw]" data-cy="section-open">
                 {section.content}
               </div>
@@ -124,19 +132,18 @@ const Content: React.FC<ContentProps> = (props: ContentProps) => {
   else if(props.currentTab === "Texto Original"){
     return(
       <div className="flex flex-col items-center justify-center mt-[2vh]">
-        <Segmented options={["Vista completa", "Texto plano"]} onChange={(value) => props.setOriginalDocTab(value)} />
-        {props.originalDocTab === "Vista completa" ? (
+        <Segmented options={["Texto plano", "Vista completa"]} onChange={(value) => props.setOriginalDocTab(value)} />
+        {props.originalDocTab === "Texto plano" ? (
+          <div className="flex items-center justify-start text-[#FCFAF5] w-[70vw] mt-[2vh] p-10">
+            {props.text}
+          </div> 
+        ) : (
           <div className="flex items-center justify-center h-[60vh] w-[70vw] mt-[2vh]">
             <iframe
             src={`https://docs.google.com/viewer?url=${props.docUrl}&embedded=true`}
             width="70%"
             height="100%" />
           </div>
-        ) : (
-          <div className="flex items-center justify-start text-[#FCFAF5] w-[70vw] mt-[2vh]">
-          <br/><br/>
-          {props.text}
-        </div>
         )}
       </div>
     );
@@ -145,6 +152,13 @@ const Content: React.FC<ContentProps> = (props: ContentProps) => {
     return(
       <div className="text-[#FCFAF5] text-[3vh] mx-[8vw] mt-[3vh] lg:mx-[10vw] lg:mt-[5vh]" data-cy="chatbot-main">
         <Chat docId={props.docId}/>
+      </div>
+    );
+  }
+  else if(props.currentTab === "Texto Plano"){
+    return(
+      <div className="text-[#FCFAF5] text-[3vh] mx-[8vw] mt-[8vh] md:mx-[10vw]">
+        <TextoPlano contenido={props.text || ""} />
       </div>
     );
   }
@@ -218,7 +232,7 @@ const LeftBarContent: React.FC<LeftProps> = (props: LeftProps) => {
             />
             <div>
               {keywords.map((content: any, index: number) => (
-                <PieLabel name={content.keyword} color={pieColors[index]}/>
+                <PieLabel key={index} name={content.keyword} color={pieColors[index]}/>
               ))}
             </div>
             <br/> <br/>
@@ -226,7 +240,7 @@ const LeftBarContent: React.FC<LeftProps> = (props: LeftProps) => {
             <br/>
             <div>
               {keywords.map((content: any, index: number) => (
-                <KeywordButton name={content.keyword} count={content.count} setTarget={props.setTarget} />
+                <KeywordButton key={index} name={content.keyword} count={content.count} setTarget={props.setTarget} />
               ))}
           </div>
         </div>)}
@@ -277,7 +291,7 @@ const RightBarContent: React.FC<RightProps> = (props: RightProps) => {
         <div>
           <div className="text-center font-bold text-[3vh] mb-[2vh]">Datos cuantitativos encontrados en el documento</div>
           {props.propData?.map((content: any, index: number) =>
-            <QuantitativeSection data={content.datum} sentence={content.sentence} setTarget={props.setTarget} />
+            <QuantitativeSection key={index} data={content.datum} sentence={content.sentence} setTarget={props.setTarget} />
           )}
         </div>
       )} 
@@ -339,7 +353,7 @@ function MostrarAnalisis({
   params: { docId: string, analysisId: string };
 }) {
   const [currentTab, setTab] = useState("Resumen");
-  const [originalDocTab, setOriginalDocTab] = useState("Vista completa");
+  const [originalDocTab, setOriginalDocTab] = useState("Texto plano");
   const [leftBarOpen, setLeftBar] = useState(false);
   const [rightBarOpen, setRightBar] = useState(false);
   const [isFavorito, setFavorito] = useState(false);
@@ -366,8 +380,9 @@ function MostrarAnalisis({
 
   useEffect(() => {
     (async () => {
+      console.log("Getting text")
       setText(await getText(params.docId));
-    })
+    })();
   }, []);
 
   useEffect(() => {
