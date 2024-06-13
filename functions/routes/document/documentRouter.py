@@ -437,3 +437,46 @@ def get_favorites():
     except Exception as e:
         print("Error:", e)
         return flask.jsonify({"message": "Failed to get favorites"}), 500
+    
+@documentBlueprint.route("/text", methods=["GET"])
+def get_document_text(): 
+    try: 
+        user_id = flask.g.get('user_id')
+        db = firestore.client()
+        document_id = flask.request.args.get('document_id')
+        document_doc_ref = db.collection('users').document(user_id).collection('documents').document(document_id)
+        text_content = document_doc_ref.get()
+        content = text_content.get('content')
+        print(content)
+
+        lines = content.split("\n")
+
+        # Crear una lista de párrafos
+        paragraphs = []
+        current_paragraph = []
+
+        for line in lines:
+            if line.strip():  # Si la línea no está vacía
+                current_paragraph.append(line.strip())
+            else:  # Si la línea está vacía y hay un párrafo acumulado
+                if current_paragraph:
+                    paragraphs.append(" ".join(current_paragraph))
+                    current_paragraph = []
+
+        # Agregar el último párrafo si hay uno pendiente
+        if current_paragraph:
+            paragraphs.append(" ".join(current_paragraph))
+
+        # Imprimir los párrafos con saltos de línea
+        formatted_text = "\n\n".join(paragraphs)
+        print(formatted_text)
+
+        return flask.jsonify(
+            {
+                "message": "Document text retrieved successfully",
+                "text": formatted_text
+            }
+        )
+    except Exception as e:
+        print("Error:",e)
+        return flask.jsonify({"message":"Failed to get document text"}), 500
