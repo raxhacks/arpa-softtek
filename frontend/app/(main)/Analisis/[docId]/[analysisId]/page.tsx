@@ -26,6 +26,9 @@ import { DndContext, closestCenter, KeyboardSensor, PointerSensor, useSensor, us
 import { useSortable, arrayMove, SortableContext, sortableKeyboardCoordinates, verticalListSortingStrategy } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 import classNames from 'classnames';
+import { createRoot } from "react-dom/client";
+import Highlighter from "react-highlight-words";
+
 
 function SectionTitle(title: string){
   return(
@@ -60,10 +63,25 @@ function SectionTitleOpen(title: string){
 function SectionCollapsible(section: Section){
   return(
     <Collapsible trigger={SectionTitle(section.title)} triggerWhenOpen={SectionTitleOpen(section.title)} transitionTime={150} className="mb-[4vh]">
-      <div className="pl-[2vw] mb-[4vh] md:pl-[4vw]">
+      <div className="pl-[2vw] mb-[4vh] lg:pl-[4vw]">
         {section.content}
       </div>
     </Collapsible>
+  );
+}
+
+function TextoPlano(props: {contenido: string, searchTarget: string}){
+  if(props.contenido.includes(props.searchTarget)){console.log("yes")}
+  else{console.log("no")}
+  return(
+      <div className="pl-[2vw] mb-[4vh] md:pl-[4vw]">
+        {props.searchTarget !== "" && props.contenido.includes(props.searchTarget)?
+        <Highlighter highlightClassName="resumen" searchWords={[props.searchTarget]} autoEscape={true}
+        textToHighlight={props.contenido} highlightStyle={{fontWeight: 'bold', backgroundColor: '#5456F5', color: '#FCFAF5'}} />
+        :
+        props.contenido
+        }
+      </div>
   );
 }
 
@@ -84,7 +102,7 @@ interface ContentProps{
 const Content: React.FC<ContentProps> = (props: ContentProps) => {
   if(props.currentTab === "Resumen"){
     return(
-     <div className="text-[#FCFAF5] text-[3vh] mx-[8vw] mt-[8vh] md:mx-[10vw]">
+     <div className="text-[#FCFAF5] text-[3vh] mx-[8vw] mt-[8vh] lg:mx-[10vw]">
         {props.loading ? (
           <div className='flex justify-center items-center pt-44'>
             <div>
@@ -102,16 +120,15 @@ const Content: React.FC<ContentProps> = (props: ContentProps) => {
           <div>
             {props.sections?.map((section, index) => (
             props.searchTarget !== "" && section.content.includes(props.searchTarget)?
-            <Collapsible trigger={SectionTitle(section.title)} triggerWhenOpen={SectionTitleOpen(section.title)} transitionTime={150} className="mb-[4vh]" open >
-              <div className="pl-[2vw] mb-[4vh] md:pl-[4vw]" data-cy="section-with-word">
-                <p> {section.content.substring(0,section.content.indexOf(props.searchTarget))}
-                <span style={{fontWeight: 'bold', backgroundColor: '#5456F5'}}> {props.searchTarget} </span>
-                {section.content.substring(section.content.indexOf(props.searchTarget) + props.searchTarget.length, section.content.length)} </p>
+            <Collapsible key={index} trigger={SectionTitle(section.title)} triggerWhenOpen={SectionTitleOpen(section.title)} transitionTime={150} className="mb-[4vh]" open >
+              <div className="pl-[2vw] mb-[4vh] lg:pl-[4vw]" data-cy="section-with-word">
+                <Highlighter highlightClassName="resumen" searchWords={[props.searchTarget]} autoEscape={true}
+                textToHighlight={section.content} highlightStyle={{fontWeight: 'bold', backgroundColor: '#5456F5', color: '#FCFAF5'}} />
               </div>
             </Collapsible>
             :
-            <Collapsible trigger={SectionTitle(section.title)} triggerWhenOpen={SectionTitleOpen(section.title)} transitionTime={150} className="mb-[4vh]" >
-              <div className="pl-[2vw] mb-[4vh] md:pl-[4vw]">
+            <Collapsible key={index} trigger={SectionTitle(section.title)} triggerWhenOpen={SectionTitleOpen(section.title)} transitionTime={150} className="mb-[4vh]" data-cy="section-title" >
+              <div className="pl-[2vw] mb-[4vh] lg:pl-[4vw]" data-cy="section-open">
                 {section.content}
               </div>
             </Collapsible>
@@ -124,27 +141,34 @@ const Content: React.FC<ContentProps> = (props: ContentProps) => {
   else if(props.currentTab === "Texto Original"){
     return(
       <div className="flex flex-col items-center justify-center mt-[2vh]">
-        <Segmented options={["Vista completa", "Texto plano"]} onChange={(value) => props.setOriginalDocTab(value)} />
-        {props.originalDocTab === "Vista completa" ? (
+        <Segmented options={["Texto plano", "Vista completa"]} onChange={(value) => props.setOriginalDocTab(value)} />
+        {props.originalDocTab === "Texto plano" ? (
+          <div className="flex items-center justify-start text-[#FCFAF5] w-[70vw] mt-[2vh] p-10">
+            <Highlighter highlightClassName="original" searchWords={[props.searchTarget]} autoEscape={true}
+            textToHighlight={props.text || ""} highlightStyle={{fontWeight: 'bold', backgroundColor: '#5456F5', color: '#FCFAF5'}} />
+          </div> 
+        ) : (
           <div className="flex items-center justify-center h-[60vh] w-[70vw] mt-[2vh]">
             <iframe
             src={`https://docs.google.com/viewer?url=${props.docUrl}&embedded=true`}
             width="70%"
             height="100%" />
           </div>
-        ) : (
-          <div className="flex items-center justify-start text-[#FCFAF5] w-[70vw] mt-[2vh]">
-          <br/><br/>
-          {props.text}
-        </div>
         )}
       </div>
     );
   }
   else if(props.currentTab === "Chatbot"){
     return(
-      <div className="text-[#FCFAF5] text-[3vh] mx-[8vw] mt-[3vh] md:mx-[10vw] md:mt-[5vh]">
+      <div className="text-[#FCFAF5] text-[3vh] mx-[8vw] mt-[3vh] lg:mx-[10vw] lg:mt-[5vh]" data-cy="chatbot-main">
         <Chat docId={props.docId}/>
+      </div>
+    );
+  }
+  else if(props.currentTab === "Texto Plano"){
+    return(
+      <div className="text-[#FCFAF5] text-[3vh] mx-[8vw] mt-[8vh] md:mx-[10vw]">
+        <TextoPlano contenido={props.text || ""} searchTarget={props.searchTarget} />
       </div>
     );
   }
@@ -218,7 +242,7 @@ const LeftBarContent: React.FC<LeftProps> = (props: LeftProps) => {
             />
             <div>
               {keywords.map((content: any, index: number) => (
-                <PieLabel name={content.keyword} color={pieColors[index]}/>
+                <PieLabel key={index} name={content.keyword} color={pieColors[index]}/>
               ))}
             </div>
             <br/> <br/>
@@ -226,7 +250,7 @@ const LeftBarContent: React.FC<LeftProps> = (props: LeftProps) => {
             <br/>
             <div>
               {keywords.map((content: any, index: number) => (
-                <KeywordButton name={content.keyword} count={content.count} setTarget={props.setTarget} />
+                <KeywordButton key={index} name={content.keyword} count={content.count} setTarget={props.setTarget} />
               ))}
           </div>
         </div>)}
@@ -240,7 +264,7 @@ function QuantitativeSection(prop: any) {
   return(
     <div className="flex justify-center">
       <button className="inline text-start items-center border-[2px] border-[#5456F5] w-[80%] px-[1vw] py-[1vh] my-[1vh]
-      rounded-[10px]" onClick={() => prop.setTarget(prop.sentence)} data-cy="elemento-cuantitativo">
+      rounded-[10px] hover:bg-[#5456F5]" onClick={() => prop.setTarget(prop.sentence)} data-cy="elemento-cuantitativo">
         <div className="font-semibold text-[2.5vh]">
           {prop.sentence.includes(prop.data)?
           <p> {prop.sentence.substring(0,target)} <span style={{fontWeight: 'bold', backgroundColor: '#5456F5'}}> {prop.data} </span> {prop.sentence.substring(target + prop.data.length, prop.sentence.length)} </p> 
@@ -277,7 +301,7 @@ const RightBarContent: React.FC<RightProps> = (props: RightProps) => {
         <div>
           <div className="text-center font-bold text-[3vh] mb-[2vh]">Datos cuantitativos encontrados en el documento</div>
           {props.propData?.map((content: any, index: number) =>
-            <QuantitativeSection data={content.datum} sentence={content.sentence} setTarget={props.setTarget} />
+            <QuantitativeSection key={index} data={content.datum} sentence={content.sentence} setTarget={props.setTarget} />
           )}
         </div>
       )} 
@@ -292,8 +316,9 @@ function BotonFavorito(favorito: any, {
 }){
   if(favorito.state == true){    
     return(
-        <svg xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler icon-tabler-star hover:stroke-[#BCBAB5] hover:fill-[#BCBAB5] md:stroke-[#5756F5] md:fill-[#5756F5] md:hover:stroke-[#2F31AB] md:hover:fill-[#2F31AB]"
-          width="50" height="50" viewBox="0 0 24 24" stroke-width="1.5" stroke="#FCFAF5" fill="#FCFAF5" stroke-linecap="round" stroke-linejoin="round">
+        <svg xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler icon-tabler-star hover:stroke-[#BCBAB5] hover:fill-[#BCBAB5]
+        lg:stroke-[#5756F5] lg:fill-[#5756F5] lg:hover:stroke-[#2F31AB] lg:hover:fill-[#2F31AB]" width="50" height="50"
+        viewBox="0 0 24 24" stroke-width="1.5" stroke="#FCFAF5" fill="#FCFAF5" stroke-linecap="round" stroke-linejoin="round">
           <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
           <path d="M12 17.75l-6.172 3.245l1.179 -6.873l-5 -4.867l6.9 -1l3.086 -6.253l3.086 6.253l6.9 1l-5 4.867l1.179 6.873z" />
         </svg>
@@ -301,7 +326,7 @@ function BotonFavorito(favorito: any, {
   }
   else{
     return(
-      <svg xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler icon-tabler-star hover:stroke-[#BCBAB5] md:stroke-[#5756F5] md:hover:stroke-[#2F31AB]"
+      <svg xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler icon-tabler-star hover:stroke-[#BCBAB5] lg:stroke-[#5756F5] lg:hover:stroke-[#2F31AB]"
       width="50" height="50" viewBox="0 0 24 24" stroke-width="1.5" stroke="#FCFAF5" fill="none" stroke-linecap="round" stroke-linejoin="round">
         <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
         <path d="M12 17.75l-6.172 3.245l1.179 -6.873l-5 -4.867l6.9 -1l3.086 -6.253l3.086 6.253l6.9 1l-5 4.867l1.179 6.873z" />
@@ -317,15 +342,16 @@ function BotonHome(){
       router.push('/CargarArchivos');
       localStorage.setItem("button", 'CargarArchivos')
     }}
-    className="fixed top-[1.5vh] left-[2vw] z-30 md:relative md:top-auto md:left-auto md:z-auto md:mr-[2vw]"
-    >
-    <svg xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler icon-tabler-home-2 hover:stroke-[#BCBAB5] active:fill-[#BCBAB5] md:stroke-[#5756F5] md:hover:stroke-[#2F31AB] md:active:fill-[#2F31AB]"
-    width="50" height="50" viewBox="0 0 24 24" stroke-width="1.5" stroke="#FCFAF5" fill="none" stroke-linecap="round" stroke-linejoin="round">
-      <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-      <path d="M5 12l-2 0l9 -9l9 9l-2 0" />
-      <path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-7" />
-      <path d="M10 12h4v4h-4z" />
-    </svg>
+    className="fixed top-[1.5vh] left-[2vw] z-30 lg:relative lg:top-auto lg:left-auto lg:z-auto lg:mr-[2vw]"
+    data-cy="boton-home">
+      <svg xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler icon-tabler-home-2 hover:stroke-[#BCBAB5] active:fill-[#BCBAB5]
+      lg:stroke-[#5756F5] lg:hover:stroke-[#2F31AB] lg:active:fill-[#2F31AB]" width="50" height="50" viewBox="0 0 24 24"
+      stroke-width="1.5" stroke="#FCFAF5" fill="none" stroke-linecap="round" stroke-linejoin="round">
+        <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+        <path d="M5 12l-2 0l9 -9l9 9l-2 0" />
+        <path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-7" />
+        <path d="M10 12h4v4h-4z" />
+      </svg>
     </button>
 
   );
@@ -337,7 +363,7 @@ function MostrarAnalisis({
   params: { docId: string, analysisId: string };
 }) {
   const [currentTab, setTab] = useState("Resumen");
-  const [originalDocTab, setOriginalDocTab] = useState("Vista completa");
+  const [originalDocTab, setOriginalDocTab] = useState("Texto plano");
   const [leftBarOpen, setLeftBar] = useState(false);
   const [rightBarOpen, setRightBar] = useState(false);
   const [isFavorito, setFavorito] = useState(false);
@@ -364,8 +390,9 @@ function MostrarAnalisis({
 
   useEffect(() => {
     (async () => {
+      console.log("Getting text")
       setText(await getText(params.docId));
-    })
+    })();
   }, []);
 
   useEffect(() => {
@@ -509,10 +536,10 @@ function MostrarAnalisis({
         </Bounce>
       </Modal>
       <Header />
-      <div className="flex items-center h-screen left-[-100vw] md:left-auto">
+      <div className="flex items-center h-screen left-[-100vw] lg:left-auto">
         <div className={cx("sideBarLeft", {"sideBarLeft-closed":!leftBarOpen})}>
           <div className={cx("sideBarLeftText", {"sideBarLeftText-closed":!leftBarOpen})}>
-            <div className="text-center text-[4vh] font-semibold pb-[3vh] md:text-[0vw] md:pb-[0vh]">
+            <div className="text-center text-[4vh] font-semibold pb-[3vh] lg:text-[0vw] lg:pb-[0vh]">
               Análisis cualitativo
             </div>
             {/* <LeftBarContent keywords={analysis?.Keywords} /> */}
@@ -531,7 +558,7 @@ function MostrarAnalisis({
           +
         </button>
       </div>
-      <div className="bg-[#30323D] pt-[25vh] mb-[15vh] bottom-0 font-semibold basis-[93vw] md:pt-[125px] md:mb-auto">
+      <div className="bg-[#30323D] pt-[25vh] mb-[15vh] bottom-0 font-semibold basis-[93vw] lg:pt-[125px] lg:mb-auto">
         <div className="w-[50%] mx-auto text-center font-bold text-white text-[3vh] mt-[-5vh] mb-[2vh] text-ellipsis overflow-hidden">
           {isEditing ? (
             <input
@@ -557,10 +584,11 @@ function MostrarAnalisis({
         </div>
         <div className="flex items-center justify-center">
           <BotonHome />
-          <div className="w-[10vw] md:w-0"/>
+          <div className="w-[10vw] lg:w-0"/>
           <Segmented options={["Resumen", "Texto Original", "Chatbot"]} onChange={(value) => handleTabChange(value)} />
-          <div className="w-[10vw] md:w-0"/>
-          <button className="fixed top-[1.5vh] right-[2vw] z-30 md:relative md:top-auto md:right-auto md:z-auto md:ml-[2vw]" onClick={toggleFav}>
+          <div className="w-[10vw] lg:w-0"/>
+          <button className="fixed top-[1.5vh] right-[2vw] z-30 lg:relative lg:top-auto lg:right-auto lg:z-auto lg:ml-[2vw]"
+          onClick={toggleFav} data-cy="boton-favorito">
             {togglingToFav ? (
                 <svg className="animate-spin h-10 w-10" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
                   <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
@@ -572,8 +600,8 @@ function MostrarAnalisis({
               <BotonFavorito state={isFavorito} setFavorito={setFavorito} docId={params.docId}/>
             )}
           </button>
-          <button className="fixed top-[1.5vh] right-[2vw] z-30 md:relative md:top-auto md:right-auto md:z-auto md:ml-[2vw]" onClick={() => openModal(params.docId)}>
-            <svg xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler icon-tabler-trash hover:stroke-[#BCBAB5] md:stroke-[#5756F5] md:hover:stroke-[#2F31AB]"
+          <button className="fixed top-[1.5vh] right-[2vw] z-30 lg:relative lg:top-auto lg:right-auto lg:z-auto lg:ml-[2vw]" onClick={() => openModal(params.docId)}>
+            <svg xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler icon-tabler-trash hover:stroke-[#BCBAB5] lg:stroke-[#5756F5] lg:hover:stroke-[#2F31AB]"
               width="50" height="50" viewBox="0 0 24 24" stroke-width="1.5" stroke="#FCFAF5" fill="none" stroke-linecap="round" stroke-linejoin="round">
               <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
               <path d="M4 7l16 0" />
@@ -603,7 +631,7 @@ function MostrarAnalisis({
         <div className={cx("sideBarRightSpace", {"sideBarRightSpace-closed":!rightBarOpen})} />
         <div className={cx("sideBarRight", {"sideBarRight-closed":!rightBarOpen})}>
           <div className={cx("sideBarRightText", {"sideBarRightText-closed":!rightBarOpen})}>
-            <div className="text-center text-[4vh] font-semibold pb-[3vh] md:text-[0vw] md:pb-[0vh]">
+            <div className="text-center text-[4vh] font-semibold pb-[3vh] lg:text-[0vw] lg:pb-[0vh]">
               Análisis cuantitativo
             </div>
             <RightBarContent propData={analysis?.QuantitativeData} setTarget={setTarget} loading={loading} />

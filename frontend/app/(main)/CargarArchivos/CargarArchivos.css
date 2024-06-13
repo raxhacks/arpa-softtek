@@ -12,7 +12,7 @@
     font-size: 5vh;
     transition: 0.4s ease-in;
 }
-/*@media(min-width: 768px){
+/*@media(min-width: 1024px){
     .sideBarLeft{
       font-size: 6vh;
     }

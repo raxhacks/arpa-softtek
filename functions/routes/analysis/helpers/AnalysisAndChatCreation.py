@@ -146,7 +146,7 @@ def addAnalysisToDocument(user_id, document_id, text, keywords, keywords_str_arr
             },  # constructs a key "abc123" in `store`.
         )["answer"]
 
-        promptQuantData = "Given the information found in this paper, I want you to give me the quantitative data found in the paper. Give me the data in an stringified array of objects, each object should have the following attributes: datum: the single quantitive datum, sentence: trimmed sentence in which the quantitive datum was found. Just give me the data, no other format or text."
+        promptQuantData = "Given the information found in this paper, Extract the complete sentences that contain relevant numerical data such as dates, percentages, quantities, statistics, and important numbers. Do not include APA references or similar references. Give me the data in an stringified array of objects, each object should have the following attributes: datum: the single quantitive datum, sentence: trimmed sentence in which the quantitive datum was found. Just give me the data, no other format or text."
         answerQuantData = conversational_rag_chain.invoke(
             {"input": promptQuantData},
             config={

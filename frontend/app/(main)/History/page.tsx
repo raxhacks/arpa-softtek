@@ -180,7 +180,7 @@ const MostrarHistorial = () => {
 
 return (
       <>
-      <div className='pt-12 pb-20'>
+      <div className='pt-12 pb-20' data-cy="lista-historial-main">
         <Modal
           isOpen={modalIsOpen}
           onRequestClose={closeModal}
